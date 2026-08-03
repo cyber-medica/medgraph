@@ -29,6 +29,7 @@
     { "version": "202607290001", "file": "202607290001_publication_candidate_payload_completeness_corrective_v1.sql", "sha256": "38f3f9c0180960675eade1dded1b705f55e9bfa390ee12af0eaded34350fc309" },
     { "version": "202607290002", "file": "202607290002_publication_candidate_function_owner_alignment_v1.sql", "sha256": "80605a02e4f747cd169f0fe50d494eb6599a848bc18ff847a0eb4d27a3898b7f" },
     { "version": "202607290003", "file": "202607290003_hamilton_storefront_projection_completeness_v1.sql", "sha256": "f24f4ae1a0a51ebc4bc95f19aaa149c6611f0d00c0e8570a4f4c996341cc51be" },
-    { "version": "202608010001", "file": "202608010001_internal_rbac_read_contract_v1.sql", "sha256": "4ab00d483c3c4f81d5a1ac4311fa10f97d3ab53920bcdcfad257b5804569fe36" }
+    { "version": "202608010001", "file": "202608010001_internal_rbac_read_contract_v1.sql", "sha256": "4ab00d483c3c4f81d5a1ac4311fa10f97d3ab53920bcdcfad257b5804569fe36" },
+    { "version": "202608030001", "file": "202608030001_catalog_admin_characteristics_patch_v1.sql", "sha256": "e59e6c45b17f07612ee0029d61dcea9501f84b370d65f34e169fbebce3397479" }
   ]
 }

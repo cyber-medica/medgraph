@@ -35,6 +35,8 @@
     "qa:product-publication:local": "node scripts/qa/product-publication-local-integration.ts",
     "qa:published-catalog:local": "node scripts/qa/published-catalog-projection-local-integration.ts",
     "qa:catalog-admin-description-sync:local": "node scripts/qa/catalog-admin-description-sync-local-integration.ts",
+    "qa:catalog-admin-characteristics:local": "node scripts/qa/catalog-admin-characteristics-patch-local-integration.ts",
+    "qa:product-characteristics-wave-1-manifest": "node scripts/qa/generate-product-characteristics-wave-1-manifest.ts",
     "qa:publication-candidate-owner:local": "node scripts/qa/publication-candidate-owner-alignment-local.ts",
     "qa:structured-fields:local": "node scripts/qa/structured-fields-local-integration.ts",
     "qa:ios-webkit-smoke": "node scripts/qa/ios-webkit-smoke.ts",
