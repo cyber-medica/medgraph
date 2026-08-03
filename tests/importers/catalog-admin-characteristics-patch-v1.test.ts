@@ -5,6 +5,8 @@ import test from "node:test";
 
 const migrationPath =
   "supabase/migrations/202608030001_catalog_admin_characteristics_patch_v1.sql";
+const isolationMigrationPath =
+  "supabase/migrations/202608030002_catalog_admin_characteristics_projection_isolation_v1.sql";
 const integrationPath =
   "supabase/tests/014_catalog_admin_characteristics_patch_v1.sql";
 
@@ -31,6 +33,7 @@ test("characteristics patch migration is exact-scope, draft-only and additive", 
 
 test("candidate overlay is deterministic and preserves published revision isolation", async () => {
   const source = await readFile(migrationPath, "utf8");
+  const isolationSource = await readFile(isolationMigrationPath, "utf8");
 
   assert.match(source, /product_publication_candidate_payload_pre_admin_v1/u);
   assert.match(source, /apply_catalog_admin_characteristics_draft_v1/u);
@@ -39,6 +42,19 @@ test("candidate overlay is deterministic and preserves published revision isolat
   assert.match(source, /'editorialRecordOrigin'/u);
   assert.match(source, /'source', jsonb_build_object/u);
   assert.doesNotMatch(source, /create trigger[\s\S]+published_catalog_projection/iu);
+  assert.match(
+    isolationSource,
+    /product_publication_candidate_with_admin_draft_v1/u,
+  );
+  assert.match(
+    isolationSource,
+    /select cloud\.product_publication_candidate_payload_pre_admin_v1\(p_product_id\)/u,
+  );
+  assert.doesNotMatch(isolationSource, /insert into|update cloud\.|delete from/iu);
+  assert.match(
+    isolationSource,
+    /revoke all on function cloud\.product_publication_candidate_with_admin_draft_v1\(uuid\)[\s\S]+from public, anon, authenticated, service_role/u,
+  );
 });
 
 test("owner, RLS and grants expose only the cloud_api service boundary", async () => {

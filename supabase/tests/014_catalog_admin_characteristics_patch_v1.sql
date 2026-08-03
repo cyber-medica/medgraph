@@ -307,10 +307,10 @@ begin
     raise exception 'same payload was not idempotent';
   end if;
 
-  candidate_one := cloud.product_publication_candidate_payload_v1(
+  candidate_one := cloud.product_publication_candidate_with_admin_draft_v1(
     'e66a1165-030b-4aa4-a400-959f1ac70fe3'
   );
-  candidate_two := cloud.product_publication_candidate_payload_v1(
+  candidate_two := cloud.product_publication_candidate_with_admin_draft_v1(
     'e66a1165-030b-4aa4-a400-959f1ac70fe3'
   );
   if candidate_one is distinct from candidate_two
@@ -321,6 +321,12 @@ begin
         <> 'Транспортный аппарат ИВЛ Hamilton-T1 для медицинских учреждений.'
      or candidate_one -> 'characteristics' @? '$[*] ? (@.editorialRecordOrigin != "authoritative_wave_1_preparation")' then
     raise exception 'candidate characteristics are not deterministic';
+  end if;
+
+  if jsonb_array_length(cloud.product_publication_candidate_payload_v1(
+       'e66a1165-030b-4aa4-a400-959f1ac70fe3'
+     ) -> 'characteristics') <> 3 then
+    raise exception 'published candidate helper was contaminated by authoring draft';
   end if;
 
   if (select to_jsonb(product) from cloud.products product
@@ -387,7 +393,7 @@ select jsonb_pretty(jsonb_build_object(
   'contract', 'catalog-admin-characteristics-patch-v1',
   'drafts', (select count(*) from cloud.catalog_admin_product_characteristic_drafts_v1),
   'candidateCharacteristics', jsonb_array_length(
-    cloud.product_publication_candidate_payload_v1(
+    cloud.product_publication_candidate_with_admin_draft_v1(
       'e66a1165-030b-4aa4-a400-959f1ac70fe3'
     ) -> 'characteristics'
   ),
