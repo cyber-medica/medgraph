@@ -67,6 +67,17 @@ const desktopDetailEvidence = new Map<string, string>([
   ["767632362-330695211247-apparat-ivl-hamilton-t1", "product-detail-hamilton-t1"],
 ]);
 
+const expectedFeaturedPaths = [
+  "sonoscape-eg-500",
+  "sonoscape-ec-500t",
+  "sonoscape-eb-500",
+  "medinova-br-1231",
+  "medinova-endo-clean-1000",
+  "medinova-endo-clean-2000",
+  "medinova-ec-5bd",
+  "ilivtouch-ilivtouch",
+].map((slug) => `/catalog/${slug}`);
+
 const runtimeErrors = (page: Page) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(`${error.name}: ${error.message}`));
@@ -127,6 +138,13 @@ async function runProfile({
       8,
       `${label}: homepage must render exactly eight approved clean cards.`,
     );
+    assert.deepEqual(
+      await popular.getByRole("link", { name: /^Подробнее о /u }).evaluateAll((links) =>
+        links.map((link) => new URL((link as HTMLAnchorElement).href).pathname),
+      ),
+      expectedFeaturedPaths,
+      `${label}: featured Product order or canonical links drifted.`,
+    );
     await page.getByText(
       "Оборудование для эндоскопии, диагностики и оснащения клиник — в наличии и с рассрочкой 0%.",
       { exact: true },
@@ -136,6 +154,21 @@ async function runProfile({
       if (label === "chromium-desktop-1440") {
         await popular.screenshot({ path: `${evidenceDir}/popular-equipment-desktop.png` });
       }
+    }
+    if (label === "chromium-desktop-1440" || label === "webkit-mobile-390") {
+      const track = popular.locator('[aria-label="Избранные опубликованные товары"]');
+      const before = await track.evaluate((element) => element.scrollLeft);
+      await popular.getByRole("button", { name: "Следующие товары" }).click();
+      await page.waitForTimeout(500);
+      const afterButton = await track.evaluate((element) => element.scrollLeft);
+      assert.ok(afterButton > before, `${label}: carousel next control did not move the track.`);
+      await track.focus();
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForTimeout(500);
+      assert.ok(
+        await track.evaluate((element) => element.scrollLeft) < afterButton,
+        `${label}: carousel keyboard navigation did not move the track.`,
+      );
     }
 
     await assertPage(page, "/catalog", label);
@@ -183,6 +216,11 @@ async function runProfile({
         assert.match(text, /В наличии/u, `${slug}: availability badge missing.`);
         assert.match(text, /Рассрочка 0%/u, `${slug}: installment badge missing.`);
         assert.match(text, /До 12 месяцев без удорожания/u, `${slug}: installment detail missing.`);
+        const detailImages = await page.locator("main img").evaluateAll((images) =>
+          images.map((image) => (image as HTMLImageElement).currentSrc || (image as HTMLImageElement).src),
+        );
+        assert.ok(detailImages.some((url) => url.includes("%2Fmedia%2Fendomarket-wave1%2F") || url.includes("/media/endomarket-wave1/")), `${slug}: clean local media missing.`);
+        assert.equal(detailImages.some((url) => /endomarket\.ru\/files|fallback/iu.test(url)), false, `${slug}: source/fallback media leaked.`);
       }
       assert.equal(await page.locator('a[href^="/request?"]').count() > 0, true, `${slug}: RFQ action missing.`);
       assert.doesNotMatch(
