@@ -1,0 +1,4150 @@
+{
+  "version": 4,
+  "purpose": "Final pre-Codex business/content/name/media corrective",
+  "launch_goal": "Максимально быстро довести CyberMedica до запуска рекламы.",
+  "baseline": {
+    "production_total_products": 79,
+    "production_published_products": 71,
+    "production_unpublished_products": 8,
+    "new_endomarket_drafts": 42,
+    "endomarket_existing_bindings": 9,
+    "expected_stage_visible_catalog_products": 113,
+    "explanation": "Stage catalog must preserve the 71 currently published canonical products and add the 42 new EndoMarket drafts. The 9 bindings are existing products, not additional products. The 8 previously unpublished products remain unpublished."
+  },
+  "catalog_data_contract": {
+    "must_merge_existing_catalog": true,
+    "forbid_endomarket_only_catalog": true,
+    "stage_visible_formula": "71 existing published + 42 new Stage drafts = 113 visible products",
+    "existing_unpublished_behavior": "Remain unpublished/hidden unless independently approved.",
+    "commercial_badges_scope": "51 EndoMarket-linked products: 42 new drafts + 9 existing bindings."
+  },
+  "final_tag_policy": {
+    "forbidden": [
+      "Анестезиология и реаниматология",
+      "Эндоскопические отделения",
+      "Диагностические центры",
+      "Диагностические кабинеты",
+      "Диагностические и лечебные подразделения",
+      "Медицинские организации"
+    ],
+    "replacements": {
+      "Анестезиология и реаниматология": [
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "Эндоскопические отделения": [
+        "Эндоскопия"
+      ],
+      "Диагностические центры": [
+        "Диагностика"
+      ],
+      "Диагностические кабинеты": [
+        "Диагностика"
+      ],
+      "Диагностические и лечебные подразделения": [
+        "Диагностика"
+      ]
+    },
+    "catalog": "Максимум 2 тега + +N.",
+    "product_detail": "Показывать все теги полностью. +N запрещен."
+  },
+  "name_policy": {
+    "source": "EndoMarket",
+    "rule": "Наименование берется из EndoMarket. Разрешена только нормализация регистра бренда, Unicode модели, дефисов и очевидных опечаток.",
+    "manufacturer_is_separate": true
+  },
+  "media_policy": {
+    "source": "EndoMarket",
+    "rule": "Для каждого товара без фото/fallback на Stage обязательно проверить direct source page и импортировать все чистые уникальные изображения.",
+    "watermarks_forbidden": [
+      "EM",
+      "EndoMarket"
+    ],
+    "watermarked_variant_must_not_be_used": true,
+    "ec_430t_min_expected_source_images": 3
+  },
+  "product_detail_order": [
+    "Hero / коммерческие условия / CTA",
+    "Описание",
+    "Ключевые особенности",
+    "Технические характеристики",
+    "Области применения",
+    "Остальные существующие содержательные/RFQ блоки",
+    "Производитель — последний блок"
+  ],
+  "products": [
+    {
+      "name": "Видеопроцессор HV-3101 Medinova",
+      "manufacturer": "Medinova",
+      "model": "HV-3101",
+      "source_category": "Видеоэндоскопические системы",
+      "price_rub": 400000,
+      "source_url": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "source_card_name": "Видеопроцессор Medinova HV-3101",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-hv-3101",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеопроцессор Medinova HV-3101 — видеопроцессор для подключения совместимых гибких видеоэндоскопов Medinova и вывода изображения на медицинский монитор.",
+      "full_description": "Видеопроцессор Medinova HV-3101 используется как центральный элемент компактной видеоэндоскопической системы Medinova. Поддерживает подключение совместимых гибких эндоскопов и передачу изображения на медицинский монитор.",
+      "key_features": [
+        "Совместимость с гибкими видеоэндоскопами Medinova",
+        "Видеовыход HDMI",
+        "Компактная конфигурация"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Тип изделия",
+              "value": "Видеопроцессор"
+            },
+            {
+              "name": "Видеовыход",
+              "value": "HDMI"
+            },
+            {
+              "name": "Совместимость",
+              "value": "Гибкие видеоэндоскопы Medinova"
+            }
+          ]
+        }
+      ],
+      "media_count": 4,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеопроцессор Medinova HV-3101 — купить | CyberMedica",
+      "seo_description": "Видеопроцессор Medinova HV-3101: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "Диагностика",
+        "Стационар"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "Диагностика",
+          "Стационар"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Гибкий видеобронхоскоп Medinova AF",
+      "manufacturer": "Medinova",
+      "model": "AF",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 1200000,
+      "source_url": "https://endomarket.ru/catalog/videobronhoskopy",
+      "source_card_name": "Гибкий видеобронхоскоп Medinova AF",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-af",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеобронхоскоп Medinova AF — гибкий видеоэндоскоп для визуального исследования дыхательных путей и проведения бронхоскопических процедур.",
+      "full_description": "Гибкий видеобронхоскоп Medinova AF предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Гибкий видеобронхоскоп Medinova AF — купить | CyberMedica",
+      "seo_description": "Гибкий видеобронхоскоп Medinova AF: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Видеобронхоскоп BR-1231 Medinova",
+      "manufacturer": "Medinova",
+      "model": "BR-1231",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 1100000,
+      "source_url": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "source_card_name": "Гибкий видеобронхоскоп Medinova",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-br-1231",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеобронхоскоп Medinova BR-1231 с рабочей длиной 610 мм, дистальным концом 2,8 мм и инструментальным каналом 1,2 мм.",
+      "full_description": "Видеобронхоскоп Medinova BR-1231 предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [
+        "Дистальный конец 2,8 мм",
+        "Инструментальный канал 1,2 мм",
+        "Рабочая длина 610 мм",
+        "Поле зрения 120°",
+        "CMOS-сенсор",
+        "Встроенное LED-освещение",
+        "Совместимость с HV-3101"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "610",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "2,8",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "1,2",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–50",
+              "unit": "мм"
+            },
+            {
+              "name": "Изгиб вверх",
+              "value": "210",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вниз",
+              "value": "130",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб влево",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вправо",
+              "value": "120",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": 4,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеобронхоскоп Medinova BR-1231 — купить | CyberMedica",
+      "seo_description": "Видеобронхоскоп Medinova BR-1231: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed_shared_gallery",
+        "min_images": 4,
+        "note": "Общая карточка линейки BR; изображения относятся к линейке."
+      }
+    },
+    {
+      "name": "Видеобронхоскоп BR-1242 Medinova",
+      "manufacturer": "Medinova",
+      "model": "BR-1242",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 1100000,
+      "source_url": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "source_card_name": "Гибкий видеобронхоскоп Medinova",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-br-1242",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеобронхоскоп Medinova BR-1242 с рабочей длиной 610 мм, дистальным концом 4,2 мм и инструментальным каналом 2,0 мм.",
+      "full_description": "Видеобронхоскоп Medinova BR-1242 предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [
+        "Дистальный конец 4,2 мм",
+        "Инструментальный канал 2,0 мм",
+        "Рабочая длина 610 мм",
+        "Поле зрения 120°",
+        "CMOS-сенсор",
+        "Встроенное LED-освещение",
+        "Совместимость с HV-3101"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "610",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "4,2",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "2,0",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–50",
+              "unit": "мм"
+            },
+            {
+              "name": "Изгиб вверх",
+              "value": "210",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вниз",
+              "value": "130",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб влево",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вправо",
+              "value": "120",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": 4,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеобронхоскоп Medinova BR-1242 — купить | CyberMedica",
+      "seo_description": "Видеобронхоскоп Medinova BR-1242: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed_shared_gallery",
+        "min_images": 4,
+        "note": "Общая карточка линейки BR; изображения относятся к линейке."
+      }
+    },
+    {
+      "name": "Видеобронхоскоп BR-1249 Medinova",
+      "manufacturer": "Medinova",
+      "model": "BR-1249",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 1100000,
+      "source_url": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "source_card_name": "Гибкий видеобронхоскоп Medinova",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-br-1249",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеобронхоскоп Medinova BR-1249 с рабочей длиной 610 мм, дистальным концом 4,8 мм и инструментальным каналом 2,0 мм.",
+      "full_description": "Видеобронхоскоп Medinova BR-1249 предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [
+        "Дистальный конец 4,8 мм",
+        "Инструментальный канал 2,0 мм",
+        "Рабочая длина 610 мм",
+        "Поле зрения 120°",
+        "CMOS-сенсор",
+        "Встроенное LED-освещение",
+        "Совместимость с HV-3101"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "610",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "4,8",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "2,0",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–50",
+              "unit": "мм"
+            },
+            {
+              "name": "Изгиб вверх",
+              "value": "210",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вниз",
+              "value": "130",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб влево",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вправо",
+              "value": "120",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": 4,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеобронхоскоп Medinova BR-1249 — купить | CyberMedica",
+      "seo_description": "Видеобронхоскоп Medinova BR-1249: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed_shared_gallery",
+        "min_images": 4,
+        "note": "Общая карточка линейки BR; изображения относятся к линейке."
+      }
+    },
+    {
+      "name": "Видеобронхоскоп BR-1259 Medinova",
+      "manufacturer": "Medinova",
+      "model": "BR-1259",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 1100000,
+      "source_url": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "source_card_name": "Гибкий видеобронхоскоп Medinova",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-br-1259",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеобронхоскоп Medinova BR-1259 с рабочей длиной 610 мм, дистальным концом 5,9 мм и инструментальным каналом 2,8 мм.",
+      "full_description": "Видеобронхоскоп Medinova BR-1259 предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [
+        "Дистальный конец 5,9 мм",
+        "Инструментальный канал 2,8 мм",
+        "Рабочая длина 610 мм",
+        "Поле зрения 120°",
+        "CMOS-сенсор",
+        "Встроенное LED-освещение",
+        "Совместимость с HV-3101"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "610",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "5,9",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "2,8",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–50",
+              "unit": "мм"
+            },
+            {
+              "name": "Изгиб вверх",
+              "value": "180",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вниз",
+              "value": "130",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб влево",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вправо",
+              "value": "120",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": 4,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеобронхоскоп Medinova BR-1259 — купить | CyberMedica",
+      "seo_description": "Видеобронхоскоп Medinova BR-1259: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed_shared_gallery",
+        "min_images": 4,
+        "note": "Общая карточка линейки BR; изображения относятся к линейке."
+      }
+    },
+    {
+      "name": "Видеоуретерореноскоп UR-1328 Medinova",
+      "manufacturer": "Medinova",
+      "model": "UR-1328",
+      "source_category": "Видеоуретроскопы",
+      "price_rub": 1100000,
+      "source_url": "https://endomarket.ru/products/gibkij-videouretroskop-medinova",
+      "source_card_name": "Видеоуретерореноскоп Medinova UR-1328",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-ur-1328",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеоуретерореноскоп Medinova UR-1328 с рабочей длиной 670 мм, дистальным концом 3,0 мм и инструментальным каналом 1,2 мм.",
+      "full_description": "Medinova UR-1328 предназначен для эндоурологических диагностических и лечебных процедур и совместим с видеопроцессором HV-3101.",
+      "key_features": [
+        "Рабочая длина 670 мм",
+        "Дистальный конец 3,0 мм",
+        "Канал 1,2 мм",
+        "Поле зрения 120°",
+        "Изгиб вверх/вниз 275°"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "670",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "3,0",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "1,2",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–50",
+              "unit": "мм"
+            },
+            {
+              "name": "Изгиб вверх",
+              "value": "275",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вниз",
+              "value": "275",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": 4,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеоуретерореноскоп Medinova UR-1328 — купить | CyberMedica",
+      "seo_description": "Видеоуретерореноскоп Medinova UR-1328: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Урология",
+        "Эндоурология",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Урология",
+          "Эндоурология",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 4,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеоцистонефроскоп CY-1355 Medinova",
+      "manufacturer": "Medinova",
+      "model": "CY-1355",
+      "source_category": "Видеоцистоскопы",
+      "price_rub": 1100000,
+      "source_url": "https://endomarket.ru/products/gibkij-videotsistonefroskop-medinova",
+      "source_card_name": "Гибкий видеоцистонефроскоп Medinova",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-cy-1355",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеоцистонефроскоп Medinova CY-1355 с рабочей длиной 380 мм, дистальным концом 5,5 мм и каналом 2,6 мм.",
+      "full_description": "Medinova CY-1355 предназначен для визуализации мочевого пузыря, уретры и мочевыводящих путей в рамках эндоурологических процедур.",
+      "key_features": [
+        "Дистальный конец 5,5 мм",
+        "Инструментальный канал 2,6 мм",
+        "Рабочая длина 380 мм",
+        "Поле зрения 90°"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "380",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "5,5",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "2,6",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "90",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–50",
+              "unit": "мм"
+            },
+            {
+              "name": "Изгиб вверх",
+              "value": "210",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вниз",
+              "value": "130",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": 3,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеоцистонефроскоп Medinova CY-1355 — купить | CyberMedica",
+      "seo_description": "Видеоцистонефроскоп Medinova CY-1355: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Урология",
+        "Эндоурология",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Урология",
+          "Эндоурология",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed_shared_gallery",
+        "min_images": 3,
+        "note": "Общая карточка CY-1355/CY-1356."
+      }
+    },
+    {
+      "name": "Видеоцистонефроскоп CY-1356 Medinova",
+      "manufacturer": "Medinova",
+      "model": "CY-1356",
+      "source_category": "Видеоцистоскопы",
+      "price_rub": 1100000,
+      "source_url": "https://endomarket.ru/products/gibkij-videotsistonefroskop-medinova",
+      "source_card_name": "Гибкий видеоцистонефроскоп Medinova",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-cy-1356",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Гибкий видеоцистонефроскоп Medinova CY-1356 с рабочей длиной 380 мм, дистальным концом 5,6 мм и каналом 2,2 мм.",
+      "full_description": "Medinova CY-1356 предназначен для визуализации мочевого пузыря, уретры и мочевыводящих путей в рамках эндоурологических процедур.",
+      "key_features": [
+        "Дистальный конец 5,6 мм",
+        "Инструментальный канал 2,2 мм",
+        "Рабочая длина 380 мм",
+        "Поле зрения 90°"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "380",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "5,6",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "2,2",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "90",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–50",
+              "unit": "мм"
+            },
+            {
+              "name": "Изгиб вверх",
+              "value": "210",
+              "unit": "°"
+            },
+            {
+              "name": "Изгиб вниз",
+              "value": "130",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": 3,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеоцистонефроскоп Medinova CY-1356 — купить | CyberMedica",
+      "seo_description": "Видеоцистонефроскоп Medinova CY-1356: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Урология",
+        "Эндоурология",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Урология",
+          "Эндоурология",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed_shared_gallery",
+        "min_images": 3,
+        "note": "Общая карточка CY-1355/CY-1356."
+      }
+    },
+    {
+      "name": "Медицинский монитор Medinova 19\" HD",
+      "manufacturer": "Medinova",
+      "model": "19 HD",
+      "source_category": "Медицинские мониторы",
+      "price_rub": 220000,
+      "source_url": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "source_card_name": "Медицинский монитор Medinova 19\" HD",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-19-hd",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Медицинский монитор Medinova 19\" HD для вывода эндоскопического изображения в составе диагностических и хирургических систем.",
+      "full_description": "Медицинский монитор Medinova 19\" HD предназначен для интеграции с совместимыми эндоскопическими системами и использования в диагностических кабинетах, эндоскопических и операционных отделениях.",
+      "key_features": [
+        "Диагональ 19\"",
+        "Разрешение HD",
+        "Интеграция с эндоскопическими системами"
+      ],
+      "specifications": [
+        {
+          "group": "Экран",
+          "items": [
+            {
+              "name": "Диагональ",
+              "value": "19\""
+            },
+            {
+              "name": "Класс разрешения",
+              "value": "HD"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Медицинский монитор Medinova 19\" HD — купить | CyberMedica",
+      "seo_description": "Медицинский монитор Medinova 19\" HD: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "Операционная",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Медицинский монитор Medinova 24\" Full HD",
+      "manufacturer": "Medinova",
+      "model": "24 Full HD",
+      "source_category": "Медицинские мониторы",
+      "price_rub": 270000,
+      "source_url": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "source_card_name": "Медицинский монитор Medinova 24\" Full HD",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-24-full-hd",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Медицинский монитор Medinova 24\" Full HD для вывода эндоскопического изображения в составе диагностических и хирургических систем.",
+      "full_description": "Медицинский монитор Medinova 24\" Full HD предназначен для интеграции с совместимыми эндоскопическими системами и использования в диагностических кабинетах, эндоскопических и операционных отделениях.",
+      "key_features": [
+        "Диагональ 24\"",
+        "Разрешение Full HD",
+        "Интеграция с эндоскопическими системами"
+      ],
+      "specifications": [
+        {
+          "group": "Экран",
+          "items": [
+            {
+              "name": "Диагональ",
+              "value": "24\""
+            },
+            {
+              "name": "Класс разрешения",
+              "value": "Full HD"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Медицинский монитор Medinova 24\" Full HD — купить | CyberMedica",
+      "seo_description": "Медицинский монитор Medinova 24\" Full HD: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "Операционная",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Медицинский монитор Medinova 27\" Full HD",
+      "manufacturer": "Medinova",
+      "model": "27 Full HD",
+      "source_category": "Медицинские мониторы",
+      "price_rub": 490000,
+      "source_url": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "source_card_name": "Медицинский монитор Medinova 27\" Full HD",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-27-full-hd",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Медицинский монитор Medinova 27\" Full HD для вывода эндоскопического изображения в составе диагностических и хирургических систем.",
+      "full_description": "Медицинский монитор Medinova 27\" Full HD предназначен для интеграции с совместимыми эндоскопическими системами и использования в диагностических кабинетах, эндоскопических и операционных отделениях.",
+      "key_features": [
+        "Диагональ 27\"",
+        "Разрешение Full HD",
+        "Интеграция с эндоскопическими системами"
+      ],
+      "specifications": [
+        {
+          "group": "Экран",
+          "items": [
+            {
+              "name": "Диагональ",
+              "value": "27\""
+            },
+            {
+              "name": "Класс разрешения",
+              "value": "Full HD"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Медицинский монитор Medinova 27\" Full HD — купить | CyberMedica",
+      "seo_description": "Медицинский монитор Medinova 27\" Full HD: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "Операционная",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Медицинский монитор Medinova 32\" 4K",
+      "manufacturer": "Medinova",
+      "model": "32 4K",
+      "source_category": "Медицинские мониторы",
+      "price_rub": 880000,
+      "source_url": "https://endomarket.ru/products/meditsinskij-monitor-medinova-32-4k",
+      "source_card_name": "Медицинский монитор Medinova 32\" 4K",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-32-4k",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Медицинский монитор Medinova 32\" 4K для вывода эндоскопического изображения в составе диагностических и хирургических систем.",
+      "full_description": "Медицинский монитор Medinova 32\" 4K предназначен для интеграции с совместимыми эндоскопическими системами и использования в диагностических кабинетах, эндоскопических и операционных отделениях.",
+      "key_features": [
+        "Диагональ 32\"",
+        "Разрешение 4K",
+        "Интеграция с эндоскопическими системами"
+      ],
+      "specifications": [
+        {
+          "group": "Экран",
+          "items": [
+            {
+              "name": "Диагональ",
+              "value": "32\""
+            },
+            {
+              "name": "Класс разрешения",
+              "value": "4K"
+            }
+          ]
+        }
+      ],
+      "media_count": 6,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Медицинский монитор Medinova 32\" 4K — купить | CyberMedica",
+      "seo_description": "Медицинский монитор Medinova 32\" 4K: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "Операционная",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 6,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Медицинский монитор Medinova 55\" 4K",
+      "manufacturer": "Medinova",
+      "model": "55 4K",
+      "source_category": "Медицинские мониторы",
+      "price_rub": 1640000,
+      "source_url": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "source_card_name": "Медицинский монитор Medinova 55\" 4K",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-55-4k",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Медицинский монитор Medinova 55\" 4K для вывода эндоскопического изображения в составе диагностических и хирургических систем.",
+      "full_description": "Медицинский монитор Medinova 55\" 4K предназначен для интеграции с совместимыми эндоскопическими системами и использования в диагностических кабинетах, эндоскопических и операционных отделениях.",
+      "key_features": [
+        "Диагональ 55\"",
+        "Разрешение 4K",
+        "Интеграция с эндоскопическими системами"
+      ],
+      "specifications": [
+        {
+          "group": "Экран",
+          "items": [
+            {
+              "name": "Диагональ",
+              "value": "55\""
+            },
+            {
+              "name": "Класс разрешения",
+              "value": "4K"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Медицинский монитор Medinova 55\" 4K — купить | CyberMedica",
+      "seo_description": "Медицинский монитор Medinova 55\" 4K: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "Операционная",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Видеогастроскоп SonoScape EG-UR5",
+      "manufacturer": "SonoScape",
+      "model": "EG-UR5",
+      "source_category": "Видеогастроскопы",
+      "price_rub": 8500000,
+      "source_url": "https://endomarket.ru/catalog/videogastroskopy",
+      "source_card_name": "Видеогастроскоп SonoScape EG-UR5",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eg-ur5",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеогастроскоп SonoScape EG-UR5 — гибкий видеогастроскоп для исследования верхних отделов желудочно-кишечного тракта.",
+      "full_description": "Видеогастроскоп SonoScape EG-UR5 предназначен для гастроскопических исследований пищевода, желудка и двенадцатиперстной кишки. Модель рассчитана на работу в эндоскопических отделениях и диагностических центрах.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеогастроскоп SonoScape EG-UR5 — купить | CyberMedica",
+      "seo_description": "Видеогастроскоп SonoScape EG-UR5: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Видеогастроскоп SonoScape EG-UC5T",
+      "manufacturer": "SonoScape",
+      "model": "EG-UC5T",
+      "source_category": "Видеогастроскопы",
+      "price_rub": 8000000,
+      "source_url": "https://endomarket.ru/catalog/videogastroskopy",
+      "source_card_name": "Видеогастроскоп SonoScape EG-UC5T",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eg-uc5t",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеогастроскоп SonoScape EG-UC5T — гибкий видеогастроскоп для исследования верхних отделов желудочно-кишечного тракта.",
+      "full_description": "Видеогастроскоп SonoScape EG-UC5T предназначен для гастроскопических исследований пищевода, желудка и двенадцатиперстной кишки. Модель рассчитана на работу в эндоскопических отделениях и диагностических центрах.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеогастроскоп SonoScape EG-UC5T — купить | CyberMedica",
+      "seo_description": "Видеогастроскоп SonoScape EG-UC5T: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Видеогастроскоп SonoScape EG-500",
+      "manufacturer": "SonoScape",
+      "model": "EG-500",
+      "source_category": "Видеогастроскопы",
+      "price_rub": 1600000,
+      "source_url": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-500",
+      "source_card_name": "Видеогастроскоп SonoScape EG-500",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eg-500",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеогастроскоп SonoScape EG-500 — гибкий видеогастроскоп для исследования верхних отделов желудочно-кишечного тракта.",
+      "full_description": "Видеогастроскоп SonoScape EG-500 предназначен для гастроскопических исследований пищевода, желудка и двенадцатиперстной кишки. Модель рассчитана на работу в эндоскопических отделениях и диагностических центрах.",
+      "key_features": [
+        "Интеграция с видеоэндоскопическими системами SonoScape",
+        "Рабочая длина 1050 мм",
+        "Поле зрения 140°",
+        "Инструментальный канал 2,8 мм"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "1050",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "9,3",
+              "unit": "мм"
+            },
+            {
+              "name": "Инструментальный канал",
+              "value": "2,8",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "140",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеогастроскоп SonoScape EG-500 — купить | CyberMedica",
+      "seo_description": "Видеогастроскоп SonoScape EG-500: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 2,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеогастроскоп SonoScape EG-500L",
+      "manufacturer": "SonoScape",
+      "model": "EG-500L",
+      "source_category": "Видеогастроскопы",
+      "price_rub": 1700000,
+      "source_url": "https://endomarket.ru/catalog/videogastroskopy",
+      "source_card_name": "Видеогастроскоп SonoScape EG-500L",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eg-500l",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеогастроскоп SonoScape EG-500L — гибкий видеогастроскоп для исследования верхних отделов желудочно-кишечного тракта.",
+      "full_description": "Видеогастроскоп SonoScape EG-500L предназначен для гастроскопических исследований пищевода, желудка и двенадцатиперстной кишки. Модель рассчитана на работу в эндоскопических отделениях и диагностических центрах.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеогастроскоп SonoScape EG-500L — купить | CyberMedica",
+      "seo_description": "Видеогастроскоп SonoScape EG-500L: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Видеогастроскоп SonoScape EG-430",
+      "manufacturer": "SonoScape",
+      "model": "EG-430",
+      "source_category": "Видеогастроскопы",
+      "price_rub": 1500000,
+      "source_url": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-430",
+      "source_card_name": "Видеогастроскоп SonoScape EG-430",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eg-430",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеогастроскоп SonoScape EG-430 применяется для проведения эндоскопических исследований и манипуляций в верхних отделах желудочно-кишечного тракта.",
+      "full_description": "Видеогастроскоп SonoScape EG-430 предназначен для гастроскопических исследований пищевода, желудка и двенадцатиперстной кишки. Модель рассчитана на работу в эндоскопических отделениях и диагностических центрах.",
+      "key_features": [
+        "Высококачественное эндоскопическое изображение высокого разрешения с естественной цветопередачей",
+        "Инструментальный канал 2,8 мм",
+        "Изгиб вводимой трубки в четырех направлениях: 210° вверх, 90° вниз, 100° вправо и 100° влево",
+        "Поле зрения 140°",
+        "Эргономичная рукоять",
+        "Пользовательские программируемые кнопки управления",
+        "Дополнительный канал подачи воды",
+        "4 программируемые кнопки"
+      ],
+      "specifications": [
+        {
+          "group": "Технические характеристики",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "1050",
+              "unit": "мм"
+            },
+            {
+              "name": "Угол поля зрения",
+              "value": "140",
+              "unit": "°"
+            },
+            {
+              "name": "Направление обзора",
+              "value": "Прямое"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "9,3",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "2,8",
+              "unit": "мм"
+            },
+            {
+              "name": "Угол изгиба вверх",
+              "value": "210",
+              "unit": "°"
+            },
+            {
+              "name": "Угол изгиба вниз",
+              "value": "90",
+              "unit": "°"
+            },
+            {
+              "name": "Угол изгиба влево",
+              "value": "100",
+              "unit": "°"
+            },
+            {
+              "name": "Угол изгиба вправо",
+              "value": "100",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеогастроскоп SonoScape EG-430 — купить | CyberMedica",
+      "seo_description": "Видеогастроскоп SonoScape EG-430: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 3,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеогастроскоп SonoScape EG-430L",
+      "manufacturer": "SonoScape",
+      "model": "EG-430L",
+      "source_category": "Видеогастроскопы",
+      "price_rub": 1600000,
+      "source_url": "https://endomarket.ru/catalog/videogastroskopy",
+      "source_card_name": "Видеогастроскоп SonoScape EG-430L",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eg-430l",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеогастроскоп SonoScape EG-430L — гибкий видеогастроскоп для исследования верхних отделов желудочно-кишечного тракта.",
+      "full_description": "Видеогастроскоп SonoScape EG-430L предназначен для гастроскопических исследований пищевода, желудка и двенадцатиперстной кишки. Модель рассчитана на работу в эндоскопических отделениях и диагностических центрах.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеогастроскоп SonoScape EG-430L — купить | CyberMedica",
+      "seo_description": "Видеогастроскоп SonoScape EG-430L: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Видеоколоноскоп SonoScape EC-500T",
+      "manufacturer": "SonoScape",
+      "model": "EC-500T",
+      "source_category": "Видеоколоноскопы",
+      "price_rub": 1600000,
+      "source_url": "https://endomarket.ru/products/videokolonoskop-sonoscape-es-500t",
+      "source_card_name": "Видеоколоноскоп SonoScape EC-500T",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-ec-500t",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеоколоноскоп SonoScape EC-500T — гибкий видеоколоноскоп для исследования толстой кишки и проведения эндоскопических манипуляций.",
+      "full_description": "Видеоколоноскоп SonoScape EC-500T предназначен для диагностической и лечебной колоноскопии. Модель используется в гастроэнтерологии, эндоскопических отделениях и диагностических центрах.",
+      "key_features": [
+        "Интеграция с видеоэндоскопическими системами SonoScape",
+        "Рабочая длина 1700 мм",
+        "Поле зрения 140°",
+        "Инструментальный канал 3,8 мм"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "1700",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "12,5",
+              "unit": "мм"
+            },
+            {
+              "name": "Инструментальный канал",
+              "value": "3,8",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "140",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеоколоноскоп SonoScape EC-500T — купить | CyberMedica",
+      "seo_description": "Видеоколоноскоп SonoScape EC-500T: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Колоноскопия",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 3,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеоколоноскоп SonoScape EC-500L/T",
+      "manufacturer": "SonoScape",
+      "model": "EC-500L/T",
+      "source_category": "Видеоколоноскопы",
+      "price_rub": 1700000,
+      "source_url": "https://endomarket.ru/products/videokolonoskop-sonoscape-es-500lt",
+      "source_card_name": "Видеоколоноскоп SonoScape EC-500L/T",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-ec-500l-t",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеоколоноскоп SonoScape EC-500L/T — гибкий видеоколоноскоп для исследования толстой кишки и проведения эндоскопических манипуляций.",
+      "full_description": "Видеоколоноскоп SonoScape EC-500L/T предназначен для диагностической и лечебной колоноскопии. Модель используется в гастроэнтерологии, эндоскопических отделениях и диагностических центрах.",
+      "key_features": [
+        "Интеграция с видеоэндоскопическими системами SonoScape",
+        "Рабочая длина 1700 мм",
+        "Поле зрения 140°",
+        "Инструментальный канал 4,2 мм"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "1700",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "12,9",
+              "unit": "мм"
+            },
+            {
+              "name": "Инструментальный канал",
+              "value": "4,2",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "140",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеоколоноскоп SonoScape EC-500L/T — купить | CyberMedica",
+      "seo_description": "Видеоколоноскоп SonoScape EC-500L/T: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Колоноскопия",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 2,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеоколоноскоп SonoScape EC-430T",
+      "manufacturer": "SonoScape",
+      "model": "EC-430T",
+      "source_category": "Видеоколоноскопы",
+      "price_rub": 1500000,
+      "source_url": "https://endomarket.ru/catalog/videokolonoskopy",
+      "source_card_name": "Видеоколоноскоп SonoScape EC-430T",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-ec-430t",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеоколоноскоп SonoScape EC-430T — гибкий видеоколоноскоп для исследования толстой кишки и проведения эндоскопических манипуляций.",
+      "full_description": "Видеоколоноскоп SonoScape EC-430T предназначен для диагностической и лечебной колоноскопии. Модель используется в гастроэнтерологии, эндоскопических отделениях и диагностических центрах.",
+      "key_features": [
+        "Рабочая длина 1700 мм",
+        "Инструментальный канал 3,8 мм",
+        "Поле зрения 140°",
+        "Прямое направление обзора",
+        "Глубина резкости 3–100 мм",
+        "Дополнительный канал подачи воды",
+        "4 программируемые кнопки"
+      ],
+      "specifications": [
+        {
+          "group": "Технические характеристики",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "1700",
+              "unit": "мм"
+            },
+            {
+              "name": "Угол поля зрения",
+              "value": "140",
+              "unit": "°"
+            },
+            {
+              "name": "Направление обзора",
+              "value": "Прямое"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "12,5",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр инструментального канала",
+              "value": "3,8",
+              "unit": "мм"
+            },
+            {
+              "name": "Угол изгиба вверх",
+              "value": "180",
+              "unit": "°"
+            },
+            {
+              "name": "Угол изгиба вниз",
+              "value": "180",
+              "unit": "°"
+            },
+            {
+              "name": "Угол изгиба влево",
+              "value": "160",
+              "unit": "°"
+            },
+            {
+              "name": "Угол изгиба вправо",
+              "value": "160",
+              "unit": "°"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеоколоноскоп SonoScape EC-430T — купить | CyberMedica",
+      "seo_description": "Видеоколоноскоп SonoScape EC-430T: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Колоноскопия",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "media_source_requirements": {
+        "minimum_source_images_expected": 3,
+        "source": "EndoMarket",
+        "watermark_policy": "Exclude watermarked copies; import all clean unique images.",
+        "missing_media_is_blocker_for_this_product": true
+      },
+      "source_media_evidence": {
+        "status": "confirmed_by_manual_review",
+        "min_images": 3,
+        "note": "Пользователь подтвердил 3 фото на EndoMarket; также модель входит в HD-350 source configuration."
+      }
+    },
+    {
+      "name": "Видеоколоноскоп SonoScape EC-430L/T",
+      "manufacturer": "SonoScape",
+      "model": "EC-430L/T",
+      "source_category": "Видеоколоноскопы",
+      "price_rub": 1600000,
+      "source_url": "https://endomarket.ru/catalog/videokolonoskopy",
+      "source_card_name": "Видеоколоноскоп SonoScape EC-430L/T",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-ec-430l-t",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеоколоноскоп SonoScape EC-430L/T — гибкий видеоколоноскоп для исследования толстой кишки и проведения эндоскопических манипуляций.",
+      "full_description": "Видеоколоноскоп SonoScape EC-430L/T предназначен для диагностической и лечебной колоноскопии. Модель используется в гастроэнтерологии, эндоскопических отделениях и диагностических центрах.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеоколоноскоп SonoScape EC-430L/T — купить | CyberMedica",
+      "seo_description": "Видеоколоноскоп SonoScape EC-430L/T: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Колоноскопия",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 3,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеобронхоскоп SonoScape EB-5H20",
+      "manufacturer": "SonoScape",
+      "model": "EB-5H20",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 2700000,
+      "source_url": "https://endomarket.ru/catalog/videobronhoskopy",
+      "source_card_name": "Видеобронхоскоп SonoScape EB-5H20",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eb-5h20",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеобронхоскоп SonoScape EB-5H20 — гибкий видеоэндоскоп для визуального исследования дыхательных путей и проведения бронхоскопических процедур.",
+      "full_description": "Видеобронхоскоп SonoScape EB-5H20 предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [
+        "Интеграция с видеоэндоскопическими системами SonoScape",
+        "Дистальный конец 4,9 мм",
+        "Инструментальный канал 2,0 мм",
+        "Поддержка SFI и VIST"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "600",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "4,9",
+              "unit": "мм"
+            },
+            {
+              "name": "Инструментальный канал",
+              "value": "2,0",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "2–100",
+              "unit": "мм"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеобронхоскоп SonoScape EB-5H20 — купить | CyberMedica",
+      "seo_description": "Видеобронхоскоп SonoScape EB-5H20: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 4,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеобронхоскоп SonoScape EB-5T28",
+      "manufacturer": "SonoScape",
+      "model": "EB-5T28",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 2700000,
+      "source_url": "https://endomarket.ru/catalog/videobronhoskopy",
+      "source_card_name": "Видеобронхоскоп SonoScape EB-5T28",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eb-5t28",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеобронхоскоп SonoScape EB-5T28 — гибкий видеоэндоскоп для визуального исследования дыхательных путей и проведения бронхоскопических процедур.",
+      "full_description": "Видеобронхоскоп SonoScape EB-5T28 предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [
+        "Интеграция с видеоэндоскопическими системами SonoScape"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеобронхоскоп SonoScape EB-5T28 — купить | CyberMedica",
+      "seo_description": "Видеобронхоскоп SonoScape EB-5T28: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Видеобронхоскоп SonoScape EB-500",
+      "manufacturer": "SonoScape",
+      "model": "EB-500",
+      "source_category": "Видеобронхоскопы",
+      "price_rub": 1600000,
+      "source_url": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-500",
+      "source_card_name": "Видеобронхоскоп SonoScape EB-500",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-eb-500",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеобронхоскоп SonoScape EB-500 — гибкий видеоэндоскоп для визуального исследования дыхательных путей и проведения бронхоскопических процедур.",
+      "full_description": "Видеобронхоскоп SonoScape EB-500 предназначен для визуального исследования трахеи и бронхиального дерева. Модель подходит для использования в пульмонологии, бронхоскопии, анестезиологии и реаниматологии. Карточка интегрирована в каталог CyberMedica с коммерческими условиями «В наличии» и «Рассрочка 0%».",
+      "key_features": [
+        "Интеграция с видеоэндоскопическими системами SonoScape",
+        "Рабочая длина 600 мм",
+        "Поле зрения 120°",
+        "Инструментальный канал 2,0 мм"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Рабочая длина",
+              "value": "600",
+              "unit": "мм"
+            },
+            {
+              "name": "Диаметр дистального конца",
+              "value": "5,3",
+              "unit": "мм"
+            },
+            {
+              "name": "Инструментальный канал",
+              "value": "2,0",
+              "unit": "мм"
+            },
+            {
+              "name": "Поле зрения",
+              "value": "120",
+              "unit": "°"
+            },
+            {
+              "name": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеобронхоскоп SonoScape EB-500 — купить | CyberMedica",
+      "seo_description": "Видеобронхоскоп SonoScape EB-500: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 3,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Видеодуоденоскоп SonoScape ED-5GT",
+      "manufacturer": "SonoScape",
+      "model": "ED-5GT",
+      "source_category": "Видеодуоденоскопы",
+      "price_rub": 3000000,
+      "source_url": "https://endomarket.ru/catalog/videoduodenoskopy",
+      "source_card_name": "Видеодуоденоскоп SonoScape ED-5GT",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "sonoscape-ed-5gt",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Видеодуоденоскоп SonoScape ED-5GT — гибкий видеоэндоскоп для исследования двенадцатиперстной кишки и профильных эндоскопических процедур.",
+      "full_description": "Видеодуоденоскоп SonoScape ED-5GT предназначен для работы в гастроэнтерологии и эндоскопических отделениях, включая процедуры, требующие дуоденоскопического доступа.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Видеодуоденоскоп SonoScape ED-5GT — купить | CyberMedica",
+      "seo_description": "Видеодуоденоскоп SonoScape ED-5GT: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "ЭРХПГ"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "ЭРХПГ"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA",
+      "manufacturer": "Medinova",
+      "model": "ENDO CLEAN-1000",
+      "source_category": "Оборудование для дезинфекции",
+      "price_rub": 1800000,
+      "source_url": "https://endomarket.ru/products/ustanovka-dlya-mojki-i-dezinfektsii-endo-clean-1000-medinova",
+      "source_card_name": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-endo-clean-1000",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Установка для автоматизированной мойки и дезинфекции одного гибкого эндоскопа с программируемыми режимами.",
+      "full_description": "Medinova ENDO CLEAN-1000 предназначена для мойки и дезинфекции одного гибкого эндоскопа; источник указывает ванну 15 л, цикл от 20 минут, автоматический впрыск спирта и встроенный принтер.",
+      "key_features": [
+        "Обработка одного эндоскопа",
+        "Ванна 15 л",
+        "Цикл от 20 минут",
+        "Автоматический впрыск спирта",
+        "Встроенный принтер"
+      ],
+      "specifications": [
+        {
+          "group": "Обработка",
+          "items": [
+            {
+              "name": "Количество эндоскопов за цикл",
+              "value": "1"
+            },
+            {
+              "name": "Объём ванны",
+              "value": "15",
+              "unit": "л"
+            },
+            {
+              "name": "Минимальное время цикла",
+              "value": "20",
+              "unit": "мин"
+            }
+          ]
+        }
+      ],
+      "media_count": 4,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000 — купить | CyberMedica",
+      "seo_description": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "ЦСО"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 4,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA",
+      "manufacturer": "Medinova",
+      "model": "ENDO CLEAN-2000",
+      "source_category": "Оборудование для дезинфекции",
+      "price_rub": 2800000,
+      "source_url": "https://endomarket.ru/products/ustanovka-dlya-mojki-i-dezinfektsii-endo-clean-2000-medinova",
+      "source_card_name": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-2000",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-endo-clean-2000",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Установка для одновременной автоматизированной мойки и дезинфекции двух гибких эндоскопов.",
+      "full_description": "Medinova ENDO CLEAN-2000 рассчитана на обработку двух гибких эндоскопов и оснащена двумя стационарными и тремя вращающимися форсунками.",
+      "key_features": [
+        "Обработка двух эндоскопов",
+        "2 стационарные форсунки",
+        "3 вращающиеся форсунки",
+        "Осушение остаточной влаги"
+      ],
+      "specifications": [
+        {
+          "group": "Обработка",
+          "items": [
+            {
+              "name": "Количество эндоскопов за цикл",
+              "value": "2"
+            },
+            {
+              "name": "Стационарные форсунки",
+              "value": "2"
+            },
+            {
+              "name": "Вращающиеся форсунки",
+              "value": "3"
+            }
+          ]
+        }
+      ],
+      "media_count": 3,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-2000 — купить | CyberMedica",
+      "seo_description": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-2000: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "ЦСО"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 7,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Шкаф для сушки и хранения эндоскопов EC-5BD",
+      "manufacturer": "Medinova",
+      "model": "EC-5BD",
+      "source_category": "Системы хранения",
+      "price_rub": 1650000,
+      "source_url": "https://endomarket.ru/products/shkaf-dlya-sushki-i-hraneniya-endoskopov-ec-5bd",
+      "source_card_name": "Шкаф для сушки и хранения эндоскопов EC-5BD",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-ec-5bd",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Шкаф для сушки и асептического хранения до 5 гибких эндоскопов.",
+      "full_description": "EC-5BD предназначен для организованной сушки и хранения гибких эндоскопов после обработки.",
+      "key_features": [
+        "Вместимость до 5 эндоскопов",
+        "Вертикальное размещение",
+        "Фильтрация и обработка воздуха",
+        "Продувка каналов",
+        "HEPA H14",
+        "УФ-обработка",
+        "Подогрев воздуха 25–45 °C",
+        "Встроенный принтер"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Количество эндоскопов",
+              "value": "5"
+            },
+            {
+              "name": "Размещение",
+              "value": "Вертикальное"
+            },
+            {
+              "name": "Габариты",
+              "value": "870 × 540 × 2020",
+              "unit": "мм"
+            },
+            {
+              "name": "Масса",
+              "value": "110",
+              "unit": "кг"
+            },
+            {
+              "name": "HEPA-фильтр",
+              "value": "H14"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Шкаф для сушки и хранения эндоскопов EC-5BD — купить | CyberMedica",
+      "seo_description": "Шкаф для сушки и хранения эндоскопов EC-5BD: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "ЦСО"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 8,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Шкаф для сушки и хранения эндоскопов EC-10BD",
+      "manufacturer": "Medinova",
+      "model": "EC-10BD",
+      "source_category": "Системы хранения",
+      "price_rub": 2300000,
+      "source_url": "https://endomarket.ru/catalog/sistemy-hraneniya",
+      "source_card_name": "Шкаф для сушки и хранения эндоскопов EC-10BD",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "medinova-ec-10bd",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Шкаф для сушки и асептического хранения до 10 гибких эндоскопов.",
+      "full_description": "EC-10BD предназначен для организованной сушки и хранения гибких эндоскопов после обработки.",
+      "key_features": [
+        "Вместимость до 10 эндоскопов",
+        "Вертикальное размещение",
+        "Фильтрация и обработка воздуха",
+        "Продувка каналов"
+      ],
+      "specifications": [
+        {
+          "group": "Основные параметры",
+          "items": [
+            {
+              "name": "Количество эндоскопов",
+              "value": "10"
+            },
+            {
+              "name": "Размещение",
+              "value": "Вертикальное"
+            }
+          ]
+        }
+      ],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Шкаф для сушки и хранения эндоскопов EC-10BD — купить | CyberMedica",
+      "seo_description": "Шкаф для сушки и хранения эндоскопов EC-10BD: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Эндоскопия",
+          "ЦСО"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 8,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Рабочая станция ERBE VIO с аргоновым модулем APC 2",
+      "manufacturer": "ERBE",
+      "model": "VIO + APC 2",
+      "source_category": "Электрохирургические блоки",
+      "price_rub": null,
+      "source_url": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "source_card_name": "Рабочая станция ERBE VIO с аргоновым модулем APC 2",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "erbe-vio-apc-2",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Рабочая станция ERBE VIO с аргоновым модулем APC 2 для электрохирургических вмешательств, рассечения и коагуляции тканей.",
+      "full_description": "Рабочая станция ERBE VIO с аргоновым модулем APC 2 предназначен для электрохирургических вмешательств и может использоваться в операционных и эндоскопических отделениях. На странице отображаются только подтвержденные характеристики, доступные в исходных данных.",
+      "key_features": [
+        "Режимы электрохирургического рассечения и коагуляции"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Рабочая станция ERBE VIO с аргоновым модулем APC 2 — купить | CyberMedica",
+      "seo_description": "Рабочая станция ERBE VIO с аргоновым модулем APC 2: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Хирургия",
+          "Операционная",
+          "Эндоскопия"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Коагулятор ERBE VIO 200 S",
+      "manufacturer": "ERBE",
+      "model": "VIO 200 S",
+      "source_category": "Электрохирургические блоки",
+      "price_rub": null,
+      "source_url": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "source_card_name": "Коагулятор ERBE VIO 200 S",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "erbe-vio-200-s",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Коагулятор ERBE VIO 200 S для электрохирургических вмешательств, рассечения и коагуляции тканей.",
+      "full_description": "Коагулятор ERBE VIO 200 S предназначен для электрохирургических вмешательств и может использоваться в операционных и эндоскопических отделениях. На странице отображаются только подтвержденные характеристики, доступные в исходных данных.",
+      "key_features": [
+        "Режимы электрохирургического рассечения и коагуляции"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Коагулятор ERBE VIO 200 S — купить | CyberMedica",
+      "seo_description": "Коагулятор ERBE VIO 200 S: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Хирургия",
+          "Операционная",
+          "Эндоскопия"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Коагулятор ERBE VIO 200 D",
+      "manufacturer": "ERBE",
+      "model": "VIO 200 D",
+      "source_category": "Электрохирургические блоки",
+      "price_rub": null,
+      "source_url": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "source_card_name": "Коагулятор ERBE VIO 200 D",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "erbe-vio-200-d",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Коагулятор ERBE VIO 200 D для электрохирургических вмешательств, рассечения и коагуляции тканей.",
+      "full_description": "Коагулятор ERBE VIO 200 D предназначен для электрохирургических вмешательств и может использоваться в операционных и эндоскопических отделениях. На странице отображаются только подтвержденные характеристики, доступные в исходных данных.",
+      "key_features": [
+        "Режимы электрохирургического рассечения и коагуляции"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Коагулятор ERBE VIO 200 D — купить | CyberMedica",
+      "seo_description": "Коагулятор ERBE VIO 200 D: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Хирургия",
+          "Операционная",
+          "Эндоскопия"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Коагулятор ERBE VIO 3",
+      "manufacturer": "ERBE",
+      "model": "VIO 3",
+      "source_category": "Электрохирургические блоки",
+      "price_rub": null,
+      "source_url": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "source_card_name": "Коагулятор ERBE VIO 3",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "erbe-vio-3",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Коагулятор ERBE VIO 3 для электрохирургических вмешательств, рассечения и коагуляции тканей.",
+      "full_description": "Коагулятор ERBE VIO 3 предназначен для электрохирургических вмешательств и может использоваться в операционных и эндоскопических отделениях. На странице отображаются только подтвержденные характеристики, доступные в исходных данных.",
+      "key_features": [
+        "Режимы электрохирургического рассечения и коагуляции"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Коагулятор ERBE VIO 3 — купить | CyberMedica",
+      "seo_description": "Коагулятор ERBE VIO 3: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Хирургия",
+          "Операционная",
+          "Эндоскопия"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Электрохирургический аппарат ARC 303",
+      "manufacturer": "BOWA",
+      "model": "ARC 303",
+      "source_category": "Электрохирургические блоки",
+      "price_rub": null,
+      "source_url": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "source_card_name": "Электрохирургический аппарат BOWA ARC 303",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "bowa-arc-303",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Электрохирургический аппарат BOWA ARC 303 для электрохирургических вмешательств, рассечения и коагуляции тканей.",
+      "full_description": "Электрохирургический аппарат BOWA ARC 303 предназначен для электрохирургических вмешательств и может использоваться в операционных и эндоскопических отделениях. На странице отображаются только подтвержденные характеристики, доступные в исходных данных.",
+      "key_features": [
+        "Режимы электрохирургического рассечения и коагуляции"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Электрохирургический аппарат BOWA ARC 303 — купить | CyberMedica",
+      "seo_description": "Электрохирургический аппарат BOWA ARC 303: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Хирургия",
+          "Операционная",
+          "Эндоскопия"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 2,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Электрохирургический аппарат ARC 350",
+      "manufacturer": "BOWA",
+      "model": "ARC 350",
+      "source_category": "Электрохирургические блоки",
+      "price_rub": null,
+      "source_url": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "source_card_name": "Электрохирургический аппарат BOWA ARC 350",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "bowa-arc-350",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Электрохирургический аппарат BOWA ARC 350 для электрохирургических вмешательств, рассечения и коагуляции тканей.",
+      "full_description": "Электрохирургический аппарат BOWA ARC 350 предназначен для электрохирургических вмешательств и может использоваться в операционных и эндоскопических отделениях. На странице отображаются только подтвержденные характеристики, доступные в исходных данных.",
+      "key_features": [
+        "Режимы электрохирургического рассечения и коагуляции"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Электрохирургический аппарат BOWA ARC 350 — купить | CyberMedica",
+      "seo_description": "Электрохирургический аппарат BOWA ARC 350: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Хирургия",
+          "Операционная",
+          "Эндоскопия"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 2,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Электрохирургический аппарат ARC 400",
+      "manufacturer": "BOWA",
+      "model": "ARC 400",
+      "source_category": "Электрохирургические блоки",
+      "price_rub": null,
+      "source_url": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "source_card_name": "Электрохирургический аппарат BOWA ARC 400",
+      "cyber_category": "Эндоскопические системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "bowa-arc-400",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Электрохирургический аппарат BOWA ARC 400 для электрохирургических вмешательств, рассечения и коагуляции тканей.",
+      "full_description": "Электрохирургический аппарат BOWA ARC 400 предназначен для электрохирургических вмешательств и может использоваться в операционных и эндоскопических отделениях. На странице отображаются только подтвержденные характеристики, доступные в исходных данных.",
+      "key_features": [
+        "Режимы электрохирургического рассечения и коагуляции"
+      ],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Электрохирургический аппарат BOWA ARC 400 — купить | CyberMedica",
+      "seo_description": "Электрохирургический аппарат BOWA ARC 400: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Хирургия",
+          "Операционная",
+          "Эндоскопия"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": true,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 3,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Аппарат для диагностики печени iLivTouch",
+      "manufacturer": "iLivTouch",
+      "model": "iLivTouch",
+      "source_category": "Прочее оборудование",
+      "price_rub": 7811850,
+      "source_url": "https://endomarket.ru/catalog/prochee-oborudovanie",
+      "source_card_name": "Аппарат для диагностики печени iLivTouch",
+      "cyber_category": "Ультразвуковые системы",
+      "action": "new",
+      "priority": "high",
+      "duplicate_note": "",
+      "candidate_slug": "ilivtouch-ilivtouch",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "iLivTouch — аппарат для диагностики печени, предназначенный для использования в диагностических и лечебных подразделениях.",
+      "full_description": "iLivTouch предназначен для диагностики печени в медицинских организациях. Карточка должна показывать только подтвержденные характеристики и изображения оборудования без дублирующих или водяных знаков.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Аппарат для диагностики печени iLivTouch — купить | CyberMedica",
+      "seo_description": "Аппарат для диагностики печени iLivTouch: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Диагностика",
+        "Гастроэнтерология"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Диагностика",
+          "Гастроэнтерология"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 2,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    },
+    {
+      "name": "Смотровой стол МЕТ KS-350",
+      "manufacturer": "MET",
+      "model": "KS-350",
+      "source_category": "Прочее оборудование",
+      "price_rub": 143080,
+      "source_url": "https://endomarket.ru/catalog/prochee-oborudovanie",
+      "source_card_name": "Смотровой стол MET KS-350",
+      "cyber_category": "Медицинская мебель",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "met-ks-350",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "MET KS-350 — смотровой стол для оснащения медицинских кабинетов и проведения осмотров.",
+      "full_description": "Смотровой стол MET KS-350 предназначен для оснащения медицинских кабинетов и размещения пациента во время осмотра и диагностических процедур.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Смотровой стол MET KS-350 — купить | CyberMedica",
+      "seo_description": "Смотровой стол MET KS-350: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Медицинский кабинет",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Медицинский кабинет",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "source_product_confirmed_gallery_not_counted",
+        "min_images": null,
+        "note": "Товар подтвержден в каталоге EndoMarket; при реализации Codex должен открыть direct product page и забрать все чистые уникальные изображения."
+      }
+    },
+    {
+      "name": "Кушетка электромеханическая ZERTS с 1 эл. приводом",
+      "manufacturer": "ZERTS",
+      "model": "1 электропривод",
+      "source_category": "Прочее оборудование",
+      "price_rub": 121000,
+      "source_url": "https://endomarket.ru/catalog/prochee-oborudovanie",
+      "source_card_name": "Кушетка электромеханическая ZERTS с 1 электроприводом",
+      "cyber_category": "Медицинская мебель",
+      "action": "new",
+      "priority": "medium",
+      "duplicate_note": "",
+      "candidate_slug": "zerts-1",
+      "availability_label": "В наличии",
+      "installment_label": "Рассрочка 0%",
+      "installment_description": "До 12 месяцев без удорожания",
+      "short_description": "Электромеханическая кушетка ZERTS с одним электроприводом для оснащения медицинских и диагностических кабинетов.",
+      "full_description": "Электромеханическая кушетка ZERTS предназначена для размещения пациента при осмотрах и процедурах. Электропривод используется для регулировки положения кушетки в рамках предусмотренной конструкцией функциональности.",
+      "key_features": [],
+      "specifications": [],
+      "media_count": null,
+      "publication_status": "draft",
+      "source_name": "EndoMarket",
+      "seo_title": "Кушетка электромеханическая ZERTS с 1 электроприводом — купить | CyberMedica",
+      "seo_description": "Кушетка электромеханическая ZERTS с 1 электроприводом: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
+      "application_areas": [
+        "Медицинский кабинет",
+        "Диагностика"
+      ],
+      "presentation": {
+        "applicationAreaTags": [
+          "Медицинский кабинет",
+          "Диагностика"
+        ],
+        "applicationAreaTagPolicy": "one_value_per_tag",
+        "heroMaxApplicationTags": 2,
+        "heroOverflowCounter": true,
+        "hideCountryWhenMissing": true,
+        "featureSectionTitle": "Ключевые особенности",
+        "showFeatureSection": false,
+        "catalogShowSpecifications": false,
+        "catalogDescriptionLines": 2,
+        "productBadges": [
+          {
+            "label": "В наличии",
+            "kind": "availability"
+          },
+          {
+            "label": "Рассрочка 0%",
+            "kind": "installment"
+          }
+        ],
+        "installmentSupportingText": "До 12 месяцев без удорожания",
+        "catalogApplicationTagsMax": 2,
+        "catalogApplicationTagsOverflowCounter": true,
+        "productDetailShowAllApplicationTags": true,
+        "productDetailApplicationTagsOverflowCounter": false,
+        "manufacturerBlockPlacement": "last_content_block"
+      },
+      "content_source_policy": {
+        "source_of_truth": "EndoMarket product page",
+        "description": "Use source product description and source feature bullets; do not replace with generic CyberMedica prose.",
+        "specifications": "Import every technical characteristic explicitly present on the EndoMarket product page.",
+        "missing_fields": "Omit unsupported fields; do not invent values.",
+        "copy_editing": "Only normalize whitespace, punctuation, units and obvious typographical errors; preserve technical meaning.",
+        "feature_section": "Use source feature bullets. Do not generate generic advantages."
+      },
+      "source_media_evidence": {
+        "status": "confirmed",
+        "min_images": 2,
+        "note": "На странице EndoMarket есть галерея."
+      }
+    }
+  ]
+}

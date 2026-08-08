@@ -91,7 +91,12 @@ test("Stage snapshot uses the existing Cloud Preview mapping and preserves statu
   assert.equal(validated.products.filter(({ status }) => status === "active").length, 9);
   assert.equal(validated.summary.activeProductCount, 9);
   assert.equal(validated.products.every(({ commercialPresentation }) => commercialPresentation?.source === "endomarket"), true);
-  assert.equal(validated.products.every(({ specifications }) => specifications.length >= 3), true);
+  assert.equal(
+    validated.products
+      .filter(({ status }) => status === "preview_draft")
+      .reduce((total, { specifications }) => total + specifications.length, 0),
+    128,
+  );
   assert.equal(validated.products.every(({ seoTitle, seoDescription }) => Boolean(seoTitle && seoDescription)), true);
 });
 
@@ -125,7 +130,7 @@ test("media manifest is local, checksummed and content-deduplicated", async () =
     assert.equal(sha256(body), asset.sha256);
     assert.equal(body.byteLength, asset.bytes);
   }
-  assert.equal(snapshotJson.products.filter(({ media }) => media.length === 0).length, 7);
+  assert.equal(snapshotJson.products.filter(({ media }) => media.length === 0).length, 0);
 });
 
 test("canonical UI renders EndoMarket badges without hardcoded product slugs", async () => {

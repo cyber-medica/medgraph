@@ -107,13 +107,16 @@ export default async function StorefrontProductPage({
     : "Преимущества";
   const sectionLinks = [
     experience.description ? { href: "#description", label: "Описание" } : null,
-    experience.manufacturer ? { href: "#manufacturer", label: "Производитель" } : null,
-    hasCharacteristics
-      ? { href: "#specifications", label: "Характеристики" }
-      : null,
     experience.advantages.length > 0
       ? { href: "#advantages", label: featureSectionTitle }
       : null,
+    hasCharacteristics
+      ? { href: "#specifications", label: "Характеристики" }
+      : null,
+    experience.applicationAreas.length > 0
+      ? { href: "#applications", label: "Области применения" }
+      : null,
+    experience.manufacturer ? { href: "#manufacturer", label: "Производитель" } : null,
   ].filter((link): link is { href: string; label: string } => link !== null);
   const relatedProductsById = new Map(
     relatedProducts.map((relatedProduct) => [relatedProduct.id, relatedProduct]),
@@ -206,27 +209,6 @@ export default async function StorefrontProductPage({
                 </dl>
               ) : null}
 
-              {experience.applicationAreas.length > 0 ? (
-                <ul
-                  className="mt-3 flex flex-wrap gap-2"
-                  aria-label="Области применения"
-                >
-                  {experience.applicationAreas.slice(0, 2).map((area) => (
-                    <li
-                      key={area}
-                      className="rounded-full border border-[var(--cm-rule)] bg-cm-surface-low px-2.5 py-1 text-[11px] font-semibold text-cm-slate"
-                    >
-                      {area}
-                    </li>
-                  ))}
-                  {experience.applicationAreas.length > 2 ? (
-                    <li className="px-1.5 py-1 text-[11px] font-semibold text-cm-dim">
-                      +{experience.applicationAreas.length - 2}
-                    </li>
-                  ) : null}
-                </ul>
-              ) : null}
-
               {presentation.canRequestQuote ? (
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Link
@@ -280,14 +262,29 @@ export default async function StorefrontProductPage({
           </Section>
         )}
 
-        {experience.manufacturer ? (
-          <Section id="manufacturer" title="Производитель">
-            <ProductManufacturer manufacturer={experience.manufacturer} />
+        {experience.advantages.length > 0 && (
+          <Section id="advantages" title={featureSectionTitle}>
+            <ul className="grid max-w-[68rem] gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
+              {experience.advantages.map((feature) => (
+                <li
+                  key={feature}
+                  className="flex min-h-[4.25rem] items-center gap-3 rounded-xl border border-[var(--cm-rule)] bg-[linear-gradient(135deg,#ffffff_0%,#f4fafb_100%)] p-3.5 shadow-[0_5px_18px_rgba(11,19,32,0.025)]"
+                >
+                  <span
+                    className="grid size-7 shrink-0 place-items-center rounded-full border border-cm-teal/15 bg-cm-teal-soft text-xs font-extrabold leading-none text-cm-teal"
+                    aria-hidden="true"
+                  >
+                    ✓
+                  </span>
+                  <span className="font-semibold leading-5 text-cm-ink">{feature}</span>
+                </li>
+              ))}
+            </ul>
           </Section>
-        ) : null}
+        )}
 
         {hasCharacteristics && (
-          <Section id="specifications" title="Характеристики">
+          <Section id="specifications" title="Технические характеристики">
               <div className="max-w-[64rem] overflow-hidden rounded-lg border border-[var(--cm-rule)] bg-white">
                 {specificationGroups.map(([group, specifications]) => (
                   <div key={group}>
@@ -313,26 +310,20 @@ export default async function StorefrontProductPage({
           </Section>
         )}
 
-        {experience.advantages.length > 0 && (
-          <Section id="advantages" title={featureSectionTitle}>
-            <ul className="grid max-w-[68rem] gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
-              {experience.advantages.map((feature) => (
+        {experience.applicationAreas.length > 0 ? (
+          <Section id="applications" title="Области применения">
+            <ul className="flex max-w-[64rem] flex-wrap gap-2" aria-label="Области применения">
+              {experience.applicationAreas.map((area) => (
                 <li
-                  key={feature}
-                  className="flex min-h-[4.25rem] items-center gap-3 rounded-xl border border-[var(--cm-rule)] bg-[linear-gradient(135deg,#ffffff_0%,#f4fafb_100%)] p-3.5 shadow-[0_5px_18px_rgba(11,19,32,0.025)]"
+                  key={area}
+                  className="rounded-full border border-[var(--cm-rule)] bg-cm-surface-low px-3 py-1.5 text-xs font-semibold text-cm-slate"
                 >
-                  <span
-                    className="grid size-7 shrink-0 place-items-center rounded-full border border-cm-teal/15 bg-cm-teal-soft text-xs font-extrabold leading-none text-cm-teal"
-                    aria-hidden="true"
-                  >
-                    ✓
-                  </span>
-                  <span className="font-semibold leading-5 text-cm-ink">{feature}</span>
+                  {area}
                 </li>
               ))}
             </ul>
           </Section>
-        )}
+        ) : null}
 
         {hasRegulatoryInformation && (
           <Section id="regulatory" title="Регистрационная информация">
@@ -470,6 +461,12 @@ export default async function StorefrontProductPage({
           </div>
         </Section>
         )}
+
+        {experience.manufacturer ? (
+          <Section id="manufacturer" title="Производитель">
+            <ProductManufacturer manufacturer={experience.manufacturer} />
+          </Section>
+        ) : null}
       </div>
       <BackToTop />
     </main>

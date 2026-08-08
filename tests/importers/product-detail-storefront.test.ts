@@ -201,13 +201,14 @@ test("product detail has one hierarchy and ordered content sections", async () =
   const source = await pageSource();
   const sectionMarkers = [
     'title="Описание"',
-    'title="Производитель"',
-    'title="Характеристики"',
     'title={featureSectionTitle}',
+    'title="Технические характеристики"',
+    'title="Области применения"',
     'title="Регистрационная информация"',
     'title="Комплектация"',
     'title="Документы и загрузки"',
     'title="Связанные товары"',
+    'title="Производитель"',
   ];
 
   for (let index = 1; index < sectionMarkers.length; index += 1) {

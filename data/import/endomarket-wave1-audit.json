@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T16:26:57.016Z",
+  "generatedAt": "2026-08-08T00:00:00.000Z",
   "source": {
     "name": "EndoMarket",
     "baseUrl": "https://endomarket.ru/",
@@ -16,11 +16,14 @@
     "existingDuplicateBindings": 9,
     "excludedInstrumentRows": 76,
     "excludedNonEquipmentConsumables": 3,
-    "mediaAssignments": 84,
-    "uniqueMediaAssets": 65,
+    "mediaAssignments": 193,
+    "uniqueMediaAssets": 148,
     "watermarkedMediaRemoved": 67,
     "duplicateMediaRemoved": 0,
-    "hiddenFeatureSections": 12
+    "hiddenFeatureSections": 10,
+    "sourceSpecifications": 128,
+    "watermarkVariantsRejected": 174,
+    "duplicateMediaRejected": 0
   },
   "duplicateBindings": [
     {
@@ -476,17 +479,17 @@
     {
       "productSlug": "medinova-19-hd",
       "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
-      "resolvedProductUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all"
+      "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-19-hd"
     },
     {
       "productSlug": "medinova-24-full-hd",
       "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
-      "resolvedProductUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all"
+      "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-24-full-hd"
     },
     {
       "productSlug": "medinova-27-full-hd",
       "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
-      "resolvedProductUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all"
+      "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-27-full-hd"
     },
     {
       "productSlug": "medinova-32-4k",
@@ -496,7 +499,7 @@
     {
       "productSlug": "medinova-55-4k",
       "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
-      "resolvedProductUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all"
+      "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-55-4k"
     },
     {
       "productSlug": "sonoscape-eg-ur5",
@@ -541,7 +544,7 @@
     {
       "productSlug": "sonoscape-ec-430t",
       "sourceUrl": "https://endomarket.ru/catalog/videokolonoskopy",
-      "resolvedProductUrl": "https://endomarket.ru/catalog/videokolonoskopy"
+      "resolvedProductUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-es-430t"
     },
     {
       "productSlug": "sonoscape-ec-430l-t",
@@ -636,7 +639,7 @@
     {
       "productSlug": "zerts-1",
       "sourceUrl": "https://endomarket.ru/catalog/prochee-oborudovanie",
-      "resolvedProductUrl": "https://endomarket.ru/catalog/prochee-oborudovanie"
+      "resolvedProductUrl": "https://endomarket.ru/products/kushetka-elektromehanicheskaya-zerts"
     },
     {
       "productSlug": "sonoscape-hd-550",
@@ -676,7 +679,7 @@
     {
       "productSlug": "pentax-epk-i5000",
       "sourceUrl": "https://endomarket.ru/catalog/videoendoskopicheskie-sistemy",
-      "resolvedProductUrl": "https://endomarket.ru/catalog/videoendoskopicheskie-sistemy"
+      "resolvedProductUrl": "https://endomarket.ru/products/videoprotsessor-pentax-epki5000"
     },
     {
       "productSlug": "pentax-epk-3000-defina",
@@ -693,7 +696,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "published"
     },
     {
@@ -704,7 +707,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 2,
+      "mediaCount": 6,
       "publicationStatus": "published"
     },
     {
@@ -715,7 +718,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 2,
+      "mediaCount": 6,
       "publicationStatus": "published"
     },
     {
@@ -726,7 +729,7 @@
       "manufacturerId": "olympus",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "published"
     },
     {
@@ -737,7 +740,7 @@
       "manufacturerId": "olympus",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "published"
     },
     {
@@ -748,7 +751,7 @@
       "manufacturerId": "olympus",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 3,
+      "mediaCount": 1,
       "publicationStatus": "published"
     },
     {
@@ -759,7 +762,7 @@
       "manufacturerId": "pentax-medical",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 2,
+      "mediaCount": 5,
       "publicationStatus": "published"
     },
     {
@@ -770,7 +773,7 @@
       "manufacturerId": "pentax-medical",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 0,
+      "mediaCount": 7,
       "publicationStatus": "published"
     },
     {
@@ -781,7 +784,7 @@
       "manufacturerId": "pentax-medical",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "existing_duplicate",
-      "mediaCount": 2,
+      "mediaCount": 5,
       "publicationStatus": "published"
     },
     {
@@ -792,7 +795,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -803,7 +806,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 6,
       "publicationStatus": "draft"
     },
     {
@@ -814,7 +817,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -825,7 +828,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -836,7 +839,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -847,7 +850,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -858,7 +861,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -869,7 +872,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 1,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -880,7 +883,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 1,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -891,7 +894,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 0,
+      "mediaCount": 6,
       "publicationStatus": "draft"
     },
     {
@@ -902,7 +905,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 0,
+      "mediaCount": 6,
       "publicationStatus": "draft"
     },
     {
@@ -913,7 +916,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 0,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -924,7 +927,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 6,
       "publicationStatus": "draft"
     },
     {
@@ -935,7 +938,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 0,
+      "mediaCount": 2,
       "publicationStatus": "draft"
     },
     {
@@ -946,7 +949,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 5,
       "publicationStatus": "draft"
     },
     {
@@ -957,7 +960,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -990,7 +993,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1001,7 +1004,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1012,7 +1015,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1034,7 +1037,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 0,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1045,7 +1048,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1056,7 +1059,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -1067,7 +1070,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -1078,7 +1081,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1089,7 +1092,7 @@
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1100,7 +1103,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -1111,7 +1114,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 1,
+      "mediaCount": 7,
       "publicationStatus": "draft"
     },
     {
@@ -1122,7 +1125,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 8,
       "publicationStatus": "draft"
     },
     {
@@ -1133,7 +1136,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 8,
       "publicationStatus": "draft"
     },
     {
@@ -1210,7 +1213,7 @@
       "manufacturerId": "bowa",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1232,7 +1235,7 @@
       "manufacturerId": "met",
       "categoryId": "ref-6a7a62494384",
       "entityOrigin": "new_candidate",
-      "mediaCount": 2,
+      "mediaCount": 4,
       "publicationStatus": "draft"
     },
     {
@@ -1243,7 +1246,7 @@
       "manufacturerId": "zerts",
       "categoryId": "ref-6a7a62494384",
       "entityOrigin": "new_candidate",
-      "mediaCount": 0,
+      "mediaCount": 2,
       "publicationStatus": "draft"
     }
   ],
@@ -1255,28 +1258,46 @@
     "publicApiAdded": false
   },
   "businessContentCorrective": {
-    "version": 2,
+    "version": 4,
     "productCount": 42,
-    "hiddenFeatureSections": 12,
+    "sourceSpecificationCount": 128,
+    "hiddenFeatureSections": 10,
     "sourceFiles": [
       {
-        "fileName": "endomarket-business-content-corrective-v2.json",
-        "sha256": "8b939de5d70330d980a2d876c1f66ea7c5e50d280e0138868f2406301add085f"
+        "fileName": "endomarket-business-content-corrective-v4.json",
+        "sha256": "d2e92c83e7102e83b4be141184d72ec38e55225b779b74391a5b35bfcee34412"
       },
       {
-        "fileName": "endomarket-text-replacements-v2.csv",
-        "sha256": "4868e52643aa6604a3c8bf83a7ac50304d14d8d7b8596ddb8a500e3a48d6b123"
+        "fileName": "endomarket-name-media-audit-v4.csv",
+        "sha256": "ea1eb746e9d6d9678773e50b32e6cb39b91b6df3fb40a7e94712335e9df30d3e"
+      },
+      {
+        "fileName": "cybermedica-endomarket-corrective-v4-business-spec.md",
+        "sha256": "3370b0423797089d4b8326c39eb94ad2ffa58d148deeb534f23b4fb57f63aff1"
+      },
+      {
+        "fileName": "cybermedica-launch-to-ads-roadmap-2026-08-08.md",
+        "sha256": "a41567e45251bfe1c32bf8c161cd8b0f0f19a66ad42ddff3c9674570a82cbd68"
       }
     ],
     "csvJsonConsistency": "pass",
     "media": {
-      "watermarkPolicy": "responsive source variants ending in w were visually verified as EM/EndoMarket watermarked",
-      "watermarkedAssignmentsRemoved": 87,
-      "watermarkedFilesRemoved": 67,
-      "duplicateAssignmentsRemoved": 0,
-      "duplicateFilesRemoved": 0,
-      "cleanAssignments": 84,
-      "cleanUniqueAssets": 65
+      "sourcePagesVerified": 46,
+      "stageProductsVerified": 51,
+      "cleanAssignments": 193,
+      "cleanUniqueAssets": 148,
+      "productsSourceChecked": 51,
+      "productsWithCleanHero": 51,
+      "productsWithGallery": 48,
+      "productsWithoutUsableCleanMedia": 0,
+      "draftAssignments": 152,
+      "bindingAssignments": 41,
+      "watermarkVariantsRejected": 174,
+      "cleanVariantDuplicatesRejected": 0,
+      "exactContentDuplicatesRejected": 0,
+      "nearDuplicateRejected": 0,
+      "obsoleteLocalFilesRemoved": 0,
+      "fallbacks": 0
     }
   }
 }

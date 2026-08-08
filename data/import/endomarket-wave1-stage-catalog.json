@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "source": "endomarket_stage_preview",
-  "generatedAt": "2026-08-04T16:26:57.016Z",
+  "generatedAt": "2026-08-08T00:00:00.000Z",
   "products": [
     {
       "id": "df001769-ac68-5890-827f-5977a723c5ed",
@@ -83,6 +83,18 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеоэндоскопическая система SonoScape HD-550, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/6c2a7054a5f57247075abc49.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоэндоскопическая система SonoScape HD-550, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/129b8658e5ef9114a50e5eb5.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеоэндоскопическая система SonoScape HD-550, изображение 4"
         }
       ],
       "documents": [],
@@ -184,6 +196,30 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеопроцессор SonoScape HD-500, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/8e6724012c39b6e56fa4c25d.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор SonoScape HD-500, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/d1ef460d6d6b3869f5f5bce2.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор SonoScape HD-500, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/256ba28af2ff1e5dec1caa76.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор SonoScape HD-500, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/1f97859f6b9d9f5f674bfa1f.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор SonoScape HD-500, изображение 6"
         }
       ],
       "documents": [],
@@ -285,6 +321,30 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеопроцессор SonoScape HD-350, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/4d255735dceb4401cf6719af.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор SonoScape HD-350, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/d1ef460d6d6b3869f5f5bce2.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор SonoScape HD-350, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/256ba28af2ff1e5dec1caa76.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор SonoScape HD-350, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/1f97859f6b9d9f5f674bfa1f.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор SonoScape HD-350, изображение 6"
         }
       ],
       "documents": [],
@@ -386,6 +446,18 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеоэндоскопическая система Olympus EVIS EXERA III CV-190, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/dbdfc4deeecd3b667fd30cdf.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоэндоскопическая система Olympus EVIS EXERA III CV-190, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/293d34aca722b2c4a629ea54.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоэндоскопическая система Olympus EVIS EXERA III CV-190, изображение 4"
         }
       ],
       "documents": [],
@@ -487,6 +559,12 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеоэндоскопическая система Olympus CV-170, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/293d34aca722b2c4a629ea54.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоэндоскопическая система Olympus CV-170, изображение 3"
         }
       ],
       "documents": [],
@@ -582,18 +660,6 @@
           "role": "hero",
           "format": "image/png",
           "alt": "Видеоэндоскопическая система Olympus AXEON, изображение 1"
-        },
-        {
-          "url": "/media/endomarket-wave1/48620e3f6cf551896fc39853.png",
-          "role": "gallery",
-          "format": "image/png",
-          "alt": "Видеоэндоскопическая система Olympus AXEON, изображение 2"
-        },
-        {
-          "url": "/media/endomarket-wave1/e93bbb2f60f5004c4ad29dea.png",
-          "role": "gallery",
-          "format": "image/png",
-          "alt": "Видеоэндоскопическая система Olympus AXEON, изображение 3"
         }
       ],
       "documents": [],
@@ -695,6 +761,24 @@
           "role": "gallery",
           "format": "image/jpeg",
           "alt": "Видеопроцессор PENTAX Medical EPK-i7010 OPTIVISTA, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/374c12a52828a43375f7e670.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i7010 OPTIVISTA, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/5e32ae67d7f8a7ce94fde412.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i7010 OPTIVISTA, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/def53f6534ead1ca2b9c09a7.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i7010 OPTIVISTA, изображение 5"
         }
       ],
       "documents": [],
@@ -784,7 +868,50 @@
           ]
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "url": "/media/endomarket-wave1/6145bbd013dd308fca9e0d58.jpg",
+          "role": "hero",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i5000, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/0fedd3e2d6e5bacc994ffad9.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i5000, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/085d2828186cbbe9033a92b0.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i5000, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/6308e5f1a9ce6ecfacd079c1.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i5000, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/539a0a4dbcbc41c54c213106.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i5000, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/0bdf31c5fc4dad5f9a8c3fe3.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i5000, изображение 6"
+        },
+        {
+          "url": "/media/endomarket-wave1/64508cee48c19e88c6f7260c.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеопроцессор PENTAX Medical EPK-i5000, изображение 7"
+        }
+      ],
       "documents": [],
       "registrations": [],
       "commercialPresentation": {
@@ -884,6 +1011,24 @@
           "role": "gallery",
           "format": "image/jpeg",
           "alt": "Видеоэндоскопический процессор PENTAX Medical EPK-3000 DEFINA, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/6ce707fada975af62261f682.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеоэндоскопический процессор PENTAX Medical EPK-3000 DEFINA, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/1513dd56285d4136d3c87f0c.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеоэндоскопический процессор PENTAX Medical EPK-3000 DEFINA, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/7e203fd3bf07dd3f793f005a.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Видеоэндоскопический процессор PENTAX Medical EPK-3000 DEFINA, изображение 5"
         }
       ],
       "documents": [],
@@ -909,7 +1054,7 @@
       "id": "492f7475-56b4-5a2e-bd9e-76d1a4191673",
       "sourceUid": "endomarket-b6ddaa4e8c87d1c3b587",
       "slug": "medinova-hv-3101",
-      "title": "Видеопроцессор Medinova HV-3101",
+      "title": "Видеопроцессор HV-3101 Medinova",
       "model": "HV-3101",
       "seoTitle": "Видеопроцессор Medinova HV-3101 — купить | CyberMedica",
       "seoDescription": "Видеопроцессор Medinova HV-3101: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -920,20 +1065,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-hv-3101-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-hv-3101-area-2",
-          "name": "Диагностические центры"
+          "name": "Диагностика"
         },
         {
           "id": "medinova-hv-3101-area-3",
-          "name": "Многопрофильные стационары"
+          "name": "Стационар"
         }
       ],
       "keyFeatures": [
@@ -952,34 +1097,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "HV-3101",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Тип изделия",
@@ -1007,13 +1127,25 @@
           "url": "/media/endomarket-wave1/27972a24e8e87e5ecab092af.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеопроцессор Medinova HV-3101, изображение 1"
+          "alt": "Видеопроцессор HV-3101 Medinova, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/7282b3d01b34ae24cc969173.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Видеопроцессор Medinova HV-3101, изображение 2"
+          "alt": "Видеопроцессор HV-3101 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/23bbd7f29a03299d00eb2857.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор HV-3101 Medinova, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/9354f5432879830b814e2b8a.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеопроцессор HV-3101 Medinova, изображение 4"
         }
       ],
       "documents": [],
@@ -1050,7 +1182,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -1063,37 +1195,15 @@
         },
         {
           "id": "medinova-af-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "medinova-af-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "AF",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/830e3c58e8a6e5e910d78a0f.png",
@@ -1106,6 +1216,30 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Гибкий видеобронхоскоп Medinova AF, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/2704e84c0ff05cc3cb4fb51e.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Гибкий видеобронхоскоп Medinova AF, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/e6e44721f824ccbc0dd5cee3.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Гибкий видеобронхоскоп Medinova AF, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/9cf3abd57815baa4fa5b7e99.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Гибкий видеобронхоскоп Medinova AF, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/4763fab69c968948a2f659ea.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Гибкий видеобронхоскоп Medinova AF, изображение 6"
         }
       ],
       "documents": [],
@@ -1131,7 +1265,7 @@
       "id": "5b333fd2-763f-500a-8138-5d5f2cc1d531",
       "sourceUid": "endomarket-a8dfb83069c868d2f16f",
       "slug": "medinova-br-1231",
-      "title": "Видеобронхоскоп Medinova BR-1231",
+      "title": "Видеобронхоскоп BR-1231 Medinova",
       "model": "BR-1231",
       "seoTitle": "Видеобронхоскоп Medinova BR-1231 — купить | CyberMedica",
       "seoDescription": "Видеобронхоскоп Medinova BR-1231: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -1142,7 +1276,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -1155,7 +1289,11 @@
         },
         {
           "id": "medinova-br-1231-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "medinova-br-1231-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [
@@ -1190,34 +1328,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "BR-1231",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -1281,13 +1394,25 @@
           "url": "/media/endomarket-wave1/27972a24e8e87e5ecab092af.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1231, изображение 1"
+          "alt": "Видеобронхоскоп BR-1231 Medinova, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/7282b3d01b34ae24cc969173.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1231, изображение 2"
+          "alt": "Видеобронхоскоп BR-1231 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/23bbd7f29a03299d00eb2857.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1231 Medinova, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/9354f5432879830b814e2b8a.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1231 Medinova, изображение 4"
         }
       ],
       "documents": [],
@@ -1313,7 +1438,7 @@
       "id": "625b0514-c2d7-5940-9c8d-2e53793aa96a",
       "sourceUid": "endomarket-a237f85959cd01bf2900",
       "slug": "medinova-br-1242",
-      "title": "Видеобронхоскоп Medinova BR-1242",
+      "title": "Видеобронхоскоп BR-1242 Medinova",
       "model": "BR-1242",
       "seoTitle": "Видеобронхоскоп Medinova BR-1242 — купить | CyberMedica",
       "seoDescription": "Видеобронхоскоп Medinova BR-1242: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -1324,7 +1449,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -1337,7 +1462,11 @@
         },
         {
           "id": "medinova-br-1242-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "medinova-br-1242-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [
@@ -1372,34 +1501,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "BR-1242",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -1463,13 +1567,25 @@
           "url": "/media/endomarket-wave1/27972a24e8e87e5ecab092af.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1242, изображение 1"
+          "alt": "Видеобронхоскоп BR-1242 Medinova, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/7282b3d01b34ae24cc969173.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1242, изображение 2"
+          "alt": "Видеобронхоскоп BR-1242 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/23bbd7f29a03299d00eb2857.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1242 Medinova, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/9354f5432879830b814e2b8a.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1242 Medinova, изображение 4"
         }
       ],
       "documents": [],
@@ -1495,7 +1611,7 @@
       "id": "88284115-1b45-5660-a12d-05e6856164db",
       "sourceUid": "endomarket-946306ed53b67d46a522",
       "slug": "medinova-br-1249",
-      "title": "Видеобронхоскоп Medinova BR-1249",
+      "title": "Видеобронхоскоп BR-1249 Medinova",
       "model": "BR-1249",
       "seoTitle": "Видеобронхоскоп Medinova BR-1249 — купить | CyberMedica",
       "seoDescription": "Видеобронхоскоп Medinova BR-1249: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -1506,7 +1622,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -1519,7 +1635,11 @@
         },
         {
           "id": "medinova-br-1249-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "medinova-br-1249-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [
@@ -1554,34 +1674,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "BR-1249",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -1645,13 +1740,25 @@
           "url": "/media/endomarket-wave1/27972a24e8e87e5ecab092af.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1249, изображение 1"
+          "alt": "Видеобронхоскоп BR-1249 Medinova, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/7282b3d01b34ae24cc969173.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1249, изображение 2"
+          "alt": "Видеобронхоскоп BR-1249 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/23bbd7f29a03299d00eb2857.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1249 Medinova, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/9354f5432879830b814e2b8a.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1249 Medinova, изображение 4"
         }
       ],
       "documents": [],
@@ -1677,7 +1784,7 @@
       "id": "fe0ac882-1b38-5b7c-9892-8d8b2b6f6c5e",
       "sourceUid": "endomarket-daff22e8a4299f87e953",
       "slug": "medinova-br-1259",
-      "title": "Видеобронхоскоп Medinova BR-1259",
+      "title": "Видеобронхоскоп BR-1259 Medinova",
       "model": "BR-1259",
       "seoTitle": "Видеобронхоскоп Medinova BR-1259 — купить | CyberMedica",
       "seoDescription": "Видеобронхоскоп Medinova BR-1259: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -1688,7 +1795,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -1701,7 +1808,11 @@
         },
         {
           "id": "medinova-br-1259-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "medinova-br-1259-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [
@@ -1736,34 +1847,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "BR-1259",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -1827,13 +1913,25 @@
           "url": "/media/endomarket-wave1/27972a24e8e87e5ecab092af.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1259, изображение 1"
+          "alt": "Видеобронхоскоп BR-1259 Medinova, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/7282b3d01b34ae24cc969173.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Видеобронхоскоп Medinova BR-1259, изображение 2"
+          "alt": "Видеобронхоскоп BR-1259 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/23bbd7f29a03299d00eb2857.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1259 Medinova, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/9354f5432879830b814e2b8a.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп BR-1259 Medinova, изображение 4"
         }
       ],
       "documents": [],
@@ -1859,7 +1957,7 @@
       "id": "63705465-45a0-5697-b749-eeccbe11895f",
       "sourceUid": "endomarket-3bb1f12176e9a499b905",
       "slug": "medinova-ur-1328",
-      "title": "Видеоуретерореноскоп Medinova UR-1328",
+      "title": "Видеоуретерореноскоп UR-1328 Medinova",
       "model": "UR-1328",
       "seoTitle": "Видеоуретерореноскоп Medinova UR-1328 — купить | CyberMedica",
       "seoDescription": "Видеоуретерореноскоп Medinova UR-1328: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -1870,7 +1968,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -1883,7 +1981,7 @@
         },
         {
           "id": "medinova-ur-1328-area-3",
-          "name": "Операционные блоки"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -1910,34 +2008,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "UR-1328",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -1989,13 +2062,25 @@
           "url": "/media/endomarket-wave1/ac0442c8d2b4d5c358541717.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеоуретерореноскоп Medinova UR-1328, изображение 1"
+          "alt": "Видеоуретерореноскоп UR-1328 Medinova, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/54b13e905100edcdba97d38a.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Видеоуретерореноскоп Medinova UR-1328, изображение 2"
+          "alt": "Видеоуретерореноскоп UR-1328 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/094c4377dabd1faa84788dfd.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоуретерореноскоп UR-1328 Medinova, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/9354f5432879830b814e2b8a.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоуретерореноскоп UR-1328 Medinova, изображение 4"
         }
       ],
       "documents": [],
@@ -2021,7 +2106,7 @@
       "id": "1d63227c-1f5e-5bce-91f0-e60e10cc804a",
       "sourceUid": "endomarket-58a3e3bd340af2aff0eb",
       "slug": "medinova-cy-1355",
-      "title": "Видеоцистонефроскоп Medinova CY-1355",
+      "title": "Видеоцистонефроскоп CY-1355 Medinova",
       "model": "CY-1355",
       "seoTitle": "Видеоцистонефроскоп Medinova CY-1355 — купить | CyberMedica",
       "seoDescription": "Видеоцистонефроскоп Medinova CY-1355: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -2032,7 +2117,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -2045,7 +2130,7 @@
         },
         {
           "id": "medinova-cy-1355-area-3",
-          "name": "Операционные блоки"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -2068,34 +2153,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "CY-1355",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -2147,7 +2207,19 @@
           "url": "/media/endomarket-wave1/c67013f5c20e506338fb79bd.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеоцистонефроскоп Medinova CY-1355, изображение 1"
+          "alt": "Видеоцистонефроскоп CY-1355 Medinova, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/c8ee3768a1ee41070064ff6d.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоцистонефроскоп CY-1355 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/913ba0760fc140f2fdae5a90.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоцистонефроскоп CY-1355 Medinova, изображение 3"
         }
       ],
       "documents": [],
@@ -2173,7 +2245,7 @@
       "id": "11a809ac-071d-502b-ad44-6fcd67ce400d",
       "sourceUid": "endomarket-850b84f339326354e261",
       "slug": "medinova-cy-1356",
-      "title": "Видеоцистонефроскоп Medinova CY-1356",
+      "title": "Видеоцистонефроскоп CY-1356 Medinova",
       "model": "CY-1356",
       "seoTitle": "Видеоцистонефроскоп Medinova CY-1356 — купить | CyberMedica",
       "seoDescription": "Видеоцистонефроскоп Medinova CY-1356: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -2184,7 +2256,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -2197,7 +2269,7 @@
         },
         {
           "id": "medinova-cy-1356-area-3",
-          "name": "Операционные блоки"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -2220,34 +2292,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "CY-1356",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -2299,7 +2346,19 @@
           "url": "/media/endomarket-wave1/c67013f5c20e506338fb79bd.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Видеоцистонефроскоп Medinova CY-1356, изображение 1"
+          "alt": "Видеоцистонефроскоп CY-1356 Medinova, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/c8ee3768a1ee41070064ff6d.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоцистонефроскоп CY-1356 Medinova, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/913ba0760fc140f2fdae5a90.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоцистонефроскоп CY-1356 Medinova, изображение 3"
         }
       ],
       "documents": [],
@@ -2336,20 +2395,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-19-hd-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-19-hd-area-2",
-          "name": "Операционные"
+          "name": "Операционная"
         },
         {
           "id": "medinova-19-hd-area-3",
-          "name": "Диагностические кабинеты"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -2368,34 +2427,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "19 HD",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Экран",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Диагональ",
@@ -2412,7 +2446,44 @@
           ]
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "url": "/media/endomarket-wave1/dfce83fb246af37d58357b72.png",
+          "role": "hero",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 19\" HD, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/33d1108dba53e5fdcc7debfa.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 19\" HD, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/be1a6b04bdda1cf1aedfe59e.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 19\" HD, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/8c17282fcb966ecc87356bb1.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 19\" HD, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/25dbf14977afcaac76ddfe3d.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 19\" HD, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/de914bb95173e446f65e4739.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 19\" HD, изображение 6"
+        }
+      ],
       "documents": [],
       "registrations": [],
       "commercialPresentation": {
@@ -2447,20 +2518,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-24-full-hd-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-24-full-hd-area-2",
-          "name": "Операционные"
+          "name": "Операционная"
         },
         {
           "id": "medinova-24-full-hd-area-3",
-          "name": "Диагностические кабинеты"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -2479,34 +2550,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "24 Full HD",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Экран",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Диагональ",
@@ -2523,7 +2569,44 @@
           ]
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "url": "/media/endomarket-wave1/5a3a40082792be5bd5efed34.png",
+          "role": "hero",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 24\" Full HD, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/f1fd7eb308bc94932e75978b.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 24\" Full HD, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/a5a677813a3068f68d999e7a.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 24\" Full HD, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/2eb94c0280d4a44321369b85.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 24\" Full HD, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/417d7feb59f1c9e3c8b15284.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 24\" Full HD, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/cee96ca7a99492860f3611eb.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 24\" Full HD, изображение 6"
+        }
+      ],
       "documents": [],
       "registrations": [],
       "commercialPresentation": {
@@ -2558,20 +2641,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-27-full-hd-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-27-full-hd-area-2",
-          "name": "Операционные"
+          "name": "Операционная"
         },
         {
           "id": "medinova-27-full-hd-area-3",
-          "name": "Диагностические кабинеты"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -2590,34 +2673,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "27 Full HD",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Экран",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Диагональ",
@@ -2634,7 +2692,32 @@
           ]
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "url": "/media/endomarket-wave1/e307cbe175346b987e926c16.png",
+          "role": "hero",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 27\" Full HD, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/6bf58debda808a4d7bc33f1d.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 27\" Full HD, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/23c2c5d9c816a94cdac4e8fd.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 27\" Full HD, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/2fc557589f349d5fcee84995.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 27\" Full HD, изображение 4"
+        }
+      ],
       "documents": [],
       "registrations": [],
       "commercialPresentation": {
@@ -2669,20 +2752,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-32-4k-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-32-4k-area-2",
-          "name": "Операционные"
+          "name": "Операционная"
         },
         {
           "id": "medinova-32-4k-area-3",
-          "name": "Диагностические кабинеты"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -2701,34 +2784,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "32 4K",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Экран",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Диагональ",
@@ -2757,6 +2815,30 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Медицинский монитор Medinova 32\" 4K, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/adfe2d10d8fe0836379b5e6c.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 32\" 4K, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/f54f3eeeba83533733a01b66.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 32\" 4K, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/0d0f88bb3eafd63a8130fcb0.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 32\" 4K, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/0bac1cbd47f676f565a5bf90.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 32\" 4K, изображение 6"
         }
       ],
       "documents": [],
@@ -2793,20 +2875,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-55-4k-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-55-4k-area-2",
-          "name": "Операционные"
+          "name": "Операционная"
         },
         {
           "id": "medinova-55-4k-area-3",
-          "name": "Диагностические кабинеты"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -2825,34 +2907,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "55 4K",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Экран",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Диагональ",
@@ -2869,7 +2926,20 @@
           ]
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "url": "/media/endomarket-wave1/b7e6e77dbac101c8a6d0f17d.png",
+          "role": "hero",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 55\" 4K, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/ab28227acf90cf14242d8c07.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Медицинский монитор Medinova 55\" 4K, изображение 2"
+        }
+      ],
       "documents": [],
       "registrations": [],
       "commercialPresentation": {
@@ -2904,7 +2974,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -2913,41 +2983,15 @@
         },
         {
           "id": "sonoscape-eg-ur5-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-eg-ur5-area-3",
-          "name": "Диагностические центры"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EG-UR5",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/7d9b85674ab8a52204488cbb.png",
@@ -2960,6 +3004,24 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеогастроскоп SonoScape EG-UR5, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/352b8536bc4225ea27736d3f.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеогастроскоп SonoScape EG-UR5, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/ab85cabafbb54f6f0043f342.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеогастроскоп SonoScape EG-UR5, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/a876ffc100a716018cf2a9c6.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеогастроскоп SonoScape EG-UR5, изображение 5"
         }
       ],
       "documents": [],
@@ -2996,7 +3058,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3005,41 +3067,15 @@
         },
         {
           "id": "sonoscape-eg-uc5t-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-eg-uc5t-area-3",
-          "name": "Диагностические центры"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EG-UC5T",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/9f734e152b63d4dad905f9e6.png",
@@ -3052,6 +3088,18 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеогастроскоп SonoScape EG-UC5T, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/f611934d0557ce78102c872d.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеогастроскоп SonoScape EG-UC5T, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/0ea7827038ad5f665311d65f.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеогастроскоп SonoScape EG-UC5T, изображение 4"
         }
       ],
       "documents": [],
@@ -3088,7 +3136,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3097,11 +3145,11 @@
         },
         {
           "id": "sonoscape-eg-500-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-eg-500-area-3",
-          "name": "Диагностические центры"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -3124,34 +3172,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EG-500",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -3234,7 +3257,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3243,41 +3266,15 @@
         },
         {
           "id": "sonoscape-eg-500l-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-eg-500l-area-3",
-          "name": "Диагностические центры"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EG-500L",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/e05b30cd32addd04e7d390d2.png",
@@ -3319,14 +3316,14 @@
       "model": "EG-430",
       "seoTitle": "Видеогастроскоп SonoScape EG-430 — купить | CyberMedica",
       "seoDescription": "Видеогастроскоп SonoScape EG-430: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
-      "shortDescription": "Видеогастроскоп SonoScape EG-430 — гибкий видеогастроскоп для исследования верхних отделов желудочно-кишечного тракта.",
+      "shortDescription": "Видеогастроскоп SonoScape EG-430 применяется для проведения эндоскопических исследований и манипуляций в верхних отделах желудочно-кишечного тракта.",
       "description": "Видеогастроскоп SonoScape EG-430 предназначен для гастроскопических исследований пищевода, желудка и двенадцатиперстной кишки. Модель рассчитана на работу в эндоскопических отделениях и диагностических центрах.",
       "manufacturerId": "sonoscape",
       "categoryId": "ref-05cbefe84dab",
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3335,37 +3332,112 @@
         },
         {
           "id": "sonoscape-eg-430-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-eg-430-area-3",
-          "name": "Диагностические центры"
+          "name": "Диагностика"
         }
       ],
-      "keyFeatures": [],
+      "keyFeatures": [
+        {
+          "text": "Высококачественное эндоскопическое изображение высокого разрешения с естественной цветопередачей",
+          "sortOrder": 0
+        },
+        {
+          "text": "Инструментальный канал 2,8 мм",
+          "sortOrder": 1
+        },
+        {
+          "text": "Изгиб вводимой трубки в четырех направлениях: 210° вверх, 90° вниз, 100° вправо и 100° влево",
+          "sortOrder": 2
+        },
+        {
+          "text": "Поле зрения 140°",
+          "sortOrder": 3
+        },
+        {
+          "text": "Эргономичная рукоять",
+          "sortOrder": 4
+        },
+        {
+          "text": "Пользовательские программируемые кнопки управления",
+          "sortOrder": 5
+        },
+        {
+          "text": "Дополнительный канал подачи воды",
+          "sortOrder": 6
+        },
+        {
+          "text": "4 программируемые кнопки",
+          "sortOrder": 7
+        }
+      ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
+          "key": "source-1",
+          "title": "Технические характеристики",
           "sortOrder": 0,
           "items": [
             {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
+              "label": "Рабочая длина",
+              "value": "1050",
+              "unit": "мм",
               "sortOrder": 0
             },
             {
-              "label": "Модель",
-              "value": "EG-430",
-              "unit": null,
+              "label": "Угол поля зрения",
+              "value": "140",
+              "unit": "°",
               "sortOrder": 1
             },
             {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
+              "label": "Направление обзора",
+              "value": "Прямое",
               "unit": null,
               "sortOrder": 2
+            },
+            {
+              "label": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм",
+              "sortOrder": 3
+            },
+            {
+              "label": "Диаметр дистального конца",
+              "value": "9,3",
+              "unit": "мм",
+              "sortOrder": 4
+            },
+            {
+              "label": "Диаметр инструментального канала",
+              "value": "2,8",
+              "unit": "мм",
+              "sortOrder": 5
+            },
+            {
+              "label": "Угол изгиба вверх",
+              "value": "210",
+              "unit": "°",
+              "sortOrder": 6
+            },
+            {
+              "label": "Угол изгиба вниз",
+              "value": "90",
+              "unit": "°",
+              "sortOrder": 7
+            },
+            {
+              "label": "Угол изгиба влево",
+              "value": "100",
+              "unit": "°",
+              "sortOrder": 8
+            },
+            {
+              "label": "Угол изгиба вправо",
+              "value": "100",
+              "unit": "°",
+              "sortOrder": 9
             }
           ]
         }
@@ -3382,6 +3454,12 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеогастроскоп SonoScape EG-430, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/dd7884901f2dbd795a0f81c5.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеогастроскоп SonoScape EG-430, изображение 3"
         }
       ],
       "documents": [],
@@ -3418,7 +3496,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3427,41 +3505,15 @@
         },
         {
           "id": "sonoscape-eg-430l-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-eg-430l-area-3",
-          "name": "Диагностические центры"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EG-430L",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/a6030ebd9447c45bcac50b66.png",
@@ -3474,6 +3526,12 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеогастроскоп SonoScape EG-430L, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/5029affbaa5607d349aef6b9.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеогастроскоп SonoScape EG-430L, изображение 3"
         }
       ],
       "documents": [],
@@ -3510,7 +3568,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3519,11 +3577,11 @@
         },
         {
           "id": "sonoscape-ec-500t-area-2",
-          "name": "Гастроэнтерология"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-ec-500t-area-3",
-          "name": "Эндоскопические отделения"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -3546,34 +3604,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EC-500T",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -3620,6 +3653,12 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеоколоноскоп SonoScape EC-500T, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/dd7884901f2dbd795a0f81c5.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоколоноскоп SonoScape EC-500T, изображение 3"
         }
       ],
       "documents": [],
@@ -3656,7 +3695,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3665,11 +3704,11 @@
         },
         {
           "id": "sonoscape-ec-500l-t-area-2",
-          "name": "Гастроэнтерология"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-ec-500l-t-area-3",
-          "name": "Эндоскопические отделения"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [
@@ -3692,34 +3731,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EC-500L/T",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -3802,7 +3816,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3811,42 +3825,132 @@
         },
         {
           "id": "sonoscape-ec-430t-area-2",
-          "name": "Гастроэнтерология"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-ec-430t-area-3",
-          "name": "Эндоскопические отделения"
+          "name": "Диагностика"
         }
       ],
-      "keyFeatures": [],
+      "keyFeatures": [
+        {
+          "text": "Рабочая длина 1700 мм",
+          "sortOrder": 0
+        },
+        {
+          "text": "Инструментальный канал 3,8 мм",
+          "sortOrder": 1
+        },
+        {
+          "text": "Поле зрения 140°",
+          "sortOrder": 2
+        },
+        {
+          "text": "Прямое направление обзора",
+          "sortOrder": 3
+        },
+        {
+          "text": "Глубина резкости 3–100 мм",
+          "sortOrder": 4
+        },
+        {
+          "text": "Дополнительный канал подачи воды",
+          "sortOrder": 5
+        },
+        {
+          "text": "4 программируемые кнопки",
+          "sortOrder": 6
+        }
+      ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
+          "key": "source-1",
+          "title": "Технические характеристики",
           "sortOrder": 0,
           "items": [
             {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
+              "label": "Рабочая длина",
+              "value": "1700",
+              "unit": "мм",
               "sortOrder": 0
             },
             {
-              "label": "Модель",
-              "value": "EC-430T",
-              "unit": null,
+              "label": "Угол поля зрения",
+              "value": "140",
+              "unit": "°",
               "sortOrder": 1
             },
             {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
+              "label": "Направление обзора",
+              "value": "Прямое",
               "unit": null,
               "sortOrder": 2
+            },
+            {
+              "label": "Глубина резкости",
+              "value": "3–100",
+              "unit": "мм",
+              "sortOrder": 3
+            },
+            {
+              "label": "Диаметр дистального конца",
+              "value": "12,5",
+              "unit": "мм",
+              "sortOrder": 4
+            },
+            {
+              "label": "Диаметр инструментального канала",
+              "value": "3,8",
+              "unit": "мм",
+              "sortOrder": 5
+            },
+            {
+              "label": "Угол изгиба вверх",
+              "value": "180",
+              "unit": "°",
+              "sortOrder": 6
+            },
+            {
+              "label": "Угол изгиба вниз",
+              "value": "180",
+              "unit": "°",
+              "sortOrder": 7
+            },
+            {
+              "label": "Угол изгиба влево",
+              "value": "160",
+              "unit": "°",
+              "sortOrder": 8
+            },
+            {
+              "label": "Угол изгиба вправо",
+              "value": "160",
+              "unit": "°",
+              "sortOrder": 9
             }
           ]
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "url": "/media/endomarket-wave1/a6030ebd9447c45bcac50b66.png",
+          "role": "hero",
+          "format": "image/png",
+          "alt": "Видеоколоноскоп SonoScape EC-430T, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/8a59667fe2d33fd5d9cc20ee.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоколоноскоп SonoScape EC-430T, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/5029affbaa5607d349aef6b9.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоколоноскоп SonoScape EC-430T, изображение 3"
+        }
+      ],
       "documents": [],
       "registrations": [],
       "commercialPresentation": {
@@ -3881,7 +3985,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3890,41 +3994,15 @@
         },
         {
           "id": "sonoscape-ec-430l-t-area-2",
-          "name": "Гастроэнтерология"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-ec-430l-t-area-3",
-          "name": "Эндоскопические отделения"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EC-430L/T",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/a900630e71337510c861acf7.png",
@@ -3937,6 +4015,12 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеоколоноскоп SonoScape EC-430L/T, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/5029affbaa5607d349aef6b9.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеоколоноскоп SonoScape EC-430L/T, изображение 3"
         }
       ],
       "documents": [],
@@ -3973,7 +4057,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -3986,7 +4070,11 @@
         },
         {
           "id": "sonoscape-eb-5h20-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "sonoscape-eb-5h20-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [
@@ -4009,34 +4097,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EB-5H20",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -4083,6 +4146,18 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеобронхоскоп SonoScape EB-5H20, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/044e9f90df52a45350343096.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп SonoScape EB-5H20, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/eb620750cd81398bc37be813.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп SonoScape EB-5H20, изображение 4"
         }
       ],
       "documents": [],
@@ -4119,7 +4194,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -4132,7 +4207,11 @@
         },
         {
           "id": "sonoscape-eb-5t28-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "sonoscape-eb-5t28-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [
@@ -4141,33 +4220,7 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EB-5T28",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/debb4f92b4764f058e060429.png",
@@ -4180,6 +4233,18 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеобронхоскоп SonoScape EB-5T28, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/d8789c6949c6c5f387a0ef88.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп SonoScape EB-5T28, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/eb620750cd81398bc37be813.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп SonoScape EB-5T28, изображение 4"
         }
       ],
       "documents": [],
@@ -4216,7 +4281,7 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
@@ -4229,7 +4294,11 @@
         },
         {
           "id": "sonoscape-eb-500-area-3",
-          "name": "Анестезиология и реаниматология"
+          "name": "Анестезиология"
+        },
+        {
+          "id": "sonoscape-eb-500-area-4",
+          "name": "Реанимация"
         }
       ],
       "keyFeatures": [
@@ -4252,34 +4321,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EB-500",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Рабочая длина",
@@ -4326,6 +4370,12 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеобронхоскоп SonoScape EB-500, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/8a59667fe2d33fd5d9cc20ee.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеобронхоскоп SonoScape EB-500, изображение 3"
         }
       ],
       "documents": [],
@@ -4362,16 +4412,16 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "sonoscape-ed-5gt-area-1",
-          "name": "Эндоскопия"
+          "name": "Гастроэнтерология"
         },
         {
           "id": "sonoscape-ed-5gt-area-2",
-          "name": "Гастроэнтерология"
+          "name": "Эндоскопия"
         },
         {
           "id": "sonoscape-ed-5gt-area-3",
@@ -4379,33 +4429,7 @@
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "SonoScape",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "ED-5GT",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/15633bae2a0555c479eddb99.png",
@@ -4418,6 +4442,12 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Видеодуоденоскоп SonoScape ED-5GT, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/6a77c0337a7142a506bca4d4.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Видеодуоденоскоп SonoScape ED-5GT, изображение 3"
         }
       ],
       "documents": [],
@@ -4443,7 +4473,7 @@
       "id": "598bb29f-f5ca-5253-be7d-ae3887a708d2",
       "sourceUid": "endomarket-e002e9b65d377ba299d9",
       "slug": "medinova-endo-clean-1000",
-      "title": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000",
+      "title": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA",
       "model": "ENDO CLEAN-1000",
       "seoTitle": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000 — купить | CyberMedica",
       "seoDescription": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -4454,20 +4484,16 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-endo-clean-1000-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-endo-clean-1000-area-2",
           "name": "ЦСО"
-        },
-        {
-          "id": "medinova-endo-clean-1000-area-3",
-          "name": "Диагностические центры"
         }
       ],
       "keyFeatures": [
@@ -4494,34 +4520,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "ENDO CLEAN-1000",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Обработка",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Количество эндоскопов за цикл",
@@ -4549,13 +4550,25 @@
           "url": "/media/endomarket-wave1/dc32318730e67608c19375aa.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000, изображение 1"
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/c75cf91028fe3fa4e010dfa2.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-1000, изображение 2"
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/185d4bb9393884ab15db2dbf.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/de4e1a4ae232185cb5291270.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA, изображение 4"
         }
       ],
       "documents": [],
@@ -4581,7 +4594,7 @@
       "id": "e541bffe-ad1d-5f0e-a84a-e39771497438",
       "sourceUid": "endomarket-b7807016b0b88621e08a",
       "slug": "medinova-endo-clean-2000",
-      "title": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-2000",
+      "title": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA",
       "model": "ENDO CLEAN-2000",
       "seoTitle": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-2000 — купить | CyberMedica",
       "seoDescription": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-2000: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -4592,20 +4605,16 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-endo-clean-2000-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-endo-clean-2000-area-2",
           "name": "ЦСО"
-        },
-        {
-          "id": "medinova-endo-clean-2000-area-3",
-          "name": "Диагностические центры"
         }
       ],
       "keyFeatures": [
@@ -4628,34 +4637,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "ENDO CLEAN-2000",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Обработка",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Количество эндоскопов за цикл",
@@ -4683,7 +4667,43 @@
           "url": "/media/endomarket-wave1/2dd25c89aac7cb00c6091e8d.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Установка для мойки и дезинфекции Medinova ENDO CLEAN-2000, изображение 1"
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/ea9b5f947089c824b75d1840.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/4b5ae79da1cb7054acb43964.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/eee1d3404f50ec2d01422786.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/f4d8e98184acf94101bd322a.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/5656f1740a11bce837e5fa44.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA, изображение 6"
+        },
+        {
+          "url": "/media/endomarket-wave1/e318aba32f2297ce75955ad6.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA, изображение 7"
         }
       ],
       "documents": [],
@@ -4720,20 +4740,16 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-ec-5bd-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-ec-5bd-area-2",
           "name": "ЦСО"
-        },
-        {
-          "id": "medinova-ec-5bd-area-3",
-          "name": "Многопрофильные стационары"
         }
       ],
       "keyFeatures": [
@@ -4772,34 +4788,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EC-5BD",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Количество эндоскопов",
@@ -4846,6 +4837,42 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Шкаф для сушки и хранения эндоскопов EC-5BD, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/7e2cc3e5e2469369b98bab85.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-5BD, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/7bb7643f7e16ec578a5cb625.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-5BD, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/13f5d366ad012902e4e5ac50.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-5BD, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/c54c4875ddca4e4f9b4784a8.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-5BD, изображение 6"
+        },
+        {
+          "url": "/media/endomarket-wave1/65b9dbcad48c6a4314891c11.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-5BD, изображение 7"
+        },
+        {
+          "url": "/media/endomarket-wave1/22c9d54c796901af15b8a49b.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-5BD, изображение 8"
         }
       ],
       "documents": [],
@@ -4882,20 +4909,16 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "medinova-ec-10bd-area-1",
-          "name": "Эндоскопические отделения"
+          "name": "Эндоскопия"
         },
         {
           "id": "medinova-ec-10bd-area-2",
           "name": "ЦСО"
-        },
-        {
-          "id": "medinova-ec-10bd-area-3",
-          "name": "Многопрофильные стационары"
         }
       ],
       "keyFeatures": [
@@ -4918,34 +4941,9 @@
       ],
       "characteristicGroups": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "Medinova",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "EC-10BD",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        },
-        {
           "key": "source-1",
           "title": "Основные параметры",
-          "sortOrder": 1,
+          "sortOrder": 0,
           "items": [
             {
               "label": "Количество эндоскопов",
@@ -4974,6 +4972,42 @@
           "role": "gallery",
           "format": "image/png",
           "alt": "Шкаф для сушки и хранения эндоскопов EC-10BD, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/090009c392c7c640de2119b0.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-10BD, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/b56d3a280270e00bc3bde5c9.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-10BD, изображение 4"
+        },
+        {
+          "url": "/media/endomarket-wave1/5818a90a264fd50260fdc307.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-10BD, изображение 5"
+        },
+        {
+          "url": "/media/endomarket-wave1/c8458655df3a3dae88245b7e.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-10BD, изображение 6"
+        },
+        {
+          "url": "/media/endomarket-wave1/f5a3fe4341846ea8b86b9eb6.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-10BD, изображение 7"
+        },
+        {
+          "url": "/media/endomarket-wave1/c477c3f0d8afc64df8a2dd98.jpg",
+          "role": "gallery",
+          "format": "image/jpeg",
+          "alt": "Шкаф для сушки и хранения эндоскопов EC-10BD, изображение 8"
         }
       ],
       "documents": [],
@@ -5010,20 +5044,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "erbe-vio-apc-2-area-1",
-          "name": "Операционные"
+          "name": "Хирургия"
         },
         {
           "id": "erbe-vio-apc-2-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Операционная"
         },
         {
           "id": "erbe-vio-apc-2-area-3",
-          "name": "Хирургические отделения"
+          "name": "Эндоскопия"
         }
       ],
       "keyFeatures": [
@@ -5032,33 +5066,7 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "ERBE",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "VIO + APC 2",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/b9e47fdad6c5f6c1187c047a.png",
@@ -5107,20 +5115,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "erbe-vio-200-s-area-1",
-          "name": "Операционные"
+          "name": "Хирургия"
         },
         {
           "id": "erbe-vio-200-s-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Операционная"
         },
         {
           "id": "erbe-vio-200-s-area-3",
-          "name": "Хирургические отделения"
+          "name": "Эндоскопия"
         }
       ],
       "keyFeatures": [
@@ -5129,33 +5137,7 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "ERBE",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "VIO 200 S",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/f5606d4106f2229379536617.png",
@@ -5198,20 +5180,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "erbe-vio-200-d-area-1",
-          "name": "Операционные"
+          "name": "Хирургия"
         },
         {
           "id": "erbe-vio-200-d-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Операционная"
         },
         {
           "id": "erbe-vio-200-d-area-3",
-          "name": "Хирургические отделения"
+          "name": "Эндоскопия"
         }
       ],
       "keyFeatures": [
@@ -5220,33 +5202,7 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "ERBE",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "VIO 200 D",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/e13e3eed64e9454442ee91c7.png",
@@ -5289,20 +5245,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "erbe-vio-3-area-1",
-          "name": "Операционные"
+          "name": "Хирургия"
         },
         {
           "id": "erbe-vio-3-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Операционная"
         },
         {
           "id": "erbe-vio-3-area-3",
-          "name": "Хирургические отделения"
+          "name": "Эндоскопия"
         }
       ],
       "keyFeatures": [
@@ -5311,33 +5267,7 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "ERBE",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "VIO 3",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/ad4868793056d49ae4d8e714.png",
@@ -5375,7 +5305,7 @@
       "id": "766b6369-5558-5449-8af2-084114700ab2",
       "sourceUid": "endomarket-0eabe8b13bb8490ec7d2",
       "slug": "bowa-arc-303",
-      "title": "Электрохирургический аппарат BOWA ARC 303",
+      "title": "Электрохирургический аппарат ARC 303",
       "model": "ARC 303",
       "seoTitle": "Электрохирургический аппарат BOWA ARC 303 — купить | CyberMedica",
       "seoDescription": "Электрохирургический аппарат BOWA ARC 303: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -5386,20 +5316,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "bowa-arc-303-area-1",
-          "name": "Операционные"
+          "name": "Хирургия"
         },
         {
           "id": "bowa-arc-303-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Операционная"
         },
         {
           "id": "bowa-arc-303-area-3",
-          "name": "Хирургические отделения"
+          "name": "Эндоскопия"
         }
       ],
       "keyFeatures": [
@@ -5408,45 +5338,19 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "BOWA",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "ARC 303",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/4c4db8f5a962fbc065fe97b2.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Электрохирургический аппарат BOWA ARC 303, изображение 1"
+          "alt": "Электрохирургический аппарат ARC 303, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/68699c926b9ec51028abb1be.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Электрохирургический аппарат BOWA ARC 303, изображение 2"
+          "alt": "Электрохирургический аппарат ARC 303, изображение 2"
         }
       ],
       "documents": [],
@@ -5472,7 +5376,7 @@
       "id": "59bd4807-41f1-5db0-9c90-8e4bcb05be35",
       "sourceUid": "endomarket-e95660a330cc84263fc2",
       "slug": "bowa-arc-350",
-      "title": "Электрохирургический аппарат BOWA ARC 350",
+      "title": "Электрохирургический аппарат ARC 350",
       "model": "ARC 350",
       "seoTitle": "Электрохирургический аппарат BOWA ARC 350 — купить | CyberMedica",
       "seoDescription": "Электрохирургический аппарат BOWA ARC 350: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -5483,20 +5387,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "bowa-arc-350-area-1",
-          "name": "Операционные"
+          "name": "Хирургия"
         },
         {
           "id": "bowa-arc-350-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Операционная"
         },
         {
           "id": "bowa-arc-350-area-3",
-          "name": "Хирургические отделения"
+          "name": "Эндоскопия"
         }
       ],
       "keyFeatures": [
@@ -5505,45 +5409,19 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "BOWA",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "ARC 350",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/a8da400bce0ba393a32dccbe.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Электрохирургический аппарат BOWA ARC 350, изображение 1"
+          "alt": "Электрохирургический аппарат ARC 350, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/e262e4fc63facc3886de836d.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Электрохирургический аппарат BOWA ARC 350, изображение 2"
+          "alt": "Электрохирургический аппарат ARC 350, изображение 2"
         }
       ],
       "documents": [],
@@ -5569,7 +5447,7 @@
       "id": "994afd79-f81a-54df-9cc1-3e7702cf6d5b",
       "sourceUid": "endomarket-81baeaecaee124138493",
       "slug": "bowa-arc-400",
-      "title": "Электрохирургический аппарат BOWA ARC 400",
+      "title": "Электрохирургический аппарат ARC 400",
       "model": "ARC 400",
       "seoTitle": "Электрохирургический аппарат BOWA ARC 400 — купить | CyberMedica",
       "seoDescription": "Электрохирургический аппарат BOWA ARC 400: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -5580,20 +5458,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "bowa-arc-400-area-1",
-          "name": "Операционные"
+          "name": "Хирургия"
         },
         {
           "id": "bowa-arc-400-area-2",
-          "name": "Эндоскопические отделения"
+          "name": "Операционная"
         },
         {
           "id": "bowa-arc-400-area-3",
-          "name": "Хирургические отделения"
+          "name": "Эндоскопия"
         }
       ],
       "keyFeatures": [
@@ -5602,45 +5480,25 @@
           "sortOrder": 0
         }
       ],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "BOWA",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "ARC 400",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Эндоскопические системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/6c770fce59460a050e09b3ef.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Электрохирургический аппарат BOWA ARC 400, изображение 1"
+          "alt": "Электрохирургический аппарат ARC 400, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/305df3e43a13b38dce8f745a.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Электрохирургический аппарат BOWA ARC 400, изображение 2"
+          "alt": "Электрохирургический аппарат ARC 400, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/9af9c9ad284134c5612568a9.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Электрохирургический аппарат ARC 400, изображение 3"
         }
       ],
       "documents": [],
@@ -5677,46 +5535,20 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "ilivtouch-ilivtouch-area-1",
-          "name": "Медицинские организации"
+          "name": "Диагностика"
         },
         {
           "id": "ilivtouch-ilivtouch-area-2",
-          "name": "Диагностические и лечебные подразделения"
+          "name": "Гастроэнтерология"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "iLivTouch",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "iLivTouch",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Ультразвуковые системы",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/429f122d7c27227c58cb20dc.png",
@@ -5754,7 +5586,7 @@
       "id": "2fa94eb5-7a68-5e3a-a269-29ebf8199ff9",
       "sourceUid": "endomarket-35301063f442be157ae1",
       "slug": "met-ks-350",
-      "title": "Смотровой стол MET KS-350",
+      "title": "Смотровой стол МЕТ KS-350",
       "model": "KS-350",
       "seoTitle": "Смотровой стол MET KS-350 — купить | CyberMedica",
       "seoDescription": "Смотровой стол MET KS-350: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -5765,58 +5597,44 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "met-ks-350-area-1",
-          "name": "Медицинские организации"
+          "name": "Медицинский кабинет"
         },
         {
           "id": "met-ks-350-area-2",
-          "name": "Диагностические и лечебные подразделения"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
-        {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "MET",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "KS-350",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Медицинская мебель",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
-        }
-      ],
+      "characteristicGroups": [],
       "media": [
         {
           "url": "/media/endomarket-wave1/e8b27736bd112427016912f2.png",
           "role": "hero",
           "format": "image/png",
-          "alt": "Смотровой стол MET KS-350, изображение 1"
+          "alt": "Смотровой стол МЕТ KS-350, изображение 1"
         },
         {
           "url": "/media/endomarket-wave1/94e4786559a379f0475ed6d0.png",
           "role": "gallery",
           "format": "image/png",
-          "alt": "Смотровой стол MET KS-350, изображение 2"
+          "alt": "Смотровой стол МЕТ KS-350, изображение 2"
+        },
+        {
+          "url": "/media/endomarket-wave1/034b262ab155cc6bc1e8c8a8.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Смотровой стол МЕТ KS-350, изображение 3"
+        },
+        {
+          "url": "/media/endomarket-wave1/af4e0c5252411db294e0d8fb.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Смотровой стол МЕТ KS-350, изображение 4"
         }
       ],
       "documents": [],
@@ -5842,7 +5660,7 @@
       "id": "f43d0e8f-9f7e-536c-966e-8817f939c9f3",
       "sourceUid": "endomarket-5e5c259b0995e0726612",
       "slug": "zerts-1",
-      "title": "Кушетка электромеханическая ZERTS с 1 электроприводом",
+      "title": "Кушетка электромеханическая ZERTS с 1 эл. приводом",
       "model": "1 электропривод",
       "seoTitle": "Кушетка электромеханическая ZERTS с 1 электроприводом — купить | CyberMedica",
       "seoDescription": "Кушетка электромеханическая ZERTS с 1 электроприводом: характеристики и поставка для медицинских организаций. В наличии, рассрочка 0% до 12 месяцев без удорожания.",
@@ -5853,47 +5671,34 @@
       "publicationStatus": "draft",
       "published": false,
       "reviewState": "pending",
-      "updatedAt": "2026-08-04T16:26:57.016Z",
+      "updatedAt": "2026-08-08T00:00:00.000Z",
       "createdAt": "2026-08-04T16:26:57.016Z",
       "applicationAreas": [
         {
           "id": "zerts-1-area-1",
-          "name": "Медицинские организации"
+          "name": "Медицинский кабинет"
         },
         {
           "id": "zerts-1-area-2",
-          "name": "Диагностические и лечебные подразделения"
+          "name": "Диагностика"
         }
       ],
       "keyFeatures": [],
-      "characteristicGroups": [
+      "characteristicGroups": [],
+      "media": [
         {
-          "key": "general",
-          "title": "Основные сведения",
-          "sortOrder": 0,
-          "items": [
-            {
-              "label": "Производитель",
-              "value": "ZERTS",
-              "unit": null,
-              "sortOrder": 0
-            },
-            {
-              "label": "Модель",
-              "value": "1 электропривод",
-              "unit": null,
-              "sortOrder": 1
-            },
-            {
-              "label": "Категория",
-              "value": "Медицинская мебель",
-              "unit": null,
-              "sortOrder": 2
-            }
-          ]
+          "url": "/media/endomarket-wave1/9f6310454c4e0237db143ce2.png",
+          "role": "hero",
+          "format": "image/png",
+          "alt": "Кушетка электромеханическая ZERTS с 1 эл. приводом, изображение 1"
+        },
+        {
+          "url": "/media/endomarket-wave1/6749959654d97cffd4b54761.png",
+          "role": "gallery",
+          "format": "image/png",
+          "alt": "Кушетка электромеханическая ZERTS с 1 эл. приводом, изображение 2"
         }
       ],
-      "media": [],
       "documents": [],
       "registrations": [],
       "commercialPresentation": {
@@ -6042,10 +5847,13 @@
     "existingDuplicateBindings": 9,
     "excludedInstrumentRows": 76,
     "excludedNonEquipmentConsumables": 3,
-    "mediaAssignments": 84,
-    "uniqueMediaAssets": 65,
+    "mediaAssignments": 193,
+    "uniqueMediaAssets": 148,
     "watermarkedMediaRemoved": 67,
     "duplicateMediaRemoved": 0,
-    "hiddenFeatureSections": 12
+    "hiddenFeatureSections": 10,
+    "sourceSpecifications": 128,
+    "watermarkVariantsRejected": 174,
+    "duplicateMediaRejected": 0
   }
 }

@@ -109,7 +109,7 @@ export default async function CatalogPage({
           categories={categories}
           manufacturers={manufacturers}
           initialSearchResultIds={initialSearchResults.map(({ id }) => id)}
-          compareEnabled={process.env.CATALOG_DATA_SOURCE !== "cloud_preview"}
+          compareEnabled={storefrontDataSource !== "cloud_preview"}
         />
       </div>
     </main>

@@ -6,18 +6,27 @@ import endoMarketStageSnapshotJson from "../../data/import/endomarket-wave1-stag
 
 import { createSupabaseServerClient } from "../supabase/index.ts";
 import type { CatalogRepository } from "./catalog-repository.ts";
+import { loadCloudPublishedCatalog } from "./cloud-published-catalog-repository.ts";
 import {
   mapCloudPreviewSnapshot,
   type CloudPreviewCatalogSnapshot,
 } from "./cloud-preview-mapper.ts";
 import { filterProductsForSearch } from "./search-service.ts";
 import { isEndoMarketStagePreview } from "./data-source.ts";
+import { composeEndoMarketStageCatalog } from "./endomarket-stage-catalog.ts";
+import type { StorefrontCatalog } from "./types.ts";
 
-type SnapshotLoader = () => Promise<CloudPreviewCatalogSnapshot>;
+type CatalogLoader = () => Promise<StorefrontCatalog>;
 
-async function requestCloudPreviewSnapshot(): Promise<CloudPreviewCatalogSnapshot> {
+async function requestCloudPreviewCatalog(): Promise<StorefrontCatalog> {
   if (isEndoMarketStagePreview()) {
-    return endoMarketStageSnapshotJson as unknown as CloudPreviewCatalogSnapshot;
+    const [publishedCatalog, stageCatalog] = await Promise.all([
+      loadCloudPublishedCatalog(),
+      Promise.resolve(mapCloudPreviewSnapshot(
+        endoMarketStageSnapshotJson as unknown as CloudPreviewCatalogSnapshot,
+      )),
+    ]);
+    return composeEndoMarketStageCatalog(publishedCatalog, stageCatalog);
   }
   const response = await createSupabaseServerClient({ access: "service_role" }).request(
     "/rest/v1/rpc/cloud_storefront_preview_catalog",
@@ -31,20 +40,21 @@ async function requestCloudPreviewSnapshot(): Promise<CloudPreviewCatalogSnapsho
       body: "{}",
     },
   );
-  return response.json() as Promise<CloudPreviewCatalogSnapshot>;
+  const snapshot = await response.json() as CloudPreviewCatalogSnapshot;
+  return mapCloudPreviewSnapshot(snapshot);
 }
 
-export const loadCloudPreviewSnapshot = cache(requestCloudPreviewSnapshot);
+export const loadCloudPreviewCatalog = cache(requestCloudPreviewCatalog);
 
 export class CloudPreviewCatalogRepository implements CatalogRepository {
-  private readonly loadSnapshot: SnapshotLoader;
+  private readonly loadCatalog: CatalogLoader;
 
-  constructor(loadSnapshot: SnapshotLoader = loadCloudPreviewSnapshot) {
-    this.loadSnapshot = loadSnapshot;
+  constructor(loadCatalog: CatalogLoader = loadCloudPreviewCatalog) {
+    this.loadCatalog = loadCatalog;
   }
 
   private async load() {
-    return mapCloudPreviewSnapshot(await this.loadSnapshot());
+    return this.loadCatalog();
   }
 
   async getProducts() { return (await this.load()).products; }
