@@ -5,6 +5,11 @@ export const ENDOMARKET_STAGE_PUBLISHED_COUNT = 71;
 export const ENDOMARKET_STAGE_DRAFT_COUNT = 42;
 export const ENDOMARKET_STAGE_BINDING_COUNT = 9;
 export const ENDOMARKET_STAGE_VISIBLE_COUNT = 113;
+export const ENDOMARKET_STAGE_VISIBLE_BINDING_COUNT = 7;
+export const ENDOMARKET_STAGE_HIDDEN_BINDING_SLUGS = new Set([
+  "videoendoskopicheskaya-sistema-sonoscape-hd-550",
+  "pentax-epk-i7010-optivista",
+]);
 
 function assertStage(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`EndoMarket Stage catalog rejected: ${message}`);
@@ -46,20 +51,30 @@ export function composeEndoMarketStageCatalog(
   );
 
   const publishedById = new Map(publishedProducts.map((product) => [product.id, product]));
+  const publishedBySlug = new Map(publishedProducts.map((product) => [product.slug, product]));
   const bindingIds = new Set(stageBindings.map(({ id }) => id));
   assertStage(bindingIds.size === ENDOMARKET_STAGE_BINDING_COUNT, "duplicate binding Product ID");
+  let visibleBindingCount = 0;
   for (const binding of stageBindings) {
-    const published = publishedById.get(binding.id);
-    assertStage(Boolean(published), `binding Product is absent from published projection: ${binding.id}`);
-    assertStage(
-      published!.slug === binding.slug,
-      `binding canonical slug drift for Product ${binding.id}`,
-    );
     assertStage(
       binding.commercialPresentation?.source === "endomarket",
       `binding commercial presentation is missing for Product ${binding.id}`,
     );
+    const published = publishedBySlug.get(binding.slug);
+    if (!published) {
+      assertStage(
+        ENDOMARKET_STAGE_HIDDEN_BINDING_SLUGS.has(binding.slug),
+        `binding is absent from the public projection without an approved hidden state: ${binding.id}`,
+      );
+      continue;
+    }
+    visibleBindingCount += 1;
+    assertStage(published.model === binding.model, `binding model drift for ${binding.slug}`);
   }
+  assertStage(
+    visibleBindingCount === ENDOMARKET_STAGE_VISIBLE_BINDING_COUNT,
+    `visible binding count must be ${ENDOMARKET_STAGE_VISIBLE_BINDING_COUNT}, received ${visibleBindingCount}`,
+  );
 
   const publishedSlugs = new Set(publishedProducts.map(({ slug }) => slug));
   for (const draft of stageDrafts) {
@@ -68,13 +83,19 @@ export function composeEndoMarketStageCatalog(
     assertStage(draft.commercialPresentation?.source === "endomarket", `draft commercial presentation is missing: ${draft.slug}`);
   }
 
-  const commercialByPublishedId = new Map(
-    stageBindings.map((binding) => [binding.id, binding.commercialPresentation]),
+  const bindingByPublishedSlug = new Map(
+    stageBindings.map((binding) => [binding.slug, binding]),
   );
   const products = [
     ...publishedProducts.map((product) => {
-      const commercialPresentation = commercialByPublishedId.get(product.id);
-      return commercialPresentation ? { ...product, commercialPresentation } : product;
+      const binding = bindingByPublishedSlug.get(product.slug);
+      return binding
+        ? {
+            ...product,
+            commercialPresentation: binding.commercialPresentation,
+            media: binding.media,
+          }
+        : product;
     }),
     ...stageDrafts,
   ];

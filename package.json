@@ -13,6 +13,7 @@
     "replay:roszdravnadzor": "node scripts/importers/roszdravnadzor-replay.ts",
     "import:catalog-seed": "node scripts/importers/catalog/seed.ts",
     "import:endomarket-stage": "node scripts/importers/endomarket-stage-catalog.ts",
+    "capture:endomarket-stage-published": "node scripts/importers/capture-endomarket-stage-published-catalog.ts",
     "correct:endomarket-stage:v2": "node scripts/importers/apply-endomarket-business-content-corrective-v2.ts",
     "correct:endomarket-stage:v4": "node scripts/importers/apply-endomarket-corrective-v4.ts",
     "discover:catalog-sources": "node scripts/importers/catalog/discovery.ts",

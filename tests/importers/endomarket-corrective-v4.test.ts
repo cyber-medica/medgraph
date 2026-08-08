@@ -6,6 +6,8 @@ import test from "node:test";
 import snapshotJson from "../../data/import/endomarket-wave1-stage-catalog.json" with { type: "json" };
 import auditJson from "../../data/import/endomarket-wave1-audit.json" with { type: "json" };
 import mediaAuditJson from "../../data/import/endomarket-media-audit-v4.json" with { type: "json" };
+import publishedCatalogJson from "../../data/import/endomarket-stage-published-catalog.json" with { type: "json" };
+import publishedCatalogAuditJson from "../../data/import/endomarket-stage-published-catalog-audit.json" with { type: "json" };
 import mediaManifestJson from "../../data/import/endomarket-wave1-media-manifest.json" with { type: "json" };
 import correctiveJson from "../../data/import/source/endomarket-business-content-corrective-v4.json" with { type: "json" };
 import {
@@ -187,7 +189,7 @@ test("all 51 Stage bindings use clean, local, source-gallery media without fallb
 });
 
 test("Stage composition preserves 71 published Products, merges nine bindings and adds 42 drafts", () => {
-  const composed = composeEndoMarketStageCatalog(publishedFixture(), mappedStage);
+  const composed = composeEndoMarketStageCatalog(publishedCatalogJson as StorefrontCatalog, mappedStage);
   assert.equal(composed.products.length, ENDOMARKET_STAGE_VISIBLE_COUNT);
   assert.equal(
     composed.products.filter(({ status }) => status === "preview_draft").length,
@@ -201,10 +203,22 @@ test("Stage composition preserves 71 published Products, merges nine bindings an
   assert.equal(new Set(composed.products.map(({ slug }) => slug)).size, 113);
   assert.equal(
     composed.products.filter(({ commercialPresentation }) => commercialPresentation?.source === "endomarket").length,
-    51,
+    49,
   );
   assert.equal(composed.summary.productCount, 113);
   assert.equal(composed.summary.activeProductCount, 71);
+});
+
+test("tracked Stage baseline is an exact sanitized public projection of 71 Products", () => {
+  assert.equal(publishedCatalogJson.products.length, 71);
+  assert.equal(publishedCatalogJson.products.every(({ status }) => status === "active"), true);
+  assert.equal(new Set(publishedCatalogJson.products.map(({ id }) => id)).size, 71);
+  assert.equal(new Set(publishedCatalogJson.products.map(({ slug }) => slug)).size, 71);
+  assert.equal(publishedCatalogAuditJson.projectionVersion, 73);
+  assert.equal(publishedCatalogAuditJson.unpublishedProducts, 0);
+  assert.equal(publishedCatalogAuditJson.lifecycleFields, 0);
+  assert.equal(publishedCatalogAuditJson.credentialsUsed, false);
+  assert.equal(publishedCatalogAuditJson.productionWrites, 0);
 });
 
 test("Stage composition rejects partial published transport data", () => {
@@ -216,7 +230,7 @@ test("Stage composition rejects partial published transport data", () => {
 });
 
 test("Stage homepage selects the exact eight clean Product cards in approved order", () => {
-  const composed = composeEndoMarketStageCatalog(publishedFixture(), mappedStage);
+  const composed = composeEndoMarketStageCatalog(publishedCatalogJson as StorefrontCatalog, mappedStage);
   const selected = selectEndoMarketStageFeaturedProducts(composed.products);
   assert.deepEqual(
     selected.map(({ model }) => model),
@@ -259,7 +273,7 @@ test("v4 corrective remains Stage-only and introduces no Production write bounda
     source("lib/storefront/cloud-preview-catalog-repository.ts"),
     source("lib/storefront/data-source.ts"),
   ]);
-  assert.match(repository, /loadCloudPublishedCatalog/u);
+  assert.match(repository, /endomarket-stage-published-catalog\.json/u);
   assert.match(repository, /composeEndoMarketStageCatalog/u);
   assert.match(dataSource, /ENDOMARKET_STAGE_PREVIEW_BRANCH/u);
   assert.doesNotMatch(

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-08T20:17:15.061Z",
+  "source": "https://cyber-medica.ru/catalog",
+  "sourceHtmlSha256": "6d50c0d4172959184d827d378b3cea02e1469e5493cc16e7a86246e5693fc418",
+  "projectionVersion": 73,
+  "projectionChecksumPrefix": "23f7f2b73d7c",
+  "products": 71,
+  "manufacturers": 25,
+  "categories": 19,
+  "uniqueProductIds": 71,
+  "uniqueProductSlugs": 71,
+  "unpublishedProducts": 0,
+  "lifecycleFields": 0,
+  "credentialsUsed": false,
+  "productionWrites": 0
+}

@@ -2,11 +2,11 @@ import "server-only";
 
 import { cache } from "react";
 
+import endoMarketPublishedCatalogJson from "../../data/import/endomarket-stage-published-catalog.json" with { type: "json" };
 import endoMarketStageSnapshotJson from "../../data/import/endomarket-wave1-stage-catalog.json" with { type: "json" };
 
 import { createSupabaseServerClient } from "../supabase/index.ts";
 import type { CatalogRepository } from "./catalog-repository.ts";
-import { loadCloudPublishedCatalog } from "./cloud-published-catalog-repository.ts";
 import {
   mapCloudPreviewSnapshot,
   type CloudPreviewCatalogSnapshot,
@@ -20,12 +20,10 @@ type CatalogLoader = () => Promise<StorefrontCatalog>;
 
 async function requestCloudPreviewCatalog(): Promise<StorefrontCatalog> {
   if (isEndoMarketStagePreview()) {
-    const [publishedCatalog, stageCatalog] = await Promise.all([
-      loadCloudPublishedCatalog(),
-      Promise.resolve(mapCloudPreviewSnapshot(
-        endoMarketStageSnapshotJson as unknown as CloudPreviewCatalogSnapshot,
-      )),
-    ]);
+    const publishedCatalog = endoMarketPublishedCatalogJson as StorefrontCatalog;
+    const stageCatalog = mapCloudPreviewSnapshot(
+      endoMarketStageSnapshotJson as unknown as CloudPreviewCatalogSnapshot,
+    );
     return composeEndoMarketStageCatalog(publishedCatalog, stageCatalog);
   }
   const response = await createSupabaseServerClient({ access: "service_role" }).request(

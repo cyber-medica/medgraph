@@ -36,7 +36,12 @@ const detailProducts = [
   "bowa-arc-350",
   "ilivtouch-ilivtouch",
   "767632362-330695211247-apparat-ivl-hamilton-t1",
+  "767632362-401374530532-apparat-ivl-mindray-sv300",
+] as const;
+
+const hiddenUnpublishedBindings = [
   "videoendoskopicheskaya-sistema-sonoscape-hd-550",
+  "pentax-epk-i7010-optivista",
 ] as const;
 
 const stageDraftSlugs = new Set(
@@ -137,8 +142,8 @@ async function runProfile({
     await page.getByRole("heading", { name: "Каталог медицинских изделий" }).waitFor();
     assert.equal(await page.locator("article.group").count(), 113, `${label}: visible catalog must contain 113 Product cards.`);
     await page.getByText(/Найдено:\s*113\s*из 113/u).waitFor();
-    assert.ok((await page.getByText("В наличии", { exact: true }).count()) >= 51, `${label}: 51 EndoMarket presentations missing.`);
-    assert.ok((await page.getByText("Рассрочка 0%", { exact: true }).count()) >= 51, `${label}: EndoMarket installment badges missing.`);
+    assert.ok((await page.getByText("В наличии", { exact: true }).count()) >= 49, `${label}: visible EndoMarket presentations missing.`);
+    assert.ok((await page.getByText("Рассрочка 0%", { exact: true }).count()) >= 49, `${label}: EndoMarket installment badges missing.`);
     assert.equal(await page.locator("article dl").count(), 0, `${label}: ProductCard leaked technical characteristics.`);
     const catalogText = await page.locator("body").innerText();
     assert.doesNotMatch(catalogText, /Made on Tilda|medvist\.ru|publication_status|review_state/iu);
@@ -158,6 +163,18 @@ async function runProfile({
       await page.screenshot({ path: `${evidenceDir}/manufacturer-medinova.png`, fullPage: true });
     }
     await assertPage(page, "/request", label);
+
+    if (label === "chromium-desktop-1440") {
+      for (const slug of hiddenUnpublishedBindings) {
+        const response = await page.goto(new URL(`/catalog/${slug}`, origin).toString(), {
+          waitUntil: "networkidle",
+          timeout: 45_000,
+        });
+        assert.ok([200, 404].includes(response?.status() ?? 0), `${slug}: hidden route returned an unexpected transport status.`);
+        assert.match(await response!.text(), /Страница не найдена/u, `${slug}: hidden binding did not resolve to notFound.`);
+        assert.equal(await page.locator('a[href^="/request?"]').count(), 0, `${slug}: hidden binding exposed an RFQ action.`);
+      }
+    }
 
     for (const [detailIndex, slug] of detailProducts.slice(0, detailCount).entries()) {
       await assertPage(page, `/catalog/${slug}`, label);

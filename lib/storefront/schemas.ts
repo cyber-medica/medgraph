@@ -78,6 +78,8 @@ export const productSpecificationSchema = z
     value: requiredTextSchema,
     unit: requiredTextSchema.nullable(),
     position: z.number().int().nonnegative(),
+    contentKind: z.enum(["legacy_metadata", "technical_specification"]).optional(),
+    recordOrigin: z.enum(["legacy", "structured_product_detail"]).optional(),
   })
   .strict();
 
