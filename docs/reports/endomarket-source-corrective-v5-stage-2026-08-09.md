@@ -8,6 +8,14 @@ Source audit: **42/42 complete**
 
 Source-truth SHA-256: `02db95f0a46d5dd03fcc5ee1c7fb033aafc9eec3fe9ec6f397411b70687c3157`
 
+Runtime/data commit: `81b34d0c3497576510378d22b6d5f631daeae134`
+
+Runtime acceptance commit: `e35823bae95b860522ac22bddf5b8a48977c7c84`
+
+Runtime acceptance deployment: `dpl_Dsn7KQ94ykApB7kN4bDFPDBUEyYB`
+
+Runtime acceptance URL: `https://medgraph-flrvrkhhb-medgraph.vercel.app`
+
 ## Controlled corrective
 
 One deterministic Stage-only corrective updated the exact 42 EndoMarket draft
@@ -64,6 +72,9 @@ HTML tags remain rejected.
 | Browser runtime errors | 0 |
 | Search / manufacturer / RFQ | PASS |
 | Hero blank-space regression | NONE |
+| Exact READY Preview public gate | PASS, 11 profiles / 68 Product Detail navigations |
+| Exact READY Preview iOS/WebKit | PASS, 3 profiles / 5 routes |
+| Preview route HTTP smoke | PASS; `/`, catalog, request and sampled details = 200; API GET = 405 |
 
 The initial full-suite run had one `EPERM` caused by the sandbox prohibiting a
 test-local listener. That exact nine-test contract passed outside the sandbox;
@@ -79,10 +90,14 @@ Product Detail pages including EB-500, HV-3101, CY-1355 and KS-350.
 - Production writes: 0.
 - Lifecycle writes: 0.
 - Production deployment changed: No.
+- Production deployment remains `dpl_FxukA7a4SzWyGmJPBG4FniS7E8AQ` (READY).
+- Production `main` / `production` remain aligned at `19236f7cf18fa332fa58d023acd337908b1b89a9`.
+- Canonical sitemap remains 71/71 unique Product URLs.
 - `main` push: none.
 - `production` push: none.
 - Migrations, ENV and DNS: unchanged.
 - Stage remains Preview-only and noindex.
 
-Deployment URL, deployment ID, final commit and public Preview smoke are added
-only after the feature-branch Preview reaches READY.
+The runtime acceptance deployment is tied to the exact feature commit above;
+the following documentation-only evidence commit does not change application
+runtime or Stage data.
