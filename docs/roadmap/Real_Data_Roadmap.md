@@ -38,7 +38,7 @@ has an explicit launch-blocking flag.
 | Published Catalog LKG, WebKit gate and synthetic monitoring | completed — 2026-08-02 | Нет |
 | Clickable featured Products carousel | completed — 8 Published Products, responsive WebKit PASS | Нет |
 | Homepage visual and conversion polish | completed — responsive WebKit, category and RFQ flow PASS | Нет |
-| EndoMarket equipment catalog Stage integration | Stage-ready — 42 drafts and 9 existing bindings; Production review deferred | Нет |
+| EndoMarket equipment catalog Stage integration | Stage-ready — 42/42 direct-source reconciliation, 42 drafts and 9 existing bindings; Production review deferred | Нет |
 | Final eight Product correctives | отложено по решению Product Owner | Нет |
 | RFQ POST verification on canonical domain | completed — test-only | Нет |
 | Mail delivery confirmation after DNS cutover | completed in pre-launch downstream gate | Нет |

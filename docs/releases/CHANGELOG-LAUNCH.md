@@ -1,5 +1,17 @@
 # CyberMedica Launch Changelog
 
+## 2026-08-09 — EndoMarket direct-source reconciliation v5 on Stage
+
+- Audited all 42 new Product drafts against 38 direct EndoMarket Product pages
+  and preserved 42 descriptions, 160 feature rows, 260 specification rows and
+  151 clean media assignments in one machine-readable source-truth dataset.
+- Applied one Stage-only bulk corrective with exact 42/42 content/media
+  comparison and no use of previous generic corrective copy as authority.
+- Bounded the Product Detail hero while keeping full descriptions below it and
+  rendered complete EndoMarket feature sets without changing other Products.
+- Passed 42/42 Product Detail Chromium coverage and responsive WebKit/iPhone
+  checks without Production, lifecycle, migration, ENV or DNS changes.
+
 ## 2026-08-08 — EndoMarket Business/Content Corrective v2 on Stage
 
 - Applied the supplied corrective JSON/CSV to all 42 Stage drafts without
