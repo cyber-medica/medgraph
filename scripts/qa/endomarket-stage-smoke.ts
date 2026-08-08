@@ -4,6 +4,7 @@ import { mkdir } from "node:fs/promises";
 import { chromium, webkit, type BrowserType, type Page } from "playwright-core";
 
 import stageCatalog from "../../data/import/endomarket-wave1-stage-catalog.json" with { type: "json" };
+import sourceTruth from "../../data/import/endomarket-source-truth-reconciliation-v5.json" with { type: "json" };
 
 const origin = new URL(process.env.ENDOMARKET_STAGE_ORIGIN ?? "http://127.0.0.1:3100");
 const approvedOrigin =
@@ -14,30 +15,19 @@ assert.ok(approvedOrigin, "ENDOMARKET_STAGE_ORIGIN must be a loopback or Vercel 
 assert.equal(stageCatalog.summary.normalizedEquipmentRows, 51);
 assert.equal(stageCatalog.summary.newDraftCandidates, 42);
 assert.equal(stageCatalog.summary.existingDuplicateBindings, 9);
-assert.equal(stageCatalog.summary.sourceSpecifications, 128);
+assert.equal(stageCatalog.summary.sourceSpecifications, 260);
+assert.equal(sourceTruth.counts.products, 42);
+assert.equal(sourceTruth.counts.currentDescriptionMatches, 42);
+assert.equal(sourceTruth.counts.currentFeatureExactMatches, 42);
+assert.equal(sourceTruth.counts.currentSpecificationExactMatches, 42);
+assert.equal(sourceTruth.counts.currentMediaExactMatches, 42);
 
 const detailProducts = [
-  "sonoscape-eg-430",
-  "sonoscape-eg-500",
-  "sonoscape-ec-430t",
-  "sonoscape-ec-500t",
-  "sonoscape-eb-500",
-  "sonoscape-eb-5h20",
-  "medinova-br-1231",
-  "medinova-br-1242",
-  "medinova-ur-1328",
-  "medinova-cy-1355",
-  "medinova-endo-clean-1000",
-  "medinova-endo-clean-2000",
-  "medinova-ec-5bd",
-  "medinova-ec-10bd",
-  "erbe-vio-3",
-  "bowa-arc-303",
-  "bowa-arc-350",
-  "ilivtouch-ilivtouch",
+  ...sourceTruth.products.map(({ slug }) => slug),
   "767632362-330695211247-apparat-ivl-hamilton-t1",
   "767632362-401374530532-apparat-ivl-mindray-sv300",
-] as const;
+];
+const sourceTruthBySlug = new Map(sourceTruth.products.map((product) => [product.slug, product]));
 
 const hiddenUnpublishedBindings = [
   "videoendoskopicheskaya-sistema-sonoscape-hd-550",
@@ -49,18 +39,22 @@ const stageDraftSlugs = new Set(
     .filter(({ stageImport }) => stageImport.entityOrigin === "new_candidate")
     .map(({ slug }) => slug),
 );
-for (const slug of detailProducts.slice(0, 18)) {
+for (const slug of detailProducts.slice(0, 42)) {
   assert.ok(stageDraftSlugs.has(slug), `${slug}: missing Stage draft Product.`);
 }
 
-const evidenceDir = "docs/reports/evidence/endomarket-corrective-v4-2026-08-08";
+const evidenceDir = "docs/reports/evidence/endomarket-source-v5-2026-08-09";
 const captureScreenshots = process.env.ENDOMARKET_STAGE_SCREENSHOTS === "1";
 if (captureScreenshots) await mkdir(evidenceDir, { recursive: true });
 
 const desktopDetailEvidence = new Map<string, string>([
   ["sonoscape-eg-430", "product-detail-eg-430"],
   ["sonoscape-ec-430t", "product-detail-ec-430t"],
+  ["sonoscape-eb-500", "product-detail-eb-500"],
   ["medinova-br-1231", "product-detail-br-1231"],
+  ["medinova-hv-3101", "product-detail-hv-3101"],
+  ["medinova-cy-1355", "product-detail-cy-1355"],
+  ["met-ks-350", "product-detail-ks-350"],
   ["medinova-endo-clean-1000", "product-detail-endo-clean-1000"],
   ["medinova-ec-5bd", "product-detail-ec-5bd"],
   ["bowa-arc-350", "product-detail-bowa-arc-350"],
@@ -209,10 +203,11 @@ async function runProfile({
       }
     }
 
-    for (const [detailIndex, slug] of detailProducts.slice(0, detailCount).entries()) {
+    for (const slug of detailProducts.slice(0, detailCount)) {
       await assertPage(page, `/catalog/${slug}`, label);
       const text = await page.locator("body").innerText();
-      if (detailIndex < 18) {
+      const directSource = sourceTruthBySlug.get(slug);
+      if (directSource) {
         assert.match(text, /В наличии/u, `${slug}: availability badge missing.`);
         assert.match(text, /Рассрочка 0%/u, `${slug}: installment badge missing.`);
         assert.match(text, /До 12 месяцев без удорожания/u, `${slug}: installment detail missing.`);
@@ -221,6 +216,28 @@ async function runProfile({
         );
         assert.ok(detailImages.some((url) => url.includes("%2Fmedia%2Fendomarket-wave1%2F") || url.includes("/media/endomarket-wave1/")), `${slug}: clean local media missing.`);
         assert.equal(detailImages.some((url) => /endomarket\.ru\/files|fallback/iu.test(url)), false, `${slug}: source/fallback media leaked.`);
+        assert.equal(
+          await page.locator('[data-testid="product-characteristic-row"]').count(),
+          directSource.sourceSpecificationsCount,
+          `${slug}: source specifications are not complete.`,
+        );
+        assert.equal(
+          await page.locator("#advantages li").count(),
+          directSource.sourceFeaturesCount,
+          `${slug}: source features are not complete.`,
+        );
+        const normalize = (value: string) => value.replace(/\s+/gu, " ").trim();
+        assert.ok(
+          normalize(await page.locator("#description").innerText()).includes(normalize(directSource.sourceDescription)),
+          `${slug}: exact source description missing from Product Detail.`,
+        );
+        const hero = await page.locator('[data-testid="product-hero"]').boundingBox();
+        assert.ok(hero && hero.height < 900, `${slug}: Product Detail hero blank-space regression.`);
+        const heroSummary = page.locator('[data-testid="product-hero-summary"]');
+        if (await heroSummary.count()) {
+          const summary = await heroSummary.boundingBox();
+          assert.ok(summary && summary.height <= 110, `${slug}: Product Detail hero summary is not bounded.`);
+        }
       }
       assert.equal(await page.locator('a[href^="/request?"]').count() > 0, true, `${slug}: RFQ action missing.`);
       assert.doesNotMatch(
@@ -255,7 +272,7 @@ async function runProfile({
   }
 }
 
-await runProfile({ browserType: chromium, label: "chromium-desktop-1440", viewport: { width: 1440, height: 900 }, detailCount: 20, screenshotName: "desktop-1440" });
+await runProfile({ browserType: chromium, label: "chromium-desktop-1440", viewport: { width: 1440, height: 900 }, detailCount: detailProducts.length, screenshotName: "desktop-1440" });
 await runProfile({ browserType: chromium, label: "chromium-desktop-1280", viewport: { width: 1280, height: 800 }, detailCount: 3, screenshotName: "desktop-1280" });
 await runProfile({ browserType: chromium, label: "chromium-tablet-landscape-1024", viewport: { width: 1024, height: 768 }, detailCount: 1 });
 await runProfile({ browserType: chromium, label: "chromium-tablet-820", viewport: { width: 820, height: 1180 }, detailCount: 1 });
@@ -273,4 +290,4 @@ const requestApi = await fetch(new URL("/api/request", origin), {
 });
 assert.equal(requestApi.status, 405, "GET /api/request must remain HTTP 405.");
 
-console.info("EndoMarket Corrective v4 Stage smoke passed: 11 profiles, 44 Product Detail navigations, 113 visible Products.");
+console.info("EndoMarket source-truth v5 Stage smoke passed: 11 profiles, 68 Product Detail navigations, 42/42 reconciled drafts, 113 visible Products.");

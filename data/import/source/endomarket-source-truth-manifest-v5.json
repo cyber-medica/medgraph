@@ -1,0 +1,1743 @@
+{
+  "version": 5,
+  "generatedAt": "2026-08-08T21:53:57.756264",
+  "purpose": "Authoritative source-to-Stage reconciliation contract for 42 new EndoMarket Products",
+  "authority": {
+    "productContent": "Direct EndoMarket product page",
+    "businessTags": "CyberMedica v5 business vocabulary",
+    "commercialPresentation": "CyberMedica commercial policy",
+    "previousGenericPackages": "NON_AUTHORITATIVE_FOR_PRODUCT_CONTENT"
+  },
+  "criticalKnownFailure": {
+    "product": "SonoScape EB-500",
+    "previousStageIssue": "Generic description + 4/6 features + 5/7 specifications",
+    "required": "Source description + 6/6 source features + 7/7 source specifications"
+  },
+  "catalogContract": {
+    "existingPublished": 71,
+    "newEndoMarketDrafts": 42,
+    "existingBindings": 9,
+    "existingUnpublishedRemainHidden": 8,
+    "expectedVisibleStageProducts": 113
+  },
+  "productDetailLayoutContract": {
+    "heroRightColumn": "content-height, no artificial tall blank panel under CTA",
+    "ctaBottomSpacePx": "24–40 visual target",
+    "forbidLayoutCauses": [
+      "h-full",
+      "unnecessary min-height",
+      "fixed height",
+      "flex-grow on right content panel"
+    ],
+    "manufacturerBlock": "last content block"
+  },
+  "products": [
+    {
+      "model": "HV-3101",
+      "canonicalName": "Видеопроцессор HV-3101 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеоэндоскопические системы",
+      "sourceUrl": "https://endomarket.ru/products/videoprotsessor-hv-3101-medinova",
+      "applicationTags": [
+        "Эндоскопия",
+        "Диагностика",
+        "Стационар"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "AF",
+      "canonicalName": "Гибкий видеобронхоскоп Medinova AF",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova-af",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "BR-1231",
+      "canonicalName": "Видеобронхоскоп BR-1231 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "BR-1242",
+      "canonicalName": "Видеобронхоскоп BR-1242 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "BR-1249",
+      "canonicalName": "Видеобронхоскоп BR-1249 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "BR-1259",
+      "canonicalName": "Видеобронхоскоп BR-1259 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "UR-1328",
+      "canonicalName": "Видеоуретерореноскоп UR-1328 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеоуретроскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videouretroskop-medinova",
+      "applicationTags": [
+        "Урология",
+        "Эндоурология",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications": [
+          {
+            "name": "Диаметр рабочего канала",
+            "value": "1,2 мм"
+          },
+          {
+            "name": "Угол поля зрения",
+            "value": "120°"
+          },
+          {
+            "name": "Глубина резкости",
+            "value": "3–50 мм"
+          },
+          {
+            "name": "Диаметр дистального конца",
+            "value": "3,0 мм"
+          },
+          {
+            "name": "Рабочая длина вводимой части",
+            "value": "670 мм"
+          },
+          {
+            "name": "Изгиб дистального конца вверх/вниз",
+            "value": "275°/275°"
+          }
+        ],
+        "media_min": 4
+      }
+    },
+    {
+      "model": "CY-1355",
+      "canonicalName": "Видеоцистонефроскоп CY-1355 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеоцистоскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videotsistonefroskop-medinova",
+      "applicationTags": [
+        "Урология",
+        "Эндоурология",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications": [
+          {
+            "name": "Диаметр рабочего канала",
+            "value": "2,6 мм"
+          },
+          {
+            "name": "Угол поля зрения",
+            "value": "90°"
+          },
+          {
+            "name": "Глубина резкости",
+            "value": "3–50 мм"
+          },
+          {
+            "name": "Диаметр дистального конца",
+            "value": "5,5 мм"
+          },
+          {
+            "name": "Рабочая длина вводимой части",
+            "value": "380 мм"
+          },
+          {
+            "name": "Изгиб дистального конца вверх/вниз",
+            "value": "210°/130°"
+          }
+        ],
+        "media_min": 3
+      }
+    },
+    {
+      "model": "CY-1356",
+      "canonicalName": "Видеоцистонефроскоп CY-1356 Medinova",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Видеоцистоскопы",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videotsistonefroskop-medinova",
+      "applicationTags": [
+        "Урология",
+        "Эндоурология",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications": [
+          {
+            "name": "Диаметр рабочего канала",
+            "value": "2,2 мм"
+          },
+          {
+            "name": "Угол поля зрения",
+            "value": "90°"
+          },
+          {
+            "name": "Глубина резкости",
+            "value": "3–50 мм"
+          },
+          {
+            "name": "Диаметр дистального конца",
+            "value": "5,6 мм"
+          },
+          {
+            "name": "Рабочая длина вводимой части",
+            "value": "380 мм"
+          },
+          {
+            "name": "Изгиб дистального конца вверх/вниз",
+            "value": "210°/130°"
+          }
+        ],
+        "media_min": 3
+      }
+    },
+    {
+      "model": "19 HD",
+      "canonicalName": "Медицинский монитор Medinova 19\" HD",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Медицинские мониторы",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-19-hd",
+      "applicationTags": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "24 Full HD",
+      "canonicalName": "Медицинский монитор Medinova 24\" Full HD",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Медицинские мониторы",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-24-full-hd",
+      "applicationTags": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "27 Full HD",
+      "canonicalName": "Медицинский монитор Medinova 27\" Full HD",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Медицинские мониторы",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-27-full-hd",
+      "applicationTags": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "32 4K",
+      "canonicalName": "Медицинский монитор Medinova 32\" 4K",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Медицинские мониторы",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-32-4k",
+      "applicationTags": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "55 4K",
+      "canonicalName": "Медицинский монитор Medinova 55\" 4K",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Медицинские мониторы",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-55-4k",
+      "applicationTags": [
+        "Эндоскопия",
+        "Операционная",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EG-UR5",
+      "canonicalName": "Видеогастроскоп SonoScape EG-UR5",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеогастроскопы",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-ur5",
+      "applicationTags": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EG-UC5T",
+      "canonicalName": "Видеогастроскоп SonoScape EG-UC5T",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеогастроскопы",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-uc5t",
+      "applicationTags": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EG-500",
+      "canonicalName": "Видеогастроскоп SonoScape EG-500",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеогастроскопы",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-500",
+      "applicationTags": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EG-500L",
+      "canonicalName": "Видеогастроскоп SonoScape EG-500L",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеогастроскопы",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-500l",
+      "applicationTags": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EG-430",
+      "canonicalName": "Видеогастроскоп SonoScape EG-430",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеогастроскопы",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-430",
+      "applicationTags": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "description": "Видеогастроскоп SonoScape EG-430 применяется для проведения эндоскопических исследований и манипуляций в верхних отделах желудочно-кишечного тракта.",
+        "specifications": [
+          {
+            "name": "Рабочая длина",
+            "value": "1050 мм"
+          },
+          {
+            "name": "Угол поля зрения",
+            "value": "140°"
+          },
+          {
+            "name": "Направление обзора",
+            "value": "Прямое"
+          },
+          {
+            "name": "Глубина резкости",
+            "value": "3–100 мм"
+          },
+          {
+            "name": "Диаметр дистального конца",
+            "value": "9,3 мм"
+          },
+          {
+            "name": "Диаметр инструментального канала",
+            "value": "2,8 мм"
+          },
+          {
+            "name": "Изгиб вверх",
+            "value": "210°"
+          },
+          {
+            "name": "Изгиб вниз",
+            "value": "90°"
+          },
+          {
+            "name": "Изгиб влево",
+            "value": "100°"
+          },
+          {
+            "name": "Изгиб вправо",
+            "value": "100°"
+          }
+        ],
+        "media_min": 3
+      }
+    },
+    {
+      "model": "EG-430L",
+      "canonicalName": "Видеогастроскоп SonoScape EG-430L",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеогастроскопы",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-430l",
+      "applicationTags": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EC-500T",
+      "canonicalName": "Видеоколоноскоп SonoScape EC-500T",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеоколоноскопы",
+      "sourceUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-es-500t",
+      "applicationTags": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EC-500L/T",
+      "canonicalName": "Видеоколоноскоп SonoScape EC-500L/T",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеоколоноскопы",
+      "sourceUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-es-500lt",
+      "applicationTags": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EC-430T",
+      "canonicalName": "Видеоколоноскоп SonoScape EC-430T",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеоколоноскопы",
+      "sourceUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-ec-430t",
+      "applicationTags": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications": [
+          {
+            "name": "Рабочая длина",
+            "value": "1700 мм"
+          },
+          {
+            "name": "Угол поля зрения",
+            "value": "140°"
+          },
+          {
+            "name": "Направление обзора",
+            "value": "Прямое"
+          },
+          {
+            "name": "Глубина резкости",
+            "value": "3–100 мм"
+          },
+          {
+            "name": "Диаметр дистального конца",
+            "value": "12,5 мм"
+          },
+          {
+            "name": "Диаметр инструментального канала",
+            "value": "3,8 мм"
+          },
+          {
+            "name": "Изгиб вверх",
+            "value": "180°"
+          },
+          {
+            "name": "Изгиб вниз",
+            "value": "180°"
+          },
+          {
+            "name": "Изгиб влево",
+            "value": "160°"
+          },
+          {
+            "name": "Изгиб вправо",
+            "value": "160°"
+          }
+        ],
+        "media_min": 3
+      }
+    },
+    {
+      "model": "EC-430L/T",
+      "canonicalName": "Видеоколоноскоп SonoScape EC-430L/T",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеоколоноскопы",
+      "sourceUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-ec-430lt",
+      "applicationTags": [
+        "Колоноскопия",
+        "Эндоскопия",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications": [
+          {
+            "name": "Рабочая длина",
+            "value": "1700 мм"
+          },
+          {
+            "name": "Угол поля зрения",
+            "value": "140°"
+          },
+          {
+            "name": "Направление обзора",
+            "value": "Прямое"
+          },
+          {
+            "name": "Глубина резкости",
+            "value": "3–100 мм"
+          },
+          {
+            "name": "Диаметр дистального конца",
+            "value": "12,9 мм"
+          },
+          {
+            "name": "Диаметр инструментального канала",
+            "value": "4,2 мм"
+          },
+          {
+            "name": "Вверх / вниз",
+            "value": "180°"
+          },
+          {
+            "name": "Вправо / влево",
+            "value": "160°"
+          }
+        ],
+        "media_min": 3
+      }
+    },
+    {
+      "model": "EB-5H20",
+      "canonicalName": "Видеобронхоскоп SonoScape EB-5H20",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-5h20",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "media_min": 4
+      }
+    },
+    {
+      "model": "EB-5T28",
+      "canonicalName": "Видеобронхоскоп SonoScape EB-5T28",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-5t28",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "EB-500",
+      "canonicalName": "Видеобронхоскоп SonoScape EB-500",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеобронхоскопы",
+      "sourceUrl": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-500",
+      "applicationTags": [
+        "Пульмонология",
+        "Бронхоскопия",
+        "Анестезиология",
+        "Реанимация"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "description": "Видеобронхоскоп SonoScape EB-500 используется для исследования тканей дыхательных органов человека. Данный метод диагностики позволяет осмотреть слизистую оболочку, оценить ее конфигурацию и сосудистый рисунок. Видеобронхоскоп также применяется для проведения биопсии, лечения воспалительных и гнойных заболеваний легких.",
+        "features": [
+          "Видеобронхоскоп обеспечивает получение профессионального, высококачественного эндоскопического изображения большого разрешения с естественной цветопередачей.",
+          "Широкий инструментальный канал 2 мм обеспечивает совместимость с большим спектром эндоскопических инструментов.",
+          "Возможность изгибания вводимой трубки в 2 направлениях (180° вверх, 130° вниз) обеспечивает осмотр состояния слизистой оболочки дыхательных органов на всем ее протяжении.",
+          "Широкое поле зрения 120° обеспечивает удобный обзор пространства слизистой оболочки.",
+          "Рукоять имеет эргономичную конструкцию для улучшения маневренности эндоскопа.",
+          "Удобно расположенные ручки регулировки углов отклонения и программируемые пользователем кнопки управления повышают комфортность эксплуатации прибора."
+        ],
+        "specifications": [
+          {
+            "name": "Рабочая длина",
+            "value": "600 мм"
+          },
+          {
+            "name": "Угол поля зрения",
+            "value": "120°"
+          },
+          {
+            "name": "Направление обзора",
+            "value": "Прямое"
+          },
+          {
+            "name": "Глубина резкости",
+            "value": "3–100 мм"
+          },
+          {
+            "name": "Вверх / вниз",
+            "value": "180° / 130°"
+          },
+          {
+            "name": "Диаметр дистального конца",
+            "value": "5,3 мм"
+          },
+          {
+            "name": "Диаметр инструментального канала",
+            "value": "2 мм"
+          }
+        ],
+        "media_min": 3
+      }
+    },
+    {
+      "model": "ED-5GT",
+      "canonicalName": "Видеодуоденоскоп SonoScape ED-5GT",
+      "manufacturer": "SonoScape",
+      "sourceCategory": "Видеодуоденоскопы",
+      "sourceUrl": "https://endomarket.ru/products/videoduodenoskop-sonoscape-ed-5gt",
+      "applicationTags": [
+        "Гастроэнтерология",
+        "Эндоскопия",
+        "ЭРХПГ"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "ENDO CLEAN-1000",
+      "canonicalName": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Оборудование для дезинфекции",
+      "sourceUrl": "https://endomarket.ru/products/ustanovka-dlya-mojki-i-dezinfektsii-endo-clean-1000-medinova",
+      "applicationTags": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "media_min": 4
+      }
+    },
+    {
+      "model": "ENDO CLEAN-2000",
+      "canonicalName": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Оборудование для дезинфекции",
+      "sourceUrl": "https://endomarket.ru/products/ustanovka-dlya-mojki-i-dezinfektsii-endo-clean-2000-medinova",
+      "applicationTags": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "media_min": 7
+      }
+    },
+    {
+      "model": "EC-5BD",
+      "canonicalName": "Шкаф для сушки и хранения эндоскопов EC-5BD",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Системы хранения",
+      "sourceUrl": "https://endomarket.ru/products/shkaf-dlya-sushki-i-hraneniya-endoskopov-ec-5bd",
+      "applicationTags": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "media_min": 8,
+        "specifications_count_min": 6
+      }
+    },
+    {
+      "model": "EC-10BD",
+      "canonicalName": "Шкаф для сушки и хранения эндоскопов EC-10BD",
+      "manufacturer": "Medinova",
+      "sourceCategory": "Системы хранения",
+      "sourceUrl": "https://endomarket.ru/products/shkaf-dlya-sushki-i-hraneniya-endoskopov-ec-10bd",
+      "applicationTags": [
+        "Эндоскопия",
+        "ЦСО"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "media_min": 8,
+        "specifications_count_min": 6
+      }
+    },
+    {
+      "model": "VIO + APC 2",
+      "canonicalName": "Рабочая станция ERBE VIO с аргоновым модулем APC 2",
+      "manufacturer": "ERBE",
+      "sourceCategory": "Электрохирургические блоки",
+      "sourceUrl": "https://endomarket.ru/products/rabochaya-stantsiya-erbe-vio-s-argonovym-modulem-apc-2",
+      "applicationTags": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "VIO 200 S",
+      "canonicalName": "Коагулятор ERBE VIO 200 S",
+      "manufacturer": "ERBE",
+      "sourceCategory": "Электрохирургические блоки",
+      "sourceUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-200-s",
+      "applicationTags": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications_count_min": 9
+      }
+    },
+    {
+      "model": "VIO 200 D",
+      "canonicalName": "Коагулятор ERBE VIO 200 D",
+      "manufacturer": "ERBE",
+      "sourceCategory": "Электрохирургические блоки",
+      "sourceUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-200-d",
+      "applicationTags": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "VIO 3",
+      "canonicalName": "Коагулятор ERBE VIO 3",
+      "manufacturer": "ERBE",
+      "sourceCategory": "Электрохирургические блоки",
+      "sourceUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-3",
+      "applicationTags": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "ARC 303",
+      "canonicalName": "Электрохирургический аппарат ARC 303",
+      "manufacturer": "BOWA",
+      "sourceCategory": "Электрохирургические блоки",
+      "sourceUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-303",
+      "applicationTags": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications_count_min": 15,
+        "media_min": 2
+      }
+    },
+    {
+      "model": "ARC 350",
+      "canonicalName": "Электрохирургический аппарат ARC 350",
+      "manufacturer": "BOWA",
+      "sourceCategory": "Электрохирургические блоки",
+      "sourceUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-350",
+      "applicationTags": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications_count_min": 15,
+        "media_min": 2
+      }
+    },
+    {
+      "model": "ARC 400",
+      "canonicalName": "Электрохирургический аппарат ARC 400",
+      "manufacturer": "BOWA",
+      "sourceCategory": "Электрохирургические блоки",
+      "sourceUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-400",
+      "applicationTags": [
+        "Хирургия",
+        "Операционная",
+        "Эндоскопия"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "specifications_count_min": 17,
+        "media_min": 3
+      }
+    },
+    {
+      "model": "iLivTouch",
+      "canonicalName": "Аппарат для диагностики печени iLivTouch",
+      "manufacturer": "iLivTouch",
+      "sourceCategory": "Прочее оборудование",
+      "sourceUrl": "https://endomarket.ru/products/apparat-dlya-diagnostiki-pecheni-ilivtouch",
+      "applicationTags": [
+        "Диагностика",
+        "Гастроэнтерология"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "media_min": 2
+      }
+    },
+    {
+      "model": "KS-350",
+      "canonicalName": "Смотровой стол МЕТ KS-350",
+      "manufacturer": "MET",
+      "sourceCategory": "Прочее оборудование",
+      "sourceUrl": "https://endomarket.ru/products/smotrovoj-stol-met-ks-350",
+      "applicationTags": [
+        "Медицинский кабинет",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": null
+    },
+    {
+      "model": "1 электропривод",
+      "canonicalName": "Кушетка электромеханическая ZERTS с 1 эл. приводом",
+      "manufacturer": "ZERTS",
+      "sourceCategory": "Прочее оборудование",
+      "sourceUrl": "https://endomarket.ru/products/kushetka-elektromehanicheskaya-zerts",
+      "applicationTags": [
+        "Медицинский кабинет",
+        "Диагностика"
+      ],
+      "commercial": {
+        "availabilityLabel": "В наличии",
+        "installmentLabel": "Рассрочка 0%",
+        "installmentSupportingText": "До 12 месяцев без удорожания"
+      },
+      "sourceTruthPolicy": {
+        "name": "EXACT_SOURCE_NAME_NORMALIZED_TYPOGRAPHY",
+        "description": "COPY_SOURCE_PRODUCT_DESCRIPTION; no generic CyberMedica prose",
+        "features": "COPY_ALL_SOURCE_FEATURE_BULLETS; no selection/subset",
+        "specifications": "COPY_ALL_SOURCE_TECHNICAL_CHARACTERISTICS; no selection/subset",
+        "media": "IMPORT_ALL_CLEAN_UNIQUE_PRODUCT_MEDIA; reject EM/EndoMarket watermarks"
+      },
+      "stageAcceptance": {
+        "descriptionMatchRequired": true,
+        "featureCountMustEqualSource": true,
+        "specificationCountMustEqualSource": true,
+        "specificationValuesMustEqualSource": true,
+        "cleanMediaMustMatchAvailableSource": true,
+        "productDetailShowAllApplicationTags": true,
+        "manufacturerBlockMustBeLast": true
+      },
+      "hardReference": {
+        "media_min": 2,
+        "specifications_count_min": 6
+      }
+    }
+  ]
+}

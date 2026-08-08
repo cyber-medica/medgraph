@@ -244,7 +244,10 @@ test("projection and mapper expose only approved published structured fields in 
           key: "performance",
           title: "Производительность",
           sortOrder: 20,
-          items: [{ label: "Поток", value: "120", unit: "л/мин", sortOrder: 20 }],
+          items: [
+            { label: "Поток", value: "120", unit: "л/мин", sortOrder: 20 },
+            { label: "Потребление", value: "< 30", unit: "Вт", sortOrder: 30 },
+          ],
         },
         {
           key: "dimensions",
@@ -264,6 +267,8 @@ test("projection and mapper expose only approved published structured fields in 
   assert.deepEqual(mapped.specifications.map(({ group, label }) => [group, label]), [
     ["Габариты", "Масса"],
     ["Производительность", "Поток"],
+    ["Производительность", "Потребление"],
   ]);
+  assert.equal(mapped.specifications.at(-1)?.value, "< 30");
   assert.equal(mapped.specifications.some(({ label }) => label === "Страна производства"), false);
 });

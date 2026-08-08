@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-09T00:00:00.000Z",
+  "sourceTruth": {
+    "path": "data/import/endomarket-source-truth-reconciliation-v5.json",
+    "sha256": "02db95f0a46d5dd03fcc5ee1c7fb033aafc9eec3fe9ec6f397411b70687c3157",
+    "productsAudited": 42,
+    "productsCorrected": 42
+  },
+  "content": {
+    "descriptions": 42,
+    "sourceFeatures": 160,
+    "sourceSpecifications": 260,
+    "hiddenFeatureSections": 11
+  },
+  "media": {
+    "sourceAssignments": 151,
+    "allStageAssignments": 192,
+    "uniqueAssets": 148,
+    "recovered": 1,
+    "obsoleteHv3101BindingsRemoved": 2,
+    "watermarkRuntimeAssets": 0,
+    "fallbackMedia": 0
+  },
+  "invariance": {
+    "visibleStageProducts": 113,
+    "publishedBaselineProducts": 71,
+    "newDraftProducts": 42,
+    "existingBindings": 9,
+    "nonTargetStageProductsUnchanged": true,
+    "productionWrites": 0,
+    "lifecycleWrites": 0,
+    "migrations": 0
+  }
+}

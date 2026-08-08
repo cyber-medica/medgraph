@@ -154,7 +154,7 @@ function mapCategory(row: CloudReferenceRow, index: number): Category {
 
 function structuredPlainText(value: string | null | undefined): string | null {
   const normalized = value?.replace(/\s+/gu, " ").trim();
-  return normalized && !/[<>]/u.test(normalized) ? normalized : null;
+  return normalized && !/<\/?[a-z][^>]*>/iu.test(normalized) ? normalized : null;
 }
 
 function mapKeyFeatures(rows: CloudPreviewProductRow["keyFeatures"]): string[] {

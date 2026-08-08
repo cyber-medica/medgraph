@@ -2,3 +2,4 @@
 # BOM and CRLF record delimiters used by spreadsheet applications.
 data/import/source/endomarket-text-replacements-v2.csv binary
 data/import/source/endomarket-name-media-audit-v4.csv binary
+data/import/source/endomarket-source-reconciliation-v5.csv binary

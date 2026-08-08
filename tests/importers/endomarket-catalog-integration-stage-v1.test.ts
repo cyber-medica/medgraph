@@ -95,7 +95,7 @@ test("Stage snapshot uses the existing Cloud Preview mapping and preserves statu
     validated.products
       .filter(({ status }) => status === "preview_draft")
       .reduce((total, { specifications }) => total + specifications.length, 0),
-    128,
+    260,
   );
   assert.equal(validated.products.every(({ seoTitle, seoDescription }) => Boolean(seoTitle && seoDescription)), true);
 });

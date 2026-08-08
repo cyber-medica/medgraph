@@ -5,11 +5,11 @@ import test from "node:test";
 
 import snapshotJson from "../../data/import/endomarket-wave1-stage-catalog.json" with { type: "json" };
 import auditJson from "../../data/import/endomarket-wave1-audit.json" with { type: "json" };
-import mediaAuditJson from "../../data/import/endomarket-media-audit-v4.json" with { type: "json" };
+import mediaAuditJson from "../../data/import/endomarket-media-audit-v5.json" with { type: "json" };
 import publishedCatalogJson from "../../data/import/endomarket-stage-published-catalog.json" with { type: "json" };
 import publishedCatalogAuditJson from "../../data/import/endomarket-stage-published-catalog-audit.json" with { type: "json" };
 import mediaManifestJson from "../../data/import/endomarket-wave1-media-manifest.json" with { type: "json" };
-import correctiveJson from "../../data/import/source/endomarket-business-content-corrective-v4.json" with { type: "json" };
+import sourceTruthJson from "../../data/import/endomarket-source-truth-reconciliation-v5.json" with { type: "json" };
 import {
   mapCloudPreviewSnapshot,
   type CloudPreviewCatalogSnapshot,
@@ -70,9 +70,9 @@ function publishedFixture(): StorefrontCatalog {
   };
 }
 
-test("corrective v4 applies exact Product Owner content to all 42 draft Products", () => {
-  assert.equal(correctiveJson.version, 4);
-  assert.equal(correctiveJson.products.length, 42);
+test("source corrective v5 applies complete direct EndoMarket truth to all 42 draft Products", () => {
+  assert.equal(sourceTruthJson.schemaVersion, 1);
+  assert.equal(sourceTruthJson.products.length, 42);
   const drafts = snapshotJson.products.filter(
     ({ stageImport }) => stageImport.entityOrigin === "new_candidate",
   );
@@ -81,22 +81,22 @@ test("corrective v4 applies exact Product Owner content to all 42 draft Products
   let specificationCount = 0;
   let hiddenFeatureSections = 0;
 
-  for (const correction of correctiveJson.products) {
-    const product = bySlug.get(correction.candidate_slug);
-    assert.ok(product, `Missing v4 Product ${correction.candidate_slug}`);
-    assert.equal(product.title, correction.name);
-    assert.equal(product.model, correction.model);
-    assert.equal(product.shortDescription, correction.short_description);
-    assert.equal(product.description, correction.full_description);
-    assert.equal(product.seoTitle, correction.seo_title);
-    assert.equal(product.seoDescription, correction.seo_description);
+  for (const sourceTruth of sourceTruthJson.products) {
+    const product = bySlug.get(sourceTruth.slug);
+    assert.ok(product, `Missing source-truth Product ${sourceTruth.slug}`);
+    assert.equal(product.title, sourceTruth.product);
+    assert.equal(product.model, sourceTruth.model);
+    assert.equal(product.shortDescription, sourceTruth.sourceDescription);
+    assert.equal(product.description, sourceTruth.sourceDescription);
+    assert.ok(product.seoTitle);
+    assert.ok(product.seoDescription);
     assert.deepEqual(
       product.applicationAreas.map(({ name }) => name),
-      correction.application_areas,
+      sourceTruth.applicationTags,
     );
     assert.deepEqual(
       product.keyFeatures.map(({ text }) => text),
-      correction.presentation.showFeatureSection ? correction.key_features : [],
+      sourceTruth.sourceFeatures,
     );
     const actualSpecifications = product.characteristicGroups.flatMap((group) =>
       group.items.map(({ label, value, unit }) => ({
@@ -105,19 +105,20 @@ test("corrective v4 applies exact Product Owner content to all 42 draft Products
         ...(unit ? { unit } : {}),
       })),
     );
-    const expectedSpecifications = correction.specifications.flatMap(({ items }) => items);
-    assert.deepEqual(actualSpecifications, expectedSpecifications, `${correction.model}: characteristic drift`);
+    const expectedSpecifications = sourceTruth.sourceSpecifications;
+    assert.deepEqual(actualSpecifications, expectedSpecifications, `${sourceTruth.model}: characteristic drift`);
     specificationCount += actualSpecifications.length;
-    if (!correction.presentation.showFeatureSection) hiddenFeatureSections += 1;
+    if (sourceTruth.sourceFeatures.length === 0) hiddenFeatureSections += 1;
     assert.equal(product.applicationAreas.some(({ name }) => name.includes("•")), false);
+    assert.equal(product.stageImport.sourceUrl, sourceTruth.directSourceUrl);
   }
 
-  assert.equal(specificationCount, 128);
-  assert.equal(hiddenFeatureSections, 10);
-  assert.equal(snapshotJson.summary.sourceSpecifications, 128);
-  assert.equal(snapshotJson.summary.hiddenFeatureSections, 10);
-  assert.equal(auditJson.businessContentCorrective.version, 4);
-  assert.equal(auditJson.businessContentCorrective.csvJsonConsistency, "pass");
+  assert.equal(specificationCount, 260);
+  assert.equal(hiddenFeatureSections, 11);
+  assert.equal(snapshotJson.summary.sourceSpecifications, 260);
+  assert.equal(snapshotJson.summary.hiddenFeatureSections, 11);
+  assert.equal(auditJson.sourceTruthReconciliationV5.status, "pass");
+  assert.equal(auditJson.sourceTruthReconciliationV5.products, 42);
   const importedText = drafts.flatMap((product) => [
     product.title,
     product.shortDescription,
@@ -127,23 +128,19 @@ test("corrective v4 applies exact Product Owner content to all 42 draft Products
   ]).join("\n");
   assert.doesNotMatch(
     importedText,
-    /Анестезиология и реаниматология|Эндоскопические отделения|Диагностические центры|Диагностические кабинеты|Диагностические и лечебные подразделения|Медицинские организации/iu,
-  );
-  assert.doesNotMatch(
-    importedText,
     /Профессиональное медицинское применение|Надежное решение для медицинских учреждений|Используется в клинической практике/iu,
   );
 });
 
-test("EG-430 and EC-430T retain exact v4 technical packages", () => {
+test("EG-430 and EC-430T retain their complete direct-source technical packages", () => {
   const eg430 = snapshotJson.products.find(({ slug }) => slug === "sonoscape-eg-430");
   const ec430t = snapshotJson.products.find(({ slug }) => slug === "sonoscape-ec-430t");
   assert.ok(eg430);
   assert.ok(ec430t);
   assert.equal(eg430.keyFeatures.length, 8);
-  assert.equal(eg430.characteristicGroups.flatMap(({ items }) => items).length, 10);
-  assert.equal(ec430t.keyFeatures.length, 7);
-  assert.equal(ec430t.characteristicGroups.flatMap(({ items }) => items).length, 10);
+  assert.equal(eg430.characteristicGroups.flatMap(({ items }) => items).length, 7);
+  assert.equal(ec430t.keyFeatures.length, 8);
+  assert.equal(ec430t.characteristicGroups.flatMap(({ items }) => items).length, 8);
   assert.ok(ec430t.media.length >= 3);
   assert.equal(mediaAuditJson.requiredChecks.ec430tActualCleanMedia >= 3, true);
 });
@@ -254,11 +251,15 @@ test("catalog and Product Detail implement final v4 presentation order", async (
   assert.doesNotMatch(detail, /experience\.applicationAreas\.slice\(0, 2\)/u);
   assert.match(detail, /id="applications" title="Области применения"/u);
   assert.match(detail, /title="Технические характеристики"/u);
+  assert.match(detail, /data-testid="product-hero-summary"/u);
+  assert.match(detail, /line-clamp-4/u);
+  assert.match(detail, /md:justify-center/u);
   assert.ok(detail.indexOf('id="description"') < detail.indexOf('id="advantages"'));
   assert.ok(detail.indexOf('id="advantages"') < detail.indexOf('id="specifications"'));
   assert.ok(detail.indexOf('id="specifications"') < detail.indexOf('id="applications"'));
   assert.ok(detail.lastIndexOf('id="manufacturer"') > detail.indexOf('id="applications"'));
   assert.doesNotMatch(experience, /applicationAreas\.join/u);
+  assert.match(experience, /isEndoMarketSourceTruth \? uniqueValues : uniqueValues\.slice\(0, 6\)/u);
   assert.match(
     equipment,
     /Оборудование для эндоскопии, диагностики и оснащения клиник — в наличии и с рассрочкой 0%\./u,
@@ -267,9 +268,10 @@ test("catalog and Product Detail implement final v4 presentation order", async (
   assert.equal(formatCountryForPublic("Страна не указана"), null);
 });
 
-test("v4 corrective remains Stage-only and introduces no Production write boundary", async () => {
-  const [script, repository, dataSource] = await Promise.all([
-    source("scripts/importers/apply-endomarket-corrective-v4.ts"),
+test("source corrective v5 remains Stage-only and introduces no Production write boundary", async () => {
+  const [reconciler, corrective, repository, dataSource] = await Promise.all([
+    source("scripts/importers/reconcile-endomarket-source-v5.ts"),
+    source("scripts/importers/apply-endomarket-source-v5.ts"),
     source("lib/storefront/cloud-preview-catalog-repository.ts"),
     source("lib/storefront/data-source.ts"),
   ]);
@@ -277,7 +279,7 @@ test("v4 corrective remains Stage-only and introduces no Production write bounda
   assert.match(repository, /composeEndoMarketStageCatalog/u);
   assert.match(dataSource, /ENDOMARKET_STAGE_PREVIEW_BRANCH/u);
   assert.doesNotMatch(
-    script,
+    `${reconciler}\n${corrective}`,
     /SUPABASE|service_role|cloud_api|create_product_publication_revision|approve_product|publish_product/iu,
   );
   assert.equal(auditJson.safety.productionWrites, 0);

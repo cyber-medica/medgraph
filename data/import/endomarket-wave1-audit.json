@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-08T00:00:00.000Z",
+  "generatedAt": "2026-08-09T00:00:00.000Z",
   "source": {
     "name": "EndoMarket",
     "baseUrl": "https://endomarket.ru/",
@@ -16,12 +16,12 @@
     "existingDuplicateBindings": 9,
     "excludedInstrumentRows": 76,
     "excludedNonEquipmentConsumables": 3,
-    "mediaAssignments": 193,
+    "mediaAssignments": 192,
     "uniqueMediaAssets": 148,
     "watermarkedMediaRemoved": 67,
     "duplicateMediaRemoved": 0,
-    "hiddenFeatureSections": 10,
-    "sourceSpecifications": 128,
+    "hiddenFeatureSections": 11,
+    "sourceSpecifications": 260,
     "watermarkVariantsRejected": 174,
     "duplicateMediaRejected": 0
   },
@@ -433,12 +433,12 @@
   "resolvedProductPages": [
     {
       "productSlug": "medinova-hv-3101",
-      "sourceUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova",
+      "sourceUrl": "https://endomarket.ru/products/videoprotsessor-hv-3101-medinova",
       "resolvedProductUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova"
     },
     {
       "productSlug": "medinova-af",
-      "sourceUrl": "https://endomarket.ru/catalog/videobronhoskopy",
+      "sourceUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova-af",
       "resolvedProductUrl": "https://endomarket.ru/products/gibkij-videobronhoskop-medinova-af"
     },
     {
@@ -478,17 +478,17 @@
     },
     {
       "productSlug": "medinova-19-hd",
-      "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-19-hd",
       "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-19-hd"
     },
     {
       "productSlug": "medinova-24-full-hd",
-      "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-24-full-hd",
       "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-24-full-hd"
     },
     {
       "productSlug": "medinova-27-full-hd",
-      "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-27-full-hd",
       "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-27-full-hd"
     },
     {
@@ -498,17 +498,17 @@
     },
     {
       "productSlug": "medinova-55-4k",
-      "sourceUrl": "https://endomarket.ru/catalog/oborudovanie-dlya-endoskopii?page=all",
+      "sourceUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-55-4k",
       "resolvedProductUrl": "https://endomarket.ru/products/meditsinskij-monitor-medinova-55-4k"
     },
     {
       "productSlug": "sonoscape-eg-ur5",
-      "sourceUrl": "https://endomarket.ru/catalog/videogastroskopy",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-ur5",
       "resolvedProductUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-ur5"
     },
     {
       "productSlug": "sonoscape-eg-uc5t",
-      "sourceUrl": "https://endomarket.ru/catalog/videogastroskopy",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-uc5t",
       "resolvedProductUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-uc5t"
     },
     {
@@ -518,7 +518,7 @@
     },
     {
       "productSlug": "sonoscape-eg-500l",
-      "sourceUrl": "https://endomarket.ru/catalog/videogastroskopy",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-500l",
       "resolvedProductUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-500l"
     },
     {
@@ -528,7 +528,7 @@
     },
     {
       "productSlug": "sonoscape-eg-430l",
-      "sourceUrl": "https://endomarket.ru/catalog/videogastroskopy",
+      "sourceUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-430l",
       "resolvedProductUrl": "https://endomarket.ru/products/videogastroskop-sonoscape-eg-430l"
     },
     {
@@ -543,22 +543,22 @@
     },
     {
       "productSlug": "sonoscape-ec-430t",
-      "sourceUrl": "https://endomarket.ru/catalog/videokolonoskopy",
+      "sourceUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-es-430t",
       "resolvedProductUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-es-430t"
     },
     {
       "productSlug": "sonoscape-ec-430l-t",
-      "sourceUrl": "https://endomarket.ru/catalog/videokolonoskopy",
+      "sourceUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-ec-430lt",
       "resolvedProductUrl": "https://endomarket.ru/products/videokolonoskop-sonoscape-ec-430lt"
     },
     {
       "productSlug": "sonoscape-eb-5h20",
-      "sourceUrl": "https://endomarket.ru/catalog/videobronhoskopy",
+      "sourceUrl": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-5h20",
       "resolvedProductUrl": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-5h20"
     },
     {
       "productSlug": "sonoscape-eb-5t28",
-      "sourceUrl": "https://endomarket.ru/catalog/videobronhoskopy",
+      "sourceUrl": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-5t28",
       "resolvedProductUrl": "https://endomarket.ru/products/videobronhoskop-sonoscape-eb-5t28"
     },
     {
@@ -568,7 +568,7 @@
     },
     {
       "productSlug": "sonoscape-ed-5gt",
-      "sourceUrl": "https://endomarket.ru/catalog/videoduodenoskopy",
+      "sourceUrl": "https://endomarket.ru/products/videoduodenoskop-sonoscape-ed-5gt",
       "resolvedProductUrl": "https://endomarket.ru/products/videoduodenoskop-sonoscape-ed-5gt"
     },
     {
@@ -588,57 +588,57 @@
     },
     {
       "productSlug": "medinova-ec-10bd",
-      "sourceUrl": "https://endomarket.ru/catalog/sistemy-hraneniya",
+      "sourceUrl": "https://endomarket.ru/products/shkaf-dlya-sushki-i-hraneniya-endoskopov-ec-10bd",
       "resolvedProductUrl": "https://endomarket.ru/products/shkaf-dlya-sushki-i-hraneniya-endoskopov-ec-10bd"
     },
     {
       "productSlug": "erbe-vio-apc-2",
-      "sourceUrl": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "sourceUrl": "https://endomarket.ru/products/rabochaya-stantsiya-erbe-vio-s-argonovym-modulem-apc-2",
       "resolvedProductUrl": "https://endomarket.ru/products/rabochaya-stantsiya-erbe-vio-s-argonovym-modulem-apc-2"
     },
     {
       "productSlug": "erbe-vio-200-s",
-      "sourceUrl": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "sourceUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-200-s",
       "resolvedProductUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-200-s"
     },
     {
       "productSlug": "erbe-vio-200-d",
-      "sourceUrl": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "sourceUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-200-d",
       "resolvedProductUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-200-d"
     },
     {
       "productSlug": "erbe-vio-3",
-      "sourceUrl": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "sourceUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-3",
       "resolvedProductUrl": "https://endomarket.ru/products/koagulyator-erbe-vio-3"
     },
     {
       "productSlug": "bowa-arc-303",
-      "sourceUrl": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "sourceUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-303",
       "resolvedProductUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-303"
     },
     {
       "productSlug": "bowa-arc-350",
-      "sourceUrl": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "sourceUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-350",
       "resolvedProductUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-350"
     },
     {
       "productSlug": "bowa-arc-400",
-      "sourceUrl": "https://endomarket.ru/catalog/elektrohirurgicheskie-bloki",
+      "sourceUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-400",
       "resolvedProductUrl": "https://endomarket.ru/products/elektrohirurgicheskij-apparat-arc-400"
     },
     {
       "productSlug": "ilivtouch-ilivtouch",
-      "sourceUrl": "https://endomarket.ru/catalog/prochee-oborudovanie",
+      "sourceUrl": "https://endomarket.ru/products/apparat-dlya-diagnostiki-pecheni-ilivtouch",
       "resolvedProductUrl": "https://endomarket.ru/products/apparat-dlya-diagnostiki-pecheni-ilivtouch"
     },
     {
       "productSlug": "met-ks-350",
-      "sourceUrl": "https://endomarket.ru/catalog/prochee-oborudovanie",
+      "sourceUrl": "https://endomarket.ru/products/smotrovoj-stol-met-ks-350",
       "resolvedProductUrl": "https://endomarket.ru/products/smotrovoj-stol-met-ks-350"
     },
     {
       "productSlug": "zerts-1",
-      "sourceUrl": "https://endomarket.ru/catalog/prochee-oborudovanie",
+      "sourceUrl": "https://endomarket.ru/products/kushetka-elektromehanicheskaya-zerts",
       "resolvedProductUrl": "https://endomarket.ru/products/kushetka-elektromehanicheskaya-zerts"
     },
     {
@@ -795,7 +795,7 @@
       "manufacturerId": "medinova",
       "categoryId": "ref-05cbefe84dab",
       "entityOrigin": "new_candidate",
-      "mediaCount": 4,
+      "mediaCount": 3,
       "publicationStatus": "draft"
     },
     {
@@ -1299,5 +1299,15 @@
       "obsoleteLocalFilesRemoved": 0,
       "fallbacks": 0
     }
+  },
+  "sourceTruthReconciliationV5": {
+    "status": "pass",
+    "products": 42,
+    "directPages": 38,
+    "descriptions": 42,
+    "sourceFeatures": 160,
+    "sourceSpecifications": 260,
+    "cleanSourceMedia": 151,
+    "datasetSha256": "02db95f0a46d5dd03fcc5ee1c7fb033aafc9eec3fe9ec6f397411b70687c3157"
   }
 }

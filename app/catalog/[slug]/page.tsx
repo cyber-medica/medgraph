@@ -173,12 +173,15 @@ export default async function StorefrontProductPage({
               />
             </div>
 
-            <div className="flex min-w-0 flex-col p-4 sm:p-5 lg:p-6">
+            <div className="flex min-w-0 flex-col p-4 sm:p-5 md:justify-center lg:p-6">
               <h1 className="max-w-4xl break-words text-[1.65rem] font-extrabold leading-[1.12] tracking-[-0.03em] sm:text-[2rem] lg:text-[2.25rem]">
                 {product.name}
               </h1>
               {experience.summary && (
-                <p className="mt-3 max-w-3xl text-sm leading-6 text-cm-slate">
+                <p
+                  className="mt-3 line-clamp-4 max-w-3xl text-sm leading-6 text-cm-slate"
+                  data-testid="product-hero-summary"
+                >
                   {experience.summary}
                 </p>
               )}

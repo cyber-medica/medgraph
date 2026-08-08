@@ -127,14 +127,16 @@ function compactSummary(product: Product) {
 }
 
 function explicitAdvantages(product: Product) {
+  const isEndoMarketSourceTruth = product.commercialPresentation?.source === "endomarket";
   const values = product.keyFeatures
     .map((feature) => plainText(feature).replace(/[.;]+$/gu, ""))
     .filter((feature) =>
       feature.length >= 6 &&
-      feature.length <= 160 &&
+      (isEndoMarketSourceTruth || feature.length <= 160) &&
       !NON_PUBLIC_ADVANTAGES.has(feature.toLocaleLowerCase("ru-RU")),
     );
-  return [...new Set(values)].slice(0, 6);
+  const uniqueValues = [...new Set(values)];
+  return isEndoMarketSourceTruth ? uniqueValues : uniqueValues.slice(0, 6);
 }
 
 function normalizeComparable(value: string) {

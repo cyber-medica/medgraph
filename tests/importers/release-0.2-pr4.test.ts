@@ -69,7 +69,9 @@ test("product hero is compact and does not repeat quality or missing metadata", 
   assert.match(page, /experience\.badges/u);
   assert.match(page, /<dt className="sr-only">\{label\}<\/dt>/u);
   assert.doesNotMatch(page, /presentation\.model/u);
-  assert.doesNotMatch(page, /line-clamp-4/u);
+  assert.match(page, /data-testid="product-hero-summary"/u);
+  assert.match(page, /line-clamp-4/u);
+  assert.match(page, /md:justify-center/u);
 });
 
 test("optional content remains fail-closed with navigation limited to public product sections", async () => {

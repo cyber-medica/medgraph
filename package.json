@@ -16,6 +16,8 @@
     "capture:endomarket-stage-published": "node scripts/importers/capture-endomarket-stage-published-catalog.ts",
     "correct:endomarket-stage:v2": "node scripts/importers/apply-endomarket-business-content-corrective-v2.ts",
     "correct:endomarket-stage:v4": "node scripts/importers/apply-endomarket-corrective-v4.ts",
+    "reconcile:endomarket-stage:v5": "node scripts/importers/reconcile-endomarket-source-v5.ts",
+    "correct:endomarket-stage:v5": "node scripts/importers/apply-endomarket-source-v5.ts",
     "discover:catalog-sources": "node scripts/importers/catalog/discovery.ts",
     "discover:product": "node scripts/importers/catalog/discover-product.ts",
     "resolve:documents": "node scripts/importers/catalog/discovery.ts",
