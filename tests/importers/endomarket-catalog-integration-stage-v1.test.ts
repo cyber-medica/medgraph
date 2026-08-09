@@ -28,19 +28,19 @@ function sha256(value: Uint8Array) {
 test("EndoMarket input scope is exact and exclusions never become Product rows", () => {
   const snapshot = snapshotJson;
   assert.equal(snapshot.products.length, 51);
-  assert.equal(snapshot.summary.newDraftCandidates, 42);
-  assert.equal(snapshot.summary.existingDuplicateBindings, 9);
+  assert.equal(snapshot.summary.newDraftCandidates, 43);
+  assert.equal(snapshot.summary.existingDuplicateBindings, 8);
   assert.equal(snapshot.summary.excludedInstrumentRows, 76);
   assert.equal(snapshot.summary.excludedNonEquipmentConsumables, 3);
   assert.equal(new Set(snapshot.products.map(({ id }) => id)).size, 51);
   assert.equal(new Set(snapshot.products.map(({ slug }) => slug)).size, 51);
   assert.equal(
     snapshot.products.filter(({ stageImport }) => stageImport.entityOrigin === "new_candidate").length,
-    42,
+    43,
   );
   assert.equal(
     snapshot.products.filter(({ stageImport }) => stageImport.entityOrigin === "existing_duplicate").length,
-    9,
+    8,
   );
   const publicNames = snapshot.products.map(({ title, model }) => `${title} ${model}`).join("\n");
   assert.doesNotMatch(publicNames, /дезинфицирующее средство|щипцы|катетер|петл[яи]|биопси/iu);
@@ -50,7 +50,7 @@ test("EndoMarket input scope is exact and exclusions never become Product rows",
   assert.equal(auditJson.safety.migrations, 0);
 });
 
-test("nine duplicates bind to existing entities and never create draft candidates", () => {
+test("eight duplicates bind to existing entities while HD-550 is restored as one Stage-only draft", () => {
   assert.equal(auditJson.duplicateBindings.length, 9);
   assert.equal(auditJson.duplicateBindings.every(({ candidateCreated }) => !candidateCreated), true);
   assert.equal(auditJson.duplicateBindings.every(({ commercialMetadataMerged }) => commercialMetadataMerged), true);
@@ -59,7 +59,11 @@ test("nine duplicates bind to existing entities and never create draft candidate
   );
   assert.equal(duplicateRows.every(({ published }) => published), true);
   assert.equal(duplicateRows.every(({ publicationStatus }) => publicationStatus === "published"), true);
-  assert.equal(snapshotJson.products.filter(({ publicationStatus }) => publicationStatus === "draft").length, 42);
+  assert.equal(snapshotJson.products.filter(({ publicationStatus }) => publicationStatus === "draft").length, 43);
+  const hd550 = snapshotJson.products.find(({ model }) => model === "HD-550");
+  assert.ok(hd550);
+  assert.equal(hd550.stageImport.entityOrigin, "new_candidate");
+  assert.equal(hd550.published, false);
 
   const bySourceSlug = new Map(
     auditJson.duplicateBindings.map((binding) => [binding.sourceCandidateSlug, binding]),
@@ -87,15 +91,15 @@ test("Stage snapshot uses the existing Cloud Preview mapping and preserves statu
   const mapped = mapCloudPreviewSnapshot(snapshotJson as unknown as CloudPreviewCatalogSnapshot);
   const validated = validateStorefrontCatalog(mapped);
   assert.equal(validated.products.length, 51);
-  assert.equal(validated.products.filter(({ status }) => status === "preview_draft").length, 42);
-  assert.equal(validated.products.filter(({ status }) => status === "active").length, 9);
-  assert.equal(validated.summary.activeProductCount, 9);
+  assert.equal(validated.products.filter(({ status }) => status === "preview_draft").length, 43);
+  assert.equal(validated.products.filter(({ status }) => status === "active").length, 8);
+  assert.equal(validated.summary.activeProductCount, 8);
   assert.equal(validated.products.every(({ commercialPresentation }) => commercialPresentation?.source === "endomarket"), true);
   assert.equal(
     validated.products
       .filter(({ status }) => status === "preview_draft")
       .reduce((total, { specifications }) => total + specifications.length, 0),
-    260,
+    294,
   );
   assert.equal(validated.products.every(({ seoTitle, seoDescription }) => Boolean(seoTitle && seoDescription)), true);
 });

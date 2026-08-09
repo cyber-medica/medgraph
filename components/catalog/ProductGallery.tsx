@@ -50,6 +50,20 @@ export default function ProductGallery({
     selectImage((selectedImageIndex + 1) % imageMedia.length);
   }, [imageMedia.length, selectImage, selectedImageIndex]);
 
+  const handleTouchStart = useCallback((clientX: number) => {
+    touchStartX.current = clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((clientX: number) => {
+    if (touchStartX.current === null) return;
+    const distance = clientX - touchStartX.current;
+    if (Math.abs(distance) > 40) {
+      if (distance > 0) showPreviousImage();
+      else showNextImage();
+    }
+    touchStartX.current = null;
+  }, [showNextImage, showPreviousImage]);
+
   useEffect(() => {
     if (!lightboxOpen) return;
 
@@ -112,7 +126,18 @@ export default function ProductGallery({
 
   return (
     <div data-testid="product-gallery">
-      <div className="relative aspect-[4/3] min-h-56 overflow-hidden rounded-xl border border-[var(--cm-rule)] bg-white sm:aspect-[16/11]">
+      <div
+        className="relative aspect-[4/3] min-h-56 overflow-hidden rounded-xl border border-[var(--cm-rule)] bg-white sm:aspect-[16/11]"
+        role="region"
+        aria-roledescription="карусель изображений"
+        aria-label={`Изображения: ${productName}`}
+        onTouchStart={(event) => handleTouchStart(event.changedTouches[0]?.clientX ?? 0)}
+        onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft") showPreviousImage();
+          if (event.key === "ArrowRight") showNextImage();
+        }}
+      >
         {selectedMedia.type === "image" ? (
           <button
             ref={triggerRef}
@@ -125,8 +150,7 @@ export default function ProductGallery({
               src={selectedMedia.url}
               alt={selectedMedia.alt}
               fill
-              preload
-              loading="eager"
+              preload={selectedImageIndex === 0}
               sizes="(max-width: 1024px) 100vw, 40vw"
               className="object-contain p-2 transition duration-300 group-hover:scale-[1.015]"
             />
@@ -153,11 +177,12 @@ export default function ProductGallery({
           </video>
         )}
         {selectedImageIndex >= 0 && imageMedia.length > 1 ? (
+          <>
           <div className="absolute bottom-3 left-3 flex gap-1.5">
             <button
               type="button"
               onClick={showPreviousImage}
-              className="grid size-8 place-items-center rounded-full border border-[var(--cm-rule)] bg-white/94 text-sm font-semibold text-cm-slate shadow-[0_6px_18px_rgba(11,19,32,0.12)] backdrop-blur transition hover:border-cm-teal hover:text-cm-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cm-teal"
+              className="grid size-11 place-items-center rounded-full border border-[var(--cm-rule)] bg-white/94 text-sm font-semibold text-cm-slate shadow-[0_6px_18px_rgba(11,19,32,0.12)] backdrop-blur transition hover:border-cm-teal hover:text-cm-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cm-teal"
               aria-label="Предыдущее изображение"
             >
               <span aria-hidden="true">←</span>
@@ -165,50 +190,21 @@ export default function ProductGallery({
             <button
               type="button"
               onClick={showNextImage}
-              className="grid size-8 place-items-center rounded-full border border-[var(--cm-rule)] bg-white/94 text-sm font-semibold text-cm-slate shadow-[0_6px_18px_rgba(11,19,32,0.12)] backdrop-blur transition hover:border-cm-teal hover:text-cm-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cm-teal"
+              className="grid size-11 place-items-center rounded-full border border-[var(--cm-rule)] bg-white/94 text-sm font-semibold text-cm-slate shadow-[0_6px_18px_rgba(11,19,32,0.12)] backdrop-blur transition hover:border-cm-teal hover:text-cm-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cm-teal"
               aria-label="Следующее изображение"
             >
               <span aria-hidden="true">→</span>
             </button>
           </div>
+          <div
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-cm-ink/75 px-2.5 py-1 text-[10px] font-semibold text-white"
+            aria-live="polite"
+          >
+            {selectedImageIndex + 1} / {imageMedia.length}
+          </div>
+          </>
         ) : null}
       </div>
-
-      {orderedMedia.length > 1 && (
-        <div
-          className="mt-3 flex snap-x gap-2 overflow-x-auto pb-1"
-          aria-label="Галерея товара"
-        >
-          {orderedMedia.map((item, index) => (
-            <button
-              key={`${item.type}:${item.url}`}
-              type="button"
-              onClick={() => setSelectedIndex(index)}
-              className={`relative aspect-square w-16 shrink-0 snap-start overflow-hidden rounded-lg border bg-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cm-teal sm:w-[4.5rem] ${
-                index === selectedIndex
-                  ? "border-cm-teal ring-1 ring-cm-teal/25"
-                  : "border-[var(--cm-rule)] hover:border-cm-teal"
-              }`}
-              aria-label={`Показать: ${item.alt}`}
-              aria-pressed={index === selectedIndex}
-            >
-              {item.type === "image" ? (
-                <Image
-                  src={item.url}
-                  alt=""
-                  fill
-                  sizes="72px"
-                  className="object-contain p-1"
-                />
-              ) : (
-                <span className="grid size-full place-items-center text-[10px] font-semibold text-cm-slate">
-                  Видео
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
 
       {lightboxOpen && lightboxImage && (
         <div
@@ -221,19 +217,8 @@ export default function ProductGallery({
           onClick={(event) => {
             if (event.currentTarget === event.target) setLightboxOpen(false);
           }}
-          onTouchStart={(event) => {
-            touchStartX.current = event.changedTouches[0]?.clientX ?? null;
-          }}
-          onTouchEnd={(event) => {
-            const endX = event.changedTouches[0]?.clientX;
-            if (touchStartX.current === null || endX === undefined) return;
-            const distance = endX - touchStartX.current;
-            if (Math.abs(distance) > 40) {
-              if (distance > 0) showPreviousImage();
-              else showNextImage();
-            }
-            touchStartX.current = null;
-          }}
+          onTouchStart={(event) => handleTouchStart(event.changedTouches[0]?.clientX ?? 0)}
+          onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
         >
           <button
             ref={closeButtonRef}

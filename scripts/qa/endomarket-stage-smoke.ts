@@ -9,13 +9,14 @@ import sourceTruth from "../../data/import/endomarket-source-truth-reconciliatio
 const origin = new URL(process.env.ENDOMARKET_STAGE_ORIGIN ?? "http://127.0.0.1:3100");
 const approvedOrigin =
   (origin.protocol === "https:" && origin.hostname.endsWith(".vercel.app"))
+  || (origin.protocol === "https:" && origin.hostname === "stage.cyber-medica.ru")
   || (origin.protocol === "http:" && ["127.0.0.1", "localhost"].includes(origin.hostname));
 
 assert.ok(approvedOrigin, "ENDOMARKET_STAGE_ORIGIN must be a loopback or Vercel Preview origin.");
 assert.equal(stageCatalog.summary.normalizedEquipmentRows, 51);
-assert.equal(stageCatalog.summary.newDraftCandidates, 42);
-assert.equal(stageCatalog.summary.existingDuplicateBindings, 9);
-assert.equal(stageCatalog.summary.sourceSpecifications, 260);
+assert.equal(stageCatalog.summary.newDraftCandidates, 43);
+assert.equal(stageCatalog.summary.existingDuplicateBindings, 8);
+assert.equal(stageCatalog.summary.sourceSpecifications, 294);
 assert.equal(sourceTruth.counts.products, 42);
 assert.equal(sourceTruth.counts.currentDescriptionMatches, 42);
 assert.equal(sourceTruth.counts.currentFeatureExactMatches, 42);
@@ -26,11 +27,33 @@ const detailProducts = [
   ...sourceTruth.products.map(({ slug }) => slug),
   "767632362-330695211247-apparat-ivl-hamilton-t1",
   "767632362-401374530532-apparat-ivl-mindray-sv300",
+  "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+  "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+  "videoendoskopicheskaya-sistema-sonoscape-hd-550",
 ];
 const sourceTruthBySlug = new Map(sourceTruth.products.map((product) => [product.slug, product]));
+const PRESENTATION_FEATURE_COUNTS: Record<string, number> = {
+  "HV-3101": 4, AF: 6, "BR-1231": 7, "BR-1242": 7, "BR-1249": 7, "BR-1259": 7,
+  "UR-1328": 6, "CY-1355": 6, "CY-1356": 6, "19 HD": 7, "24 Full HD": 7,
+  "27 Full HD": 7, "32 4K": 7, "55 4K": 7, "EG-UR5": 5, "EG-UC5T": 7,
+  "EG-500": 8, "EG-500L": 8, "EG-430": 8, "EG-430L": 8, "EC-500T": 8,
+  "EC-500L/T": 8, "EC-430T": 8, "EC-430L/T": 8, "EB-5H20": 2, "EB-5T28": 2,
+  "EB-500": 6, "ED-5GT": 4, "ENDO CLEAN-1000": 8, "ENDO CLEAN-2000": 7,
+  "EC-5BD": 5, "EC-10BD": 5, "VIO + APC 2": 4, "VIO 200 S": 3, "VIO 200 D": 4,
+  "VIO 3": 4, "ARC 303": 4, "ARC 350": 4, "ARC 400": 3, iLivTouch: 4,
+  "KS-350": 4, "1 электропривод": 8,
+};
+const DIRECT_SPECIFICATION_COUNT_OVERRIDES: Record<string, number> = {
+  "BR-1231": 7,
+  "BR-1242": 7,
+  "BR-1249": 7,
+  "BR-1259": 7,
+};
+const ELECTROSURGERY_DESCRIPTION_CORRECTIVES = new Set([
+  "VIO 200 S", "VIO 200 D", "VIO 3", "ARC 303", "ARC 350", "ARC 400",
+]);
 
 const hiddenUnpublishedBindings = [
-  "videoendoskopicheskaya-sistema-sonoscape-hd-550",
   "pentax-epk-i7010-optivista",
 ] as const;
 
@@ -43,7 +66,7 @@ for (const slug of detailProducts.slice(0, 42)) {
   assert.ok(stageDraftSlugs.has(slug), `${slug}: missing Stage draft Product.`);
 }
 
-const evidenceDir = "docs/reports/evidence/endomarket-source-v5-2026-08-09";
+const evidenceDir = "docs/reports/evidence/catalog-master-corrective-v7-2026-08-09";
 const captureScreenshots = process.env.ENDOMARKET_STAGE_SCREENSHOTS === "1";
 if (captureScreenshots) await mkdir(evidenceDir, { recursive: true });
 
@@ -167,10 +190,10 @@ async function runProfile({
 
     await assertPage(page, "/catalog", label);
     await page.getByRole("heading", { name: "Каталог медицинских изделий" }).waitFor();
-    assert.equal(await page.locator("article.group").count(), 113, `${label}: visible catalog must contain 113 Product cards.`);
-    await page.getByText(/Найдено:\s*113\s*из 113/u).waitFor();
-    assert.ok((await page.getByText("В наличии", { exact: true }).count()) >= 49, `${label}: visible EndoMarket presentations missing.`);
-    assert.ok((await page.getByText("Рассрочка 0%", { exact: true }).count()) >= 49, `${label}: EndoMarket installment badges missing.`);
+    assert.equal(await page.locator("article.group").count(), 114, `${label}: visible catalog must contain 114 Product cards.`);
+    await page.getByText(/Найдено:\s*114\s*из 114/u).waitFor();
+    assert.ok((await page.getByText("В наличии", { exact: true }).count()) >= 50, `${label}: visible EndoMarket presentations missing.`);
+    assert.ok((await page.getByText("Рассрочка 0%", { exact: true }).count()) >= 50, `${label}: EndoMarket installment badges missing.`);
     assert.equal(await page.locator("article dl").count(), 0, `${label}: ProductCard leaked technical characteristics.`);
     const catalogText = await page.locator("body").innerText();
     assert.doesNotMatch(catalogText, /Made on Tilda|medvist\.ru|publication_status|review_state/iu);
@@ -218,19 +241,24 @@ async function runProfile({
         assert.equal(detailImages.some((url) => /endomarket\.ru\/files|fallback/iu.test(url)), false, `${slug}: source/fallback media leaked.`);
         assert.equal(
           await page.locator('[data-testid="product-characteristic-row"]').count(),
-          directSource.sourceSpecificationsCount,
+          DIRECT_SPECIFICATION_COUNT_OVERRIDES[directSource.model] ?? directSource.sourceSpecificationsCount,
           `${slug}: source specifications are not complete.`,
         );
         assert.equal(
           await page.locator("#advantages li").count(),
-          directSource.sourceFeaturesCount,
-          `${slug}: source features are not complete.`,
+          PRESENTATION_FEATURE_COUNTS[directSource.model],
+          `${slug}: v7 presentation features are not complete.`,
         );
         const normalize = (value: string) => value.replace(/\s+/gu, " ").trim();
-        assert.ok(
-          normalize(await page.locator("#description").innerText()).includes(normalize(directSource.sourceDescription)),
-          `${slug}: exact source description missing from Product Detail.`,
-        );
+        const description = normalize(await page.locator("#description").innerText());
+        if (ELECTROSURGERY_DESCRIPTION_CORRECTIVES.has(directSource.model)) {
+          assert.match(description, new RegExp(directSource.model.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&"), "u"));
+          assert.doesNotMatch(description, /ЛУЧШЕЕ СООТНОШЕНИЕ|минимальн(?:ый|ым) риск|инновационн|уникальн/iu);
+        } else {
+          assert.ok(description.includes(normalize(directSource.sourceDescription)), `${slug}: exact source description missing from Product Detail.`);
+        }
+        assert.equal(await page.getByRole("heading", { name: "Ключевые особенности", exact: true }).count(), 1, `${slug}: feature heading drifted.`);
+        assert.equal(await page.locator('[aria-label="Миниатюры товара"]').count(), 0, `${slug}: thumbnail strip returned.`);
         const hero = await page.locator('[data-testid="product-hero"]').boundingBox();
         assert.ok(hero && hero.height < 900, `${slug}: Product Detail hero blank-space regression.`);
         const heroSummary = page.locator('[data-testid="product-hero-summary"]');
@@ -290,4 +318,4 @@ const requestApi = await fetch(new URL("/api/request", origin), {
 });
 assert.equal(requestApi.status, 405, "GET /api/request must remain HTTP 405.");
 
-console.info("EndoMarket source-truth v5 Stage smoke passed: 11 profiles, 68 Product Detail navigations, 42/42 reconciled drafts, 113 visible Products.");
+console.info("Catalog master corrective v7 Stage smoke passed: 11 profiles, 47 key Product Detail routes, 42/42 imported Products, 114 visible Products.");

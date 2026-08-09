@@ -1,0 +1,374 @@
+{
+  "version": 7,
+  "generatedAt": "2026-08-09T12:31:02.166815",
+  "title": "CyberMedica Global Catalog Content Integrity + Product Detail UX Master Corrective",
+  "launchGoal": "Максимально быстро довести Stage до состояния, пригодного для Production и запуска рекламы.",
+  "acceptanceEndpoint": "https://stage.cyber-medica.ru",
+  "finalResult": "Готово, проверяйте stage: https://stage.cyber-medica.ru",
+  "businessRules": {
+    "productDetailHero": {
+      "gallery": "carousel",
+      "removeThumbnailStrip": true,
+      "controls": [
+        "prev",
+        "next",
+        "swipe",
+        "counter_or_dots"
+      ],
+      "singleImage": "no misleading controls",
+      "compactHero": true,
+      "ctaWhitespaceTarget": "24–40 px visual bottom spacing, no large blank right panel",
+      "forbid": [
+        "brittle fixed height",
+        "large min-height",
+        "h-full/stretch on right content panel"
+      ]
+    },
+    "description": {
+      "goal": "1–3 readable paragraphs about purpose and use",
+      "source": "authoritative source, not generated filler",
+      "forbidPublicTextPatterns": [
+        "^\\$\\d+$",
+        "Карточка интегрирована в каталог CyberMedica",
+        "с коммерческими условиями",
+        "профессиональное медицинское применение",
+        "внутренний импортный/debug текст"
+      ]
+    },
+    "features": {
+      "heading": "Ключевые особенности",
+      "purpose": "short scan-friendly facts, derived only from source",
+      "targetLength": "preferably <= 90 characters per card; normally <= 2 desktop lines",
+      "allow": [
+        "shorten",
+        "remove introductory wording",
+        "preserve numeric values",
+        "merge linguistic redundancy only"
+      ],
+      "forbid": [
+        "invent claims",
+        "drop unique source feature",
+        "show compatibility alone as the only feature when product-specific facts exist"
+      ],
+      "visibilityRule": "if source contains meaningful product capabilities/features, section must be visible"
+    },
+    "specifications": {
+      "rule": "show all authoritative technical characteristics on Product Detail",
+      "catalogCards": "do not show technical specification rows",
+      "missingValue": "omit, do not invent"
+    },
+    "contentOrder": [
+      "Hero",
+      "Описание",
+      "Ключевые особенности",
+      "Технические характеристики",
+      "Области применения",
+      "Existing related/service/RFQ content",
+      "Производитель — последний содержательный блок"
+    ],
+    "applicationTags": {
+      "productDetail": "show all, +N forbidden",
+      "catalog": "max 2 + optional +N",
+      "forbidden": [
+        "Анестезиология и реаниматология",
+        "Эндоскопические отделения",
+        "Диагностические центры",
+        "Диагностические кабинеты",
+        "Диагностические и лечебные подразделения",
+        "Медицинские организации"
+      ],
+      "canonical": {
+        "bronchoscopy": [
+          "Пульмонология",
+          "Бронхоскопия",
+          "Анестезиология",
+          "Реанимация"
+        ],
+        "gastroscopy": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "colonoscopy": [
+          "Колоноскопия",
+          "Эндоскопия",
+          "Диагностика"
+        ],
+        "duodenoscopy": [
+          "Гастроэнтерология",
+          "Эндоскопия",
+          "ЭРХПГ"
+        ],
+        "urology": [
+          "Урология",
+          "Эндоурология",
+          "Диагностика"
+        ]
+      }
+    }
+  },
+  "legacyCatalogAudit": {
+    "scope": "all existing published products, not only EndoMarket imports",
+    "knownP0": [
+      {
+        "product": "Hamilton-T1",
+        "issue": "public description shows $21"
+      },
+      {
+        "product": "Mindray SV300",
+        "issue": "public description shows $22"
+      }
+    ],
+    "rule": "detect root cause and audit all legacy descriptions for placeholders/tokens/missing content before Stage acceptance"
+  },
+  "productGroups": [
+    {
+      "group": "SonoScape EG/EC 430/500 families",
+      "products": [
+        "EG-430",
+        "EG-430L",
+        "EG-500",
+        "EG-500L",
+        "EC-430T",
+        "EC-430L/T",
+        "EC-500T",
+        "EC-500L/T"
+      ],
+      "observedIssues": [
+        "feature cards reproduce long source sentences and are visually heavy",
+        "hero uses thumbnail strip",
+        "large empty hero space",
+        "content must remain source-complete while presentation is shortened"
+      ],
+      "businessDecision": [
+        "description stays source-accurate",
+        "features become concise UI summaries",
+        "specifications stay complete",
+        "gallery becomes carousel without thumbnails"
+      ],
+      "featureSummaryExamples": [
+        "Изображение высокого разрешения с естественной цветопередачей",
+        "Инструментальный канал 2,8 мм",
+        "Изгиб в 4 направлениях",
+        "Поле зрения 140°",
+        "Эргономичная рукоять",
+        "4 программируемые кнопки",
+        "Дополнительный канал подачи воды"
+      ]
+    },
+    {
+      "group": "SonoScape advanced endoscopes",
+      "products": [
+        "EG-UC5T",
+        "EG-UR5",
+        "EB-5H20",
+        "EB-5T28",
+        "ED-5GT",
+        "EB-500"
+      ],
+      "observedIssues": [
+        "feature completeness inconsistent between adjacent models",
+        "some models have no visible features/specs despite source-rich descriptions",
+        "some descriptions are long and machine-like",
+        "EB-500 was previously incomplete"
+      ],
+      "hardRefs": {
+        "EB-500": {
+          "features": 6,
+          "specifications": 7,
+          "media": 3
+        }
+      },
+      "businessDecision": [
+        "semantic source audit for each model",
+        "extract concise product-specific differentiators",
+        "do not infer missing source facts"
+      ]
+    },
+    {
+      "group": "Medinova BR bronchoscopes",
+      "products": [
+        "BR-1231",
+        "BR-1242",
+        "BR-1249",
+        "BR-1259"
+      ],
+      "observedIssues": [
+        "near-identical long generic descriptions",
+        "single key feature HV-3101 TM Medinova is not an adequate product feature",
+        "model differentiation is hidden"
+      ],
+      "businessDecision": [
+        "description must be model-specific or shared family text plus explicit model distinction",
+        "key features must surface the actual differences between models"
+      ],
+      "requiredFeatureTypes": [
+        "дистальный диаметр",
+        "инструментальный канал",
+        "рабочая длина",
+        "поле зрения",
+        "CMOS/LED when source-supported",
+        "совместимость с HV-3101 as secondary feature"
+      ]
+    },
+    {
+      "group": "Medinova urology",
+      "products": [
+        "UR-1328",
+        "CY-1355",
+        "CY-1356"
+      ],
+      "observedIssues": [
+        "very long mixed description",
+        "single compatibility feature instead of model differentiators"
+      ],
+      "businessDecision": [
+        "split purpose into description",
+        "put numerical model differences into key features/specifications",
+        "compatibility is secondary, not the only feature"
+      ]
+    },
+    {
+      "group": "Medinova AF / HV-3101",
+      "products": [
+        "AF",
+        "HV-3101"
+      ],
+      "observedIssues": [
+        "AF feature cards are present but should be concise and model-specific",
+        "HV-3101 features are useful but too verbose"
+      ],
+      "businessDecision": "retain source facts, shorten presentation cards"
+    },
+    {
+      "group": "Medinova monitors",
+      "products": [
+        "19\" HD",
+        "24\" Full HD",
+        "27\" Full HD",
+        "32\" 4K",
+        "55\" 4K"
+      ],
+      "observedIssues": [
+        "descriptions and features are templated and too similar across screen sizes",
+        "model differentiation is not immediately visible"
+      ],
+      "businessDecision": [
+        "highlight diagonal, resolution, brightness, color depth, interfaces and model-specific capabilities",
+        "do not reuse identical generic feature set when source values differ"
+      ]
+    },
+    {
+      "group": "ENDO CLEAN",
+      "products": [
+        "ENDO CLEAN-1000",
+        "ENDO CLEAN-2000"
+      ],
+      "observedIssues": [
+        "source-rich features exist",
+        "feature section becomes a wall of cards"
+      ],
+      "businessDecision": [
+        "keep all unique source facts",
+        "compress wording and group closely related process facts where no unique claim is lost",
+        "do not remove meaningful cycle/compatibility/water-treatment facts"
+      ]
+    },
+    {
+      "group": "Storage cabinets",
+      "products": [
+        "EC-5BD",
+        "EC-10BD"
+      ],
+      "observedIssues": [
+        "rich descriptions/specifications",
+        "feature section missing despite many source capabilities"
+      ],
+      "businessDecision": [
+        "create concise source-derived features from storage capacity, HEPA/air, UV, purge, temperature/display/printer where supported"
+      ]
+    },
+    {
+      "group": "Electrosurgery ERBE/BOWA",
+      "products": [
+        "VIO 200 S",
+        "VIO 200 D",
+        "VIO 3",
+        "VIO + APC 2",
+        "ARC 303",
+        "ARC 350",
+        "ARC 400"
+      ],
+      "observedIssues": [
+        "technical specification tables are strong",
+        "feature sections often missing or inconsistent",
+        "some descriptions sound machine-translated/marketing-heavy"
+      ],
+      "businessDecision": [
+        "keep full technical tables",
+        "derive concise key features only from source capabilities",
+        "remove unsupported superlatives and translation noise"
+      ]
+    },
+    {
+      "group": "iLivTouch",
+      "products": [
+        "iLivTouch"
+      ],
+      "observedIssues": [
+        "source contains 4 feature groups but Stage hides feature section"
+      ],
+      "hardRefs": {
+        "features": 4
+      },
+      "approvedFeatureSummaries": [
+        "Для пациентов разного возраста и комплекции",
+        "Точность диагностики до 97%",
+        "Неинвазивное и безболезненное исследование",
+        "Исследование до 5 минут"
+      ]
+    },
+    {
+      "group": "SonoScape HD systems",
+      "products": [
+        "HD-350",
+        "HD-500",
+        "HD-550"
+      ],
+      "observedIssues": [
+        "HD-350 content incomplete/empty on Stage",
+        "HD-500 missing/not discoverable in Stage catalog",
+        "HD-550 missing/not discoverable in Stage catalog"
+      ],
+      "businessDecision": [
+        "HD-350 source: EndoMarket exact product page",
+        "HD-500 source: exact HD-500 page, never substitute HD-550",
+        "HD-550 source: exact HD-550 page",
+        "resolve existing identity/projection before creating any new product to avoid duplicates"
+      ],
+      "sources": {
+        "HD-350": "https://endomarket.ru/products/videoendoskopicheskaya-sistema-sonoscape-hd-350",
+        "HD-500": "https://sonoscape.com.ru/catalog/videoendoskopicheskaya-sistema-hd-500/",
+        "HD-550": "https://sonoscape.com.ru/catalog/videoendoskopicheskaya-sistema-hd-550/"
+      }
+    }
+  ],
+  "globalAcceptance": {
+    "stageDirectAudit": true,
+    "requirements": [
+      "all visible catalog products pass content integrity audit",
+      "invalid description placeholders = 0",
+      "missing authoritative descriptions = 0 where source exists",
+      "lost source features = 0",
+      "lost source specifications = 0",
+      "feature section hidden while meaningful source capabilities exist = 0",
+      "runtime watermark assets = 0",
+      "source-clean-media fallback = 0",
+      "duplicate product identity = 0",
+      "Product Detail +N tags = 0",
+      "manufacturer block is last",
+      "thumbnail strips under hero = 0",
+      "large empty hero right-panel defects = 0"
+    ]
+  }
+}

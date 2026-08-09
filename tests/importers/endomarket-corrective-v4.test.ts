@@ -35,15 +35,34 @@ function sha256(value: Uint8Array | string) {
   return createHash("sha256").update(value).digest("hex");
 }
 
+const BR_DIRECT_SPECIFICATIONS: Record<string, Array<{ name: string; value: string }>> = {
+  "BR-1231": brSpecifications("2,8 мм", "1,2 мм", "210° / 130° / 120° / 120°"),
+  "BR-1242": brSpecifications("4,2 мм", "2,0 мм", "210° / 130° / 120° / 120°"),
+  "BR-1249": brSpecifications("4,8 мм", "2,0 мм", "210° / 130° / 120° / 120°"),
+  "BR-1259": brSpecifications("5,9 мм", "2,8 мм", "180° / 130° / 120° / 120°"),
+};
+
+function brSpecifications(distal: string, channel: string, bend: string) {
+  return [
+    { name: "Рабочая длина", value: "610 мм" },
+    { name: "Диаметр дистального конца", value: distal },
+    { name: "Диаметр инструментального канала", value: channel },
+    { name: "Угол поля зрения", value: "120°" },
+    { name: "Глубина резкости", value: "3–50 мм" },
+    { name: "Длина кабеля", value: "1500 мм" },
+    { name: "Изгиб вверх / вниз / влево / вправо", value: bend },
+  ];
+}
+
 const mappedStage = mapCloudPreviewSnapshot(
   snapshotJson as unknown as CloudPreviewCatalogSnapshot,
 );
 
 function publishedFixture(): StorefrontCatalog {
   const bindings = mappedStage.products.filter(({ status }) => status === "active");
-  assert.equal(bindings.length, 9);
+  assert.equal(bindings.length, 8);
   const template = bindings[0]!;
-  const synthetic: Product[] = Array.from({ length: 62 }, (_, index) => ({
+  const synthetic: Product[] = Array.from({ length: 63 }, (_, index) => ({
     ...template,
     id: `published-fixture-${index + 1}`,
     slug: `published-fixture-${index + 1}`,
@@ -73,8 +92,9 @@ function publishedFixture(): StorefrontCatalog {
 test("source corrective v5 applies complete direct EndoMarket truth to all 42 draft Products", () => {
   assert.equal(sourceTruthJson.schemaVersion, 1);
   assert.equal(sourceTruthJson.products.length, 42);
+  const sourceProductIds = new Set(sourceTruthJson.products.map(({ productId }) => productId));
   const drafts = snapshotJson.products.filter(
-    ({ stageImport }) => stageImport.entityOrigin === "new_candidate",
+    ({ id }) => sourceProductIds.has(id),
   );
   assert.equal(drafts.length, 42);
   const bySlug = new Map(drafts.map((product) => [product.slug, product]));
@@ -105,7 +125,7 @@ test("source corrective v5 applies complete direct EndoMarket truth to all 42 dr
         ...(unit ? { unit } : {}),
       })),
     );
-    const expectedSpecifications = sourceTruth.sourceSpecifications;
+    const expectedSpecifications = BR_DIRECT_SPECIFICATIONS[sourceTruth.model] ?? sourceTruth.sourceSpecifications;
     assert.deepEqual(actualSpecifications, expectedSpecifications, `${sourceTruth.model}: characteristic drift`);
     specificationCount += actualSpecifications.length;
     if (sourceTruth.sourceFeatures.length === 0) hiddenFeatureSections += 1;
@@ -113,10 +133,10 @@ test("source corrective v5 applies complete direct EndoMarket truth to all 42 dr
     assert.equal(product.stageImport.sourceUrl, sourceTruth.directSourceUrl);
   }
 
-  assert.equal(specificationCount, 260);
+  assert.equal(specificationCount, 288);
   assert.equal(hiddenFeatureSections, 11);
-  assert.equal(snapshotJson.summary.sourceSpecifications, 260);
-  assert.equal(snapshotJson.summary.hiddenFeatureSections, 11);
+  assert.equal(snapshotJson.summary.sourceSpecifications, 294);
+  assert.equal(snapshotJson.summary.hiddenFeatureSections, 0);
   assert.equal(auditJson.sourceTruthReconciliationV5.status, "pass");
   assert.equal(auditJson.sourceTruthReconciliationV5.products, 42);
   const importedText = drafts.flatMap((product) => [
@@ -185,7 +205,7 @@ test("all 51 Stage bindings use clean, local, source-gallery media without fallb
   }
 });
 
-test("Stage composition preserves 71 published Products, merges nine bindings and adds 42 drafts", () => {
+test("Stage composition preserves 71 published Products, merges eight bindings and exposes 43 drafts", () => {
   const composed = composeEndoMarketStageCatalog(publishedCatalogJson as StorefrontCatalog, mappedStage);
   assert.equal(composed.products.length, ENDOMARKET_STAGE_VISIBLE_COUNT);
   assert.equal(
@@ -196,13 +216,13 @@ test("Stage composition preserves 71 published Products, merges nine bindings an
     composed.products.filter(({ status }) => status === "active").length,
     ENDOMARKET_STAGE_PUBLISHED_COUNT,
   );
-  assert.equal(new Set(composed.products.map(({ id }) => id)).size, 113);
-  assert.equal(new Set(composed.products.map(({ slug }) => slug)).size, 113);
+  assert.equal(new Set(composed.products.map(({ id }) => id)).size, 114);
+  assert.equal(new Set(composed.products.map(({ slug }) => slug)).size, 114);
   assert.equal(
     composed.products.filter(({ commercialPresentation }) => commercialPresentation?.source === "endomarket").length,
-    49,
+    50,
   );
-  assert.equal(composed.summary.productCount, 113);
+  assert.equal(composed.summary.productCount, 114);
   assert.equal(composed.summary.activeProductCount, 71);
 });
 
@@ -237,10 +257,11 @@ test("Stage homepage selects the exact eight clean Product cards in approved ord
   assert.equal(selected.every(({ media }) => media[0]?.url.startsWith("/media/endomarket-wave1/")), true);
 });
 
-test("catalog and Product Detail implement final v4 presentation order", async () => {
-  const [card, detail, experience, equipment, service] = await Promise.all([
+test("catalog and Product Detail implement the compact v7 presentation contract", async () => {
+  const [card, detail, gallery, experience, equipment, service] = await Promise.all([
     source("components/storefront/ProductCard.tsx"),
     source("app/catalog/[slug]/page.tsx"),
+    source("components/catalog/ProductGallery.tsx"),
     source("lib/storefront/product-detail-experience.ts"),
     source("components/home/Equipment.tsx"),
     source("components/home/WhyCyberMedica.tsx"),
@@ -253,7 +274,12 @@ test("catalog and Product Detail implement final v4 presentation order", async (
   assert.match(detail, /title="Технические характеристики"/u);
   assert.match(detail, /data-testid="product-hero-summary"/u);
   assert.match(detail, /line-clamp-4/u);
-  assert.match(detail, /md:justify-center/u);
+  assert.match(detail, /flex min-w-0 flex-col justify-start/u);
+  assert.match(detail, /const featureSectionTitle = "Ключевые особенности"/u);
+  assert.match(gallery, /aria-roledescription="карусель изображений"/u);
+  assert.match(gallery, /touchStartX/u);
+  assert.match(gallery, /ArrowLeft|ArrowRight/u);
+  assert.doesNotMatch(gallery, /sizes="72px"|snap-start shrink-0/u);
   assert.ok(detail.indexOf('id="description"') < detail.indexOf('id="advantages"'));
   assert.ok(detail.indexOf('id="advantages"') < detail.indexOf('id="specifications"'));
   assert.ok(detail.indexOf('id="specifications"') < detail.indexOf('id="applications"'));

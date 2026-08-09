@@ -2,13 +2,16 @@ import type { StorefrontCatalog } from "./types.ts";
 import { PUBLIC_PRODUCT_STATUSES } from "./types.ts";
 
 export const ENDOMARKET_STAGE_PUBLISHED_COUNT = 71;
-export const ENDOMARKET_STAGE_DRAFT_COUNT = 42;
-export const ENDOMARKET_STAGE_BINDING_COUNT = 9;
-export const ENDOMARKET_STAGE_VISIBLE_COUNT = 113;
+export const ENDOMARKET_STAGE_DRAFT_COUNT = 43;
+export const ENDOMARKET_STAGE_BINDING_COUNT = 8;
+export const ENDOMARKET_STAGE_VISIBLE_COUNT = 114;
 export const ENDOMARKET_STAGE_VISIBLE_BINDING_COUNT = 7;
 export const ENDOMARKET_STAGE_HIDDEN_BINDING_SLUGS = new Set([
-  "videoendoskopicheskaya-sistema-sonoscape-hd-550",
   "pentax-epk-i7010-optivista",
+]);
+const ENDOMARKET_STAGE_CONTENT_OVERLAY_SLUGS = new Set([
+  "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+  "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
 ]);
 
 function assertStage(condition: unknown, message: string): asserts condition {
@@ -17,9 +20,9 @@ function assertStage(condition: unknown, message: string): asserts condition {
 
 /**
  * Composes the Product Owner-approved Stage namespace without replacing the
- * canonical published projection. The nine duplicate bindings only add their
- * commercial presentation to the already-published entity; their Stage rows
- * can never create a second Product card.
+ * canonical published projection. Eight duplicate bindings only add their
+ * commercial presentation to the already-published entity; HD-550 is the one
+ * approved Stage-only restoration and can never collide with a published row.
  */
 export function composeEndoMarketStageCatalog(
   publishedCatalog: StorefrontCatalog,
@@ -89,13 +92,25 @@ export function composeEndoMarketStageCatalog(
   const products = [
     ...publishedProducts.map((product) => {
       const binding = bindingByPublishedSlug.get(product.slug);
-      return binding
-        ? {
-            ...product,
-            commercialPresentation: binding.commercialPresentation,
-            media: binding.media,
-          }
-        : product;
+      if (!binding) return product;
+      if (!ENDOMARKET_STAGE_CONTENT_OVERLAY_SLUGS.has(product.slug)) {
+        return {
+          ...product,
+          commercialPresentation: binding.commercialPresentation,
+          media: binding.media,
+        };
+      }
+      return {
+        ...product,
+        shortDescription: binding.shortDescription,
+        description: binding.description,
+        seoDescription: binding.seoDescription,
+        applicationAreas: binding.applicationAreas,
+        keyFeatures: binding.keyFeatures,
+        specifications: binding.specifications,
+        commercialPresentation: binding.commercialPresentation,
+        media: binding.media,
+      };
     }),
     ...stageDrafts,
   ];

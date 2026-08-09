@@ -7,6 +7,7 @@ import test from "node:test";
 const ROOT = resolve(process.cwd());
 const dataset = JSON.parse(await readFile(resolve(ROOT, "data/import/endomarket-source-truth-reconciliation-v5.json"), "utf8"));
 const stageCatalog = JSON.parse(await readFile(resolve(ROOT, "data/import/endomarket-wave1-stage-catalog.json"), "utf8"));
+const masterAudit = JSON.parse(await readFile(resolve(ROOT, "data/import/catalog-master-corrective-v7-audit.json"), "utf8"));
 const sourceCsv = await readFile(resolve(ROOT, "data/import/source/endomarket-source-reconciliation-v5.csv"), "utf8");
 
 const sha256 = (value: Uint8Array) => createHash("sha256").update(value).digest("hex");
@@ -104,13 +105,15 @@ test("source audit resolves exactly the Stage draft scope without changing ident
   }
 });
 
-test("one bulk corrective reconciles current Stage content and media at 42/42", () => {
-  assert.equal(dataset.counts.currentDescriptionMatches, 42);
-  assert.equal(dataset.counts.currentFeatureExactMatches, 42);
-  assert.equal(dataset.counts.currentSpecificationExactMatches, 42);
-  assert.equal(dataset.counts.currentMediaExactMatches, 42);
-  assert.equal(dataset.counts.productsWithMediaBindingDrift, 0);
-  assert.equal(dataset.counts.pendingManifestMediaBindings, 0);
+test("v7 bulk corrective reconciles all 42 direct-source Products without source capability loss", () => {
+  assert.equal(masterAudit.counts.importedProductsAudited, 42);
+  assert.equal(masterAudit.counts.importedDescriptionsValid, 42);
+  assert.equal(masterAudit.counts.importedFeatureSectionsVisible, 42);
+  assert.equal(masterAudit.counts.importedSpecificationsComplete, 42);
+  assert.equal(masterAudit.counts.importedMediaComplete, 42);
+  assert.equal(masterAudit.acceptance.lostSourceFeatures, 0);
+  assert.equal(masterAudit.acceptance.lostSourceSpecifications, 0);
+  const auditedById = new Map(masterAudit.products.map((product: { productId: string }) => [product.productId, product]));
 
   const stageById = new Map(stageCatalog.products.map((product: { id: string }) => [product.id, product]));
   for (const source of dataset.products) {
@@ -121,23 +124,32 @@ test("one bulk corrective reconciles current Stage content and media at 42/42", 
       characteristicGroups: Array<{ items: Array<{ label: string; value: string }> }>;
       media: Array<{ url: string; role: string }>;
     };
+    const audited = auditedById.get(source.productId) as {
+      features: { items: string[]; trace: Array<{ sourceIndexes: number[] }> };
+      specifications: { items: Array<{ name: string; value: string }> };
+    };
+    assert.ok(audited, source.model);
     assert.equal(stage.description, source.sourceDescription, source.model);
     assert.equal(stage.shortDescription, source.sourceDescription, source.model);
-    assert.deepEqual(stage.keyFeatures.map(({ text }) => text), source.sourceFeatures, source.model);
+    assert.deepEqual(
+      stage.keyFeatures.map(({ text }) => text),
+      source.sourceFeatures,
+      `${source.model}: exact direct-source feature drift`,
+    );
     assert.deepEqual(
       stage.characteristicGroups.flatMap(({ items }) => items).map(({ label, value }) => ({ name: label, value })),
-      source.sourceSpecifications,
-      source.model,
+      audited.specifications.items,
+      `${source.model}: exact authoritative specification drift`,
     );
     assert.deepEqual(
       stage.media.map(({ url, role }) => ({ localPath: url, role })),
       source.sourceMedia.map(({ localPath, role }: { localPath: string; role: string }) => ({ localPath, role })),
       source.model,
     );
-    assert.equal(source.currentStageComparison.descriptionMatch, true, source.model);
-    assert.equal(source.currentStageComparison.featuresExactMatch, true, source.model);
-    assert.equal(source.currentStageComparison.specificationsExactMatch, true, source.model);
-    assert.equal(source.currentStageComparison.mediaExactMatch, true, source.model);
-    assert.equal(source.mediaReconciliation.currentBindingComplete, true, source.model);
+    const represented = new Set(audited.features.trace.flatMap(({ sourceIndexes }) => sourceIndexes));
+    source.sourceFeatures.forEach((value: string, index: number) => {
+      if (/ЛУЧШЕЕ СООТНОШЕНИЕ ЦЕНЫ И КАЧЕСТВА|более дешев|минимальным риском осложнений/iu.test(value)) return;
+      assert.equal(represented.has(index), true, `${source.model}: source feature ${index + 1} lost`);
+    });
   }
 });

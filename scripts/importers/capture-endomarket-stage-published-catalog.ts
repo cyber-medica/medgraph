@@ -8,6 +8,7 @@ const SOURCE_ORIGIN = "https://cyber-medica.ru";
 const EXPECTED_PUBLISHED_PRODUCTS = 71;
 const OUTPUT_PATH = "data/import/endomarket-stage-published-catalog.json";
 const AUDIT_PATH = "data/import/endomarket-stage-published-catalog-audit.json";
+const UNRESOLVED_FLIGHT_REFERENCE = /^\$\d+$/u;
 
 function sha256(value: string) {
   return createHash("sha256").update(value).digest("hex");
@@ -87,7 +88,7 @@ assert.equal(health.projectionVersion, 73);
 assert.equal(health.fallbackActive, false);
 
 const generatedAt = new Date().toISOString();
-const catalog = validateStorefrontCatalog({
+const capturedCatalog = validateStorefrontCatalog({
   products: props.products,
   manufacturers: props.manufacturers,
   categories: props.categories,
@@ -100,6 +101,26 @@ const catalog = validateStorefrontCatalog({
     categoryCount: props.categories.length,
   },
 });
+const unresolvedDescriptions = capturedCatalog.products.filter(({ description }) =>
+  UNRESOLVED_FLIGHT_REFERENCE.test(description.trim()),
+);
+const repairedProducts = capturedCatalog.products.map((product) => {
+  if (!UNRESOLVED_FLIGHT_REFERENCE.test(product.description.trim())) return product;
+  assert.ok(
+    product.shortDescription.trim() && !UNRESOLVED_FLIGHT_REFERENCE.test(product.shortDescription.trim()),
+    `React Flight reference cannot be repaired for ${product.slug}`,
+  );
+  return { ...product, description: product.shortDescription.trim() };
+});
+const catalog = validateStorefrontCatalog({
+  ...capturedCatalog,
+  products: repairedProducts,
+});
+assert.equal(
+  catalog.products.some(({ description }) => UNRESOLVED_FLIGHT_REFERENCE.test(description.trim())),
+  false,
+  "The Stage snapshot contains an unresolved React Flight reference.",
+);
 assert.equal(catalog.products.every(({ status }) => status === "active"), true);
 
 const audit = {
@@ -114,6 +135,9 @@ const audit = {
   categories: catalog.categories.length,
   uniqueProductIds: new Set(catalog.products.map(({ id }) => id)).size,
   uniqueProductSlugs: new Set(catalog.products.map(({ slug }) => slug)).size,
+  unresolvedFlightDescriptionReferences: unresolvedDescriptions.length,
+  repairedFromAuthoritativeShortDescription: unresolvedDescriptions.length,
+  remainingInvalidDescriptions: 0,
   unpublishedProducts: catalog.products.filter(({ status }) => status !== "active").length,
   lifecycleFields: 0,
   credentialsUsed: false,

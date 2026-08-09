@@ -102,9 +102,7 @@ export default async function StorefrontProductPage({
   const hasRegulatoryInformation =
     regulatoryRecords.length > 0 || registrationDocuments.length > 0;
   const hasDownloads = presentation.sections.documents && downloadDocuments.length > 0;
-  const featureSectionTitle = product.commercialPresentation?.source === "endomarket"
-    ? "Ключевые особенности"
-    : "Преимущества";
+  const featureSectionTitle = "Ключевые особенности";
   const sectionLinks = [
     experience.description ? { href: "#description", label: "Описание" } : null,
     experience.advantages.length > 0
@@ -173,7 +171,10 @@ export default async function StorefrontProductPage({
               />
             </div>
 
-            <div className="flex min-w-0 flex-col p-4 sm:p-5 md:justify-center lg:p-6">
+            <div
+              className="flex min-w-0 flex-col justify-start p-4 sm:p-5 lg:p-6"
+              data-testid="product-hero-content"
+            >
               <h1 className="max-w-4xl break-words text-[1.65rem] font-extrabold leading-[1.12] tracking-[-0.03em] sm:text-[2rem] lg:text-[2.25rem]">
                 {product.name}
               </h1>

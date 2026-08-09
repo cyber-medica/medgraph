@@ -33,6 +33,7 @@ export interface CloudPreviewProductRow {
   model: string | null;
   shortDescription: string | null;
   description: string | null;
+  presentationDescription?: string | null;
   seoTitle?: string | null;
   seoDescription?: string | null;
   manufacturerId: string | null;
@@ -46,6 +47,7 @@ export interface CloudPreviewProductRow {
   /** Transitional legacy rows are deliberately ignored by Product Detail. */
   characteristics?: Array<{ name: string; value: string; unit: string | null }>;
   keyFeatures?: Array<{ text: string; sortOrder: number }>;
+  presentationKeyFeatures?: Array<{ text: string; sortOrder: number }>;
   characteristicGroups?: Array<{
     key: string;
     title: string;
@@ -251,8 +253,8 @@ export function mapCloudPreviewSnapshot(snapshot: CloudPreviewCatalogSnapshot) {
       categoryId,
       name: row.title.trim(),
       model,
-      shortDescription: storefrontPlainText(row.shortDescription || row.description) || "Описание добавляется.",
-      description: row.description?.trim() || row.shortDescription?.trim() || "Описание добавляется.",
+      shortDescription: storefrontPlainText(row.presentationDescription || row.shortDescription || row.description) || "Описание добавляется.",
+      description: row.presentationDescription?.trim() || row.description?.trim() || row.shortDescription?.trim() || "Описание добавляется.",
       seoTitle: row.seoTitle?.trim() || null,
       seoDescription: row.seoDescription?.trim() || null,
       ...(row.commercialPresentation
@@ -262,7 +264,7 @@ export function mapCloudPreviewSnapshot(snapshot: CloudPreviewCatalogSnapshot) {
       catalogQualityStatus,
       featured: false,
       applicationAreas: row.applicationAreas.map(({ name }) => name).filter(Boolean),
-      keyFeatures: mapKeyFeatures(row.keyFeatures),
+      keyFeatures: mapKeyFeatures(row.presentationKeyFeatures ?? row.keyFeatures),
       specifications: mapSpecifications(row.characteristicGroups),
       media: mapMedia(row),
       documents: mapDocuments(row.documents),

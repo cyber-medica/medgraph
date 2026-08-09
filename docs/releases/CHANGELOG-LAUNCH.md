@@ -283,3 +283,15 @@ See [Controlled Indexing Activation](../reports/controlled-indexing-activation-2
   monitoring under the corporate CyberMedica identity.
 - Added exact corporate-only IDN-03 Approval/Publication runner; durable
   publication evidence is recorded after Production PASS.
+
+# 2026-08-09 — Global catalog master corrective v7 (Stage only)
+
+- Audited all 114 visible Stage Products and permanently rejected unresolved
+  React Flight description tokens at the published-catalog capture boundary.
+- Restored exactly one separate HD-550 Stage draft while preserving the 71
+  published identities and the 42 direct EndoMarket drafts.
+- Preserved complete raw source truth and added concise evidence-traced
+  presentation features for all 42 imported Products.
+- Replaced Product Detail thumbnails with a compact accessible carousel and
+  verified desktop, responsive Chromium and WebKit/iPhone layouts.
+- No Production, lifecycle, migration, `main` or `production` change was made.
