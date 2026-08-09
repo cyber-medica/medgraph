@@ -138,9 +138,10 @@ test("HD-350 and HD-500 overlay the exact published identities while HD-550 exis
 });
 
 test("Product Detail UX contract is carousel-only, compact and source-complete", async () => {
-  const [gallery, detail] = await Promise.all([
+  const [gallery, detail, stageSmoke] = await Promise.all([
     readFile("components/catalog/ProductGallery.tsx", "utf8"),
     readFile("app/catalog/[slug]/page.tsx", "utf8"),
+    readFile("scripts/qa/endomarket-stage-smoke.ts", "utf8"),
   ]);
   assert.match(gallery, /aria-roledescription="карусель изображений"/u);
   assert.match(gallery, /onTouchStart|onTouchEnd/u);
@@ -153,4 +154,7 @@ test("Product Detail UX contract is carousel-only, compact and source-complete",
   assert.ok(detail.indexOf('id="description"') < detail.indexOf('id="advantages"'));
   assert.ok(detail.indexOf('id="advantages"') < detail.indexOf('id="specifications"'));
   assert.ok(detail.lastIndexOf('id="manufacturer"') > detail.indexOf('id="applications"'));
+  assert.match(stageSmoke, /origin\.hostname === "stage\.cyber-medica\.ru"/u);
+  assert.match(stageSmoke, /https:\/\/vercel\.live\/_next-live\/feedback\/feedback\.js/u);
+  assert.doesNotMatch(stageSmoke, /if \(message\.type\(\) !== "error"\) return;\s*errors\.push/gu);
 });

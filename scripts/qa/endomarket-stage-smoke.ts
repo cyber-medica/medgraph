@@ -100,7 +100,9 @@ const runtimeErrors = (page: Page) => {
   page.on("pageerror", (error) => errors.push(`${error.name}: ${error.message}`));
   page.on("console", (message) => {
     if (message.type() !== "error") return;
-    const previewToolbarCsp = origin.hostname.endsWith(".vercel.app")
+    const previewToolbarHost = origin.hostname.endsWith(".vercel.app")
+      || origin.hostname === "stage.cyber-medica.ru";
+    const previewToolbarCsp = previewToolbarHost
       && message.text().includes("https://vercel.live/_next-live/feedback/feedback.js");
     if (!previewToolbarCsp) errors.push(`console:error: ${message.text()}`);
   });
