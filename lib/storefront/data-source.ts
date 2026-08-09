@@ -9,10 +9,13 @@ export function isEndoMarketStagePreview(
   if (environment.VERCEL_ENV === "production") return false;
   const exactVercelPreview = environment.VERCEL_ENV === "preview"
     && environment.VERCEL_GIT_COMMIT_REF === ENDOMARKET_STAGE_PREVIEW_BRANCH;
+  const explicitVercelPreview = environment.VERCEL_ENV === "preview"
+    && environment.VERCEL === "1"
+    && environment.CYBERMEDICA_ENDOMARKET_STAGE === "1";
   const explicitLocalQa = environment.VERCEL_ENV === undefined
     && environment.VERCEL !== "1"
     && environment.CYBERMEDICA_ENDOMARKET_STAGE === "1";
-  return exactVercelPreview || explicitLocalQa;
+  return exactVercelPreview || explicitVercelPreview || explicitLocalQa;
 }
 
 export function getStorefrontDataSource(

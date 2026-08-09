@@ -120,6 +120,20 @@ test("EndoMarket Stage source is exact-branch Preview-only and fails closed in P
     ...previewEnvironment,
     VERCEL_ENV: "production",
   }), "cloud_published");
+  assert.equal(isEndoMarketStagePreview({
+    VERCEL_ENV: "preview",
+    VERCEL: "1",
+    CYBERMEDICA_ENDOMARKET_STAGE: "1",
+  }), true);
+  assert.equal(isEndoMarketStagePreview({
+    VERCEL_ENV: "preview",
+    VERCEL: "1",
+  }), false);
+  assert.equal(isEndoMarketStagePreview({
+    VERCEL_ENV: "production",
+    VERCEL: "1",
+    CYBERMEDICA_ENDOMARKET_STAGE: "1",
+  }), false);
   assert.equal(isEndoMarketStagePreview({ CYBERMEDICA_ENDOMARKET_STAGE: "1" }), true);
 });
 
