@@ -120,6 +120,12 @@ export function buildProductStructuredData({
     buildBreadcrumbJsonLd([
       { name: "Главная", path: "/" },
       { name: "Каталог", path: "/catalog" },
+      ...(category
+        ? [{
+            name: category.name,
+            path: `/catalog?category=${encodeURIComponent(category.slug)}` as const,
+          }]
+        : []),
       { name: product.name, path: `/catalog/${product.slug}` },
     ]),
   ];

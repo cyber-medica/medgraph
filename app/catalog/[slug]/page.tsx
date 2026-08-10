@@ -21,7 +21,10 @@ import type {
   ProductDocumentKind,
   ProductSpecification,
 } from "@/lib/storefront/types";
-import { buildStorefrontMetadata } from "@/lib/storefront/seo";
+import {
+  buildStorefrontMetadata,
+  getPlainProductType,
+} from "@/lib/storefront/seo";
 import { buildProductStructuredData } from "@/lib/storefront/structured-data";
 import { buildProductRequestHref } from "@/lib/request/product-context";
 
@@ -40,16 +43,20 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = await productService.getProductBySlug(slug);
+  const [product, categories] = await Promise.all([
+    productService.getProductBySlug(slug),
+    catalogRepository.getCategories(),
+  ]);
   if (!product) notFound();
 
   const image = product.media.find(({ type }) => type === "image");
   const presentation = getProductPresentation(product);
+  const category = categories.find(({ id }) => id === product.categoryId);
   return buildStorefrontMetadata({
-    title: product.seoTitle ?? `${product.name} — медицинское оборудование`,
+    title: `${product.name} — ${getPlainProductType(product, category)}`,
     description: product.seoDescription
       ?? presentation.shortDescription
-      ?? `${product.name} в каталоге медицинского оборудования CyberMedica.`,
+      ?? product.description,
     canonical: `/catalog/${product.slug}`,
     image: image ? { url: image.url, alt: image.alt } : undefined,
   });

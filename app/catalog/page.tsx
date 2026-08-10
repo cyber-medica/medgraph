@@ -19,12 +19,23 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ q?: string; category?: string; manufacturer?: string; applicationArea?: string; sort?: string }>;
 }): Promise<Metadata> {
-  const { q = "" } = await searchParams;
+  const {
+    q = "",
+    category = "",
+    manufacturer = "",
+    applicationArea = "",
+    sort = "name-asc",
+  } = await searchParams;
+  const hasFilteredView = q.trim().length > 0
+    || category.length > 0
+    || manufacturer.length > 0
+    || applicationArea.length > 0
+    || sort !== "name-asc";
   return buildStorefrontMetadata({
     title: "Каталог медицинских изделий",
     description: catalogDescription,
     canonical: "/catalog",
-    noindexFollow: q.trim().length > 0,
+    noindexFollow: hasFilteredView,
   });
 }
 

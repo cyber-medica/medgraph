@@ -200,13 +200,13 @@ test("only stable Storefront pages render JSON-LD", async () => {
 });
 
 test("query result pages are noindex-follow without changing canonical URLs", async () => {
-  const sources = await Promise.all([
+  const [catalog, search] = await Promise.all([
     readFile("app/catalog/page.tsx", "utf8"),
     readFile("app/search/page.tsx", "utf8"),
   ]);
 
-  for (const source of sources) {
-    assert.match(source, /generateMetadata/u);
-    assert.match(source, /noindexFollow: q\.trim\(\)\.length > 0/u);
-  }
+  assert.match(catalog, /generateMetadata/u);
+  assert.match(catalog, /noindexFollow: hasFilteredView/u);
+  assert.match(search, /generateMetadata/u);
+  assert.match(search, /noindexFollow: q\.trim\(\)\.length > 0/u);
 });

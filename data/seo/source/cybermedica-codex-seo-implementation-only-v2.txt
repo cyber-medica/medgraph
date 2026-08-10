@@ -1,0 +1,69 @@
+CYBERMEDICA — SEO IMPLEMENTATION ONLY v2
+
+Ты — разработчик. SEO-стратегию, тексты, URL, metadata и internal-link business rules НЕ придумывать.
+
+Authoritative inputs:
+- cybermedica_seo_implementation_manifest_v2.json
+- cybermedica_seo_content_search_architecture_v2.md
+- previously approved SEO readiness/keyword artifacts if needed only for mapping existing Product slugs.
+
+Implement on feature branch + Stage only.
+
+Required:
+1. Resolve exact existing slugs/Product IDs for every referenced model; never create duplicate Product identities.
+2. Implement P0 routes/content exactly from manifest:
+   /catalog/endoskopiya
+   /catalog/endoskopiya/videoendoskopicheskie-sistemy
+   /solutions/portativnaya-bronkhoskopiya
+   /catalog/endoskopiya/obrabotka-endoskopov
+3. Implement Product metadata contract across all indexable public Products.
+4. Implement internal link graph from manifest using normal crawlable HTML links.
+5. Environment SEO:
+   - Production public pages indexable.
+   - Stage/Preview noindex,nofollow.
+6. Production canonical for indexable routes. No stage/vercel leakage.
+7. Update sitemap with canonical production Product/category/manufacturer/solution URLs only.
+8. Audit robots.txt.
+9. Structured data:
+   Organization + BreadcrumbList + truthful Product data only.
+   Never fabricate offers, price, availability, review or rating.
+10. Fix HTTP/SEO integrity:
+   valid public route 200;
+   nonexistent Product route real 404;
+   no soft-404;
+   no canonical redirect chains.
+11. IMPORTANT legacy-production gate:
+   verify that after eventual controlled release `/catalog` is the current CyberMedica app and cannot resolve/render the historical Tilda catalog.
+12. Add automated SEO audit for:
+   title/meta/H1/canonical/robots/status/sitemap inclusion/duplicate metadata/stage leakage.
+13. Run full existing regression suite + TypeScript + ESLint + builds + Chromium/WebKit/mobile.
+14. Deploy Stage.
+15. Direct Stage self-audit, iterate until P0=0.
+
+DO NOT:
+- change business copy;
+- invent SEO keywords;
+- rewrite landing text;
+- publish Production;
+- merge main/production;
+- touch Production DB/lifecycle.
+
+Final response:
+Готово, проверяйте stage: https://stage.cyber-medica.ru
+
+Then:
+Branch
+Commit
+Immutable deployment
+Stage noindex PASS
+Indexable Product count planned for Production
+Sitemap canonical URL count
+Product metadata PASS count
+P0 landing 4/4
+Internal-link graph PASS
+404 PASS
+Structured data PASS
+Legacy Tilda /catalog conflict gate PASS
+Tests/build/browser PASS
+Production writes = 0
+Production deployment changed = No

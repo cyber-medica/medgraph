@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "products": [
+    {
+      "key": "SonoScape HD-350",
+      "productId": "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+      "slug": "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+      "model": "HD-350"
+    },
+    {
+      "key": "SonoScape HD-500",
+      "productId": "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+      "slug": "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+      "model": "HD-500"
+    },
+    {
+      "key": "SonoScape HD-550",
+      "productId": "df001769-ac68-5890-827f-5977a723c5ed",
+      "slug": "videoendoskopicheskaya-sistema-sonoscape-hd-550",
+      "model": "HD-550"
+    },
+    {
+      "key": "Medinova BR-1242",
+      "productId": "625b0514-c2d7-5940-9c8d-2e53793aa96a",
+      "slug": "medinova-br-1242",
+      "model": "BR-1242"
+    },
+    {
+      "key": "Medinova BR-1259",
+      "productId": "fe0ac882-1b38-5b7c-9892-8d8b2b6f6c5e",
+      "slug": "medinova-br-1259",
+      "model": "BR-1259"
+    },
+    {
+      "key": "Medinova HV-3101",
+      "productId": "492f7475-56b4-5a2e-bd9e-76d1a4191673",
+      "slug": "medinova-hv-3101",
+      "model": "HV-3101"
+    },
+    {
+      "key": "ENDO CLEAN-1000",
+      "productId": "598bb29f-f5ca-5253-be7d-ae3887a708d2",
+      "slug": "medinova-endo-clean-1000",
+      "model": "ENDO CLEAN-1000"
+    },
+    {
+      "key": "ENDO CLEAN-2000",
+      "productId": "e541bffe-ad1d-5f0e-a84a-e39771497438",
+      "slug": "medinova-endo-clean-2000",
+      "model": "ENDO CLEAN-2000"
+    }
+  ],
+  "manufacturers": [
+    {
+      "key": "manufacturer:SonoScape",
+      "manufacturerId": "sonoscape",
+      "slug": "sonoscape",
+      "name": "SonoScape"
+    },
+    {
+      "key": "manufacturer:Medinova",
+      "manufacturerId": "medinova",
+      "slug": "medinova",
+      "name": "Medinova"
+    }
+  ]
+}

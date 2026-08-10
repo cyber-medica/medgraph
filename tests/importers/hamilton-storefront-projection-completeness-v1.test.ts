@@ -25,7 +25,7 @@ test("projection completeness is revision-bound, targeted and service-only", asy
   assert.doesNotMatch(migration, /update cloud\.products|insert into cloud\.product_publication|delete from cloud\.product/iu);
 });
 
-test("published read model and Product metadata consume projection SEO", async () => {
+test("published read model preserves projection SEO and Product metadata uses the public contract", async () => {
   const [contracts, mapper, productPage] = await Promise.all([
     readFile("lib/published-catalog/contracts.ts", "utf8"),
     readFile("lib/storefront/cloud-published-mapper.ts", "utf8"),
@@ -37,7 +37,7 @@ test("published read model and Product metadata consume projection SEO", async (
   assert.match(contracts, /recordOrigin: z\.enum\(\["legacy", "structured_product_detail"\]\)/u);
   assert.match(mapper, /seoTitle: row\.seoTitle \?\? null/u);
   assert.match(mapper, /seoDescription: row\.seoDescription \?\? null/u);
-  assert.match(productPage, /title: product\.seoTitle/u);
+  assert.match(productPage, /title: `\$\{product\.name\} — \$\{getPlainProductType\(product, category\)\}`/u);
   assert.match(productPage, /description: product\.seoDescription/u);
 });
 

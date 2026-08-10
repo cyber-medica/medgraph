@@ -175,7 +175,10 @@ test("valid empty published catalog remains empty without static or draft fallba
     manufacturerService: { getManufacturers: async () => mapped.manufacturers },
     categoryService: { getCategories: async () => mapped.categories },
   });
-  assert.equal(sitemap.some(({ url }) => new URL(url).pathname.startsWith("/catalog/")), false);
+  assert.equal(
+    sitemap.some(({ url }) => new URL(url).pathname === "/catalog/published-product"),
+    false,
+  );
 });
 
 test("schema mismatch, malformed products and nested children fail closed", async () => {

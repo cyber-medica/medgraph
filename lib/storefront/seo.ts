@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { isProductionIndexingEnvironment } from "./indexing.ts";
+import type { Category, Product } from "./types.ts";
 
 export const STOREFRONT_SITE_URL = "https://cyber-medica.ru";
 export const STOREFRONT_SITE_NAME = "CyberMedica";
@@ -15,6 +16,7 @@ interface StorefrontMetadataInput {
   canonical: `/${string}` | "/";
   image?: StorefrontSeoImage;
   noindexFollow?: boolean;
+  absoluteTitle?: boolean;
 }
 
 export interface StorefrontBreadcrumbItem {
@@ -28,12 +30,13 @@ export function buildStorefrontMetadata({
   canonical,
   image,
   noindexFollow = false,
+  absoluteTitle = false,
 }: StorefrontMetadataInput): Metadata {
   const images = image ? [{ url: image.url, alt: image.alt }] : undefined;
   const allowIndexing = isProductionIndexingEnvironment();
 
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical },
     robots: {
@@ -56,6 +59,19 @@ export function buildStorefrontMetadata({
       images: image ? [image.url] : undefined,
     },
   };
+}
+
+export function getPlainProductType(
+  product: Pick<Product, "specifications">,
+  category?: Pick<Category, "name">,
+) {
+  const typeSpecification = product.specifications.find(
+    ({ label, value }) => label.trim().toLocaleLowerCase("ru-RU") === "тип товара"
+      && value.trim().length > 0,
+  );
+  return typeSpecification?.value.trim()
+    ?? category?.name.trim()
+    ?? "медицинское оборудование";
 }
 
 export function buildBreadcrumbJsonLd(items: StorefrontBreadcrumbItem[]) {

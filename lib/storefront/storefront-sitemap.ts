@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { SEO_P0_PATHS } from "../seo/paths.ts";
 import type { CategoryService } from "./category-service.ts";
 import type { ManufacturerService } from "./manufacturer-service.ts";
 import type { ProductService } from "./product-service.ts";
@@ -76,29 +77,17 @@ export function buildStorefrontSitemapFromCatalog(
       priority: 0.95,
     },
     {
-      url: url("/search"),
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: url("/compare"),
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.76,
-    },
-    {
       url: url("/manufacturers"),
       lastModified,
       changeFrequency: "monthly",
       priority: 0.75,
     },
-    {
-      url: url("/request"),
+    ...SEO_P0_PATHS.map((path) => ({
+      url: url(path),
       lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+      changeFrequency: "monthly" as const,
+      priority: path === "/catalog/endoskopiya" ? 0.9 : 0.82,
+    })),
   ];
   const productRoutes: MetadataRoute.Sitemap = sitemapProducts.map(
     (product) => ({

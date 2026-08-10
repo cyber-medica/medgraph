@@ -41,6 +41,7 @@
     "qa:featured-carousel": "node scripts/qa/featured-carousel-smoke.ts",
     "qa:homepage-polish": "node scripts/qa/homepage-polish-smoke.ts",
     "qa:endomarket-stage": "node scripts/qa/endomarket-stage-smoke.ts",
+    "qa:seo:v2": "node scripts/qa/seo-content-search-architecture-v2.ts",
     "qa:catalog-reliability-gate": "node --test tests/importers/published-catalog-transport-resilience-v1.test.ts",
     "qa:catalog-production-synthetic": "node scripts/qa/catalog-production-synthetic.ts",
     "qa:canonical-routing-gate": "node scripts/qa/canonical-routing-gate.ts",
