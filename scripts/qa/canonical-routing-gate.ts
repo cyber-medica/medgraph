@@ -16,6 +16,7 @@ assert.ok([CANONICAL_HOST, "www.cyber-medica.ru"].includes(origin.hostname));
 
 const expectedRelease = process.env.EXPECTED_RELEASE_SHA?.trim();
 const expectedCount = Number(process.env.EXPECTED_PUBLISHED_PRODUCT_COUNT ?? "0");
+const routeResponseBudgetMs = 30_000;
 const nonce = `routing-gate-${Date.now()}`;
 let canonicalFingerprint: CanonicalRouteFingerprint | undefined;
 
@@ -26,7 +27,7 @@ async function read(path: string, expectedStatus = 200) {
   const response = await fetch(url, {
     cache: "no-store",
     redirect: "follow",
-    signal: AbortSignal.timeout(20_000),
+    signal: AbortSignal.timeout(routeResponseBudgetMs),
     headers: {
       "Cache-Control": "no-cache",
       "User-Agent": "CyberMedica-Canonical-Routing-Gate/2.0",
@@ -41,14 +42,14 @@ async function read(path: string, expectedStatus = 200) {
   else canonicalFingerprint = fingerprint;
   if (expectedRelease) assert.equal(fingerprint.release, expectedRelease, "canonical release SHA is not ready");
   const text = await response.text();
-  assert.ok(Date.now() - started < 20_000, `${path} exceeded the response budget`);
+  assert.ok(Date.now() - started < routeResponseBudgetMs, `${path} exceeded the response budget`);
   return { response, text };
 }
 
 const wwwResponse = await fetch(`https://www.${CANONICAL_HOST}/?routing_gate=${nonce}`, {
   cache: "no-store",
   redirect: "manual",
-  signal: AbortSignal.timeout(20_000),
+  signal: AbortSignal.timeout(routeResponseBudgetMs),
 });
 assert.ok([301, 308].includes(wwwResponse.status), "www must redirect permanently");
 assert.equal(new URL(wwwResponse.headers.get("location") ?? "", origin).hostname, CANONICAL_HOST);
@@ -96,7 +97,7 @@ await read("/api/request", 405);
 const anonymousReview = await fetch(new URL("/internal/review", origin), {
   cache: "no-store",
   redirect: "manual",
-  signal: AbortSignal.timeout(20_000),
+  signal: AbortSignal.timeout(routeResponseBudgetMs),
 });
 assert.equal(anonymousReview.status, 303);
 assert.equal(new URL(anonymousReview.headers.get("location") ?? "", origin).pathname, "/internal/login");

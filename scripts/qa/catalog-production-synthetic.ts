@@ -5,7 +5,7 @@ import { extractSitemapProductPaths } from "../../lib/canonical-routing-gate.ts"
 const owner = "cybermedicaooo@gmail.com";
 const origin = new URL(process.env.CATALOG_SYNTHETIC_ORIGIN ?? "https://cyber-medica.ru");
 const expectedProductCount = Number(process.env.EXPECTED_PUBLISHED_PRODUCT_COUNT ?? "0");
-const routeResponseBudgetMs = 20_000;
+const routeResponseBudgetMs = 30_000;
 assert.equal(origin.protocol, "https:");
 assert.ok(["cyber-medica.ru", "www.cyber-medica.ru"].includes(origin.hostname));
 

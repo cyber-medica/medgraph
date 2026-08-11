@@ -305,3 +305,20 @@ See [Controlled Indexing Activation](../reports/controlled-indexing-activation-2
   browser.
 - Verified a complete `71 → 114` publication rehearsal and idempotent replay
   against a network-isolated restore of the fresh Production backup.
+
+# 2026-08-11 — Production launch completed
+
+- Applied the exact additive launch migration and published the manifest-bound
+  43-Product scope through immutable structured and Product lifecycle records.
+- Production now contains 122 Products: 114 published and the same eight
+  deferred drafts. Product lifecycle totals are `114 / 114 / 114 / 114` and
+  projection version is 75.
+- Verified the 152-URL canonical sitemap (`114` Product, `31` manufacturer and
+  `7` static/SEO routes), public `Кибермедика` brand, four P0 SEO landings and
+  Stage noindex isolation.
+- Completed the authoritative R9 Production smoke with one explicit synthetic
+  lead: attribution and Product context survived navigation, downstream
+  accepted the request and exactly one `rfq_success` was emitted.
+- Integrated the lockfile-matched `playwright-core` WebKit install corrective
+  and reconciled 114-Product monitoring counters without changing dependency
+  versions.
