@@ -133,7 +133,7 @@ test("Storefront routes use the unified SEO helper", async () => {
   );
 
   for (const source of sources) {
-    assert.match(source, /buildStorefrontMetadata/u);
+    assert.match(source, /build(?:Storefront|ProductSeo|ManufacturerSeo)Metadata/u);
     assert.doesNotMatch(source, /verticals\/fs510|public-product-page/iu);
   }
 });

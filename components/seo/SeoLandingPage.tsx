@@ -2,27 +2,27 @@ import Link from "next/link";
 
 import JsonLd from "@/components/seo/JsonLd";
 import {
-  buildSeoLandingBreadcrumbs,
-  getSeoLanding,
-  resolveSeoLandingLinks,
-  type SeoP0Path,
-} from "@/lib/seo/implementation-v2";
+  buildSeoLandingBreadcrumbsV3,
+  getSeoLandingV3,
+  resolveSeoLandingLinksV3,
+  type SeoLandingPath,
+} from "@/lib/seo/implementation-v3";
 import { manufacturerService, productService } from "@/lib/storefront";
 import { buildBreadcrumbJsonLd } from "@/lib/storefront/seo";
 import { buildCollectionPageStructuredData } from "@/lib/storefront/structured-data";
 
 interface SeoLandingPageProps {
-  path: SeoP0Path;
+  path: SeoLandingPath;
 }
 
 export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
-  const content = getSeoLanding(path);
+  const content = getSeoLandingV3(path);
   const [products, manufacturers] = await Promise.all([
     productService.getActiveProducts(),
     manufacturerService.getManufacturers(),
   ]);
-  const breadcrumbs = buildSeoLandingBreadcrumbs(path);
-  const links = resolveSeoLandingLinks(path, products, manufacturers);
+  const breadcrumbs = buildSeoLandingBreadcrumbsV3(path);
+  const links = resolveSeoLandingLinksV3(path, products, manufacturers);
 
   return (
     <main className="min-h-screen bg-cm-canvas">
@@ -130,8 +130,12 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
         <section className="mt-10 rounded-2xl bg-cm-ink px-5 py-7 text-white sm:px-8 sm:py-9">
           <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
             <div>
-              <h2 className="text-2xl font-bold tracking-[-0.025em]">{content.cta.title}</h2>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-white/75">{content.cta.body}</p>
+              {content.cta.title ? (
+                <h2 className="text-2xl font-bold tracking-[-0.025em]">{content.cta.title}</h2>
+              ) : null}
+              <p className={`${content.cta.title ? "mt-2 " : ""}max-w-3xl text-sm leading-6 text-white/75`}>
+                {content.cta.body}
+              </p>
             </div>
             <Link
               href="/request"

@@ -58,7 +58,7 @@ test("catalog cards use real Storefront fields and expose useful journeys", asyn
 test("UX polish does not change product canonical or JSON-LD", async () => {
   const product = await source("app/catalog/[slug]/page.tsx");
 
-  assert.match(product, /canonical: `\/catalog\/\$\{product\.slug\}`/u);
+  assert.match(product, /buildProductSeoMetadataV3/u);
   assert.match(product, /<JsonLd/u);
   assert.match(product, /buildProductStructuredData\(\{ product, manufacturer, category \}\)/u);
 });

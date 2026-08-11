@@ -1,0 +1,31 @@
+{
+  "version": 3,
+  "products": [
+    {
+      "key": "Hamilton-T1",
+      "dbProductId": "e66a1165-030b-4aa4-a400-959f1ac70fe3",
+      "sourceUid": "330695211247",
+      "slug": "767632362-330695211247-apparat-ivl-hamilton-t1",
+      "model": "Hamilton-T1",
+      "manufacturerSlug": "hamilton-medical"
+    }
+  ],
+  "linkGraph": {
+    "/catalog/reanimatsiya/transportnye-apparaty-ivl": [
+      "Hamilton-T1"
+    ],
+    "/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty": []
+  },
+  "unresolvedApprovedPriorityModels": [
+    {
+      "manufacturer": "Mindray",
+      "model": "WATO EX-35",
+      "reason": "No published Product with this exact identity exists in projection version 75."
+    },
+    {
+      "manufacturer": "Mindray",
+      "model": "WATO A8",
+      "reason": "No published Product with this exact identity exists in projection version 75."
+    }
+  ]
+}

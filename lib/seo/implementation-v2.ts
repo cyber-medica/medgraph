@@ -13,7 +13,7 @@ export interface SeoLandingContent {
   intro: string;
   sections: readonly (readonly [string, string])[];
   faq: readonly (readonly [string, string])[];
-  cta: Readonly<{ title: string; body: string }>;
+  cta: Readonly<{ title?: string; body: string }>;
 }
 
 export interface SeoLandingLink {

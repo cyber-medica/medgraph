@@ -1,0 +1,40 @@
+CYBERMEDICA — SEO BUSINESS PACKAGE v3 IMPLEMENTATION DELTA
+
+Ты — разработчик. Business/SEO decisions are already complete.
+
+Authoritative inputs:
+- cybermedica_seo_metadata_new43_v3.csv
+- cybermedica_seo_p1_landings_v3.json
+- cybermedica_manufacturer_seo_contract_v3.json
+- cybermedica_legacy_url_migration_policy_v3.md
+- cybermedica_seo_business_package_v3.json
+
+Do not invent or rewrite SEO content.
+
+Scope:
+1. Reconcile the 43 new launch Products against real canonical Production Product IDs/slugs.
+2. Apply exact v3 metadata to those 43 Products without creating duplicate identities.
+3. Preserve accepted SEO v2 metadata for the existing 71 Products unless v3 explicitly overrides a field.
+4. Implement the two P1 category routes/content exactly from v3:
+   - /catalog/reanimatsiya/transportnye-apparaty-ivl
+   - /catalog/anesteziologiya/narkozno-dykhatelnye-apparaty
+5. Apply manufacturer SEO contract to existing manufacturer pages:
+   - SonoScape
+   - Medinova
+   - Hamilton Medical
+   - Mindray
+   Use generic rule for other manufacturer pages only where the route already exists.
+6. Do not create claims such as official dealer/distributor unless independently present in approved business data.
+7. Implement legacy URL policy only after inventorying actual old routes:
+   - exact equivalent => one-hop 301;
+   - no equivalent => 404/410;
+   - no mass redirect to homepage/catalog;
+   - no redirected URL in sitemap.
+8. Update sitemap/canonical counts from actual Production-published catalog state; never hardcode 114 if publication state differs.
+9. Keep public brand as «Кибермедика».
+10. Run SEO audit: unique title/meta/H1/canonical, 200/404, sitemap, redirects, no stage/vercel leakage.
+11. Stage first; no Production deployment unless separately authorized by user.
+
+Final response:
+Готово, проверяйте stage: https://stage.cyber-medica.ru
+Then report exact counts and any unresolved legacy URL inventory dependency.

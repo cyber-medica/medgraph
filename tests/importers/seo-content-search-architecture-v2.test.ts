@@ -21,6 +21,7 @@ import {
   SEO_P0_PATHS,
   seoIdentityManifest,
 } from "../../lib/seo/implementation-v2.ts";
+import { SEO_LANDING_PATHS } from "../../lib/seo/paths.ts";
 
 const sourceFiles = [
   [
@@ -142,11 +143,19 @@ test("all 71 planned indexable Products have unique metadata inputs", () => {
 test("production sitemap is canonical and contains only approved content routes", () => {
   const sitemap = buildStorefrontSitemapFromCatalog(publishedCatalog);
   const urls = sitemap.map(({ url }) => url);
-  assert.equal(urls.length, 103);
-  assert.equal(new Set(urls).size, 103);
+  const expectedUrls = publishedCatalog.products.length
+    + publishedCatalog.manufacturers.length
+    + 3
+    + SEO_LANDING_PATHS.length;
+  assert.equal(urls.length, expectedUrls);
+  assert.equal(new Set(urls).size, expectedUrls);
   assert.ok(urls.every((url) => url.startsWith(`${STOREFRONT_SITE_URL}/`)));
-  assert.ok(SEO_P0_PATHS.every((path) => urls.includes(`${STOREFRONT_SITE_URL}${path}`)));
-  assert.equal(urls.filter((url) => url.includes("/catalog/")).length, 74);
+  assert.ok(SEO_LANDING_PATHS.every((path) => urls.includes(`${STOREFRONT_SITE_URL}${path}`)));
+  assert.equal(
+    urls.filter((url) => url.includes("/catalog/")).length,
+    publishedCatalog.products.length
+      + SEO_LANDING_PATHS.filter((path) => path.startsWith("/catalog/")).length,
+  );
   assert.equal(urls.some((url) => /stage\.|vercel\.app|\/search|\/compare|\/request/u.test(url)), false);
 });
 

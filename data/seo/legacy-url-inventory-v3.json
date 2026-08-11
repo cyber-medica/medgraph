@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "status": "pending_search_console_and_yandex_webmaster_export",
+  "policy": "data/seo/source/v3/cybermedica_legacy_url_migration_policy_v3.md",
+  "mappings": [],
+  "safetyDecision": "No legacy redirect is deployed without a verified one-to-one equivalent.",
+  "requiredInputs": [
+    "Google Search Console URL export for the previous 16 months",
+    "Yandex Webmaster URL and indexing export",
+    "Historical Tilda tproduct URL inventory with traffic and backlink importance"
+  ]
+}

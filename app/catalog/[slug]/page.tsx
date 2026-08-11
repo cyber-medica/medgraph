@@ -23,9 +23,9 @@ import type {
   ProductSpecification,
 } from "@/lib/storefront/types";
 import {
-  buildStorefrontMetadata,
-  getPlainProductType,
-} from "@/lib/storefront/seo";
+  buildProductSeoMetadataV3,
+  getProductSeoH1,
+} from "@/lib/seo/implementation-v3";
 import { buildProductStructuredData } from "@/lib/storefront/structured-data";
 import { buildProductRequestHref } from "@/lib/request/product-context";
 
@@ -53,13 +53,11 @@ export async function generateMetadata({
   const image = product.media.find(({ type }) => type === "image");
   const presentation = getProductPresentation(product);
   const category = categories.find(({ id }) => id === product.categoryId);
-  return buildStorefrontMetadata({
-    title: `${product.name} — ${getPlainProductType(product, category)}`,
-    description: product.seoDescription
-      ?? presentation.shortDescription
-      ?? product.description,
-    canonical: `/catalog/${product.slug}`,
+  return buildProductSeoMetadataV3({
+    product,
+    category,
     image: image ? { url: image.url, alt: image.alt } : undefined,
+    fallbackDescription: presentation.shortDescription ?? product.description,
   });
 }
 
@@ -87,6 +85,7 @@ export default async function StorefrontProductPage({
     manufacturerName: manufacturer?.name,
   });
   const experience = buildProductDetailExperience({ product, manufacturer, category });
+  const productH1 = getProductSeoH1(product);
   const generalSpecifications = experience.generalSpecifications;
   const technicalSpecifications = experience.technicalSpecifications;
   const specificationGroups = groupSpecifications(technicalSpecifications);
@@ -169,7 +168,7 @@ export default async function StorefrontProductPage({
               ) : null}
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="break-words text-cm-ink">
-                {product.name}
+                {productH1}
               </li>
             </ol>
           </nav>
@@ -190,7 +189,7 @@ export default async function StorefrontProductPage({
               data-testid="product-hero-content"
             >
               <h1 className="max-w-4xl break-words text-[1.65rem] font-extrabold leading-[1.12] tracking-[-0.03em] sm:text-[2rem] lg:text-[2.25rem]">
-                {product.name}
+                {productH1}
               </h1>
               {experience.summary && (
                 <p

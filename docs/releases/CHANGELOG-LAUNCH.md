@@ -1,5 +1,21 @@
 # CyberMedica Launch Changelog
 
+## 2026-08-11 — SEO Business Package v3 on Stage
+
+- Reconciled exact v3 metadata for all 43 launch Products by Product ID,
+  source UID and canonical slug while preserving the accepted v2 fallback for
+  the original 71 Products.
+- Added the two supplied P1 landings and exact manufacturer SEO contract for
+  SonoScape, Medinova, Hamilton Medical and Mindray without invented copy or
+  guessed Product links.
+- Kept Preview globally `noindex,nofollow` with an empty sitemap; Production
+  sitemap size remains derived from the published catalog instead of a fixed
+  Product count.
+- Left legacy redirects disabled pending actual Search Console, Yandex
+  Webmaster and historical Tilda URL inventories.
+- Preserved Production deployment and data with zero Product, lifecycle,
+  Supabase, migration, ENV or DNS writes.
+
 ## 2026-08-09 — EndoMarket direct-source reconciliation v5 on Stage
 
 - Audited all 42 new Product drafts against 38 direct EndoMarket Product pages

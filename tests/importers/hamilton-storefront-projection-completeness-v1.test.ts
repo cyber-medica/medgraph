@@ -37,8 +37,8 @@ test("published read model preserves projection SEO and Product metadata uses th
   assert.match(contracts, /recordOrigin: z\.enum\(\["legacy", "structured_product_detail"\]\)/u);
   assert.match(mapper, /seoTitle: row\.seoTitle \?\? null/u);
   assert.match(mapper, /seoDescription: row\.seoDescription \?\? null/u);
-  assert.match(productPage, /title: `\$\{product\.name\} — \$\{getPlainProductType\(product, category\)\}`/u);
-  assert.match(productPage, /description: product\.seoDescription/u);
+  assert.match(productPage, /buildProductSeoMetadataV3/u);
+  assert.match(productPage, /fallbackDescription: presentation\.shortDescription \?\? product\.description/u);
 });
 
 test("local projection QA proves exact Product SEO, three characteristics and refresh retry", async () => {

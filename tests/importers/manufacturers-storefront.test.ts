@@ -36,7 +36,8 @@ test("manufacturer page uses Storefront manufacturer lookup", async () => {
   assert.match(detail, /manufacturerService\.getManufacturerBySlug\(slug\)/);
   assert.match(detail, /manufacturer\.name/);
   assert.match(detail, /manufacturer\.logoUrl/);
-  assert.match(detail, /manufacturer\.description/);
+  assert.match(detail, /getManufacturerSeoContent\(manufacturer\)/u);
+  assert.match(detail, /manufacturerSeo\.intro/u);
   assert.match(detail, /manufacturer\.country/);
   assert.match(detail, /manufacturer\.websiteUrl/);
   assert.match(detail, /products\.length/);
@@ -59,12 +60,8 @@ test("manufacturer products are loaded through ProductService", async () => {
 test("manufacturer metadata is built from Storefront Manufacturer", async () => {
   const detail = await source(detailPath);
 
-  assert.match(detail, /title: `\$\{manufacturer\.name\}/);
-  assert.match(detail, /description: manufacturer\.shortDescription/);
-  assert.match(
-    detail,
-    /canonical: `\/manufacturers\/\$\{manufacturer\.slug\}`/,
-  );
+  assert.match(detail, /buildManufacturerSeoMetadataV3/u);
+  assert.match(detail, /return buildManufacturerSeoMetadataV3\(/u);
 });
 
 test("manufacturer static params use active Storefront manufacturers", async () => {

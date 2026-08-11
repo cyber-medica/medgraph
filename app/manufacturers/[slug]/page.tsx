@@ -10,7 +10,11 @@ import {
   productService,
   storefrontDataSource,
 } from "@/lib/storefront";
-import { buildStorefrontMetadata } from "@/lib/storefront/seo";
+import {
+  buildManufacturerSeoMetadataV3,
+  getManufacturerSeoContent,
+  orderManufacturerProductsV3,
+} from "@/lib/seo/implementation-v3";
 import { buildManufacturerStructuredData } from "@/lib/storefront/structured-data";
 import { getProductPresentation } from "@/lib/storefront/product-presentation";
 import { formatCountryForPublic } from "@/lib/storefront/country-presentation";
@@ -36,14 +40,12 @@ export async function generateMetadata({
   const manufacturer = await manufacturerService.getManufacturerBySlug(slug);
   if (!manufacturer) notFound();
 
-  return buildStorefrontMetadata({
-    title: `${manufacturer.name} — медицинское оборудование`,
-    description: manufacturer.shortDescription,
-    canonical: `/manufacturers/${manufacturer.slug}`,
-    image: isVerifiedLocalManufacturerLogo(manufacturer.logoUrl)
+  return buildManufacturerSeoMetadataV3(
+    manufacturer,
+    isVerifiedLocalManufacturerLogo(manufacturer.logoUrl)
       ? { url: manufacturer.logoUrl, alt: `${manufacturer.name} — логотип` }
       : undefined,
-  });
+  );
 }
 
 export default async function ManufacturerPage({ params }: ManufacturerPageProps) {
@@ -69,6 +71,11 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
     ),
   ];
   const country = formatCountryForPublic(manufacturer.country);
+  const manufacturerSeo = getManufacturerSeoContent(manufacturer);
+  const orderedProducts = orderManufacturerProductsV3(
+    products,
+    manufacturerSeo.priorityLinks,
+  );
 
   return (
     <main className="min-h-screen bg-cm-canvas">
@@ -92,10 +99,10 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
             <div>
               {country && <div className="text-[11px] font-semibold text-cm-teal">{country}</div>}
               <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em]">
-                {manufacturer.name}
+                {manufacturerSeo.h1}
               </h1>
               <p className="mt-3 max-w-2xl text-[13px] leading-6 text-cm-slate">
-                {manufacturer.description}
+                {manufacturerSeo.intro}
               </p>
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {manufacturerCategories.map((category) => (
@@ -153,7 +160,7 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
 
         {products.length > 0 ? (
           <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {products.map((product) => {
+            {orderedProducts.map((product) => {
               const presentation = getProductPresentation(product, {
                 categoryName: categoriesById.get(product.categoryId)?.name,
                 country,

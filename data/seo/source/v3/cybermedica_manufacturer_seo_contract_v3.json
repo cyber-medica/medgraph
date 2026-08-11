@@ -1,0 +1,65 @@
+{
+  "SonoScape": {
+    "path": "/manufacturers/sonoscape",
+    "title": "SonoScape — медицинское оборудование | Кибермедика",
+    "description": "Оборудование SonoScape для эндоскопии и диагностики: модели, характеристики, совместимость и запрос коммерческого предложения.",
+    "h1": "SonoScape",
+    "intro": "Каталог оборудования SonoScape в Кибермедика. На странице собраны доступные модели, их назначение и ссылки на подробные карточки с характеристиками и комплектацией.",
+    "priorityLinks": [
+      "HD-350",
+      "HD-500",
+      "HD-550"
+    ]
+  },
+  "Medinova": {
+    "path": "/manufacturers/medinova",
+    "title": "Medinova — эндоскопическое оборудование | Кибермедика",
+    "description": "Эндоскопическое оборудование Medinova: видеобронхоскопы, видеосистемы, обработка и хранение эндоскопов. Подбор и запрос КП.",
+    "h1": "Medinova",
+    "intro": "Оборудование Medinova для эндоскопических подразделений: портативная бронхоскопия, видеосистемы, мойка, дезинфекция и хранение эндоскопов.",
+    "priorityLinks": [
+      "HV-3101",
+      "BR-1242",
+      "BR-1259",
+      "ENDO CLEAN-1000",
+      "ENDO CLEAN-2000"
+    ]
+  },
+  "Hamilton Medical": {
+    "path": "/manufacturers/hamilton-medical",
+    "title": "Hamilton Medical — аппараты ИВЛ | Кибермедика",
+    "description": "Оборудование Hamilton Medical для респираторной поддержки: характеристики моделей, комплектация и запрос коммерческого предложения.",
+    "h1": "Hamilton Medical",
+    "intro": "Каталог оборудования Hamilton Medical в Кибермедика. Для каждой модели доступны характеристики, описание и возможность запросить коммерческое предложение.",
+    "priorityLinks": [
+      "Hamilton-T1"
+    ]
+  },
+  "Mindray": {
+    "path": "/manufacturers/mindray",
+    "title": "Mindray — медицинское оборудование | Кибермедика",
+    "description": "Медицинское оборудование Mindray: ИВЛ, анестезиология, мониторинг и другие направления. Характеристики моделей и запрос КП.",
+    "h1": "Mindray",
+    "intro": "Каталог оборудования Mindray в Кибермедика. Страница объединяет модели по направлениям и помогает перейти к подробным характеристикам и запросу КП.",
+    "priorityLinks": [
+      "WATO EX-35",
+      "WATO A8"
+    ]
+  },
+  "genericRule": {
+    "title": "{Manufacturer} — медицинское оборудование | Кибермедика",
+    "description": "Оборудование {Manufacturer}: доступные модели, характеристики, назначение и запрос коммерческого предложения.",
+    "h1": "{Manufacturer}",
+    "minimumContent": [
+      "manufacturer name",
+      "short factual intro",
+      "crawlable product list",
+      "category links"
+    ],
+    "forbid": [
+      "invented distributor status",
+      "official dealer claim without proof",
+      "generic keyword stuffing"
+    ]
+  }
+}

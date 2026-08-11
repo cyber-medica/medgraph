@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { SEO_P0_PATHS } from "../seo/paths.ts";
+import { SEO_LANDING_PATHS } from "../seo/paths.ts";
 import type { CategoryService } from "./category-service.ts";
 import type { ManufacturerService } from "./manufacturer-service.ts";
 import type { ProductService } from "./product-service.ts";
@@ -82,7 +82,7 @@ export function buildStorefrontSitemapFromCatalog(
       changeFrequency: "monthly",
       priority: 0.75,
     },
-    ...SEO_P0_PATHS.map((path) => ({
+    ...SEO_LANDING_PATHS.map((path) => ({
       url: url(path),
       lastModified,
       changeFrequency: "monthly" as const,

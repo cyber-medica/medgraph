@@ -111,11 +111,8 @@ test("sitemap URLs and route canonicals use the same public paths", async () => 
     source("app/robots.ts"),
   ]);
 
-  assert.match(productPage, /canonical: `\/catalog\/\$\{product\.slug\}`/);
-  assert.match(
-    manufacturerPage,
-    /canonical: `\/manufacturers\/\$\{manufacturer\.slug\}`/,
-  );
+  assert.match(productPage, /buildProductSeoMetadataV3/u);
+  assert.match(manufacturerPage, /buildManufacturerSeoMetadataV3/u);
   assert.ok(urls.has("/catalog/fs510"));
   assert.ok(urls.has("/manufacturers/ambu"));
   assert.match(robots, /sitemap: `\$\{siteUrl\}\/sitemap\.xml`/);
