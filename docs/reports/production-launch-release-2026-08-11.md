@@ -68,6 +68,32 @@ authenticated review phases are separated by grants and runtime checks. Browser
 requests contain only the operation key, manifest digest, and enumerated phase;
 Product IDs cannot be supplied by the browser.
 
+## Security containment
+
+| Check | Result |
+| --- | --- |
+| Credential class | temporary Supabase CLI database login role (`cli_login_postgres` boundary) |
+| Exposure contained | PASS |
+| Revocation / rotation | PASS — official Management API login-role deletion; no long-lived password rotation was required |
+| Old credential invalid | PASS — backing temporary roles were deleted server-side |
+| New secure boundary | PASS — fresh temporary boundary was used only for the approved read-only gate/backup and then revoked |
+| Secret scan | PASS |
+| Secrets committed | `0` |
+
+The authoritative sanitized evidence is recorded in
+`docs/reports/supabase-cli-login-containment-2026-08-11.md`.
+
+## Fresh post-containment backup
+
+| Evidence | Value |
+| --- | --- |
+| Backup ID | `production-postcontainment-clbzibuusyuajsylcbvl-20260811T085731Z` |
+| Manifest SHA-256 | `9bb285b006a9c8b73b9385c3986b9c3900379b917e45203e7a55c7993d6f7499` |
+| Database archive SHA-256 | `411a939011effd6b9a94df09d707842738cbc66613a6fd6eb2554e70ac157cac` |
+| Roles archive SHA-256 | `aa9aa7b903ee5f37034129a9231bed6a7eb90954e229d034335b2888651c6c90` |
+| Isolated restore verification | PASS — PostgreSQL 17.6, `network=none`, restore errors `0` |
+| Restored baseline | Products `79`; published/unpublished `71 / 8`; lifecycle `71 / 71 / 71 / 71`; projection `73` |
+
 ## Isolated lifecycle rehearsal
 
 The release migration and manifest were executed against a fresh restored
@@ -95,7 +121,7 @@ HTML-like tags remain rejected in both TypeScript and SQL validators.
 
 | Gate | Result |
 | --- | --- |
-| Full tests | `649 / 649` PASS |
+| Full tests | `650 / 650` PASS |
 | ESLint | PASS |
 | TypeScript | PASS |
 | Turbopack production build | PASS |
@@ -158,6 +184,18 @@ Product counts. Production observation measured a complete fallback Product
 Detail at up to 22.026 seconds under the exhaustive audit, so the external
 synthetic response budget is calibrated to a still-bounded, fail-closed 30
 seconds. No assertion, route or error was suppressed.
+
+The first Git-linked build of the final release SHA correctly cloned the
+canonical `production` branch but stopped in `prebuild`: the build-time
+snapshot capture treated a transient 10-second Published Catalog transport
+timeout as fatal even though the serving READY runtime held a validated
+114-Product LKG. The corrective persists that complete public payload as the
+tracked LKG seed and allows only timeout, network and HTTP 5xx capture failures
+to use it. Envelope, schema, completeness and document checksum are validated
+before fallback. HTTP 4xx, configuration errors, malformed responses and
+checksum failures remain fail-closed. The reconstructed seed maps byte-for-byte
+to the public catalog payload (`publicCatalogHash`
+`1a98bb6bad36bde9f86e94d005dbd48a4689c261fc70e58a06d010fda2d30b49`).
 
 ## Full Production catalog audit
 

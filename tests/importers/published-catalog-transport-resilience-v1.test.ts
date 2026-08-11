@@ -63,6 +63,18 @@ test("live-first retry policy remains bounded below the public route budget", ()
   );
 });
 
+test("bundled last-known-good seed is complete and checksum-valid", () => {
+  assert.ok(BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projection.products.length >= 114);
+  assert.equal(
+    BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projection.summary.productCount,
+    BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projection.products.length,
+  );
+  assert.equal(
+    calculateProjectionDocumentChecksum(BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projection),
+    BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projectionDocumentChecksum,
+  );
+});
+
 test("exhausted transient transport uses validated last-known-good", async () => {
   let calls = 0;
   const projection = await loadResilientPublishedCatalogProjection({

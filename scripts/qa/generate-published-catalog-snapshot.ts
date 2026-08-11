@@ -8,6 +8,15 @@ const outputPath = new URL(
   import.meta.url,
 );
 const productionProjectRef = "clbzibuusyuajsylcbvl";
+const minimumProductionProductCount = 70;
+const checksumPattern = /^[a-f0-9]{64}$/u;
+
+class TransientSnapshotCaptureError extends Error {
+  constructor() {
+    super("Production snapshot transport is temporarily unavailable.");
+    this.name = "TransientSnapshotCaptureError";
+  }
+}
 
 function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
@@ -21,12 +30,42 @@ function canonicalJson(value: unknown): string {
   return JSON.stringify(value);
 }
 
-async function validateExistingSnapshot() {
+async function validateExistingSnapshot(production = false) {
   const envelope = JSON.parse(await readFile(outputPath, "utf8")) as {
+    schemaVersion?: unknown;
+    projectionVersion?: unknown;
+    projectionChecksum?: unknown;
+    projectionDocumentChecksum?: unknown;
+    capturedAt?: unknown;
     projection?: unknown;
   };
-  parsePublishedCatalogProjection(envelope.projection);
-  console.info("Published catalog LKG seed validated for non-Production build.");
+  if (
+    envelope.schemaVersion !== 1
+    || !Number.isSafeInteger(envelope.projectionVersion)
+    || Number(envelope.projectionVersion) < 1
+    || typeof envelope.projectionChecksum !== "string"
+    || !checksumPattern.test(envelope.projectionChecksum)
+    || typeof envelope.projectionDocumentChecksum !== "string"
+    || !checksumPattern.test(envelope.projectionDocumentChecksum)
+    || typeof envelope.capturedAt !== "string"
+    || !Number.isFinite(Date.parse(envelope.capturedAt))
+  ) throw new Error("Published catalog LKG envelope is invalid.");
+  const projection = parsePublishedCatalogProjection(envelope.projection);
+  if (production && projection.products.length < minimumProductionProductCount) {
+    throw new Error("Published catalog LKG is unexpectedly incomplete.");
+  }
+  const projectionDocumentChecksum = createHash("sha256")
+    .update(canonicalJson({ ...projection, generatedAt: undefined }))
+    .digest("hex");
+  if (projectionDocumentChecksum !== envelope.projectionDocumentChecksum) {
+    throw new Error("Published catalog LKG checksum is invalid.");
+  }
+  console.info(JSON.stringify({
+    event: "published_catalog_lkg_validated",
+    productCount: projection.products.length,
+    projectionChecksumPrefix: envelope.projectionChecksum.slice(0, 12),
+    production,
+  }));
 }
 
 async function captureProductionSnapshot() {
@@ -40,25 +79,35 @@ async function captureProductionSnapshot() {
     || url.pathname !== "/"
   ) throw new Error("Production snapshot project binding is invalid.");
 
-  const response = await fetch(
-    new URL("/rest/v1/rpc/cloud_published_storefront_catalog_v1", url),
-    {
-      method: "POST",
-      redirect: "error",
-      headers: {
-        apikey: serviceRole,
-        Authorization: `Bearer ${serviceRole}`,
-        "Accept-Profile": "cloud_api",
-        "Content-Profile": "cloud_api",
-        "Content-Type": "application/json",
+  let response: Response;
+  try {
+    response = await fetch(
+      new URL("/rest/v1/rpc/cloud_published_storefront_catalog_v1", url),
+      {
+        method: "POST",
+        redirect: "error",
+        headers: {
+          apikey: serviceRole,
+          Authorization: `Bearer ${serviceRole}`,
+          "Accept-Profile": "cloud_api",
+          "Content-Profile": "cloud_api",
+          "Content-Type": "application/json",
+        },
+        body: "{}",
+        signal: AbortSignal.timeout(10_000),
       },
-      body: "{}",
-      signal: AbortSignal.timeout(10_000),
-    },
-  );
-  if (!response.ok) throw new Error("Production snapshot capture failed.");
+    );
+  } catch (error) {
+    if (
+      (error instanceof DOMException && error.name === "TimeoutError")
+      || error instanceof TypeError
+    ) throw new TransientSnapshotCaptureError();
+    throw error;
+  }
+  if (response.status >= 500) throw new TransientSnapshotCaptureError();
+  if (!response.ok) throw new Error("Production snapshot capture was rejected.");
   const projection = parsePublishedCatalogProjection(await response.json());
-  if (projection.products.length < 70) {
+  if (projection.products.length < minimumProductionProductCount) {
     throw new Error("Production snapshot is unexpectedly incomplete.");
   }
   const checksumInput = { ...projection, generatedAt: undefined };
@@ -96,5 +145,15 @@ async function captureProductionSnapshot() {
   }));
 }
 
-if (process.env.VERCEL_ENV === "production") await captureProductionSnapshot();
-else await validateExistingSnapshot();
+if (process.env.VERCEL_ENV === "production") {
+  try {
+    await captureProductionSnapshot();
+  } catch (error) {
+    if (!(error instanceof TransientSnapshotCaptureError)) throw error;
+    await validateExistingSnapshot(true);
+    console.warn(JSON.stringify({
+      event: "published_catalog_lkg_build_fallback",
+      errorClass: "transport",
+    }));
+  }
+} else await validateExistingSnapshot();

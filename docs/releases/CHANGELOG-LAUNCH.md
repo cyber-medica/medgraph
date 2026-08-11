@@ -322,3 +322,7 @@ See [Controlled Indexing Activation](../reports/controlled-indexing-activation-2
 - Integrated the lockfile-matched `playwright-core` WebKit install corrective
   and reconciled 114-Product monitoring counters without changing dependency
   versions.
+- Replaced the one-Product bootstrap LKG with the validated 114-Product public
+  snapshot and made Git-linked builds tolerate only transient snapshot-capture
+  transport failures; auth, schema, completeness and checksum failures remain
+  release-blocking.
