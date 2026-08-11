@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 
 import { resolveRequestProductContext } from "@/lib/request/product-context";
 import { catalogRepository, productService } from "@/lib/storefront";
+import {
+  flattenAttribution,
+  parseAttributionEnvelope,
+} from "@/lib/analytics/attribution";
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -29,6 +33,11 @@ function readField(formData: FormData, field: keyof typeof limits) {
 function readProductSelectionField(formData: FormData, field: "productId" | "productSlug") {
   const limit = field === "productId" ? 200 : 240;
   return String(formData.get(field) || "").trim().slice(0, limit);
+}
+
+function readSourcePage(formData: FormData) {
+  const value = String(formData.get("sourcePage") || "").trim().slice(0, 500);
+  return value.startsWith("/") ? value : "/request";
 }
 
 function getClientIp(request: Request) {
@@ -156,6 +165,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  const createdAt = new Date().toISOString();
   const lead = {
     id: crypto.randomUUID(),
     company: readField(formData, "company"),
@@ -163,7 +173,8 @@ export async function POST(request: Request) {
     phone: readField(formData, "phone"),
     email: readField(formData, "email"),
     message: readField(formData, "message"),
-    receivedAt: new Date().toISOString(),
+    createdAt,
+    receivedAt: createdAt,
   };
 
   if (!lead.company || !lead.name || !lead.message) {
@@ -207,6 +218,10 @@ export async function POST(request: Request) {
     );
   }
 
+  const attribution = parseAttributionEnvelope(String(formData.get("attribution") || ""));
+  const attributionPayload = flattenAttribution(attribution);
+  const sourcePage = readSourcePage(formData);
+
   const webhookUrl = process.env.CYBERMEDICA_LEADS_WEBHOOK_URL;
 
   if (!webhookUrl) {
@@ -233,7 +248,17 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         ...lead,
-        ...(productContext ? { product: productContext } : {}),
+        sourcePage,
+        ...attributionPayload,
+        ...(productContext
+          ? {
+              product: productContext,
+              productId: productContext.id,
+              productSlug: productContext.slug,
+              productModel: productContext.model,
+              productManufacturer: productContext.manufacturer,
+            }
+          : {}),
       }),
       signal: AbortSignal.timeout(10_000),
     });

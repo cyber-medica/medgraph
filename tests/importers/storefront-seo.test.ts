@@ -5,6 +5,7 @@ import test from "node:test";
 import {
   buildBreadcrumbJsonLd,
   buildStorefrontMetadata,
+  normalizePublicBrand,
   serializeStorefrontJsonLd,
   STOREFRONT_SITE_URL,
 } from "../../lib/storefront/seo.ts";
@@ -36,6 +37,7 @@ function setEnvironment(values: Record<string, string | undefined>) {
 
 test("Storefront uses the approved canonical apex domain", () => {
   assert.equal(STOREFRONT_SITE_URL, "https://cyber-medica.ru");
+  assert.equal(normalizePublicBrand("Каталог CyberMedica"), "Каталог Кибермедика");
 });
 
 test("Storefront metadata helper builds canonical social and robots fields", () => {
@@ -53,7 +55,7 @@ test("Storefront metadata helper builds canonical social and robots fields", () 
     assert.equal(metadata.alternates?.canonical, "/catalog/test-product");
     assert.deepEqual(metadata.robots, { index: true, follow: true });
     assert.equal(metadata.openGraph?.url, "/catalog/test-product");
-    assert.equal(metadata.openGraph?.siteName, "CyberMedica");
+    assert.equal(metadata.openGraph?.siteName, "Кибермедика");
     assert.equal(metadata.openGraph?.locale, "ru_RU");
     const twitter = metadata.twitter as
       | { card?: string; images?: string[] }

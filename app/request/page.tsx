@@ -72,7 +72,7 @@ export default async function RequestPage({
           </div>
           <div className="mt-5 rounded-md border border-[var(--cm-rule)] bg-cm-surface-low/70 p-4 text-[11px] leading-6 text-cm-slate">
             Ответ обычно готовится в течение рабочего дня. Данные заявки не
-            публикуются и используются только для ответа. CyberMedica помогает
+            публикуются и используются только для ответа. Кибермедика помогает
             с проверкой информации, но не заменяет официальную экспертизу или
             регистратора.
           </div>

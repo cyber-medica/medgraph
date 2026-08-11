@@ -42,7 +42,7 @@ const homepageCategoryOrder = new Map<string, number>(
 );
 
 export const metadata: Metadata = buildStorefrontMetadata({
-  title: "CyberMedica — медицинское оборудование для клиник и учреждений",
+  title: "Кибермедика — медицинское оборудование для клиник и учреждений",
   description: homepageDescription,
   canonical: "/",
 });

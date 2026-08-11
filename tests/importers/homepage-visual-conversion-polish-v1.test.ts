@@ -12,7 +12,7 @@ test("homepage hero and SEO communicate the approved commercial purpose", async 
     source("components/home/Hero.tsx"),
   ]);
 
-  assert.match(page, /CyberMedica — медицинское оборудование для клиник и учреждений/u);
+  assert.match(page, /Кибермедика — медицинское оборудование для клиник и учреждений/u);
   assert.match(page, /Поставка и подбор профессионального медицинского оборудования/u);
   assert.match(hero, /Медицинское оборудование для клиник и медицинских учреждений/u);
   assert.match(hero, /Подбор, поставка и сопровождение профессионального медицинского/u);

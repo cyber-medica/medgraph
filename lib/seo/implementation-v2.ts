@@ -25,8 +25,30 @@ export interface SeoLandingLink {
 export const SEO_CANONICAL_ORIGIN = implementationManifest.canonicalOrigin;
 export const SEO_STAGE_ORIGIN = implementationManifest.stageOrigin;
 
+function normalizePublicBrand(value: string) {
+  return value.replaceAll("CyberMedica", "Кибермедика");
+}
+
 export function getSeoLanding(path: SeoP0Path): SeoLandingContent {
-  return implementationManifest.p0Landings[path] as unknown as SeoLandingContent;
+  const landing = implementationManifest.p0Landings[path];
+  return {
+    title: normalizePublicBrand(landing.title),
+    description: normalizePublicBrand(landing.description),
+    h1: normalizePublicBrand(landing.h1),
+    intro: normalizePublicBrand(landing.intro),
+    sections: landing.sections.map(([title, body]) => [
+      normalizePublicBrand(title),
+      normalizePublicBrand(body),
+    ] as const),
+    faq: landing.faq.map(([question, answer]) => [
+      normalizePublicBrand(question),
+      normalizePublicBrand(answer),
+    ] as const),
+    cta: {
+      title: normalizePublicBrand(landing.cta.title),
+      body: normalizePublicBrand(landing.cta.body),
+    },
+  };
 }
 
 export function buildSeoLandingMetadata(path: SeoP0Path) {

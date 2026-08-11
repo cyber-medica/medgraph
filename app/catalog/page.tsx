@@ -83,7 +83,7 @@ export default async function CatalogPage({
         <div className="cm-container cm-page-intro">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_30rem] lg:items-end">
             <div>
-              <div className="cm-label">CyberMedica · Каталог</div>
+              <div className="cm-label">Кибермедика · Каталог</div>
               <h1 className="mt-2 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
                 Каталог медицинских изделий
               </h1>

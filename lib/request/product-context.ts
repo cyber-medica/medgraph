@@ -9,6 +9,7 @@ export interface RequestProductContext {
   id: string;
   slug: string;
   title: string;
+  model: string;
   manufacturer: string | null;
 }
 
@@ -57,6 +58,7 @@ export async function resolveRequestProductContext(
     id: product.id,
     slug: product.slug,
     title: product.name,
+    model: product.model,
     manufacturer: manufacturer?.name ?? null,
   };
 }

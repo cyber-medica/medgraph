@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { RequestProductContext } from "@/lib/request/product-context";
+import { readBrowserAttribution, trackRfqEvent } from "@/lib/analytics/events";
 
 interface RequestFormProps {
   initialMessage?: string;
@@ -16,23 +17,65 @@ export default function RequestForm({
   const router = useRouter();
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const formStarted = useRef(false);
+
+  useEffect(() => {
+    trackRfqEvent("rfq_form_view", {
+      productId: productContext?.id,
+      productSlug: productContext?.slug,
+      productModel: productContext?.model,
+      productManufacturer: productContext?.manufacturer ?? undefined,
+      sourcePage: window.location.pathname,
+    });
+  }, [productContext]);
+
+  function handleFormStart() {
+    if (formStarted.current) return;
+    formStarted.current = true;
+    trackRfqEvent("rfq_form_start", {
+      productId: productContext?.id,
+      productSlug: productContext?.slug,
+      productModel: productContext?.model,
+      productManufacturer: productContext?.manufacturer ?? undefined,
+      sourcePage: window.location.pathname,
+    });
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setPending(true);
+    const formData = new FormData(event.currentTarget);
+    const attribution = readBrowserAttribution();
+    if (attribution) formData.set("attribution", JSON.stringify(attribution));
+    formData.set("sourcePage", window.location.pathname);
+    trackRfqEvent("rfq_submit_attempt", {
+      productId: productContext?.id,
+      productSlug: productContext?.slug,
+      productModel: productContext?.model,
+      productManufacturer: productContext?.manufacturer ?? undefined,
+      sourcePage: window.location.pathname,
+    });
 
     try {
       const response = await fetch("/api/request", {
         method: "POST",
-        body: new FormData(event.currentTarget),
+        body: formData,
       });
       const result = (await response.json()) as {
         ok?: boolean;
         error?: string;
+        requestId?: string;
       };
 
       if (!response.ok || !result.ok) {
+        trackRfqEvent("rfq_error", {
+          errorClass: "backend_rejected",
+          httpStatus: response.status,
+          productId: productContext?.id,
+          productSlug: productContext?.slug,
+          sourcePage: window.location.pathname,
+        });
         setError(
           result.error ||
             "Заявку не удалось отправить. Попробуйте ещё раз или напишите нам — мы поможем с запросом вручную."
@@ -40,8 +83,35 @@ export default function RequestForm({
         return;
       }
 
+      if (!result.requestId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(result.requestId)) {
+        trackRfqEvent("rfq_error", {
+          errorClass: "invalid_request_id",
+          httpStatus: response.status,
+          productId: productContext?.id,
+          productSlug: productContext?.slug,
+          sourcePage: window.location.pathname,
+        });
+        setError("Заявка принята некорректно. Пожалуйста, попробуйте ещё раз.");
+        return;
+      }
+
+      trackRfqEvent("rfq_success", {
+        productId: productContext?.id,
+        productSlug: productContext?.slug,
+        productModel: productContext?.model,
+        productManufacturer: productContext?.manufacturer ?? undefined,
+        requestId: result.requestId,
+        sourcePage: window.location.pathname,
+      });
+
       router.push("/thanks");
     } catch {
+      trackRfqEvent("rfq_error", {
+        errorClass: "network_error",
+        productId: productContext?.id,
+        productSlug: productContext?.slug,
+        sourcePage: window.location.pathname,
+      });
       setError("Не получилось отправить заявку. Проверьте подключение и попробуйте ещё раз.");
     } finally {
       setPending(false);
@@ -52,7 +122,7 @@ export default function RequestForm({
     "cm-field text-[13px] placeholder:text-cm-dim";
 
   return (
-    <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
+    <form className="mt-6 space-y-5" onSubmit={handleSubmit} onChange={handleFormStart}>
       {productContext ? (
         <div
           className="rounded-md border border-[var(--cm-rule)] bg-cm-surface-low/70 p-4"

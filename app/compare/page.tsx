@@ -91,7 +91,7 @@ export default async function ComparePage() {
     <main className="min-h-screen bg-cm-canvas">
       <header className="border-b border-[var(--cm-rule)] bg-white">
         <div className="cm-container cm-page-intro">
-          <div className="cm-label">CyberMedica · Сравнение</div>
+          <div className="cm-label">Кибермедика · Сравнение</div>
           <h1 className="mt-2 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
             Сравнение медицинского оборудования
           </h1>

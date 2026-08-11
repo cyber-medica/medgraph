@@ -30,7 +30,7 @@ export default function Advantages() {
     <section className="bg-cm-surface-low py-16">
       <div className="cm-container">
         <h2 className="text-center text-[1.55rem] font-extrabold tracking-[-0.02em]">
-          Почему CyberMedica
+          Почему Кибермедика
         </h2>
 
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-7 text-cm-slate">

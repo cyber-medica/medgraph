@@ -9,6 +9,7 @@ import BackToTop from "@/components/catalog/BackToTop";
 import ProductGallery from "@/components/catalog/ProductGallery";
 import ProductManufacturer from "@/components/catalog/ProductManufacturer";
 import ProductCommercialBadges from "@/components/storefront/ProductCommercialBadges";
+import ProductViewTracker from "@/components/analytics/ProductViewTracker";
 import SafeProductDescription from "@/components/catalog/SafeProductDescription";
 import { catalogRepository, productService, storefrontDataSource } from "@/lib/storefront";
 import { buildProductDetailExperience } from "@/lib/storefront/product-detail-experience";
@@ -128,6 +129,12 @@ export default async function StorefrontProductPage({
   );
   return (
     <main className="min-h-screen bg-cm-canvas">
+      <ProductViewTracker
+        productId={product.id}
+        productSlug={product.slug}
+        productModel={product.model}
+        productManufacturer={manufacturer?.name ?? ""}
+      />
       {storefrontDataSource !== "cloud_preview" && (
         <JsonLd data={buildProductStructuredData({ product, manufacturer, category })} />
       )}

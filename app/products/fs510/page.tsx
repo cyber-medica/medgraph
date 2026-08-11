@@ -147,7 +147,7 @@ export default async function Fs510ProductPage() {
             <span className="flex size-5 items-center justify-center rounded-full bg-cm-verified">
               <Checkmark className="size-3.5 text-white" />
             </span>
-            Опубликовано CyberMedica
+            Опубликовано Кибермедика
           </div>
           <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-cm-dim">
             <span>

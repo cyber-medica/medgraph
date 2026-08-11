@@ -59,7 +59,7 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
           </nav>
 
           <div className="mt-6 max-w-4xl">
-            <div className="cm-label text-cm-teal">CyberMedica · Каталог</div>
+            <div className="cm-label text-cm-teal">Кибермедика · Каталог</div>
             <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-[-0.035em] sm:text-4xl lg:text-5xl">
               {content.h1}
             </h1>

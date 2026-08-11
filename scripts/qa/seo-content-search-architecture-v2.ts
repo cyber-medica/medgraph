@@ -147,7 +147,7 @@ const productMetadata = await mapConcurrent(
       ({ label, value }) => label.trim().toLocaleLowerCase("ru-RU") === "тип товара"
         && value.trim().length > 0,
     )?.value.trim() ?? category?.name.trim() ?? "медицинское оборудование";
-    assert.equal(metadata.title, `${product.name} — ${productType} | CyberMedica`, `${product.slug}: title.`);
+    assert.equal(metadata.title, `${product.name} — ${productType} | Кибермедика`, `${product.slug}: title.`);
     assert.equal(metadata.description, product.seoDescription, `${product.slug}: description.`);
     assert.equal(metadata.canonical, `${canonicalOrigin}/catalog/${product.slug}`, `${product.slug}: canonical.`);
     assert.equal(metadata.h1, product.name, `${product.slug}: H1.`);

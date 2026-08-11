@@ -6,7 +6,7 @@ import { createWorkspaceSession } from "@/lib/workspace/mock-data";
 export const metadata: Metadata = {
   title: "Рабочее пространство закупки",
   description:
-    "Единое рабочее пространство CyberMedica для поиска изделия, сравнения, совместимости и проверки требований ТЗ.",
+    "Единое рабочее пространство Кибермедика для поиска изделия, сравнения, совместимости и проверки требований ТЗ.",
   alternates: {
     canonical: "/workspace",
   },
@@ -21,7 +21,7 @@ export default async function WorkspacePage() {
         <div className="cm-container py-10">
           <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
             <div>
-              <div className="cm-label">CyberMedica · Рабочее пространство</div>
+              <div className="cm-label">Кибермедика · Рабочее пространство</div>
               <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
                 Рабочее пространство закупки
               </h1>

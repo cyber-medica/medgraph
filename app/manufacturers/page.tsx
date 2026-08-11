@@ -14,7 +14,7 @@ import { buildCollectionPageStructuredData } from "@/lib/storefront/structured-d
 import { formatCountryForPublic } from "@/lib/storefront/country-presentation";
 
 const manufacturersDescription =
-  "Производители медицинского оборудования, представленные в каталоге CyberMedica.";
+  "Производители медицинского оборудования, представленные в каталоге Кибермедика.";
 
 export const metadata: Metadata = buildStorefrontMetadata({
   title: "Производители медицинских изделий",
@@ -70,7 +70,7 @@ export default async function ManufacturersPage() {
               <div className="cm-label">Каталог производителей</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em]">Производители</h1>
               <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">
-                Производители медицинского оборудования, представленные в каталоге CyberMedica.
+                Производители медицинского оборудования, представленные в каталоге Кибермедика.
               </p>
             </div>
           <div className="grid grid-cols-3 overflow-hidden rounded-xl border border-[var(--cm-rule)] bg-white/78">

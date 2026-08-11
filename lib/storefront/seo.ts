@@ -3,7 +3,14 @@ import { isProductionIndexingEnvironment } from "./indexing.ts";
 import type { Category, Product } from "./types.ts";
 
 export const STOREFRONT_SITE_URL = "https://cyber-medica.ru";
-export const STOREFRONT_SITE_NAME = "CyberMedica";
+export const STOREFRONT_SITE_NAME = "Кибермедика";
+
+export function normalizePublicBrand(value: string) {
+  return value
+    .replaceAll("CyberMedica", STOREFRONT_SITE_NAME)
+    .replaceAll("CYBERMEDICA", STOREFRONT_SITE_NAME)
+    .replaceAll("Cybermedica", STOREFRONT_SITE_NAME);
+}
 
 interface StorefrontSeoImage {
   url: string;
@@ -34,18 +41,20 @@ export function buildStorefrontMetadata({
 }: StorefrontMetadataInput): Metadata {
   const images = image ? [{ url: image.url, alt: image.alt }] : undefined;
   const allowIndexing = isProductionIndexingEnvironment();
+  const publicTitle = normalizePublicBrand(title);
+  const publicDescription = normalizePublicBrand(description);
 
   return {
-    title: absoluteTitle ? { absolute: title } : title,
-    description,
+    title: absoluteTitle ? { absolute: publicTitle } : publicTitle,
+    description: publicDescription,
     alternates: { canonical },
     robots: {
       index: allowIndexing && !noindexFollow,
       follow: allowIndexing,
     },
     openGraph: {
-      title,
-      description,
+      title: publicTitle,
+      description: publicDescription,
       url: canonical,
       siteName: STOREFRONT_SITE_NAME,
       locale: "ru_RU",
@@ -54,8 +63,8 @@ export function buildStorefrontMetadata({
     },
     twitter: {
       card: image ? "summary_large_image" : "summary",
-      title,
-      description,
+      title: publicTitle,
+      description: publicDescription,
       images: image ? [image.url] : undefined,
     },
   };

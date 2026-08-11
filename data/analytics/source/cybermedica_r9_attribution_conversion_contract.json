@@ -1,0 +1,84 @@
+{
+  "platform": "Yandex Metrica + Yandex Direct",
+  "primary_conversion": "rfq_success",
+  "utm": {
+    "utm_source": "yandex-direct",
+    "utm_medium": "cpc",
+    "utm_campaign": "{campaign_id}_{campaign_slug}",
+    "utm_content": "{ad_id}_{creative_variant}",
+    "utm_term": "{keyword}",
+    "preserve": [
+      "yclid"
+    ]
+  },
+  "events": [
+    [
+      "product_view",
+      "micro"
+    ],
+    [
+      "rfq_cta_click",
+      "micro"
+    ],
+    [
+      "rfq_form_view",
+      "micro"
+    ],
+    [
+      "rfq_form_start",
+      "micro"
+    ],
+    [
+      "rfq_submit_attempt",
+      "diagnostic"
+    ],
+    [
+      "rfq_success",
+      "PRIMARY"
+    ],
+    [
+      "rfq_error",
+      "diagnostic"
+    ]
+  ],
+  "rfq_success_fire_condition": "POST /api/request successful and requestId returned",
+  "lead_payload_non_pii": [
+    "requestId",
+    "createdAt",
+    "productSlug",
+    "productModel",
+    "productManufacturer",
+    "landingPath",
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "yclid"
+  ],
+  "dashboard": [
+    "sessions",
+    "product_views",
+    "rfq_cta_clicks",
+    "rfq_form_starts",
+    "rfq_successes",
+    "view_to_rfq_rate",
+    "form_start_to_success_rate",
+    "CPL",
+    "qualified_CPL",
+    "qualified_leads",
+    "opportunities",
+    "won_deals",
+    "revenue",
+    "gross_profit"
+  ],
+  "launch_strategy": {
+    "phase1": "Search-only high-intent; separate/disable networks initially",
+    "budget_split_pct": {
+      "endoscopy": 60,
+      "ventilation": 30,
+      "reserve": 10
+    },
+    "wave2": "after tracking is proven and first qualified leads exist"
+  }
+}

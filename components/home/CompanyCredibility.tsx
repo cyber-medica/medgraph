@@ -11,7 +11,7 @@ export default function CompanyCredibility() {
             id="company-credibility-title"
             className="cm-balanced mt-3 text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] sm:text-[26px] lg:text-[30px]"
           >
-            CyberMedica помогает подобрать оборудование под задачу учреждения
+            Кибермедика помогает подобрать оборудование под задачу учреждения
           </h2>
         </div>
         <div className="grid gap-4 text-sm leading-7 text-cm-slate sm:grid-cols-2">

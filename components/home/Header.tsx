@@ -11,7 +11,7 @@ export default function Header() {
 
           <div>
             <div className="font-bold text-xl">
-              CyberMedica
+              Кибермедика
             </div>
 
             <div className="text-xs text-gray-500">

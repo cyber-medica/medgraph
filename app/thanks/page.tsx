@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Заявка отправлена",
   description:
-    "CyberMedica получила заявку и свяжется с клиентом, чтобы уточнить детали и подготовить предложение.",
+    "Кибермедика получила заявку и свяжется с клиентом, чтобы уточнить детали и подготовить предложение.",
   alternates: {
     canonical: "/thanks",
   },
@@ -39,7 +39,7 @@ export default function ThanksPage() {
               Заявка отправлена
             </h1>
             <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-cm-slate">
-              Спасибо! Мы получили вашу заявку. Специалист CyberMedica свяжется
+              Спасибо! Мы получили вашу заявку. Специалист Кибермедика свяжется
               с вами, чтобы уточнить детали и подготовить предложение.
             </p>
           </div>

@@ -72,11 +72,16 @@ test("authoritative SEO v2 inputs are tracked byte-for-byte", async () => {
   );
 });
 
-test("P0 routing and copy are exact manifest values", async () => {
+test("P0 routing keeps authoritative copy while normalizing the public brand", async () => {
   assert.deepEqual(SEO_P0_PATHS, Object.keys(sourceManifest.p0Landings));
   for (const path of SEO_P0_PATHS) {
     const landing = getSeoLanding(path);
-    assert.deepEqual(landing, sourceManifest.p0Landings[path]);
+    const sourceLanding = sourceManifest.p0Landings[path];
+    assert.equal(
+      JSON.stringify(landing),
+      JSON.stringify(sourceLanding).replaceAll("CyberMedica", "Кибермедика"),
+    );
+    assert.doesNotMatch(JSON.stringify(landing), /CyberMedica/u);
     const source = await readFile(
       path === "/solutions/portativnaya-bronkhoskopiya"
         ? "app/solutions/portativnaya-bronkhoskopiya/page.tsx"
@@ -121,7 +126,7 @@ test("all 71 planned indexable Products have unique metadata inputs", () => {
   const categories = new Map(publishedCatalog.categories.map((category) => [category.id, category]));
   const titles = publishedCatalog.products.map((product) => {
     const type = getPlainProductType(product, categories.get(product.categoryId));
-    return `${product.name} — ${type} | CyberMedica`;
+    return `${product.name} — ${type} | Кибермедика`;
   });
   const descriptions = publishedCatalog.products.map(({ seoDescription }) => seoDescription?.trim());
 
@@ -129,7 +134,7 @@ test("all 71 planned indexable Products have unique metadata inputs", () => {
   assert.equal(descriptions.every(Boolean), true);
   assert.equal(new Set(descriptions).size, 71);
   assert.equal(
-    titles.every((title) => title.endsWith(" | CyberMedica") && !title.includes("undefined")),
+    titles.every((title) => title.endsWith(" | Кибермедика") && !title.includes("undefined")),
     true,
   );
 });

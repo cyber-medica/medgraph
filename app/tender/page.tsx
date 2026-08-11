@@ -18,7 +18,7 @@ export default function TenderPage() {
         <div className="cm-container py-10">
           <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
             <div>
-              <div className="cm-label">CyberMedica · ТЗ</div>
+              <div className="cm-label">Кибермедика · ТЗ</div>
               <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
                 Tender Assistant
               </h1>

@@ -16,7 +16,7 @@ export default function GlobalError({
   return (
     <html lang="ru">
       <head>
-        <title>CyberMedica — временная ошибка</title>
+        <title>Кибермедика — временная ошибка</title>
       </head>
       <body
         style={{

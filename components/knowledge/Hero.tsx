@@ -84,7 +84,7 @@ export default function Hero({ product }: HeroProps) {
           <dl className="mt-3 grid gap-2 text-[10px] sm:grid-cols-2">
             <div>
               <dt className="cm-label text-[8px]">Источник</dt>
-              <dd className="mt-1 font-semibold text-cm-ink">CyberMedica</dd>
+              <dd className="mt-1 font-semibold text-cm-ink">Кибермедика</dd>
             </div>
             <div>
               <dt className="cm-label text-[8px]">Документ</dt>

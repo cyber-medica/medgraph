@@ -45,7 +45,7 @@ export default async function SearchPage({
     <main className="min-h-screen bg-cm-canvas">
       <header className="border-b border-[var(--cm-rule)] bg-white">
         <div className="cm-container cm-page-intro">
-          <div className="cm-label">CyberMedica · Поиск</div>
+          <div className="cm-label">Кибермедика · Поиск</div>
           <h1 className="mt-2 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
             Поиск медицинских изделий
           </h1>

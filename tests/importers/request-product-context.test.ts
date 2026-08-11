@@ -80,6 +80,7 @@ test("published Product selection resolves canonical RFQ context", async () => {
     id: product.id,
     slug: product.slug,
     title: product.name,
+    model: product.model,
     manufacturer: manufacturer.name,
   });
 });

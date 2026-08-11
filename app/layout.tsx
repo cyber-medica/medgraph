@@ -1,6 +1,8 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import AttributionRuntime from "@/components/analytics/AttributionRuntime";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/home/Footer";
 import CloudCatalogPreviewBanner from "@/components/storefront/CloudCatalogPreviewBanner";
@@ -9,23 +11,23 @@ import { isProductionIndexingEnvironment } from "@/lib/storefront/indexing";
 
 const allowIndexing = isProductionIndexingEnvironment();
 const siteUrl = "https://cyber-medica.ru";
-const siteTitle = "CyberMedica — экспертная база медицинских изделий";
+const siteTitle = "Кибермедика — экспертная база медицинских изделий";
 const siteDescription =
-  "CyberMedica помогает врачам, инженерам и закупщикам проверять медицинские изделия: регистрационные документы, характеристики, совместимость, аналоги и источники данных.";
+  "Кибермедика помогает врачам, инженерам и закупщикам проверять медицинские изделия: регистрационные документы, характеристики, совместимость, аналоги и источники данных.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | CyberMedica",
+    template: "%s | Кибермедика",
   },
   description: siteDescription,
-  applicationName: "CyberMedica",
-  authors: [{ name: "CyberMedica" }],
-  creator: "CyberMedica",
-  publisher: "CyberMedica",
+  applicationName: "Кибермедика",
+  authors: [{ name: "Кибермедика" }],
+  creator: "Кибермедика",
+  publisher: "Кибермедика",
   keywords: [
-    "CyberMedica",
+    "Кибермедика",
     "медицинские изделия",
     "регистрационные документы",
     "медицинское оборудование",
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     url: siteUrl,
-    siteName: "CyberMedica",
+    siteName: "Кибермедика",
     locale: "ru_RU",
     type: "website",
   },
@@ -74,6 +76,9 @@ export default function RootLayout({
           categories={[]}
         />
         <CloudCatalogPreviewBanner enabled={cloudPreview} />
+        <Suspense fallback={null}>
+          <AttributionRuntime />
+        </Suspense>
         {children}
         <Footer />
       </body>
