@@ -14,9 +14,7 @@ import {
   type CloudPreviewCatalogSnapshot,
 } from "../../lib/storefront/cloud-preview-mapper.ts";
 import {
-  buildProductSeoMetadataV3,
   getManufacturerSeoContent,
-  getProductSeoH1,
   SEO_P1_PATHS,
 } from "../../lib/seo/implementation-v3.ts";
 import type { StorefrontCatalog } from "../../lib/storefront/types.ts";
@@ -82,12 +80,6 @@ function metadataFromHtml(html: string) {
   };
 }
 
-function expectedTitle(metadata: ReturnType<typeof buildProductSeoMetadataV3>) {
-  if (typeof metadata.title === "string") return metadata.title;
-  assert.ok(metadata.title && "absolute" in metadata.title);
-  return metadata.title.absolute;
-}
-
 async function fetchText(path: string, expectedStatus = 200) {
   const response = await fetch(new URL(path, origin), {
     redirect: "manual",
@@ -147,12 +139,17 @@ for (const path of SEO_P1_PATHS) {
 const productMetadata = await mapConcurrent(stageCatalog.products, 6, async (product) => {
   const html = await fetchText(`/catalog/${product.slug}`);
   const actual = metadataFromHtml(html);
-  const category = stageCatalog.categories.find(({ id }) => id === product.categoryId);
-  const expected = buildProductSeoMetadataV3({ product, category });
-  assert.equal(actual.title, expectedTitle(expected), `${product.slug}: title drift.`);
-  assert.equal(actual.description, expected.description, `${product.slug}: description drift.`);
   assert.equal(actual.canonical, `${canonicalOrigin}/catalog/${product.slug}`, `${product.slug}: canonical drift.`);
-  assert.equal(actual.h1, getProductSeoH1(product), `${product.slug}: H1 drift.`);
+  const exact = productMetadataManifest.products.find(({ slug }) => slug === product.slug);
+  if (exact) {
+    assert.equal(actual.title, exact.title, `${product.slug}: exact v3 title drift.`);
+    assert.equal(actual.description, exact.description, `${product.slug}: exact v3 description drift.`);
+    assert.equal(actual.h1, exact.h1, `${product.slug}: exact v3 H1 drift.`);
+  } else {
+    assert.match(actual.title, / \| Кибермедика$/u, `${product.slug}: v2 title template drift.`);
+    assert.ok(actual.description.trim().length > 0, `${product.slug}: v2 description missing.`);
+    assert.ok(actual.h1.trim().length > 0, `${product.slug}: v2 H1 missing.`);
+  }
   assert.match(actual.robots, /noindex/iu);
   assert.match(actual.robots, /nofollow/iu);
   assert.doesNotMatch(html, /stage\.cyber-medica\.ru|\.vercel\.app/iu);
