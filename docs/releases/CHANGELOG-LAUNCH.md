@@ -326,3 +326,6 @@ See [Controlled Indexing Activation](../reports/controlled-indexing-activation-2
   snapshot and made Git-linked builds tolerate only transient snapshot-capture
   transport failures; auth, schema, completeness and checksum failures remain
   release-blocking.
+- Made the iPhone/WebKit gate assert the rendered shell, origin, runtime errors
+  and overflow after `DOMContentLoaded` instead of treating unrelated
+  long-lived network activity as a blank-screen failure.

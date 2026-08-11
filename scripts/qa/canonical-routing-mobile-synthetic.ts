@@ -39,11 +39,16 @@ try {
   for (const route of ["/", "/catalog", stableDetailPath, "/request"] as const) {
     const response = await page.goto(new URL(`${route}?mobile_synthetic=${Date.now()}`, origin).toString(), {
       timeout: 30_000,
-      waitUntil: "networkidle",
+      waitUntil: "domcontentloaded",
     });
     assert.equal(response?.status(), 200, `${route} must return HTTP 200`);
     assert.equal(response?.headers().server, "Vercel", `${route} must be served by Vercel`);
     assert.equal(response?.headers()["x-cybermedica-origin"], "medgraph");
+    await page.waitForFunction(
+      () => (document.body?.innerText ?? "").trim().length > 200,
+      { timeout: 30_000 },
+    );
+    await page.waitForTimeout(500);
     assert.ok((await page.locator("body").innerText()).trim().length > 200, `${route} rendered blank`);
     assertNoLegacyPageShell(await page.content(), route);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

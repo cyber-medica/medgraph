@@ -196,6 +196,11 @@ before fallback. HTTP 4xx, configuration errors, malformed responses and
 checksum failures remain fail-closed. The reconstructed seed maps byte-for-byte
 to the public catalog payload (`publicCatalogHash`
 `1a98bb6bad36bde9f86e94d005dbd48a4689c261fc70e58a06d010fda2d30b49`).
+The iPhone/WebKit release gate waits for a meaningful rendered body after
+`DOMContentLoaded` and then checks HTTP/origin headers, runtime errors, legacy
+markers and horizontal overflow. It does not depend on indefinite network
+quiescence, which can remain busy because of observability traffic after the
+page is already complete.
 
 ## Full Production catalog audit
 
