@@ -26,5 +26,5 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npx --no-install playwright-core install --with-deps webkit
-      - run: EXPECTED_PUBLISHED_PRODUCT_COUNT=71 npm run qa:canonical-routing-gate
+      - run: EXPECTED_PUBLISHED_PRODUCT_COUNT=114 npm run qa:canonical-routing-gate
       - run: npm run qa:canonical-routing-mobile

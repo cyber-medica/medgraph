@@ -3,6 +3,11 @@ import assert from "node:assert/strict";
 export const CANONICAL_HOST = "cyber-medica.ru";
 export const CANONICAL_ORIGIN_FAMILY = "medgraph";
 export const APPROVED_LEGACY_MEDIA_HOST = "static.tildacdn.com";
+export const CANONICAL_CATALOG_CONTENT_PATHS = new Set([
+  "/catalog/endoskopiya",
+  "/catalog/endoskopiya/obrabotka-endoskopov",
+  "/catalog/endoskopiya/videoendoskopicheskie-sistemy",
+]);
 
 export type CanonicalRouteFingerprint = {
   deployment: string;
@@ -54,13 +59,16 @@ export function assertSameCanonicalFingerprint(
 
 export function extractCatalogProductPaths(html: string) {
   return new Set(
-    [...html.matchAll(/href="(\/catalog\/[^"#?]+)"/gu)].map((match) => match[1]),
+    [...html.matchAll(/href="(\/catalog\/[^"#?]+)"/gu)]
+      .map((match) => match[1])
+      .filter((path) => !CANONICAL_CATALOG_CONTENT_PATHS.has(path)),
   );
 }
 
 export function extractSitemapProductPaths(xml: string) {
   return new Set(
     [...xml.matchAll(/<loc>https:\/\/cyber-medica\.ru(\/catalog\/[^<]+)<\/loc>/gu)]
-      .map((match) => match[1]),
+      .map((match) => match[1])
+      .filter((path) => !CANONICAL_CATALOG_CONTENT_PATHS.has(path)),
   );
 }

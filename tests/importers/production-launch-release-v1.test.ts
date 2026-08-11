@@ -109,6 +109,7 @@ test("canonical production synthetic uses the lockfile playwright-core CLI", asy
     workflow,
     /npx --no-install playwright-core install --with-deps webkit/u,
   );
+  assert.match(workflow, /EXPECTED_PUBLISHED_PRODUCT_COUNT=114/u);
   assert.doesNotMatch(workflow, /npx playwright install/u);
   assert.doesNotMatch(workflow, /continue-on-error:\s*true/u);
 });

@@ -7,7 +7,8 @@ import {
   calculateProjectionDocumentChecksum,
   loadResilientPublishedCatalogProjection,
   PUBLISHED_CATALOG_ATTEMPTS,
-  PUBLISHED_CATALOG_ATTEMPT_TIMEOUT_MS,
+  PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS,
+  PUBLISHED_CATALOG_BACKOFF_MS,
   readPublishedCatalogHealth,
 } from "../../lib/storefront/published-catalog-resilience.ts";
 
@@ -24,9 +25,10 @@ const noFrameworkError = () => undefined;
 test("first transient failure retries once and returns live catalog", async () => {
   let calls = 0;
   const delays: number[] = [];
+  const timeouts: number[] = [];
   const projection = await loadResilientPublishedCatalogProjection({
     request: async (_attempt, timeoutMs) => {
-      assert.equal(timeoutMs, PUBLISHED_CATALOG_ATTEMPT_TIMEOUT_MS);
+      timeouts.push(timeoutMs);
       calls += 1;
       return calls === 1 ? response({}, 503) : response(liveProjection());
     },
@@ -35,7 +37,8 @@ test("first transient failure retries once and returns live catalog", async () =
     random: () => 0.5,
   });
   assert.equal(calls, 2);
-  assert.deepEqual(delays, [200]);
+  assert.deepEqual(timeouts, [...PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS]);
+  assert.deepEqual(delays, [250]);
   assert.equal(
     projection.summary.productCount,
     BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projection.summary.productCount,
@@ -47,6 +50,16 @@ test("first transient failure retries once and returns live catalog", async () =
   assert.notEqual(
     BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projectionChecksum,
     BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.projectionDocumentChecksum,
+  );
+});
+
+test("live-first retry policy remains bounded below the public route budget", () => {
+  assert.deepEqual(PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS, [8_000, 2_500]);
+  assert.equal(PUBLISHED_CATALOG_ATTEMPTS, 2);
+  assert.ok(
+    PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS.reduce((sum, value) => sum + value, 0)
+      + PUBLISHED_CATALOG_BACKOFF_MS.reduce((sum, value) => sum + value, 0)
+      < 12_000,
   );
 });
 

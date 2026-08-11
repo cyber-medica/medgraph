@@ -11,9 +11,9 @@ import {
   loadValidatedPublishedCatalogProjection,
 } from "./cloud-published-response.ts";
 
-export const PUBLISHED_CATALOG_ATTEMPTS = 3;
-export const PUBLISHED_CATALOG_ATTEMPT_TIMEOUT_MS = 2_500;
-export const PUBLISHED_CATALOG_BACKOFF_MS = [200, 450] as const;
+export const PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS = [8_000, 2_500] as const;
+export const PUBLISHED_CATALOG_ATTEMPTS = PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS.length;
+export const PUBLISHED_CATALOG_BACKOFF_MS = [250] as const;
 export const PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1_000;
 
 type SnapshotEnvelope = Readonly<{
@@ -192,7 +192,11 @@ export async function loadResilientPublishedCatalogProjection(input: Readonly<{
       const liveBaseline = snapshot ?? BUNDLED_PUBLISHED_CATALOG_SNAPSHOT;
       const validated = validateCompleteLiveProjection(
         await loadValidatedPublishedCatalogProjection(
-          () => input.request(attempt, PUBLISHED_CATALOG_ATTEMPT_TIMEOUT_MS),
+          () => input.request(
+            attempt,
+            PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS[attempt]
+              ?? PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS.at(-1)!,
+          ),
           { rethrowFrameworkError: input.rethrowFrameworkError },
         ),
         liveBaseline,
@@ -229,7 +233,7 @@ export async function loadResilientPublishedCatalogProjection(input: Readonly<{
       input.rethrowFrameworkError(error);
       finalError = error;
       if (!shouldRetry(error) || attempt === PUBLISHED_CATALOG_ATTEMPTS - 1) break;
-      const base = PUBLISHED_CATALOG_BACKOFF_MS[attempt] ?? 450;
+      const base = PUBLISHED_CATALOG_BACKOFF_MS[attempt] ?? 250;
       await delay(Math.round(base * (0.8 + random() * 0.4)));
     }
   }
