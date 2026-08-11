@@ -6,6 +6,12 @@ Branch: `codex/seo-business-package-v3`
 
 Base: `380bb33a804c8dfc4f3333f8fb5acf211bd56c3b`
 
+Runtime commit: `4f77b842b339b17615fdded6c58399078843dbb7`
+
+Stage: `https://stage.cyber-medica.ru`
+
+Vercel Preview deployment: `dpl_4svTULbNmPSXYoR23uLMmshWJWSd`
+
 Scope: feature branch and Stage only
 
 ## Authoritative inputs
