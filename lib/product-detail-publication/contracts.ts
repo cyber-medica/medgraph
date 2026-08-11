@@ -33,7 +33,10 @@ function plainTextSchema(maximumLength: number) {
     .trim()
     .min(1)
     .max(maximumLength)
-    .refine((value) => !/[<>]/u.test(value), "Structured fields must contain plain text.");
+    .refine(
+      (value) => !/<\/?[a-z][^>]*>/iu.test(value),
+      "Structured fields must contain plain text.",
+    );
 }
 
 const fieldKeySchema = z.string().regex(FIELD_KEY_PATTERN);

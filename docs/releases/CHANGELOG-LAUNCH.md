@@ -295,3 +295,13 @@ See [Controlled Indexing Activation](../reports/controlled-indexing-activation-2
 - Replaced Product Detail thumbnails with a compact accessible carousel and
   verified desktop, responsive Chromium and WebKit/iPhone layouts.
 - No Production, lifecycle, migration, `main` or `production` change was made.
+# 2026-08-11 — Production launch release prepared
+
+- Integrated the accepted Catalog Master v7, SEO v2, R9 attribution, public
+  `Кибермедика` brand normalization, and the lockfile Playwright WebKit
+  synthetic corrective into one release candidate.
+- Added an exact manifest-bound 43-Product lifecycle migration and corporate
+  production-only runner; no arbitrary Product scope is accepted from the
+  browser.
+- Verified a complete `71 → 114` publication rehearsal and idempotent replay
+  against a network-isolated restore of the fresh Production backup.

@@ -51,6 +51,16 @@ test("candidate contract accepts atomic provenance-bearing structured fields", (
   assert.deepEqual(structuredProductDetailCandidateSchema.parse(candidate()), candidate());
 });
 
+test("candidate contract permits mathematical comparison signs without permitting HTML", () => {
+  const comparison = candidate();
+  comparison.specifications[0].value = "< 30 Ватт";
+  assert.equal(structuredProductDetailCandidateSchema.safeParse(comparison).success, true);
+
+  const html = candidate();
+  html.specifications[0].value = "<script>alert(1)</script>";
+  assert.equal(structuredProductDetailCandidateSchema.safeParse(html).success, false);
+});
+
 test("candidate contract fails closed for metadata, missing provenance and duplicate keys", () => {
   const metadata = candidate();
   metadata.specifications[0].label = "Категория";
