@@ -327,7 +327,10 @@ test("snapshot identity and relational ambiguity fail closed", async () => {
 });
 
 test("published media validation shares the exact Next.js hostname allowlist", async () => {
-  assert.deepEqual(APPROVED_PUBLIC_MEDIA_HOSTS, ["static.tildacdn.com"]);
+  assert.deepEqual(APPROVED_PUBLIC_MEDIA_HOSTS, [
+    "cyber-medica.ru",
+    "static.tildacdn.com",
+  ]);
   const config = await readFile("next.config.ts", "utf8");
   assert.match(config, /APPROVED_PUBLIC_MEDIA_HOSTS/u);
   assert.match(config, /remotePatterns: APPROVED_PUBLIC_MEDIA_HOSTS\.map/u);
@@ -342,6 +345,14 @@ test("published media validation shares the exact Next.js hostname allowlist", a
     value.products[0].media[0].url = url;
     await assertInvalidProjection(value);
   }
+
+  const canonicalMedia = cloneProjection();
+  canonicalMedia.products[0].media[0].url =
+    "https://cyber-medica.ru/media/endomarket-wave1/equipment.webp";
+  assert.deepEqual(
+    parsePublishedCatalogProjection(canonicalMedia),
+    canonicalMedia,
+  );
   assert.deepEqual(parsePublishedCatalogProjection(projection()), projection());
 });
 

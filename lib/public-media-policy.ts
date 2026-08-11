@@ -1,4 +1,5 @@
 export const APPROVED_PUBLIC_MEDIA_HOSTS = [
+  "cyber-medica.ru",
   "static.tildacdn.com",
 ] as const;
 
