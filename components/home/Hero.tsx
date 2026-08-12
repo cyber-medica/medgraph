@@ -46,7 +46,6 @@ export default function Hero({ products }: { products: readonly Product[] }) {
             {heroProduct && heroImage && (
               <Link
                 href={`/catalog/${heroProduct.slug}`}
-                aria-label={`Открыть карточку товара «${heroProduct.name}»`}
                 className="group relative block min-h-[14rem] cursor-pointer overflow-hidden rounded-2xl border border-[var(--cm-rule-strong)] bg-[linear-gradient(145deg,#f8fcfc_0%,#dff0f3_100%)] p-4 shadow-[0_20px_50px_rgba(11,19,32,0.10)] transition duration-200 hover:border-cm-teal hover:shadow-[0_24px_54px_rgba(11,19,32,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-teal sm:min-h-[18rem] sm:p-6 lg:min-h-[22rem]"
               >
                 <div aria-hidden="true" className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-cm-teal/10" />

@@ -57,6 +57,7 @@ test("the measured homepage LCP owns priority and below-fold imagery stays lazy"
 
   assert.match(hero, /<Image[\s\S]+?preload[\s\S]+?fetchPriority="high"[\s\S]+?sizes=/u);
   assert.doesNotMatch(hero, /\bpriority\b/u);
+  assert.doesNotMatch(hero, /aria-label=\{`Открыть карточку товара/u);
   assert.match(hero, /\(max-width: 639px\) 32vw/u);
   assert.match(page, /preloadHomepageHeroImage\(\);/u);
   assert.match(preload, /published-catalog-last-known-good\.json/u);
