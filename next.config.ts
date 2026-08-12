@@ -33,18 +33,18 @@ export const runtimeResearchDatasetExcludes = [
 
 export const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yastatic.net${isDevelopment ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://mc.yandex.com https://yastatic.net${isDevelopment ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob: https://mc.yandex.ru ${cloudMediaOrigins}`,
+  `img-src 'self' data: blob: https://mc.yandex.ru https://mc.yandex.com ${cloudMediaOrigins}`,
   "font-src 'self' data:",
-  `connect-src 'self' https://mc.yandex.ru wss://mc.yandex.ru${isDevelopment ? " ws: wss:" : ""}`,
+  `connect-src 'self' https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru wss://mc.yandex.com${isDevelopment ? " ws: wss:" : ""}`,
   `media-src 'self' ${cloudMediaOrigins}`,
   "worker-src 'self' blob:",
   "manifest-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  "frame-src https://mc.yandex.ru",
+  "frame-src https://mc.yandex.ru https://mc.yandex.com",
   "frame-ancestors 'none'",
 ].join("; ");
 
