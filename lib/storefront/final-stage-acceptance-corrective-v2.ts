@@ -1,3 +1,5 @@
+import finalStageAcceptanceAuditJson from "../../data/import/final-stage-acceptance-v2-audit.json" with { type: "json" };
+
 import type { Product, StorefrontCatalog } from "./types.ts";
 
 export const FINAL_STAGE_ACCEPTANCE_PRODUCT_COUNT = 114;
@@ -13,6 +15,17 @@ export interface SourceFeatureCandidate {
     | "accepted_description"
     | "product_owner_approved_transform";
   sourceText: string;
+}
+
+const acceptedFeatureTextByProductSlug = new Map(
+  finalStageAcceptanceAuditJson.keyFeatures.products.map((product) => [
+    product.slug,
+    product.evidence.map(({ feature }) => feature),
+  ]),
+);
+
+if (acceptedFeatureTextByProductSlug.size !== FINAL_STAGE_ACCEPTANCE_PRODUCT_COUNT) {
+  throw new Error("Final Stage acceptance rejected: accepted feature package is incomplete");
 }
 
 const DESCRIPTION_BOILERPLATE = /^(?:Модель\s|Комплектация|Конкретн|Состав комплект|Комплект постав|Набор .* (?:зависит|определ)|Функции .* зависят|Количество .* зависит|Тип .* зависит|Мониторинг .* зависит|Совместимость .* (?:определ|необходимо)|Перед эксплуатац|Перед применени|Эксплуатация|Состав измерений|Набор датчиков|Поддерживаемые интерфейсы)/iu;
@@ -278,11 +291,15 @@ export function applyFinalStageAcceptanceCorrectiveV2(
           description: canonicalHamilton.description,
         }
       : product;
-    const candidates = getSourceFeatureCandidates(restored);
-    if (restored.keyFeatures.length > 0 || candidates.length === 0) return restored;
+    const acceptedFeatures = acceptedFeatureTextByProductSlug.get(restored.slug);
+    if (!acceptedFeatures) {
+      throw new Error(
+        `Final Stage acceptance rejected: Product is absent from accepted feature package: ${restored.id}`,
+      );
+    }
     return {
       ...restored,
-      keyFeatures: candidates.map(({ feature }) => feature),
+      keyFeatures: acceptedFeatures,
     };
   });
   return {

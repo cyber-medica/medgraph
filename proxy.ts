@@ -8,6 +8,7 @@ import {
   createInternalAuthRouteClient,
 } from "@/lib/internal-auth/supabase.server";
 import { SEO_P0_PATHS } from "@/lib/seo/paths";
+import { resolveLegacyProductionRedirect } from "@/lib/seo/legacy-production-redirects";
 import { readPublicManufacturerSlugExistence } from "@/lib/storefront/manufacturer-slug-existence.server";
 import { readVisibleProductSlugExistence } from "@/lib/storefront/product-slug-existence.server";
 
@@ -23,6 +24,14 @@ export function manufacturerSlugFromPathname(pathname: string) {
 }
 
 export async function proxy(request: NextRequest) {
+  const legacyDestination = resolveLegacyProductionRedirect(request.nextUrl);
+  if (legacyDestination) {
+    return NextResponse.redirect(
+      new URL(legacyDestination, request.nextUrl.origin),
+      301,
+    );
+  }
+
   const manufacturerSlug = manufacturerSlugFromPathname(request.nextUrl.pathname);
   if (manufacturerSlug) {
     const existence = await readPublicManufacturerSlugExistence(manufacturerSlug);
@@ -49,6 +58,9 @@ export async function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/catalog/")) {
     return NextResponse.next();
   }
+  if (request.nextUrl.pathname === "/catalog") {
+    return NextResponse.next();
+  }
 
   const { client, pendingCookies, pendingHeaders } =
     createInternalAuthRouteClient(request);
@@ -73,6 +85,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/catalog",
+    "/catalog/tproduct/:path*",
     "/catalog/:slug",
     "/manufacturers/:slug",
     "/internal/review/:path*",

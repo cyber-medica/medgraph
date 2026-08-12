@@ -1,0 +1,45 @@
+{
+  "version": "final-production-release-v2",
+  "base": "380bb33a804c8dfc4f3333f8fb5acf211bd56c3b",
+  "integrationMode": "linear-fast-forward",
+  "components": [
+    {
+      "component": "seo-business-package-v3",
+      "sourceCommit": "4f77b842b339b17615fdded6c58399078843dbb7",
+      "integratedCommit": "4f77b842b339b17615fdded6c58399078843dbb7",
+      "patchId": "0cecf679e12fc42b4886f6e7507f1b944b009b6c",
+      "status": "integrated"
+    },
+    {
+      "component": "catalog-manufacturer-supplier-ux-v1",
+      "sourceCommit": "1a469322c701a2fe0f8ebb569b40f93e16c459c9",
+      "integratedCommit": "1a469322c701a2fe0f8ebb569b40f93e16c459c9",
+      "patchId": "1ecb55257b3f0f45b1257b9699eb94632349b47f",
+      "status": "integrated"
+    },
+    {
+      "component": "final-stage-acceptance-corrective-v2",
+      "sourceCommit": "7c0bddb063d2f665059d0bba66ce00840799f9ef",
+      "integratedCommit": "7c0bddb063d2f665059d0bba66ce00840799f9ef",
+      "patchId": "80493588e6312747c3fec34275649ef6c1b37f08",
+      "status": "integrated"
+    },
+    {
+      "component": "final-stage-acceptance-evidence",
+      "sourceCommit": "a0506d59f723dcef7ac9c6bf0b85b1643cae1a53",
+      "integratedCommit": "a0506d59f723dcef7ac9c6bf0b85b1643cae1a53",
+      "patchId": "16ceacf24125a0c9b282a6d366032450e5631b90",
+      "status": "integrated"
+    },
+    {
+      "component": "catalog-production-synthetic",
+      "sourceCommit": "d21eedf5d5c3c0fe99834415845996fcc7a649b3",
+      "integratedCommit": "e199a574fa5a40b9ee1d4ecb16e3d2cb3a17207d",
+      "patchId": "a562270718854ee5c033a9ae743676e7ba132a65",
+      "status": "integrated"
+    }
+  ],
+  "databaseWritesRequired": false,
+  "migrationRequired": false,
+  "productScopeChange": false
+}

@@ -3,18 +3,22 @@ import "server-only";
 import { unstable_rethrow } from "next/navigation";
 import { cache } from "react";
 
+import publishedCatalogSnapshotJson from "../../data/published-catalog-last-known-good.json" with { type: "json" };
+
 import {
   createProjectBoundSupabaseServerClient,
   LOCAL_SUPABASE_ORIGIN_OPT_IN,
 } from "../supabase/index.ts";
 import type { CatalogRepository } from "./catalog-repository.ts";
 import { mapCloudPublishedCatalogProjection } from "./cloud-published-mapper.ts";
+import { applyFinalStageAcceptanceCorrectiveV2 } from "./final-stage-acceptance-corrective-v2.ts";
 import {
   CloudPublishedCatalogRepositoryError,
 } from "./cloud-published-response.ts";
 import { loadResilientPublishedCatalogProjection } from "./published-catalog-resilience.ts";
 import { filterProductsForSearch } from "./search-service.ts";
 import type { StorefrontCatalog } from "./types.ts";
+import type { PublishedCatalogProjection } from "../published-catalog/contracts.ts";
 
 type CatalogLoader = () => Promise<StorefrontCatalog>;
 
@@ -77,7 +81,11 @@ async function requestCloudPublishedCatalog(): Promise<StorefrontCatalog> {
     },
     rethrowFrameworkError: unstable_rethrow,
   });
-  return mapCloudPublishedCatalogProjection(projection);
+  const liveCatalog = mapCloudPublishedCatalogProjection(projection);
+  const canonicalCatalog = mapCloudPublishedCatalogProjection(
+    publishedCatalogSnapshotJson.projection as unknown as PublishedCatalogProjection,
+  );
+  return applyFinalStageAcceptanceCorrectiveV2(liveCatalog, canonicalCatalog);
 }
 
 /** One transport/validation/mapping pass per React server request. */

@@ -12,6 +12,10 @@ import {
   parseAttributionEnvelope,
 } from "../../lib/analytics/attribution.ts";
 import { RFQ_EVENT_NAMES } from "../../lib/analytics/events.ts";
+import {
+  PRODUCTION_YANDEX_METRICA_COUNTER_ID,
+  readApprovedMetricaCounterId,
+} from "../../lib/analytics/metrica.ts";
 
 test("R9 implementation is bound to the authoritative conversion contract", () => {
   assert.equal(contract.primary_conversion, "rfq_success");
@@ -101,9 +105,27 @@ test("R9 product-aware payload and Metrica integration remain narrow and configu
   assert.match(route, /productModel: productContext\.model/u);
   assert.match(route, /productManufacturer: productContext\.manufacturer/u);
   assert.match(route, /flattenAttribution\(attribution\)/u);
-  assert.match(runtime, /NEXT_PUBLIC_YANDEX_METRICA_ID/u);
+  assert.match(runtime, /readApprovedMetricaCounterId/u);
   assert.match(runtime, /window\.location\.hostname !== "cyber-medica\.ru"/u);
   assert.doesNotMatch(runtime, /NEXT_PUBLIC_YANDEX_METRICA_ID\s*\?\?\s*["']?\d/u);
   assert.match(tracker, /trackRfqEvent\("product_view"/u);
   assert.match(productPage, /<ProductViewTracker/u);
+});
+
+test("Production Metrica is fail-closed to the one authorized counter", async () => {
+  assert.equal(PRODUCTION_YANDEX_METRICA_COUNTER_ID, "98376495");
+  assert.equal(readApprovedMetricaCounterId("98376495"), 98376495);
+  assert.equal(readApprovedMetricaCounterId(" 98376495 "), 98376495);
+  assert.equal(readApprovedMetricaCounterId(undefined), null);
+  assert.equal(readApprovedMetricaCounterId("12345678"), null);
+
+  const [runtime, events, config] = await Promise.all([
+    readFile("components/analytics/AttributionRuntime.tsx", "utf8"),
+    readFile("lib/analytics/events.ts", "utf8"),
+    readFile("next.config.ts", "utf8"),
+  ]);
+  assert.match(runtime, /readApprovedMetricaCounterId/u);
+  assert.match(events, /readApprovedMetricaCounterId/u);
+  assert.match(config, /script-src[^\n]+https:\/\/mc\.yandex\.ru[^\n]+https:\/\/yastatic\.net/u);
+  assert.match(config, /connect-src[^\n]+https:\/\/mc\.yandex\.ru/u);
 });

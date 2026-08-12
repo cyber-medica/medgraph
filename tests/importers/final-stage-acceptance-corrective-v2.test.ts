@@ -126,11 +126,18 @@ test("all 114 Products pass semantic feature completeness without placeholders o
   assert.equal(audit.keyFeatures.inventedClaims, 0);
 
   const beforeById = new Map(before.products.map((product) => [product.id, product]));
+  const acceptedById = new Map(
+    audit.keyFeatures.products.map((product) => [
+      product.productId,
+      product.evidence.map(({ feature }) => feature),
+    ]),
+  );
   for (const product of after.products) {
     assert.equal(product.keyFeatures.every((feature) => feature.trim().length > 0), true, product.slug);
     assert.equal(new Set(product.keyFeatures).size, product.keyFeatures.length, product.slug);
     const previous = beforeById.get(product.id);
     assert.ok(previous);
+    assert.deepEqual(product.keyFeatures, acceptedById.get(product.id), product.slug);
     if (previous.keyFeatures.length === 0) {
       assert.equal(product.keyFeatures.every((feature) => feature.length <= 90), true, product.slug);
     }

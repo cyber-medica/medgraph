@@ -5,6 +5,7 @@ import {
   parseAttributionEnvelope,
   type AttributionEnvelope,
 } from "./attribution.ts";
+import { readApprovedMetricaCounterId } from "./metrica.ts";
 
 export const RFQ_EVENT_NAMES = [
   "product_view",
@@ -75,7 +76,7 @@ export function trackRfqEvent(
     detail: { event, parameters: safeParameters },
   }));
 
-  const counterId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID?.trim();
-  if (!/^\d+$/u.test(counterId ?? "") || typeof window.ym !== "function") return;
-  window.ym(Number(counterId), "reachGoal", event, safeParameters);
+  const counterId = readApprovedMetricaCounterId();
+  if (counterId === null || typeof window.ym !== "function") return;
+  window.ym(counterId, "reachGoal", event, safeParameters);
 }

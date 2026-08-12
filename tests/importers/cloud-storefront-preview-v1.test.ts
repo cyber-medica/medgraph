@@ -240,7 +240,7 @@ test("Cloud media and the approved brand asset survive build-time source selecti
 
   assert.match(config, /APPROVED_PUBLIC_MEDIA_HOSTS/u);
   assert.match(config, /remotePatterns: APPROVED_PUBLIC_MEDIA_HOSTS\.map/u);
-  assert.match(config, /img-src 'self' data: blob: \$\{cloudMediaOrigins\}/u);
+  assert.match(config, /img-src 'self' data: blob:[^`]*\$\{cloudMediaOrigins\}/u);
   assert.match(header, /\/brand\/cybermedica-logo\.png/u);
   assert.match(footer, /\/brand\/cybermedica-logo\.png/u);
 });

@@ -32,7 +32,12 @@ test("security headers are applied globally with only approved public media orig
   assert.match(contentSecurityPolicy, /frame-ancestors 'none'/);
   assert.deepEqual(
     [...new Set(contentSecurityPolicy.match(/https?:\/\/[^\s;]+/gu) ?? [])],
-    ["https://cyber-medica.ru", "https://static.tildacdn.com"],
+    [
+      "https://mc.yandex.ru",
+      "https://yastatic.net",
+      "https://cyber-medica.ru",
+      "https://static.tildacdn.com",
+    ],
   );
   assert.doesNotMatch(contentSecurityPolicy, /supabase|webhook/i);
   assert.ok(securityHeaders.length >= 6);
@@ -139,6 +144,7 @@ test("env example documents every required flag without values", async () => {
     "CYBERMEDICA_LEADS_WEBHOOK_TOKEN",
     "NEXT_PUBLIC_SUPABASE_URL",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "NEXT_PUBLIC_YANDEX_METRICA_ID",
     "CATALOG_RESEARCH_PROVIDER",
     "CHROME_PATH",
     "PDFTOTEXT_PATH",

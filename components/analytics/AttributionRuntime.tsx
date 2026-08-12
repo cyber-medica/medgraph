@@ -4,6 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 import { captureBrowserAttribution, trackRfqEvent } from "@/lib/analytics/events";
+import { readApprovedMetricaCounterId } from "@/lib/analytics/metrica";
 
 export default function AttributionRuntime() {
   const pathname = usePathname();
@@ -32,8 +33,8 @@ export default function AttributionRuntime() {
   }, []);
 
   useEffect(() => {
-    const counterId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID?.trim();
-    if (!/^\d+$/u.test(counterId ?? "") || window.location.hostname !== "cyber-medica.ru") return;
+    const counterId = readApprovedMetricaCounterId();
+    if (counterId === null || window.location.hostname !== "cyber-medica.ru") return;
     if (document.querySelector('script[data-cybermedica-metrica="true"]')) return;
     if (!window.ym) {
       const queuedYm = (...args: unknown[]) => {
@@ -50,7 +51,7 @@ export default function AttributionRuntime() {
     script.dataset.cybermedicaMetrica = "true";
     script.src = "https://mc.yandex.ru/metrika/tag.js";
     document.head.append(script);
-    window.ym(Number(counterId), "init", {
+    window.ym(counterId, "init", {
       accurateTrackBounce: true,
       clickmap: true,
       trackLinks: true,

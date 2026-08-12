@@ -1,5 +1,18 @@
 # CyberMedica Launch Changelog
 
+## 2026-08-12 — Final Production Release v2
+
+- Integrated the accepted Stage lineage as a linear fast-forward from the
+  canonical Production base.
+- Added exact GSC-derived Tilda Product redirects and fail-closed `tfc_*`
+  normalization.
+- Bound R9 runtime delivery to the single approved Yandex Metrica counter
+  `98376495` and added the required CSP origins.
+- Applied the accepted 114-Product feature package to the cloud-published
+  runtime by canonical slug, preserving Product content and lifecycle data.
+- Added Production-shaped release tests for the 114-Product public graph and
+  derived 148-URL sitemap.
+
 ## 2026-08-11 — SEO Business Package v3 on Stage
 
 - Reconciled exact v3 metadata for all 43 launch Products by Product ID,
