@@ -51,7 +51,7 @@ test("the measured homepage LCP owns priority and below-fold imagery stays lazy"
     source("next.config.ts"),
   ]);
 
-  assert.match(hero, /<Image[\s\S]+?loading="eager"[\s\S]+?fetchPriority="high"[\s\S]+?sizes=/u);
+  assert.match(hero, /<Image[\s\S]+?preload[\s\S]+?fetchPriority="high"[\s\S]+?sizes=/u);
   assert.doesNotMatch(hero, /\bpriority\b/u);
   assert.match(hero, /\(max-width: 639px\) 32vw/u);
   assert.match(loading, /min-h-screen/u);
