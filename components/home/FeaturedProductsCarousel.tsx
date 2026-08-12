@@ -54,7 +54,7 @@ export default function FeaturedProductsCarousel({
         onKeyDown={handleKeyDown}
         className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-4 pb-4 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
       >
-        {products.map((product, index) => (
+        {products.map((product) => (
           <li
             key={product.id}
             className="min-w-0 shrink-0 grow-0 basis-[88%] snap-start sm:basis-[calc((100%_-_0.75rem)/2)] lg:basis-[calc((100%_-_1.5rem)/3)] xl:basis-[calc((100%_-_2.25rem)/4)]"
@@ -70,7 +70,7 @@ export default function FeaturedProductsCarousel({
                     src={product.image.url}
                     alt={product.image.alt || product.name}
                     fill
-                    loading={index === 0 ? "eager" : "lazy"}
+                    loading="lazy"
                     sizes="(max-width: 639px) 88vw, (max-width: 1023px) 48vw, (max-width: 1279px) 32vw, 25vw"
                     className="object-contain p-4 transition duration-300 group-hover:scale-[1.02] motion-reduce:transition-none"
                   />

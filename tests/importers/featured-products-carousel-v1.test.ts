@@ -93,7 +93,8 @@ test("carousel has stable media layout and a missing-image fallback", async () =
   const carousel = await source("components/home/FeaturedProductsCarousel.tsx");
 
   assert.match(carousel, /aspect-\[16\/10\]/u);
-  assert.match(carousel, /loading=\{index === 0 \? "eager" : "lazy"\}/u);
+  assert.match(carousel, /loading="lazy"/u);
+  assert.doesNotMatch(carousel, /loading=.*eager/u);
   assert.match(carousel, /Изображение готовится/u);
   assert.match(carousel, /alt=\{product\.image\.alt \|\| product\.name\}/u);
   assert.doesNotMatch(carousel, /useEffect|fetch\(|setInterval|setTimeout/u);

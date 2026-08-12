@@ -1,5 +1,6 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
 import { unstable_rethrow } from "next/navigation";
 import { cache } from "react";
 
@@ -21,6 +22,9 @@ import type { StorefrontCatalog } from "./types.ts";
 import type { PublishedCatalogProjection } from "../published-catalog/contracts.ts";
 
 type CatalogLoader = () => Promise<StorefrontCatalog>;
+
+export const PUBLISHED_CATALOG_CACHE_REVALIDATE_SECONDS = 60;
+export const PUBLISHED_CATALOG_CACHE_TAG = "published-catalog-projection";
 
 let developmentFaultRequestCount = 0;
 
@@ -50,7 +54,7 @@ function developmentFaultResponse(): Response | null {
   return null;
 }
 
-async function requestCloudPublishedCatalog(): Promise<StorefrontCatalog> {
+async function requestCloudPublishedCatalogUncached(): Promise<StorefrontCatalog> {
   let client;
   try {
     const allowLocalDevelopment = process.env[LOCAL_SUPABASE_ORIGIN_OPT_IN] === "1"
@@ -88,8 +92,31 @@ async function requestCloudPublishedCatalog(): Promise<StorefrontCatalog> {
   return applyFinalStageAcceptanceCorrectiveV2(liveCatalog, canonicalCatalog);
 }
 
-/** One transport/validation/mapping pass per React server request. */
+/**
+ * Public pages reuse one validated projection across anonymous requests for at
+ * most 60 seconds. The cached value has already passed the complete projection
+ * and last-known-good validation boundary above; invalid or partial upstream
+ * payloads can never become a new cache entry.
+ */
+const requestCloudPublishedCatalog = unstable_cache(
+  requestCloudPublishedCatalogUncached,
+  ["cloud-published-storefront-catalog-v1"],
+  {
+    revalidate: PUBLISHED_CATALOG_CACHE_REVALIDATE_SECONDS,
+    tags: [PUBLISHED_CATALOG_CACHE_TAG],
+  },
+);
+
+/** One shared validated read plus request memoization for public rendering. */
 export const loadCloudPublishedCatalog = cache(requestCloudPublishedCatalog);
+
+/**
+ * Health diagnostics intentionally bypass the shared read cache so a cached
+ * live projection can never be reported as proof of current transport health.
+ */
+export const loadCloudPublishedCatalogFresh = cache(
+  requestCloudPublishedCatalogUncached,
+);
 
 export class CloudPublishedCatalogRepository implements CatalogRepository {
   private readonly loadCatalog: CatalogLoader;

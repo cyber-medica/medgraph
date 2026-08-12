@@ -100,10 +100,9 @@ export default function Header({
           <Image
             src="/brand/cybermedica-logo.png"
             alt="Кибермедика"
-            width={1400}
-            height={293}
+            width={184}
+            height={39}
             loading="eager"
-            fetchPriority="high"
             className="h-auto w-[10.25rem] sm:w-[11.5rem]"
           />
         </Link>

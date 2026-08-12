@@ -46,16 +46,39 @@ export default function AttributionRuntime() {
     }
     const queuedYm = window.ym;
     queuedYm.l = Date.now();
-    const script = document.createElement("script");
-    script.async = true;
-    script.dataset.cybermedicaMetrica = "true";
-    script.src = "https://mc.yandex.ru/metrika/tag.js";
-    document.head.append(script);
     window.ym(counterId, "init", {
       accurateTrackBounce: true,
       clickmap: true,
       trackLinks: true,
     });
+
+    let loaded = false;
+    let timeout = 0;
+    function loadMetrica() {
+      if (loaded) return;
+      loaded = true;
+      window.clearTimeout(timeout);
+      window.removeEventListener("pointerdown", loadMetrica);
+      window.removeEventListener("keydown", loadMetrica);
+      const script = document.createElement("script");
+      script.async = true;
+      script.dataset.cybermedicaMetrica = "true";
+      script.src = "https://mc.yandex.ru/metrika/tag.js";
+      document.head.append(script);
+    }
+
+    // Attribution and the Metrica command queue are ready immediately. The
+    // network-heavy third-party runtime starts after the critical render path,
+    // or earlier on the user's first interaction, without losing queued goals.
+    timeout = window.setTimeout(loadMetrica, 5_000);
+    window.addEventListener("pointerdown", loadMetrica, { passive: true, once: true });
+    window.addEventListener("keydown", loadMetrica, { once: true });
+
+    return () => {
+      window.clearTimeout(timeout);
+      window.removeEventListener("pointerdown", loadMetrica);
+      window.removeEventListener("keydown", loadMetrica);
+    };
   }, []);
 
   return null;

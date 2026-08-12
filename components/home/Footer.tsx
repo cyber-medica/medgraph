@@ -10,8 +10,8 @@ export default function Footer() {
             <Image
               src="/brand/cybermedica-logo.png"
               alt="Кибермедика"
-              width={1400}
-              height={293}
+              width={160}
+              height={34}
               className="h-auto w-40"
             />
           </Link>

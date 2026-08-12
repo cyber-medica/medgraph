@@ -34,6 +34,7 @@ test("security headers are applied globally with only approved public media orig
     [...new Set(contentSecurityPolicy.match(/https?:\/\/[^\s;]+/gu) ?? [])],
     [
       "https://mc.yandex.ru",
+      "https://mc.yandex.com",
       "https://yastatic.net",
       "https://cyber-medica.ru",
       "https://static.tildacdn.com",

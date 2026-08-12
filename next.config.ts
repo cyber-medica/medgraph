@@ -113,6 +113,7 @@ const nextConfig: NextConfig = {
       protocol: "https" as const,
       hostname,
     })),
+    imageSizes: [32, 48, 64, 96, 128, 160, 192, 256, 320, 384],
   },
   async headers() {
     const previewHeaders = isCloudPreview
