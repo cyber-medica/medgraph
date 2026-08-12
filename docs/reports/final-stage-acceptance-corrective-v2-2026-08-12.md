@@ -92,9 +92,13 @@ The first dev-server browser attempt exposed a local HMR origin/chunk mismatch. 
 
 ## Stage deployment and invariance
 
-- Immutable Preview deployment: pending final deployment.
-- Stage alias verification: pending final deployment.
+- Accepted application commit: `5e4327a31ed30a1adbcedb52219d7fb9fc69695e`.
+- Immutable Preview deployment: `dpl_ibjoAxoHA5hhnTWFVcF1297qr9SW` (`https://medgraph-r07j6ub2z-medgraph.vercel.app`), status `READY`.
+- Stage alias verification: `https://stage.cyber-medica.ru` is assigned to the accepted Preview and passed the full external acceptance smoke.
+- External Stage smoke: PASS — 11 responsive profiles, Chromium and WebKit, 48 Product Detail routes, 42/42 imported drafts, 114 visible Products, 19 public manufacturer routes, 12 hidden manufacturer routes, 6/6 FAQ routes and no horizontal overflow at 390×844.
+- External SEO v3 smoke: PASS — 43 exact v3 rows, 71 preserved v2 rows, 2 P1 landings, 3 public manufacturer pages and no Stage sitemap exposure.
 - Production writes: 0.
 - Production deployment changed: No.
-- Remote `main`: `380bb33a804c8dfc4f3333f8fb5acf211bd56c3b` (unchanged at pre-deploy check).
-- Remote `production`: `380bb33a804c8dfc4f3333f8fb5acf211bd56c3b` (unchanged at pre-deploy check).
+- Production deployment: `dpl_5ua6shdYvfC2cCAxk4h46kxVZ4pp`, status `READY`, source `380bb33a804c8dfc4f3333f8fb5acf211bd56c3b` (unchanged after Stage acceptance).
+- Remote `main`: `380bb33a804c8dfc4f3333f8fb5acf211bd56c3b` (unchanged after Stage acceptance).
+- Remote `production`: `380bb33a804c8dfc4f3333f8fb5acf211bd56c3b` (unchanged after Stage acceptance).
