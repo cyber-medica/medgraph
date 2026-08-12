@@ -92,9 +92,10 @@ The first dev-server browser attempt exposed a local HMR origin/chunk mismatch. 
 
 ## Stage deployment and invariance
 
-- Accepted application commit: `5e4327a31ed30a1adbcedb52219d7fb9fc69695e`.
-- Immutable Preview deployment: `dpl_ibjoAxoHA5hhnTWFVcF1297qr9SW` (`https://medgraph-r07j6ub2z-medgraph.vercel.app`), status `READY`.
+- Accepted application commit: `7c0bddb063d2f665059d0bba66ce00840799f9ef`.
+- Immutable Preview deployment: `dpl_AtnUjKfU18dF86gQxUoxa7XGyFPr` (`https://medgraph-lxoi7lt00-medgraph.vercel.app`), status `READY`.
 - Stage alias verification: `https://stage.cyber-medica.ru` is assigned to the accepted Preview and passed the full external acceptance smoke.
+- Deployment guard verification found that a plain CLI Preview could fall through to the public projection because the final acceptance branch was not part of the original exact Stage branch contract. The branch was added to the fail-closed Stage allowlist, and the accepted CLI deployment also received the existing `CYBERMEDICA_ENDOMARKET_STAGE=1` flag at deployment scope only. No Vercel project, Production or persisted environment value changed.
 - External Stage smoke: PASS — 11 responsive profiles, Chromium and WebKit, 48 Product Detail routes, 42/42 imported drafts, 114 visible Products, 19 public manufacturer routes, 12 hidden manufacturer routes, 6/6 FAQ routes and no horizontal overflow at 390×844.
 - External SEO v3 smoke: PASS — 43 exact v3 rows, 71 preserved v2 rows, 2 P1 landings, 3 public manufacturer pages and no Stage sitemap exposure.
 - Production writes: 0.
