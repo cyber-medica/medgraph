@@ -55,8 +55,9 @@ export default function Hero({ products }: { products: readonly Product[] }) {
                     src={heroImage.url}
                     alt=""
                     fill
-                    preload
-                    sizes="(max-width: 639px) 82vw, (max-width: 1023px) 62vw, 34vw"
+                    loading="eager"
+                    fetchPriority="high"
+                    sizes="(max-width: 639px) 32vw, (max-width: 1023px) 24vw, 18vw"
                     className="object-contain drop-shadow-[0_18px_26px_rgba(11,19,32,0.20)] transition duration-200 group-hover:scale-[1.02]"
                   />
                 </div>

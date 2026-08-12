@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <main className="min-h-[70vh] bg-cm-canvas" aria-busy="true" aria-label="Загрузка страницы">
+    <main className="min-h-screen bg-cm-canvas" aria-busy="true" aria-label="Загрузка страницы">
       <div className="cm-container py-10">
         <div className="cm-skeleton h-3 w-32 rounded" />
         <div className="cm-skeleton mt-5 h-9 w-2/3 max-w-xl rounded" />
