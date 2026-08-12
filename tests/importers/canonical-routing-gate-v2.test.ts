@@ -34,11 +34,11 @@ test("canonical routing fingerprints fail closed on a split deployment", () => {
 
 test("catalog and sitemap extract unique canonical Product paths", () => {
   assert.deepEqual(
-    [...extractCatalogProductPaths('<a href="/catalog/a"></a><a href="/catalog/a"></a><a href="/catalog/b"></a><a href="/catalog/endoskopiya"></a>')],
+    [...extractCatalogProductPaths('<a href="/catalog/a"></a><a href="/catalog/a"></a><a href="/catalog/b"></a><a href="/catalog/endoskopiya"></a><a href="/catalog/reanimatsiya/transportnye-apparaty-ivl"></a>')],
     ["/catalog/a", "/catalog/b"],
   );
   assert.deepEqual(
-    [...extractSitemapProductPaths('<loc>https://cyber-medica.ru/catalog/a</loc><loc>https://cyber-medica.ru/catalog/b</loc><loc>https://cyber-medica.ru/catalog/endoskopiya/videoendoskopicheskie-sistemy</loc>')],
+    [...extractSitemapProductPaths('<loc>https://cyber-medica.ru/catalog/a</loc><loc>https://cyber-medica.ru/catalog/b</loc><loc>https://cyber-medica.ru/catalog/endoskopiya/videoendoskopicheskie-sistemy</loc><loc>https://cyber-medica.ru/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty</loc>')],
     ["/catalog/a", "/catalog/b"],
   );
 });

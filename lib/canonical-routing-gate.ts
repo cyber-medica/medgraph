@@ -4,9 +4,11 @@ export const CANONICAL_HOST = "cyber-medica.ru";
 export const CANONICAL_ORIGIN_FAMILY = "medgraph";
 export const APPROVED_LEGACY_MEDIA_HOST = "static.tildacdn.com";
 export const CANONICAL_CATALOG_CONTENT_PATHS = new Set([
+  "/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty",
   "/catalog/endoskopiya",
   "/catalog/endoskopiya/obrabotka-endoskopov",
   "/catalog/endoskopiya/videoendoskopicheskie-sistemy",
+  "/catalog/reanimatsiya/transportnye-apparaty-ivl",
 ]);
 
 export type CanonicalRouteFingerprint = {
