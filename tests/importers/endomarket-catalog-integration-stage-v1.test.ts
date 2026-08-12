@@ -12,6 +12,7 @@ import {
 } from "../../lib/storefront/cloud-preview-mapper.ts";
 import {
   ENDOMARKET_STAGE_PREVIEW_BRANCH,
+  FINAL_STAGE_ACCEPTANCE_PREVIEW_BRANCH,
   getStorefrontDataSource,
   isEndoMarketStagePreview,
 } from "../../lib/storefront/data-source.ts";
@@ -112,6 +113,14 @@ test("EndoMarket Stage source is exact-branch Preview-only and fails closed in P
   };
   assert.equal(isEndoMarketStagePreview(previewEnvironment), true);
   assert.equal(getStorefrontDataSource(previewEnvironment), "cloud_preview");
+  assert.equal(isEndoMarketStagePreview({
+    ...previewEnvironment,
+    VERCEL_GIT_COMMIT_REF: FINAL_STAGE_ACCEPTANCE_PREVIEW_BRANCH,
+  }), true);
+  assert.equal(getStorefrontDataSource({
+    ...previewEnvironment,
+    VERCEL_GIT_COMMIT_REF: FINAL_STAGE_ACCEPTANCE_PREVIEW_BRANCH,
+  }), "cloud_preview");
   assert.equal(isEndoMarketStagePreview({
     ...previewEnvironment,
     VERCEL_ENV: "production",

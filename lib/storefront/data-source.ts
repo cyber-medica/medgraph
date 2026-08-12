@@ -2,13 +2,22 @@ export type StorefrontDataSource = "static" | "cloud_preview" | "cloud_published
 
 export const ENDOMARKET_STAGE_PREVIEW_BRANCH =
   "codex/endomarket-catalog-integration-stage-v1";
+export const FINAL_STAGE_ACCEPTANCE_PREVIEW_BRANCH =
+  "codex/final-stage-acceptance-corrective-v2";
+
+const ENDOMARKET_STAGE_PREVIEW_BRANCHES = new Set([
+  ENDOMARKET_STAGE_PREVIEW_BRANCH,
+  FINAL_STAGE_ACCEPTANCE_PREVIEW_BRANCH,
+]);
 
 export function isEndoMarketStagePreview(
   environment: Readonly<Record<string, string | undefined>> = process.env,
 ) {
   if (environment.VERCEL_ENV === "production") return false;
   const exactVercelPreview = environment.VERCEL_ENV === "preview"
-    && environment.VERCEL_GIT_COMMIT_REF === ENDOMARKET_STAGE_PREVIEW_BRANCH;
+    && ENDOMARKET_STAGE_PREVIEW_BRANCHES.has(
+      environment.VERCEL_GIT_COMMIT_REF ?? "",
+    );
   const explicitVercelPreview = environment.VERCEL_ENV === "preview"
     && environment.VERCEL === "1"
     && environment.CYBERMEDICA_ENDOMARKET_STAGE === "1";
