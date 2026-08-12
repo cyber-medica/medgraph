@@ -151,7 +151,8 @@ export default function ProductGallery({
               alt={selectedMedia.alt}
               fill
               preload={selectedImageIndex === 0}
-              sizes="(max-width: 1024px) 100vw, 40vw"
+              fetchPriority={selectedImageIndex === 0 ? "high" : "auto"}
+              sizes="(max-width: 1024px) 90vw, 40vw"
               className="object-contain p-2 transition duration-300 group-hover:scale-[1.015]"
             />
             <span

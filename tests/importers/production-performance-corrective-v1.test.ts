@@ -42,10 +42,12 @@ test("public catalog reads use a short shared validated cache while health stays
 });
 
 test("the measured homepage LCP owns priority and below-fold imagery stays lazy", async () => {
-  const [hero, loading, carousel, header, footer, config] = await Promise.all([
+  const [hero, loading, carousel, gallery, productCard, header, footer, config] = await Promise.all([
     source("components/home/Hero.tsx"),
     source("app/loading.tsx"),
     source("components/home/FeaturedProductsCarousel.tsx"),
+    source("components/catalog/ProductGallery.tsx"),
+    source("components/storefront/ProductCard.tsx"),
     source("components/layout/Header.tsx"),
     source("components/home/Footer.tsx"),
     source("next.config.ts"),
@@ -58,6 +60,9 @@ test("the measured homepage LCP owns priority and below-fold imagery stays lazy"
   assert.doesNotMatch(loading, /min-h-\[70vh\]/u);
   assert.match(carousel, /loading="lazy"/u);
   assert.doesNotMatch(carousel, /loading=.*eager/u);
+  assert.match(gallery, /fetchPriority=\{selectedImageIndex === 0 \? "high" : "auto"\}/u);
+  assert.match(gallery, /\(max-width: 1024px\) 90vw, 40vw/u);
+  assert.match(productCard, /\(max-width: 767px\) 92vw/u);
   assert.match(header, /width=\{184\}[\s\S]+?height=\{39\}/u);
   assert.doesNotMatch(header, /fetchPriority="high"/u);
   assert.match(footer, /width=\{160\}[\s\S]+?height=\{34\}/u);

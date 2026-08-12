@@ -155,7 +155,7 @@ function ProductImage({ product, href }: { product: Product; href: string }) {
         src={image.url}
         alt={image.alt}
         fill
-        sizes="(max-width: 767px) 100vw, (max-width: 1535px) 33vw, 25vw"
+        sizes="(max-width: 767px) 92vw, (max-width: 1535px) 33vw, 25vw"
         className="object-contain p-2 transition duration-300 group-hover:scale-[1.02]"
       />
     </Link>
