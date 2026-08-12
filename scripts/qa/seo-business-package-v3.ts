@@ -159,7 +159,7 @@ assert.equal(new Set(productMetadata.map(({ title }) => title)).size, 114);
 assert.equal(new Set(productMetadata.map(({ description }) => description)).size, 114);
 assert.equal(new Set(productMetadata.map(({ canonical }) => canonical)).size, 114);
 
-const specificManufacturerNames = ["SonoScape", "Medinova", "Hamilton Medical", "Mindray"] as const;
+const specificManufacturerNames = ["SonoScape", "Hamilton Medical", "Mindray"] as const;
 const specificManufacturers = specificManufacturerNames.map(
   (name) => [name, manufacturerContract[name]] as const,
 );
@@ -176,6 +176,10 @@ for (const [name, expected] of specificManufacturers) {
   assert.ok(html.includes(resolved.intro));
   assert.match(actual.robots, /noindex/iu);
 }
+
+const hiddenMedinova = manufacturerContract.Medinova;
+const hiddenMedinovaHtml = await fetchText(hiddenMedinova.path, 404);
+assert.match(hiddenMedinovaHtml, /Страница не найдена/u);
 
 const missingHtml = await fetchText("/catalog/__seo-v3-missing-product__", 404);
 assert.match(missingHtml, /Страница не найдена/u);

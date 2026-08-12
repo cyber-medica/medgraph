@@ -5,6 +5,7 @@ import { chromium, webkit, type BrowserType, type Page } from "playwright-core";
 
 import stageCatalog from "../../data/import/endomarket-wave1-stage-catalog.json" with { type: "json" };
 import sourceTruth from "../../data/import/endomarket-source-truth-reconciliation-v5.json" with { type: "json" };
+import finalAcceptance from "../../data/import/final-stage-acceptance-v2-audit.json" with { type: "json" };
 
 const origin = new URL(process.env.ENDOMARKET_STAGE_ORIGIN ?? "http://127.0.0.1:3100");
 const approvedOrigin =
@@ -26,6 +27,7 @@ assert.equal(sourceTruth.counts.currentMediaExactMatches, 42);
 const detailProducts = [
   ...sourceTruth.products.map(({ slug }) => slug),
   "767632362-330695211247-apparat-ivl-hamilton-t1",
+  "767632362-241834833046-elektrokardiograf-comen-cm1200b",
   "767632362-401374530532-apparat-ivl-mindray-sv300",
   "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
   "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
@@ -57,6 +59,15 @@ const hiddenUnpublishedBindings = [
   "pentax-epk-i7010-optivista",
 ] as const;
 
+const faqPaths = [
+  "/catalog/endoskopiya",
+  "/catalog/endoskopiya/videoendoskopicheskie-sistemy",
+  "/solutions/portativnaya-bronkhoskopiya",
+  "/catalog/endoskopiya/obrabotka-endoskopov",
+  "/catalog/reanimatsiya/transportnye-apparaty-ivl",
+  "/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty",
+] as const;
+
 const stageDraftSlugs = new Set(
   stageCatalog.products
     .filter(({ stageImport }) => stageImport.entityOrigin === "new_candidate")
@@ -66,7 +77,7 @@ for (const slug of detailProducts.slice(0, 42)) {
   assert.ok(stageDraftSlugs.has(slug), `${slug}: missing Stage draft Product.`);
 }
 
-const evidenceDir = "docs/reports/evidence/catalog-master-corrective-v7-2026-08-09";
+const evidenceDir = "docs/reports/evidence/final-stage-acceptance-corrective-v2-2026-08-12";
 const captureScreenshots = process.env.ENDOMARKET_STAGE_SCREENSHOTS === "1";
 if (captureScreenshots) await mkdir(evidenceDir, { recursive: true });
 
@@ -219,9 +230,22 @@ async function runProfile({
       const manufacturerPaths = await page
         .locator('main a[href^="/manufacturers/"]')
         .evaluateAll((links) => [...new Set(links.map((link) => link.getAttribute("href")).filter(Boolean))]);
-      assert.equal(manufacturerPaths.length, 31, `${label}: manufacturer directory must contain 31 unique routes.`);
+      assert.equal(manufacturerPaths.length, 19, `${label}: manufacturer directory must contain 19 public Product-backed routes.`);
       assert.equal(await page.locator('[data-logo-kind="graphic"]').count(), 2, `${label}: expected two rights-cleared graphic logos.`);
-      assert.equal(await page.locator('[data-logo-kind="fallback"]').count(), 29, `${label}: expected 29 fail-closed logo fallbacks.`);
+      assert.equal(await page.locator('[data-logo-kind="fallback"]').count(), 17, `${label}: expected 17 fail-closed logo fallbacks.`);
+
+      for (const manufacturer of finalAcceptance.zeroProductEntities.zeroProductManufacturers) {
+        assert.equal(
+          manufacturerPaths.includes(`/manufacturers/${manufacturer.slug}`),
+          false,
+          `${manufacturer.name}: zero-product manufacturer leaked into discovery.`,
+        );
+        const zeroResponse = await fetch(new URL(`/manufacturers/${manufacturer.slug}`, origin), {
+          redirect: "manual",
+          signal: AbortSignal.timeout(12_000),
+        });
+        assert.equal(zeroResponse.status, 404, `${manufacturer.name}: direct route must return HTTP 404.`);
+      }
 
       for (const manufacturerPath of manufacturerPaths) {
         const response = await page.goto(new URL(manufacturerPath!, origin).toString(), {
@@ -245,10 +269,10 @@ async function runProfile({
       });
       assert.equal(supplierResponse.status, 404, `${label}: unknown supplier route must return HTTP 404.`);
     }
-    await assertPage(page, "/manufacturers/medinova", label);
-    assert.equal(await page.getByText(/Medinova/u).count() > 0, true, `${label}: manufacturer route failed.`);
+    await assertPage(page, "/manufacturers/sonoscape", label);
+    assert.equal(await page.getByText(/SonoScape/u).count() > 0, true, `${label}: manufacturer route failed.`);
     if (captureScreenshots && label === "chromium-desktop-1440") {
-      await page.screenshot({ path: `${evidenceDir}/manufacturer-medinova.png`, fullPage: true });
+      await page.screenshot({ path: `${evidenceDir}/manufacturer-sonoscape.png`, fullPage: true });
     }
     await assertPage(page, "/request", label);
 
@@ -328,6 +352,29 @@ async function runProfile({
       }
     }
 
+    if (label === "chromium-desktop-1440" || label === "webkit-mobile-390") {
+      for (const faqPath of faqPaths) {
+        await assertPage(page, faqPath, label);
+        const details = page.locator("details");
+        assert.ok(await details.count() > 0, `${label}: ${faqPath} FAQ is empty.`);
+        assert.equal(await details.first().evaluate((node) => (node as HTMLDetailsElement).open), true, `${label}: ${faqPath} first answer is not visible.`);
+        assert.ok((await details.first().locator("p").innerText()).trim().length > 0, `${label}: ${faqPath} first answer is blank.`);
+        if (await details.count() > 1) {
+          const second = details.nth(1);
+          await second.locator("summary").focus();
+          await page.keyboard.press("Enter");
+          assert.equal(await second.evaluate((node) => (node as HTMLDetailsElement).open), true, `${label}: ${faqPath} keyboard toggle failed.`);
+          assert.ok((await second.locator("p").innerText()).trim().length > 0, `${label}: ${faqPath} toggled answer is blank.`);
+        }
+        if (captureScreenshots && faqPath === faqPaths[0]) {
+          await page.screenshot({
+            path: `${evidenceDir}/faq-${label}.png`,
+            fullPage: true,
+          });
+        }
+      }
+    }
+
     if (captureScreenshots && screenshotName && detailCount > 0) {
       await page.goto(new URL(`/catalog/${detailProducts[Math.min(detailCount - 1, 9)]}`, origin).toString(), { waitUntil: "networkidle" });
       await page.screenshot({ path: `${evidenceDir}/product-detail-${screenshotName}.png`, fullPage: true });
@@ -357,4 +404,4 @@ const requestApi = await fetch(new URL("/api/request", origin), {
 });
 assert.equal(requestApi.status, 405, "GET /api/request must remain HTTP 405.");
 
-console.info("Catalog master corrective v7 Stage smoke passed: 11 profiles, 47 key Product Detail routes, 42/42 imported Products, 114 visible Products.");
+console.info("Final Stage acceptance corrective v2 smoke passed: 11 profiles, 48 key Product Detail routes, 42/42 imported Products, 114 visible Products.");

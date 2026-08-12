@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import SearchExperience from "@/components/search/SearchExperience";
 import {
+  catalogRepository,
   categoryService,
   manufacturerService,
   productService,
@@ -30,10 +31,11 @@ export default async function SearchPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q = "" } = await searchParams;
-  const [results, products, manufacturers, categories] = await Promise.all([
+  const [results, products, manufacturers, manufacturerReferences, categories] = await Promise.all([
     searchService.searchProducts(q),
     productService.getActiveProducts(),
     manufacturerService.getManufacturers(),
+    catalogRepository.getManufacturers(),
     categoryService.getCategories(),
   ]);
   const suggestionProducts = q.trim() ? results : products;
@@ -61,6 +63,7 @@ export default async function SearchPage({
           initialQuery={q}
           products={results}
           manufacturers={manufacturers}
+          manufacturerReferences={manufacturerReferences}
           categories={categories}
           suggestions={suggestions}
         />

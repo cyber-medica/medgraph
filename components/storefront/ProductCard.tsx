@@ -13,6 +13,7 @@ export interface ProductCardProps {
   manufacturer?: Manufacturer;
   categoryName?: string;
   compareEnabled?: boolean;
+  manufacturerLinkEnabled?: boolean;
 }
 
 export default function ProductCard({
@@ -20,6 +21,7 @@ export default function ProductCard({
   manufacturer,
   categoryName,
   compareEnabled = true,
+  manufacturerLinkEnabled = true,
 }: ProductCardProps) {
   const presentation = getProductPresentation(product, {
     categoryName,
@@ -51,13 +53,17 @@ export default function ProductCard({
           </Link>
         </h2>
         <div className="mt-1.5 min-h-7 text-xs text-cm-slate">
-          {manufacturer ? (
+          {manufacturer && manufacturerLinkEnabled ? (
             <Link
               href={`/manufacturers/${manufacturer.slug}`}
               className="inline-flex items-center rounded-md bg-cm-teal-soft px-2 py-1 font-bold text-cm-teal transition hover:bg-cm-teal/12 hover:underline"
             >
               {manufacturer.name}
             </Link>
+          ) : manufacturer ? (
+            <span className="inline-flex items-center rounded-md bg-cm-teal-soft px-2 py-1 font-bold text-cm-teal">
+              {manufacturer.name}
+            </span>
           ) : (
             presentation.manufacturerLabel
           )}

@@ -40,6 +40,7 @@ interface CatalogExplorerProps {
   products: readonly Product[];
   categories: readonly Category[];
   manufacturers: readonly Manufacturer[];
+  manufacturerReferences?: readonly Manufacturer[];
   initialSearchResultIds?: readonly string[];
   compareEnabled?: boolean;
 }
@@ -53,6 +54,7 @@ export default function CatalogExplorer({
   products,
   categories,
   manufacturers,
+  manufacturerReferences = manufacturers,
   initialSearchResultIds = [],
   compareEnabled = true,
 }: CatalogExplorerProps) {
@@ -96,15 +98,19 @@ export default function CatalogExplorer({
   const [scrollRestoreRevision, setScrollRestoreRevision] = useState(0);
   const isSearchPending = query.trim().length > 0 && resolvedQuery !== query;
   const productSearchService = useMemo(
-    () => SearchService.forProducts(products, manufacturers, categories),
-    [categories, manufacturers, products],
+    () => SearchService.forProducts(products, manufacturerReferences, categories),
+    [categories, manufacturerReferences, products],
   );
   const categoriesById = useMemo(
     () => new Map(categories.map((item) => [item.id, item])),
     [categories],
   );
   const manufacturersById = useMemo(
-    () => new Map(manufacturers.map((item) => [item.id, item])),
+    () => new Map(manufacturerReferences.map((item) => [item.id, item])),
+    [manufacturerReferences],
+  );
+  const publicManufacturerIds = useMemo(
+    () => new Set(manufacturers.map(({ id }) => id)),
     [manufacturers],
   );
   const applicationAreas = useMemo(
@@ -352,6 +358,7 @@ export default function CatalogExplorer({
                   key={product.slug}
                   product={product}
                   manufacturer={manufacturerEntry}
+                  manufacturerLinkEnabled={publicManufacturerIds.has(product.manufacturerId)}
                   categoryName={categoriesById.get(product.categoryId)?.name}
                   compareEnabled={compareEnabled}
                 />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import CatalogExplorer from "@/components/catalog/CatalogExplorer";
 import JsonLd from "@/components/seo/JsonLd";
 import {
+  catalogRepository,
   categoryService,
   manufacturerService,
   productService,
@@ -51,11 +52,12 @@ export default async function CatalogPage({
     applicationArea = "",
     sort = "name-asc",
   } = await searchParams;
-  const [products, categories, manufacturers, initialSearchResults] =
+  const [products, categories, manufacturers, manufacturerReferences, initialSearchResults] =
     await Promise.all([
       productService.getActiveProducts(),
       categoryService.getCategories(),
       manufacturerService.getManufacturers(),
+      catalogRepository.getManufacturers(),
       q ? searchService.searchProducts(q) : Promise.resolve([]),
     ]);
   return (
@@ -91,6 +93,7 @@ export default async function CatalogPage({
           products={products}
           categories={categories}
           manufacturers={manufacturers}
+          manufacturerReferences={manufacturerReferences}
           initialSearchResultIds={initialSearchResults.map(({ id }) => id)}
           compareEnabled={storefrontDataSource !== "cloud_preview"}
         />

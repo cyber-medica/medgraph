@@ -8,6 +8,7 @@ import {
   createInternalAuthRouteClient,
 } from "@/lib/internal-auth/supabase.server";
 import { SEO_P0_PATHS } from "@/lib/seo/paths";
+import { readPublicManufacturerSlugExistence } from "@/lib/storefront/manufacturer-slug-existence.server";
 import { readVisibleProductSlugExistence } from "@/lib/storefront/product-slug-existence.server";
 
 const catalogLandingPaths = new Set<string>(SEO_P0_PATHS);
@@ -17,7 +18,23 @@ export function catalogProductSlugFromPathname(pathname: string) {
   return pathname.match(/^\/catalog\/([^/]+)$/u)?.[1] ?? null;
 }
 
+export function manufacturerSlugFromPathname(pathname: string) {
+  return pathname.match(/^\/manufacturers\/([^/]+)$/u)?.[1] ?? null;
+}
+
 export async function proxy(request: NextRequest) {
+  const manufacturerSlug = manufacturerSlugFromPathname(request.nextUrl.pathname);
+  if (manufacturerSlug) {
+    const existence = await readPublicManufacturerSlugExistence(manufacturerSlug);
+    if (existence === "missing") {
+      return NextResponse.next({
+        status: 404,
+        headers: { "X-Robots-Tag": "noindex, nofollow" },
+      });
+    }
+    return NextResponse.next();
+  }
+
   const productSlug = catalogProductSlugFromPathname(request.nextUrl.pathname);
   if (productSlug) {
     const existence = await readVisibleProductSlugExistence(productSlug);
@@ -57,6 +74,7 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     "/catalog/:slug",
+    "/manufacturers/:slug",
     "/internal/review/:path*",
     "/internal/operations/:path*",
   ],

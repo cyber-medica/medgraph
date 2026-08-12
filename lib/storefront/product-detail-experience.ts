@@ -198,10 +198,12 @@ export function buildProductDetailExperience({
   product,
   manufacturer,
   category,
+  manufacturerPublicProfile = true,
 }: {
   product: Product;
   manufacturer?: Manufacturer;
   category?: Category;
+  manufacturerPublicProfile?: boolean;
 }): ProductDetailExperience {
   const publicManufacturerName = publicReferenceText(manufacturer?.name);
   const publicCountry = formatCountryForPublic(manufacturer?.country);
@@ -216,7 +218,9 @@ export function buildProductDetailExperience({
     badges.push({
       label: "Производитель",
       value: publicManufacturerName,
-      href: `/manufacturers/${manufacturer.slug}`,
+      ...(manufacturerPublicProfile
+        ? { href: `/manufacturers/${manufacturer.slug}` as const }
+        : {}),
     });
   }
   if (publicCountry) badges.push({ label: "Страна", value: publicCountry });

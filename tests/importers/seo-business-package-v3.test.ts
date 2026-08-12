@@ -28,6 +28,7 @@ import {
   SEO_P1_PATHS,
 } from "../../lib/seo/implementation-v3.ts";
 import { buildStorefrontSitemapFromCatalog } from "../../lib/storefront/storefront-sitemap.ts";
+import { filterPublicManufacturers, publicPublishedProducts } from "../../lib/storefront/public-discovery.ts";
 
 const sourceFiles = [
   ["data/seo/source/v3/cybermedica_seo_business_package_v3.json", "47ed6c80fe2b164d1e55e279d9216b6d346477e47d898976766d3caa5e32a3e8"],
@@ -232,8 +233,8 @@ test("manufacturer SEO contract is exact for four manufacturers and generic else
 test("sitemap derives counts from the visible catalog and includes both P1 routes", () => {
   const sitemap = buildStorefrontSitemapFromCatalog(stageCatalog);
   const urls = sitemap.map(({ url }) => url);
-  const expected = stageCatalog.products.length
-    + stageCatalog.manufacturers.length
+  const expected = publicPublishedProducts(stageCatalog.products).length
+    + filterPublicManufacturers(stageCatalog.manufacturers, stageCatalog.products).length
     + 3
     + SEO_LANDING_PATHS.length;
   assert.equal(urls.length, expected);

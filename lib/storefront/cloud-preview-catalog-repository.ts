@@ -4,6 +4,7 @@ import { cache } from "react";
 
 import endoMarketPublishedCatalogJson from "../../data/import/endomarket-stage-published-catalog.json" with { type: "json" };
 import endoMarketStageSnapshotJson from "../../data/import/endomarket-wave1-stage-catalog.json" with { type: "json" };
+import publishedCatalogSnapshotJson from "../../data/published-catalog-last-known-good.json" with { type: "json" };
 
 import { createSupabaseServerClient } from "../supabase/index.ts";
 import type { CatalogRepository } from "./catalog-repository.ts";
@@ -14,6 +15,9 @@ import {
 import { filterProductsForSearch } from "./search-service.ts";
 import { isEndoMarketStagePreview } from "./data-source.ts";
 import { composeEndoMarketStageCatalog } from "./endomarket-stage-catalog.ts";
+import { applyFinalStageAcceptanceCorrectiveV2 } from "./final-stage-acceptance-corrective-v2.ts";
+import { mapCloudPublishedCatalogProjection } from "./cloud-published-mapper.ts";
+import type { PublishedCatalogProjection } from "../published-catalog/contracts.ts";
 import type { StorefrontCatalog } from "./types.ts";
 
 type CatalogLoader = () => Promise<StorefrontCatalog>;
@@ -24,7 +28,14 @@ async function requestCloudPreviewCatalog(): Promise<StorefrontCatalog> {
     const stageCatalog = mapCloudPreviewSnapshot(
       endoMarketStageSnapshotJson as unknown as CloudPreviewCatalogSnapshot,
     );
-    return composeEndoMarketStageCatalog(publishedCatalog, stageCatalog);
+    const composedCatalog = composeEndoMarketStageCatalog(publishedCatalog, stageCatalog);
+    const canonicalCatalog = mapCloudPublishedCatalogProjection(
+      publishedCatalogSnapshotJson.projection as unknown as PublishedCatalogProjection,
+    );
+    return applyFinalStageAcceptanceCorrectiveV2(
+      composedCatalog,
+      canonicalCatalog,
+    );
   }
   const response = await createSupabaseServerClient({ access: "service_role" }).request(
     "/rest/v1/rpc/cloud_storefront_preview_catalog",

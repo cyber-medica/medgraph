@@ -116,10 +116,16 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
             Частые вопросы
           </h2>
           <div className="mt-4 divide-y divide-[var(--cm-rule)] overflow-hidden rounded-2xl border border-[var(--cm-rule)] bg-white">
-            {content.faq.map(([question, answer]) => (
-              <details key={question} className="group p-4 sm:p-5">
-                <summary className="cursor-pointer list-none pr-8 text-sm font-bold marker:hidden">
-                  {question}
+            {content.faq.map(([question, answer], index) => (
+              <details key={question} className="group p-4 sm:p-5" open={index === 0}>
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-sm font-bold marker:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cm-teal">
+                  <span>{question}</span>
+                  <span
+                    aria-hidden="true"
+                    className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--cm-rule)] text-base font-medium text-cm-teal transition group-open:rotate-45"
+                  >
+                    +
+                  </span>
                 </summary>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-cm-slate">{answer}</p>
               </details>

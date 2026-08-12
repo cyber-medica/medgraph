@@ -12,7 +12,11 @@ import ProductCommercialBadges from "@/components/storefront/ProductCommercialBa
 import ProductCard from "@/components/storefront/ProductCard";
 import ProductViewTracker from "@/components/analytics/ProductViewTracker";
 import SafeProductDescription from "@/components/catalog/SafeProductDescription";
-import { catalogRepository, productService, storefrontDataSource } from "@/lib/storefront";
+import {
+  catalogRepository, productService,
+  manufacturerService,
+  storefrontDataSource,
+} from "@/lib/storefront";
 import { buildProductDetailExperience } from "@/lib/storefront/product-detail-experience";
 import {
   getProductPresentation,
@@ -71,8 +75,9 @@ export default async function StorefrontProductPage({
   const product = await productService.getProductBySlug(slug);
   if (!product) notFound();
 
-  const [manufacturers, categories, relatedProducts] = await Promise.all([
+  const [manufacturers, publicManufacturers, categories, relatedProducts] = await Promise.all([
     catalogRepository.getManufacturers(),
+    manufacturerService.getManufacturers(),
     catalogRepository.getCategories(),
     productService.getRelatedProducts(product),
   ]);
@@ -80,12 +85,20 @@ export default async function StorefrontProductPage({
     ({ id }) => id === product.manufacturerId,
   );
   const category = categories.find(({ id }) => id === product.categoryId);
+  const publicManufacturerIds = new Set(publicManufacturers.map(({ id }) => id));
   const presentation = getProductPresentation(product, {
     categoryName: category?.name,
     country: manufacturer?.country,
     manufacturerName: manufacturer?.name,
   });
-  const experience = buildProductDetailExperience({ product, manufacturer, category });
+  const experience = buildProductDetailExperience({
+    product,
+    manufacturer,
+    category,
+    manufacturerPublicProfile: manufacturer
+      ? publicManufacturerIds.has(manufacturer.id)
+      : false,
+  });
   const productH1 = getProductSeoH1(product);
   const generalSpecifications = experience.generalSpecifications;
   const technicalSpecifications = experience.technicalSpecifications;
@@ -453,6 +466,7 @@ export default async function StorefrontProductPage({
                     key={relatedProduct.slug}
                     product={relatedProduct}
                     manufacturer={manufacturersById.get(relatedProduct.manufacturerId)}
+                    manufacturerLinkEnabled={publicManufacturerIds.has(relatedProduct.manufacturerId)}
                     categoryName={categoriesById.get(relatedProduct.categoryId)?.name}
                     compareEnabled={presentation.canCompare && storefrontDataSource !== "cloud_preview"}
                   />
@@ -466,7 +480,9 @@ export default async function StorefrontProductPage({
 
         {experience.manufacturer ? (
           <Section id="manufacturer" title="Производитель">
-            <ProductManufacturer manufacturer={experience.manufacturer} />
+            <ProductManufacturer manufacturer={experience.manufacturer}
+              linkEnabled={publicManufacturerIds.has(experience.manufacturer.id)}
+            />
           </Section>
         ) : null}
       </div>

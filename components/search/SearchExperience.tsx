@@ -61,12 +61,14 @@ export default function SearchExperience({
   initialQuery,
   products,
   manufacturers,
+  manufacturerReferences = manufacturers,
   categories,
   suggestions: storefrontSuggestions,
 }: {
   initialQuery: string;
   products: readonly Product[];
   manufacturers: readonly Manufacturer[];
+  manufacturerReferences?: readonly Manufacturer[];
   categories: readonly Category[];
   suggestions: readonly string[];
 }) {
@@ -82,8 +84,8 @@ export default function SearchExperience({
     }
   });
   const manufacturersById = useMemo(
-    () => new Map(manufacturers.map((manufacturer) => [manufacturer.id, manufacturer])),
-    [manufacturers],
+    () => new Map(manufacturerReferences.map((manufacturer) => [manufacturer.id, manufacturer])),
+    [manufacturerReferences],
   );
   const categoriesById = useMemo(
     () => new Map(categories.map((category) => [category.id, category])),

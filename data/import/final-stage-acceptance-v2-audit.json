@@ -1,0 +1,3770 @@
+{
+  "version": "final-stage-acceptance-corrective-v2",
+  "generatedAt": "2026-08-12T12:00:00.000Z",
+  "stage": "https://stage.cyber-medica.ru",
+  "scope": {
+    "products": 114,
+    "publicPublishedProducts": 71,
+    "manufacturersAudited": 31,
+    "suppliersAudited": 0
+  },
+  "zeroProductEntities": {
+    "publicManufacturerCount": 19,
+    "zeroProductManufacturersHidden": 12,
+    "zeroProductManufacturers": [
+      {
+        "id": "ambu",
+        "slug": "ambu",
+        "name": "Ambu"
+      },
+      {
+        "id": "aohua",
+        "slug": "aohua",
+        "name": "AOHUA"
+      },
+      {
+        "id": "biotech-m",
+        "slug": "biotech-m",
+        "name": "Биотех-М"
+      },
+      {
+        "id": "drager",
+        "slug": "drager",
+        "name": "Dräger"
+      },
+      {
+        "id": "huger",
+        "slug": "huger",
+        "name": "HUGER"
+      },
+      {
+        "id": "philips",
+        "slug": "philips",
+        "name": "Philips"
+      },
+      {
+        "id": "bowa",
+        "slug": "bowa",
+        "name": "BOWA"
+      },
+      {
+        "id": "erbe",
+        "slug": "erbe",
+        "name": "ERBE"
+      },
+      {
+        "id": "ilivtouch",
+        "slug": "ilivtouch",
+        "name": "iLivTouch"
+      },
+      {
+        "id": "medinova",
+        "slug": "medinova",
+        "name": "Medinova"
+      },
+      {
+        "id": "met",
+        "slug": "met",
+        "name": "MET"
+      },
+      {
+        "id": "zerts",
+        "slug": "zerts",
+        "name": "ZERTS"
+      }
+    ],
+    "zeroProductSuppliersHidden": 0,
+    "supplierModelPresent": false,
+    "directRoutePolicy": "404",
+    "sitemapPolicy": "exclude_zero_product_entities"
+  },
+  "contentIntegrity": {
+    "productsAudited": 114,
+    "acceptedPreSeoAuditProducts": 114,
+    "canonicalSource": {
+      "path": "data/published-catalog-last-known-good.json",
+      "projectionVersion": 75,
+      "projectionChecksum": "a3c933eb1bf485c923ad1c0467ec214aa7b3b9e12575541f32e367c0bf99dc5a"
+    },
+    "hamiltonCanonicalRestored": true,
+    "hamiltonCanonicalBodyFingerprint": "a313f8213963e59aaaf2a2b2b30e2b8e8dadaa3b3dfed0543221fbc0cb583d39",
+    "canonicalHamiltonBodyFingerprint": "a313f8213963e59aaaf2a2b2b30e2b8e8dadaa3b3dfed0543221fbc0cb583d39",
+    "canonicalDriftFound": 1,
+    "canonicalDriftFixed": 1,
+    "authorizedChanges": [
+      {
+        "productId": "767632362-116854129531-fetalnii-monitor-comen-star5000c",
+        "slug": "767632362-116854129531-fetalnii-monitor-comen-star5000c",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+        "slug": "767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+        "slug": "767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-241834833046-elektrokardiograf-comen-cm1200b",
+        "slug": "767632362-241834833046-elektrokardiograf-comen-cm1200b",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-259394139301-elektrokardiograf-comen-cm1200a",
+        "slug": "767632362-259394139301-elektrokardiograf-comen-cm1200a",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+        "slug": "767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+        "slug": "767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+        "slug": "767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+        "slug": "767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-323650602021-fetalnii-monitor-overton-6200",
+        "slug": "767632362-323650602021-fetalnii-monitor-overton-6200",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-330695211247-apparat-ivl-hamilton-t1",
+        "slug": "767632362-330695211247-apparat-ivl-hamilton-t1",
+        "changes": [
+          "description"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+        "slug": "767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+        "slug": "767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+        "slug": "767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+        "slug": "767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+        "slug": "767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+        "slug": "767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-485427737755-defibrillyator-monitor-dfr-02",
+        "slug": "767632362-485427737755-defibrillyator-monitor-dfr-02",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+        "slug": "767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+        "slug": "767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+        "slug": "767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+        "slug": "767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+        "slug": "767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+        "slug": "767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-694791065122-fetalnii-monitor-unikos-01",
+        "slug": "767632362-694791065122-fetalnii-monitor-unikos-01",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+        "slug": "767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+        "slug": "767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-761217382341-monitor-patsienta-bionet-bm-5",
+        "slug": "767632362-761217382341-monitor-patsienta-bionet-bm-5",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-777813572261-fetalnii-monitor-comen-star5000",
+        "slug": "767632362-777813572261-fetalnii-monitor-comen-star5000",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+        "slug": "767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-868434933208-elektrokardiograf-cardipia-200",
+        "slug": "767632362-868434933208-elektrokardiograf-cardipia-200",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+        "slug": "767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      },
+      {
+        "productId": "767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+        "slug": "767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+        "changes": [
+          "keyFeatures"
+        ],
+        "allowed": true
+      }
+    ],
+    "unintendedRegressionsRemaining": 0
+  },
+  "keyFeatures": {
+    "productsAudited": 114,
+    "productsWithMeaningfulFeatures": 79,
+    "sectionsAddedOrRestored": 32,
+    "hiddenMeaningfulFeatureSectionsRemaining": 0,
+    "inventedClaims": 0,
+    "products": [
+      {
+        "productId": "767632362-116854129531-fetalnii-monitor-comen-star5000c",
+        "slug": "767632362-116854129531-fetalnii-monitor-comen-star5000c",
+        "name": "Фетальный и материнский монитор Comen STAR5000C",
+        "model": "STAR5000C",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "ЧСС плода, токодинамометрия и отметка движений",
+            "source": "accepted_description",
+            "sourceText": "регистрацию частоты сердечных сокращений плода, токодинамометрию и отметку движений плода"
+          },
+          {
+            "feature": "Сенсорный дисплей",
+            "source": "accepted_description",
+            "sourceText": "сенсорным дисплеем"
+          },
+          {
+            "feature": "Встроенный принтер",
+            "source": "accepted_description",
+            "sourceText": "встроенным принтером"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+        "slug": "767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+        "name": "Аппарат поддержки дыхания новорождённых УОМЗ АПДН-01",
+        "model": "АПДН-01",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Неинвазивная поддержка новорождённых с самостоятельным дыханием",
+            "source": "accepted_description",
+            "sourceText": "неинвазивной респираторной поддержки новорождённых с сохранённым самостоятельным дыханием"
+          },
+          {
+            "feature": "Режим CPAP с постоянным положительным давлением",
+            "source": "accepted_description",
+            "sourceText": "режим CPAP, поддерживая постоянное положительное давление"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-159912360691-portativnii-monitor-patsienta-benevision",
+        "slug": "767632362-159912360691-portativnii-monitor-patsienta-benevision",
+        "name": "Портативный монитор пациента BeneVision N1",
+        "model": "BeneVision N1",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-162624200421-portativnii-meditsinskii-otsasivatel-asp",
+        "slug": "767632362-162624200421-portativnii-meditsinskii-otsasivatel-asp",
+        "name": "Портативный медицинский отсасыватель (аспиратор) Vacus 7018",
+        "model": "Vacus 7018",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-163731865692-uzi-apparat-mindray-resona-7",
+        "slug": "767632362-163731865692-uzi-apparat-mindray-resona-7",
+        "name": "Узи-аппарат Mindray Resona 7",
+        "model": "Resona 7",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+        "slug": "767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+        "name": "Электрокардиограф НПП «Монитор» ЭК12Т-01-«Р-Д»/260",
+        "model": "ЭК12Т-01-«Р-Д»/260",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Ручной и автоматический режимы регистрации ЭКГ",
+            "source": "accepted_description",
+            "sourceText": "регистрации, отображения и печати электрокардиограмм в ручном и автоматическом режимах"
+          },
+          {
+            "feature": "Контроль качества записи перед сохранением",
+            "source": "accepted_description",
+            "sourceText": "контролировать качество записи перед сохранением результата"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-211207666761-monitor-patsienta-storm-5800",
+        "slug": "767632362-211207666761-monitor-patsienta-storm-5800",
+        "name": "Монитор пациента Storm 5800",
+        "model": "Storm 5800",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-225844007122-uzi-apparat-ge-vivid-t9",
+        "slug": "767632362-225844007122-uzi-apparat-ge-vivid-t9",
+        "name": "Узи-аппарат GE Vivid T9",
+        "model": "Vivid T9",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-233964023312-uzi-apparat-mindray-dc-80",
+        "slug": "767632362-233964023312-uzi-apparat-mindray-dc-80",
+        "name": "Узи-аппарат Mindray DC-80",
+        "model": "DC-80",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-241834833046-elektrokardiograf-comen-cm1200b",
+        "slug": "767632362-241834833046-elektrokardiograf-comen-cm1200b",
+        "name": "12-канальный электрокардиограф Comen CM1200B",
+        "model": "CM1200B",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Автоматический, ручной и ритм-режимы ЭКГ",
+            "source": "product_owner_approved_transform",
+            "sourceText": "Поддерживаются автоматический, ручной и ритм-режимы, просмотр и печать фрагментов ЭКГ, несколько форматов печати и передача данных через USB."
+          },
+          {
+            "feature": "Память до 300 записей ЭКГ",
+            "source": "product_owner_approved_transform",
+            "sourceText": "Аппарат оснащён дисплеем 5,6 дюйма, индикацией состояния отведений и встроенной памятью на 300 записей ЭКГ."
+          },
+          {
+            "feature": "Дисплей 5,6″",
+            "source": "product_owner_approved_transform",
+            "sourceText": "Аппарат оснащён дисплеем 5,6 дюйма, индикацией состояния отведений и встроенной памятью на 300 записей ЭКГ."
+          },
+          {
+            "feature": "Передача данных через USB",
+            "source": "product_owner_approved_transform",
+            "sourceText": "Поддерживаются автоматический, ручной и ритм-режимы, просмотр и печать фрагментов ЭКГ, несколько форматов печати и передача данных через USB."
+          }
+        ]
+      },
+      {
+        "productId": "767632362-256598838332-uzi-apparat-ge-versana-essential",
+        "slug": "767632362-256598838332-uzi-apparat-ge-versana-essential",
+        "name": "Узи-аппарат GE Versana Essential",
+        "model": "Versana Essential",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-259394139301-elektrokardiograf-comen-cm1200a",
+        "slug": "767632362-259394139301-elektrokardiograf-comen-cm1200a",
+        "name": "Электрокардиограф Comen CM1200A",
+        "model": "CM1200A",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Регистрация ЭКГ по стандартным отведениям",
+            "source": "accepted_description",
+            "sourceText": "регистрации и отображения электрокардиографических сигналов по стандартным отведениям"
+          },
+          {
+            "feature": "Встроенные управление и печать отчёта",
+            "source": "accepted_description",
+            "sourceText": "средства управления и печати позволяют выполнять исследование и формировать отчёт"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+        "slug": "767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+        "name": "Телеуправляемый рентгенодиагностический комплекс «Электрон» КРТ",
+        "model": "КРТ",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Рентгенография и рентгеноскопия",
+            "source": "accepted_description",
+            "sourceText": "рентгенографические и рентгеноскопические исследования"
+          },
+          {
+            "feature": "Линейная томография зависит от исполнения",
+            "source": "accepted_description",
+            "sourceText": "доступность линейной томографии определяется исполнением"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-299320772912-uzi-apparat-mindray-dc-40",
+        "slug": "767632362-299320772912-uzi-apparat-mindray-dc-40",
+        "name": "Узи-аппарат Mindray DC-40",
+        "model": "DC-40",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+        "slug": "767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+        "name": "Портативный бифазный дефибриллятор-монитор DIXION HD-1",
+        "model": "HD-1",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Ручная бифазная дефибрилляция",
+            "source": "accepted_description",
+            "sourceText": "портативный бифазный дефибриллятор-монитор"
+          },
+          {
+            "feature": "Синхронизированная кардиоверсия",
+            "source": "accepted_description",
+            "sourceText": "синхронизированную кардиоверсию"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+        "slug": "767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+        "name": "Видеоэндоскопическая система Olympus EVIS EXERA III CV-190",
+        "model": "CV-190",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "HDTV-визуализация",
+            "source": "accepted_description",
+            "sourceText": "HDTV-визуализацию"
+          },
+          {
+            "feature": "Узкоспектральная визуализация NBI",
+            "source": "accepted_description",
+            "sourceText": "технологию NBI"
+          },
+          {
+            "feature": "Pre-Freeze выбирает резкий кадр из временного буфера",
+            "source": "accepted_description",
+            "sourceText": "Pre-Freeze, которая выбирает резкий кадр из временного буфера"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-317877821321-monitor-patsienta-benevision-n17n15n12",
+        "slug": "767632362-317877821321-monitor-patsienta-benevision-n17n15n12",
+        "name": "Монитор пациента BeneVision N17/N15/N12",
+        "model": "BeneVision N17/N15/N12",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+        "slug": "767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+        "name": "Рентгенографическая и флюороскопическая система GE HealthCare Discovery RF180",
+        "model": "Discovery RF180",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Цифровая рентгенография и флюороскопия",
+            "source": "accepted_description",
+            "sourceText": "цифровую рентгенографию и флюороскопию"
+          },
+          {
+            "feature": "Сенсорный интерфейс и AutoRF",
+            "source": "accepted_description",
+            "sourceText": "Сенсорный интерфейс и функция AutoRF"
+          },
+          {
+            "feature": "Томосинтез, DSA и Auto Image Paste — по конфигурации",
+            "source": "accepted_description",
+            "sourceText": "Томосинтез, DSA, Auto Image Paste"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-323650602021-fetalnii-monitor-overton-6200",
+        "slug": "767632362-323650602021-fetalnii-monitor-overton-6200",
+        "name": "Фетальный монитор DIXION Овертон 6200",
+        "model": "Овертон 6200",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Числовые данные и кривые в реальном времени",
+            "source": "accepted_description",
+            "sourceText": "числовые данные и кривые в реальном времени"
+          },
+          {
+            "feature": "Ультразвуковые и TOCO-датчики",
+            "source": "accepted_description",
+            "sourceText": "ультразвуковыми и TOCO-датчиками"
+          },
+          {
+            "feature": "Число каналов и инвазивные функции зависят от модификации",
+            "source": "accepted_description",
+            "sourceText": "Количество каналов, тип дисплея и инвазивные функции зависят от модификации"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-330695211247-apparat-ivl-hamilton-t1",
+        "slug": "767632362-330695211247-apparat-ivl-hamilton-t1",
+        "name": "Аппарат ИВЛ Hamilton-T1",
+        "model": "Hamilton-T1",
+        "sourceFeatureCandidatesCount": 5,
+        "existingFeatureCount": 5,
+        "finalFeatureCount": 5,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Вентиляция пациентов всех возрастных групп",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Вентиляция пациентов всех возрастных групп"
+          },
+          {
+            "feature": "Режим ASV и неинвазивная вентиляция",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Режим ASV и неинвазивная вентиляция"
+          },
+          {
+            "feature": "Кислородная терапия",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Кислородная терапия"
+          },
+          {
+            "feature": "До 8 часов от двух аккумуляторов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "До 8 часов от двух аккумуляторов"
+          },
+          {
+            "feature": "Применение в скорой медицинской помощи",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Применение в скорой медицинской помощи"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-344327759482-fetalnii-monitor-corometrics-259-cx",
+        "slug": "767632362-344327759482-fetalnii-monitor-corometrics-259-cx",
+        "name": "Фетальный монитор GE HealthCare Corometrics 259cx",
+        "model": "Corometrics 259cx",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+        "slug": "767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+        "name": "Ультразвуковая система GE HealthCare Versana Premier",
+        "model": "Versana Premier",
+        "sourceFeatureCandidatesCount": 1,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 1,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Получение и визуализация ультразвуковых изображений",
+            "source": "accepted_description",
+            "sourceText": "получения и визуализации ультразвуковых изображений"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+        "slug": "767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+        "name": "Инкубатор интенсивной терапии для новорожденных ИДН-03 УОМЗ",
+        "model": "ИДН-03",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Контроль температуры воздуха и кожи младенца",
+            "source": "accepted_description",
+            "sourceText": "контролирует температуру воздуха и кожи младенца"
+          },
+          {
+            "feature": "Контроль влажности и концентрации кислорода",
+            "source": "accepted_description",
+            "sourceText": "относительную влажность и концентрацию кислорода"
+          },
+          {
+            "feature": "Встроенные весы",
+            "source": "accepted_description",
+            "sourceText": "Встроенные весы"
+          },
+          {
+            "feature": "Система самодиагностики",
+            "source": "accepted_description",
+            "sourceText": "система самодиагностики"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-365138915501-monitor-patsienta-imec-81012",
+        "slug": "767632362-365138915501-monitor-patsienta-imec-81012",
+        "name": "Монитор пациента iMEC 8/10/12",
+        "model": "iMEC 8/10/12",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-385537759549-dvuhshpritsevoi-infuzionnii-nasos-instil",
+        "slug": "767632362-385537759549-dvuhshpritsevoi-infuzionnii-nasos-instil",
+        "name": "Двухшприцевой инфузионный насос Instilar 1428",
+        "model": "Instilar 1428",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-401374530532-apparat-ivl-mindray-sv300",
+        "slug": "767632362-401374530532-apparat-ivl-mindray-sv300",
+        "name": "Аппарат ИВЛ Mindray SV300",
+        "model": "SV300",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 2,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Для пациентов детского и взрослого возраста",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Для пациентов детского и взрослого возраста"
+          },
+          {
+            "feature": "Для интенсивной терапии и палат пробуждения",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Для интенсивной терапии и палат пробуждения"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+        "slug": "767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+        "name": "Видеоэндоскопическая система Olympus AXEON",
+        "model": "AXEON",
+        "sourceFeatureCandidatesCount": 1,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 1,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Формирование и вывод эндоскопического изображения",
+            "source": "accepted_description",
+            "sourceText": "формирует и выводит эндоскопическое изображение"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+        "slug": "767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+        "name": "Бронхофиброскоп PENTAX FB-15V",
+        "model": "FB-15V",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Управляемый дистальный отдел",
+            "source": "accepted_description",
+            "sourceText": "управление дистальным отделом"
+          },
+          {
+            "feature": "Работа с совместимыми принадлежностями",
+            "source": "accepted_description",
+            "sourceText": "работу с совместимыми принадлежностями"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-431878286472-uzi-apparat-mindray-resona-i9",
+        "slug": "767632362-431878286472-uzi-apparat-mindray-resona-i9",
+        "name": "Узи-аппарат Mindray Resona i9",
+        "model": "Resona i9",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+        "slug": "767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+        "name": "Видеопроцессор PENTAX Medical EPK-i5000",
+        "model": "EPK-i5000",
+        "sourceFeatureCandidatesCount": 1,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 1,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Настройка параметров изображения с панели управления",
+            "source": "accepted_description",
+            "sourceText": "Панель управления обеспечивает настройку параметров изображения"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-472096036091-monitor-patsienta-bionet-bm-3",
+        "slug": "767632362-472096036091-monitor-patsienta-bionet-bm-3",
+        "name": "Монитор пациента Bionet BM 3",
+        "model": "BM3",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+        "slug": "767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+        "name": "Инкубатор для новорождённых GE HealthCare Giraffe Incubator Carestation",
+        "model": "Giraffe Incubator Carestation",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Контролируемая микросреда для новорождённых",
+            "source": "accepted_description",
+            "sourceText": "ухода за новорождёнными в контролируемой микросреде"
+          },
+          {
+            "feature": "Доступ к ребёнку и управление условиями внутри инкубатора",
+            "source": "accepted_description",
+            "sourceText": "доступ медицинского персонала к ребёнку и поддерживает управление условиями внутри инкубатора"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-485427737755-defibrillyator-monitor-dfr-02",
+        "slug": "767632362-485427737755-defibrillyator-monitor-dfr-02",
+        "name": "Дефибриллятор-монитор-регистратор УОМЗ ДФР-02",
+        "model": "ДФР-02",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Дефибриллятор, монитор и регистратор в одном аппарате",
+            "source": "accepted_description",
+            "sourceText": "функции дефибриллятора, монитора и регистратора в одном медицинском аппарате"
+          },
+          {
+            "feature": "Синхронизированные воздействия",
+            "source": "accepted_description",
+            "sourceText": "синхронизированных воздействий"
+          },
+          {
+            "feature": "Контроль и документирование ЭКГ",
+            "source": "accepted_description",
+            "sourceText": "контроля и документирования ЭКГ"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-507218946101-elektrokardiograf-bionet-cardiotouch-300",
+        "slug": "767632362-507218946101-elektrokardiograf-bionet-cardiotouch-300",
+        "name": "Электрокардиограф Bionet CardioTouch 3000",
+        "model": "CardioTouch 3000",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+        "slug": "767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+        "name": "Гастрофиброскоп PENTAX FG-29V",
+        "model": "FG-29V",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Управляемый дистальный отдел",
+            "source": "accepted_description",
+            "sourceText": "управлять дистальным отделом"
+          },
+          {
+            "feature": "Работа с совместимыми принадлежностями",
+            "source": "accepted_description",
+            "sourceText": "использовать совместимые принадлежности"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-551427991321-aspirator-perenosnoi-vacus-7209-so-vstro",
+        "slug": "767632362-551427991321-aspirator-perenosnoi-vacus-7209-so-vstro",
+        "name": "Аспиратор переносной Vacus 7209 со встроенным аккумулятором",
+        "model": "Vacus 7209",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+        "slug": "767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+        "name": "Мобильная рентгенохирургическая система GE HealthCare OEC 9900 Elite",
+        "model": "OEC 9900 Elite",
+        "sourceFeatureCandidatesCount": 1,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 1,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Мобильное позиционирование относительно операционного стола",
+            "source": "accepted_description",
+            "sourceText": "позиционировать систему относительно операционного стола"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+        "slug": "767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+        "name": "Инкубатор для новорождённых DIXION BabyGuard 1120",
+        "model": "BabyGuard 1120",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Сервоконтроль температуры воздуха и тела",
+            "source": "accepted_description",
+            "sourceText": "сервоконтроль температуры воздуха и тела"
+          },
+          {
+            "feature": "Контроль влажности",
+            "source": "accepted_description",
+            "sourceText": "а также влажности"
+          },
+          {
+            "feature": "Графический дисплей заданных и фактических параметров",
+            "source": "accepted_description",
+            "sourceText": "Графический дисплей отображает заданные и фактические параметры"
+          },
+          {
+            "feature": "Кислород и встроенные весы — опции",
+            "source": "accepted_description",
+            "sourceText": "контроль концентрации кислорода и встроенные весы относятся к дополнительным опциям"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-582183013252-fetalnii-monitor-sonicaid-team-3-i",
+        "slug": "767632362-582183013252-fetalnii-monitor-sonicaid-team-3-i",
+        "name": "Фетальный монитор Sonicaid® TEAM 3-I",
+        "model": "Sonicaid Team3-I",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+        "slug": "767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+        "name": "Аппарат для гемодиализа B. Braun Dialog+",
+        "model": "Dialog+",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Исполнение с одним насосом для HD",
+            "source": "accepted_description",
+            "sourceText": "исполнения с одним насосом для HD"
+          },
+          {
+            "feature": "Исполнение с двумя насосами для HD/HDF",
+            "source": "accepted_description",
+            "sourceText": "с двумя насосами для HD/HDF"
+          },
+          {
+            "feature": "Управление и отображение параметров терапии",
+            "source": "accepted_description",
+            "sourceText": "управление параметрами терапии и отображение её хода"
+          },
+          {
+            "feature": "Adimea и biologic RR зависят от комплектации",
+            "source": "accepted_description",
+            "sourceText": "функции Adimea и biologic RR доступны в соответствующих комплектациях"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+        "slug": "767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+        "name": "Кислородный концентратор Longfian JAY-10",
+        "model": "JAY-10",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Регулируемый поток 0,5–10 л/мин",
+            "source": "accepted_description",
+            "sourceText": "регулируемый поток 0,5–10 л/мин"
+          },
+          {
+            "feature": "Концентрация кислорода 93 ± 3 %",
+            "source": "accepted_description",
+            "sourceText": "концентрация кислорода 93 ± 3 %"
+          },
+          {
+            "feature": "Тревоги питания, давления и концентрации кислорода",
+            "source": "accepted_description",
+            "sourceText": "предупреждения об отключении питания, отклонении давления и снижении концентрации кислорода"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-619316683987-elektrokardiograf-bionet-cardiocare-2000",
+        "slug": "767632362-619316683987-elektrokardiograf-bionet-cardiocare-2000",
+        "name": "Электрокардиограф Bionet CardioCare 2000 12-канальный",
+        "model": "CardioCare 2000",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+        "slug": "767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+        "name": "Видеоэндоскопический процессор PENTAX Medical EPK-3000 DEFINA",
+        "model": "EPK-3000 DEFINA",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "HD-визуализация",
+            "source": "accepted_description",
+            "sourceText": "HD-визуализацией"
+          },
+          {
+            "feature": "Улучшение изображения i-scan",
+            "source": "accepted_description",
+            "sourceText": "технологией улучшения изображения i-scan"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-691798585131-apparat-ivl-hamilton-s1",
+        "slug": "767632362-691798585131-apparat-ivl-hamilton-s1",
+        "name": "Аппарат ИВЛ Hamilton-С1",
+        "model": "HAMILTON-C1",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-694791065122-fetalnii-monitor-unikos-01",
+        "slug": "767632362-694791065122-fetalnii-monitor-unikos-01",
+        "name": "Фетальный монитор УНИКОС-01",
+        "model": "УНИКОС-01",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Ультразвуковые доплеровские датчики",
+            "source": "accepted_description",
+            "sourceText": "ультразвуковые доплеровские датчики"
+          },
+          {
+            "feature": "Одно- или двухканальное наблюдение зависит от исполнения",
+            "source": "accepted_description",
+            "sourceText": "доступность одноканального или двухканального наблюдения определяется исполнением"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+        "slug": "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+        "name": "Видеопроцессор SonoScape HD-500",
+        "model": "HD-500",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Видеопроцессор Full HD",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Видеопроцессор Full HD"
+          },
+          {
+            "feature": "Режимы VIST и CHb",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Режимы VIST и CHb"
+          },
+          {
+            "feature": "Цифровое увеличение до 4×",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Цифровое увеличение до 4×"
+          },
+          {
+            "feature": "Сохранение изображений и видео",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Сохранение изображений и видео"
+          },
+          {
+            "feature": "До 10 комбинаций настроек",
+            "source": "existing_approved_key_feature",
+            "sourceText": "До 10 комбинаций настроек"
+          },
+          {
+            "feature": "Ксеноновый источник HDL-500X 300 Вт",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Ксеноновый источник HDL-500X 300 Вт"
+          },
+          {
+            "feature": "Тележка HDT-330",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Тележка HDT-330"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-709309498991-apparat-ivl-hamilton-s3",
+        "slug": "767632362-709309498991-apparat-ivl-hamilton-s3",
+        "name": "Аппарат ИВЛ Hamilton-С3",
+        "model": "HAMILTON-C3",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-710502245802-uzi-apparat-mindray-resona-6",
+        "slug": "767632362-710502245802-uzi-apparat-mindray-resona-6",
+        "name": "Узи-аппарат Mindray Resona 6",
+        "model": "Resona 6",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-722415430452-uzi-apparat-canon-aplio-i800",
+        "slug": "767632362-722415430452-uzi-apparat-canon-aplio-i800",
+        "name": "Узи-аппарат Canon Aplio i800",
+        "model": "Aplio i800",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+        "slug": "767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+        "name": "Шприцевой инфузионный насос Mindray BeneFusion SP5",
+        "model": "BeneFusion SP5",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Контролируемое введение растворов и лекарственных средств",
+            "source": "accepted_description",
+            "sourceText": "контролируемого введения лекарственных средств и растворов"
+          },
+          {
+            "feature": "Экран параметров инфузии и системных сообщений",
+            "source": "accepted_description",
+            "sourceText": "отображает основные параметры инфузии и системные сообщения на встроенном экране"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-725867191732-defibrillyator-monitor-mnogofunktsionaln",
+        "slug": "767632362-725867191732-defibrillyator-monitor-mnogofunktsionaln",
+        "name": "Дефибриллятор-монитор многофункциональный BeneHeart D3",
+        "model": "BeneHeart D3",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-730259716752-uzi-apparat-canon-aplio-i700",
+        "slug": "767632362-730259716752-uzi-apparat-canon-aplio-i700",
+        "name": "Узи-аппарат Canon Aplio i700",
+        "model": "Aplio i700",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+        "slug": "767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+        "name": "Видеоэндоскопическая система Olympus CV-170",
+        "model": "CV-170",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "HDTV-визуализация",
+            "source": "accepted_description",
+            "sourceText": "HDTV-визуализацию"
+          },
+          {
+            "feature": "Узкоспектральная визуализация NBI",
+            "source": "accepted_description",
+            "sourceText": "узкоспектральную визуализацию NBI"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-743154619762-uzi-apparat-mindray-mx8-portativnii",
+        "slug": "767632362-743154619762-uzi-apparat-mindray-mx8-portativnii",
+        "name": "Узи-аппарат Mindray MX8 портативный",
+        "model": "MX8",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-761217382341-monitor-patsienta-bionet-bm-5",
+        "slug": "767632362-761217382341-monitor-patsienta-bionet-bm-5",
+        "name": "Монитор пациента Bionet BM5",
+        "model": "BM5",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Сенсорный экран 10,4″",
+            "source": "accepted_description",
+            "sourceText": "сенсорным экраном 10,4 дюйма"
+          },
+          {
+            "feature": "Отображение нескольких кривых",
+            "source": "accepted_description",
+            "sourceText": "отображение нескольких кривых"
+          },
+          {
+            "feature": "ЭКГ, SpO₂, НИАД, дыхание и температура — по комплектации",
+            "source": "accepted_description",
+            "sourceText": "ЭКГ, SpO2, неинвазивное артериальное давление, дыхание, температуру"
+          },
+          {
+            "feature": "Инвазивное давление и EtCO₂ — по комплектации",
+            "source": "accepted_description",
+            "sourceText": "инвазивное давление и EtCO2 в зависимости от комплектации"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-772103317658-uzi-apparat-mindray-m9-portativnii",
+        "slug": "767632362-772103317658-uzi-apparat-mindray-m9-portativnii",
+        "name": "Узи-аппарат Mindray M9 портативный",
+        "model": "M9",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-772750235332-fetalnii-monitor-sonicaid-team-3-a",
+        "slug": "767632362-772750235332-fetalnii-monitor-sonicaid-team-3-a",
+        "name": "Фетальный монитор Sonicaid® TEAM 3-А",
+        "model": "Sonicaid Team3-A",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+        "slug": "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+        "name": "Видеопроцессор SonoScape HD-350",
+        "model": "HD-350",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Поддержка HD-эндоскопов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поддержка HD-эндоскопов"
+          },
+          {
+            "feature": "Режим CHb и структурная детализация",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Режим CHb и структурная детализация"
+          },
+          {
+            "feature": "Цифровое увеличение до 4×",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Цифровое увеличение до 4×"
+          },
+          {
+            "feature": "Встроенный жёсткий диск 500 ГБ",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Встроенный жёсткий диск 500 ГБ"
+          },
+          {
+            "feature": "LED-источник света HDL-35E",
+            "source": "existing_approved_key_feature",
+            "sourceText": "LED-источник света HDL-35E"
+          },
+          {
+            "feature": "Горячее подключение эндоскопов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Горячее подключение эндоскопов"
+          },
+          {
+            "feature": "Ресурс LED-лампы 50 000 часов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Ресурс LED-лампы 50 000 часов"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-777813572261-fetalnii-monitor-comen-star5000",
+        "slug": "767632362-777813572261-fetalnii-monitor-comen-star5000",
+        "name": "Фетальный монитор Comen STAR5000",
+        "model": "STAR5000",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "ЧСС плода и токодинамометрия",
+            "source": "accepted_description",
+            "sourceText": "регистрацию частоты сердечных сокращений плода, токодинамометрию"
+          },
+          {
+            "feature": "Ручная и автоматическая отметка движений плода",
+            "source": "accepted_description",
+            "sourceText": "ручную и автоматическую отметку движений плода"
+          },
+          {
+            "feature": "Дисплей и встроенный принтер",
+            "source": "accepted_description",
+            "sourceText": "дисплеем и встроенным принтером"
+          },
+          {
+            "feature": "Центральная станция и двойня — по комплектации",
+            "source": "accepted_description",
+            "sourceText": "подключение к центральной станции и наблюдение двойни зависят от комплектации"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-791348718821-meditsinskii-otsasivatel-aspirator-vacus",
+        "slug": "767632362-791348718821-meditsinskii-otsasivatel-aspirator-vacus",
+        "name": "Медицинский отсасыватель (аспиратор) Vacus 7308",
+        "model": "Vacus 7308",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-816186680362-uzi-apparat-ge-vivid-iq",
+        "slug": "767632362-816186680362-uzi-apparat-ge-vivid-iq",
+        "name": "Узи-аппарат GE Vivid iQ",
+        "model": "Vivid iQ",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-836797220702-uzi-apparat-mindray-dc-70",
+        "slug": "767632362-836797220702-uzi-apparat-mindray-dc-70",
+        "name": "Узи-аппарат Mindray DC-70",
+        "model": "DC-70",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+        "slug": "767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+        "name": "Инкубатор для новорождённых УОМЗ ИДН-02 «Данио»",
+        "model": "ИДН-02",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Контроль температуры",
+            "source": "accepted_description",
+            "sourceText": "средства контроля температуры"
+          },
+          {
+            "feature": "Транспортная тележка",
+            "source": "accepted_description",
+            "sourceText": "транспортную тележку"
+          },
+          {
+            "feature": "Кислород, фототерапия, весы и увлажнение — по комплектации",
+            "source": "accepted_description",
+            "sourceText": "Узел подготовки кислорода, фототерапевтический облучатель, весы, увлажнение"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-865619140091-shpritsevoi-nasos-fresenius-kabi-agilia",
+        "slug": "767632362-865619140091-shpritsevoi-nasos-fresenius-kabi-agilia",
+        "name": "Шприцевой инфузионный насос Fresenius Kabi Agilia SP MC",
+        "model": "Agilia SP MC",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-868434933208-elektrokardiograf-cardipia-200",
+        "slug": "767632362-868434933208-elektrokardiograf-cardipia-200",
+        "name": "Электрокардиограф TRISMED CARDIPIA 200",
+        "model": "CARDIPIA 200",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Автоматический и ручной режимы записи",
+            "source": "accepted_description",
+            "sourceText": "автоматический и ручной режимы записи"
+          },
+          {
+            "feature": "Печать ЭКГ на встроенном термопринтере",
+            "source": "accepted_description",
+            "sourceText": "печать ЭКГ на встроенном термопринтере"
+          },
+          {
+            "feature": "Число печатаемых каналов зависит от исполнения",
+            "source": "accepted_description",
+            "sourceText": "число одновременно печатаемых каналов зависит от исполнения"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+        "slug": "767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+        "name": "Фетальный монитор матери и плода DIXION Овертон 6900",
+        "model": "Овертон 6900",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "ЧСС плода и сократительная активность матки",
+            "source": "accepted_description",
+            "sourceText": "регистрацию частоты сердечных сокращений плода и сократительной активности матки"
+          },
+          {
+            "feature": "Параметры матери и прямое ЭКГ плода — по исполнению",
+            "source": "accepted_description",
+            "sourceText": "Мониторинг параметров матери, прямое ЭКГ плода"
+          },
+          {
+            "feature": "Внутриматочное давление и сенсорный экран — опции",
+            "source": "accepted_description",
+            "sourceText": "внутриматочное давление и сенсорный экран доступны только в соответствующих исполнениях или как опции"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-937994862401-ekspertnii-uzi-apparat-canon-aplio-i900",
+        "slug": "767632362-937994862401-ekspertnii-uzi-apparat-canon-aplio-i900",
+        "name": "Экспертный узи-аппарат Canon Aplio i900",
+        "model": "Aplio i900",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+        "slug": "767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+        "name": "Бронхофиброскоп PENTAX FB-18RBS",
+        "model": "FB-18RBS",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Управляемый дистальный отдел",
+            "source": "accepted_description",
+            "sourceText": "управляемый дистальный отдел"
+          },
+          {
+            "feature": "Канал для совместимых инструментов",
+            "source": "accepted_description",
+            "sourceText": "канал для совместимых инструментов"
+          },
+          {
+            "feature": "Соединение с предусмотренным источником света",
+            "source": "accepted_description",
+            "sourceText": "соединение с предусмотренным источником света"
+          }
+        ]
+      },
+      {
+        "productId": "767632362-972412373651-perenosnoi-monitor-patsienta-storm-5900",
+        "slug": "767632362-972412373651-perenosnoi-monitor-patsienta-storm-5900",
+        "name": "Переносной монитор пациента Storm 5900",
+        "model": "Storm 5900",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-975456539101-ekspertnii-uzi-apparat-logiq-e9-ge",
+        "slug": "767632362-975456539101-ekspertnii-uzi-apparat-logiq-e9-ge",
+        "name": "Экспертный узи-аппарат Logiq E9 GE",
+        "model": "LOGIQ E9",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "767632362-989433020341-fetalnii-monitor-bionet-fc-1400",
+        "slug": "767632362-989433020341-fetalnii-monitor-bionet-fc-1400",
+        "name": "Фетальный монитор Bionet FC 1400",
+        "model": "FC1400",
+        "sourceFeatureCandidatesCount": 0,
+        "existingFeatureCount": 0,
+        "finalFeatureCount": 0,
+        "featureSectionVisible": false,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": []
+      },
+      {
+        "productId": "df001769-ac68-5890-827f-5977a723c5ed",
+        "slug": "videoendoskopicheskaya-sistema-sonoscape-hd-550",
+        "name": "Видеоэндоскопическая система SonoScape HD-550",
+        "model": "HD-550",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Совместимость с эндоскопами серий 500 и 550",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с эндоскопами серий 500 и 550"
+          },
+          {
+            "feature": "Быстрое подключение эндоскопов 550 серии",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Быстрое подключение эндоскопов 550 серии"
+          },
+          {
+            "feature": "Режим CHb и увеличение до 4×",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Режим CHb и увеличение до 4×"
+          },
+          {
+            "feature": "Три режима хромоэндоскопии VLS",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Три режима хромоэндоскопии VLS"
+          },
+          {
+            "feature": "Источник света VLS-55Q с четырьмя LED",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Источник света VLS-55Q с четырьмя LED"
+          },
+          {
+            "feature": "26-дюймовый монитор 1920×1200",
+            "source": "existing_approved_key_feature",
+            "sourceText": "26-дюймовый монитор 1920×1200"
+          },
+          {
+            "feature": "Тележка HDT-500",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Тележка HDT-500"
+          }
+        ]
+      },
+      {
+        "productId": "492f7475-56b4-5a2e-bd9e-76d1a4191673",
+        "slug": "medinova-hv-3101",
+        "name": "Видеопроцессор HV-3101 Medinova",
+        "model": "HV-3101",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Процессор, дисплей и источник света в одном корпусе",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Процессор, дисплей и источник света в одном корпусе"
+          },
+          {
+            "feature": "Цифровое шумоподавление и повышение контрастности",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Цифровое шумоподавление и повышение контрастности"
+          },
+          {
+            "feature": "Быстрое подключение, автонастройка и запись на SD-карту",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Быстрое подключение, автонастройка и запись на SD-карту"
+          },
+          {
+            "feature": "Лёгкий корпус со встроенным дисплеем",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Лёгкий корпус со встроенным дисплеем"
+          }
+        ]
+      },
+      {
+        "productId": "8e5c9a3e-5f6d-5174-85a9-a74a4fbcd0ee",
+        "slug": "medinova-af",
+        "name": "Гибкий видеобронхоскоп Medinova AF",
+        "model": "AF",
+        "sourceFeatureCandidatesCount": 6,
+        "existingFeatureCount": 6,
+        "finalFeatureCount": 6,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "увеличение изображения",
+            "source": "existing_approved_key_feature",
+            "sourceText": "увеличение изображения"
+          },
+          {
+            "feature": "запись фото и видео",
+            "source": "existing_approved_key_feature",
+            "sourceText": "запись фото и видео"
+          },
+          {
+            "feature": "функция «заморозки» кадра",
+            "source": "existing_approved_key_feature",
+            "sourceText": "функция «заморозки» кадра"
+          },
+          {
+            "feature": "Сенсорное управление",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Сенсорное управление"
+          },
+          {
+            "feature": "Поддержка записи на SD-карту до 64 ГБ",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поддержка записи на SD-карту до 64 ГБ"
+          },
+          {
+            "feature": "Конструкция фиксатора клапана аспирации предотвращает его отсоединение во время работы",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Конструкция фиксатора клапана аспирации предотвращает его отсоединение во время работы"
+          }
+        ]
+      },
+      {
+        "productId": "5b333fd2-763f-500a-8138-5d5f2cc1d531",
+        "slug": "medinova-br-1231",
+        "name": "Видеобронхоскоп BR-1231 Medinova",
+        "model": "BR-1231",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Дистальный конец 2,8 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дистальный конец 2,8 мм"
+          },
+          {
+            "feature": "Инструментальный канал 1,2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 1,2 мм"
+          },
+          {
+            "feature": "Рабочая длина 610 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочая длина 610 мм"
+          },
+          {
+            "feature": "Поле зрения 120°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 120°"
+          },
+          {
+            "feature": "Изгиб вверх/вниз 210° / 130°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб вверх/вниз 210° / 130°"
+          },
+          {
+            "feature": "CMOS-сенсор и встроенное LED-освещение",
+            "source": "existing_approved_key_feature",
+            "sourceText": "CMOS-сенсор и встроенное LED-освещение"
+          },
+          {
+            "feature": "Совместимость с HV-3101",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с HV-3101"
+          }
+        ]
+      },
+      {
+        "productId": "625b0514-c2d7-5940-9c8d-2e53793aa96a",
+        "slug": "medinova-br-1242",
+        "name": "Видеобронхоскоп BR-1242 Medinova",
+        "model": "BR-1242",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Дистальный конец 4,2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дистальный конец 4,2 мм"
+          },
+          {
+            "feature": "Инструментальный канал 2,0 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 2,0 мм"
+          },
+          {
+            "feature": "Рабочая длина 610 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочая длина 610 мм"
+          },
+          {
+            "feature": "Поле зрения 120°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 120°"
+          },
+          {
+            "feature": "Изгиб вверх/вниз 210° / 130°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб вверх/вниз 210° / 130°"
+          },
+          {
+            "feature": "CMOS-сенсор и встроенное LED-освещение",
+            "source": "existing_approved_key_feature",
+            "sourceText": "CMOS-сенсор и встроенное LED-освещение"
+          },
+          {
+            "feature": "Совместимость с HV-3101",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с HV-3101"
+          }
+        ]
+      },
+      {
+        "productId": "88284115-1b45-5660-a12d-05e6856164db",
+        "slug": "medinova-br-1249",
+        "name": "Видеобронхоскоп BR-1249 Medinova",
+        "model": "BR-1249",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Дистальный конец 4,8 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дистальный конец 4,8 мм"
+          },
+          {
+            "feature": "Инструментальный канал 2,0 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 2,0 мм"
+          },
+          {
+            "feature": "Рабочая длина 610 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочая длина 610 мм"
+          },
+          {
+            "feature": "Поле зрения 120°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 120°"
+          },
+          {
+            "feature": "Изгиб вверх/вниз 210° / 130°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб вверх/вниз 210° / 130°"
+          },
+          {
+            "feature": "CMOS-сенсор и встроенное LED-освещение",
+            "source": "existing_approved_key_feature",
+            "sourceText": "CMOS-сенсор и встроенное LED-освещение"
+          },
+          {
+            "feature": "Совместимость с HV-3101",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с HV-3101"
+          }
+        ]
+      },
+      {
+        "productId": "fe0ac882-1b38-5b7c-9892-8d8b2b6f6c5e",
+        "slug": "medinova-br-1259",
+        "name": "Видеобронхоскоп BR-1259 Medinova",
+        "model": "BR-1259",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Дистальный конец 5,9 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дистальный конец 5,9 мм"
+          },
+          {
+            "feature": "Инструментальный канал 2,8 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 2,8 мм"
+          },
+          {
+            "feature": "Рабочая длина 610 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочая длина 610 мм"
+          },
+          {
+            "feature": "Поле зрения 120°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 120°"
+          },
+          {
+            "feature": "Изгиб вверх/вниз 180° / 130°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб вверх/вниз 180° / 130°"
+          },
+          {
+            "feature": "CMOS-сенсор и встроенное LED-освещение",
+            "source": "existing_approved_key_feature",
+            "sourceText": "CMOS-сенсор и встроенное LED-освещение"
+          },
+          {
+            "feature": "Совместимость с HV-3101",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с HV-3101"
+          }
+        ]
+      },
+      {
+        "productId": "63705465-45a0-5697-b749-eeccbe11895f",
+        "slug": "medinova-ur-1328",
+        "name": "Видеоуретерореноскоп UR-1328 Medinova",
+        "model": "UR-1328",
+        "sourceFeatureCandidatesCount": 6,
+        "existingFeatureCount": 6,
+        "finalFeatureCount": 6,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Рабочий канал 1,2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочий канал 1,2 мм"
+          },
+          {
+            "feature": "Дистальный конец 3,0 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дистальный конец 3,0 мм"
+          },
+          {
+            "feature": "Рабочая длина 670 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочая длина 670 мм"
+          },
+          {
+            "feature": "Поле зрения 120°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 120°"
+          },
+          {
+            "feature": "Изгиб вверх/вниз 275°/275°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб вверх/вниз 275°/275°"
+          },
+          {
+            "feature": "Совместимость с HV-3101",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с HV-3101"
+          }
+        ]
+      },
+      {
+        "productId": "1d63227c-1f5e-5bce-91f0-e60e10cc804a",
+        "slug": "medinova-cy-1355",
+        "name": "Видеоцистонефроскоп CY-1355 Medinova",
+        "model": "CY-1355",
+        "sourceFeatureCandidatesCount": 6,
+        "existingFeatureCount": 6,
+        "finalFeatureCount": 6,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Рабочий канал 2,6 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочий канал 2,6 мм"
+          },
+          {
+            "feature": "Дистальный конец 5,5 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дистальный конец 5,5 мм"
+          },
+          {
+            "feature": "Рабочая длина 380 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочая длина 380 мм"
+          },
+          {
+            "feature": "Поле зрения 90°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 90°"
+          },
+          {
+            "feature": "Визуализация SD",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Визуализация SD"
+          },
+          {
+            "feature": "Совместимость с HV-3101",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с HV-3101"
+          }
+        ]
+      },
+      {
+        "productId": "11a809ac-071d-502b-ad44-6fcd67ce400d",
+        "slug": "medinova-cy-1356",
+        "name": "Видеоцистонефроскоп CY-1356 Medinova",
+        "model": "CY-1356",
+        "sourceFeatureCandidatesCount": 6,
+        "existingFeatureCount": 6,
+        "finalFeatureCount": 6,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Рабочий канал 2,2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочий канал 2,2 мм"
+          },
+          {
+            "feature": "Дистальный конец 5,6 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дистальный конец 5,6 мм"
+          },
+          {
+            "feature": "Рабочая длина 380 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочая длина 380 мм"
+          },
+          {
+            "feature": "Поле зрения 90°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 90°"
+          },
+          {
+            "feature": "Визуализация HD",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Визуализация HD"
+          },
+          {
+            "feature": "Совместимость с HV-3101",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Совместимость с HV-3101"
+          }
+        ]
+      },
+      {
+        "productId": "db929220-3767-5a38-a5e5-32c746aac25b",
+        "slug": "medinova-19-hd",
+        "name": "Медицинский монитор Medinova 19\" HD",
+        "model": "19 HD",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Диагональ экрана: 19 дюймов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Диагональ экрана: 19 дюймов"
+          },
+          {
+            "feature": "Разрешение экрана: 1280х1024 5:4",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Разрешение экрана: 1280х1024 5:4"
+          },
+          {
+            "feature": "Яркость: 250",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Яркость: 250"
+          },
+          {
+            "feature": "Кол-во цветов: 16.7 миллионов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Кол-во цветов: 16.7 миллионов"
+          },
+          {
+            "feature": "Интерфейсы: DVI-I, VGA, CVBS, S-VIDEO, YPbPr, RGBS",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Интерфейсы: DVI-I, VGA, CVBS, S-VIDEO, YPbPr, RGBS"
+          },
+          {
+            "feature": "LUT-коррекция цветопередачи",
+            "source": "existing_approved_key_feature",
+            "sourceText": "LUT-коррекция цветопередачи"
+          },
+          {
+            "feature": "Многоэкранные режимы PIP и POP",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Многоэкранные режимы PIP и POP"
+          }
+        ]
+      },
+      {
+        "productId": "f8ae3e2a-5baa-5ddd-a36a-3165df8c604c",
+        "slug": "medinova-24-full-hd",
+        "name": "Медицинский монитор Medinova 24\" Full HD",
+        "model": "24 Full HD",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Диагональ экрана: 24 дюйма",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Диагональ экрана: 24 дюйма"
+          },
+          {
+            "feature": "Разрешение экрана: 1920х1200 16:10",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Разрешение экрана: 1920х1200 16:10"
+          },
+          {
+            "feature": "Яркость: 600",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Яркость: 600"
+          },
+          {
+            "feature": "Кол-во цветов: 16.7 миллионов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Кол-во цветов: 16.7 миллионов"
+          },
+          {
+            "feature": "Интерфейсы: DVI-I, VGA, CVBS, S-VIDEO, YPbPr, RGBS, SDI",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Интерфейсы: DVI-I, VGA, CVBS, S-VIDEO, YPbPr, RGBS, SDI"
+          },
+          {
+            "feature": "LUT-коррекция цветопередачи",
+            "source": "existing_approved_key_feature",
+            "sourceText": "LUT-коррекция цветопередачи"
+          },
+          {
+            "feature": "Многоэкранные режимы PIP и POP",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Многоэкранные режимы PIP и POP"
+          }
+        ]
+      },
+      {
+        "productId": "cdbe8f0d-ff6c-5a1b-a2ae-d8d33a1960d6",
+        "slug": "medinova-27-full-hd",
+        "name": "Медицинский монитор Medinova 27\" Full HD",
+        "model": "27 Full HD",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Диагональ экрана: 27 дюймов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Диагональ экрана: 27 дюймов"
+          },
+          {
+            "feature": "Разрешение экрана: 1920х1080 16:9",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Разрешение экрана: 1920х1080 16:9"
+          },
+          {
+            "feature": "Яркость: 1000",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Яркость: 1000"
+          },
+          {
+            "feature": "Кол-во цветов: 1.07 миллиардов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Кол-во цветов: 1.07 миллиардов"
+          },
+          {
+            "feature": "Интерфейсы: DVI-I, VGA, CVBS, S-VIDEO, YPbPr, RGBS, SDI",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Интерфейсы: DVI-I, VGA, CVBS, S-VIDEO, YPbPr, RGBS, SDI"
+          },
+          {
+            "feature": "LUT-коррекция цветопередачи",
+            "source": "existing_approved_key_feature",
+            "sourceText": "LUT-коррекция цветопередачи"
+          },
+          {
+            "feature": "Многоэкранные режимы PIP и POP",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Многоэкранные режимы PIP и POP"
+          }
+        ]
+      },
+      {
+        "productId": "4978cfe6-047f-59a8-a9e5-1b45c9583b52",
+        "slug": "medinova-32-4k",
+        "name": "Медицинский монитор Medinova 32\" 4K",
+        "model": "32 4K",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Диагональ экрана: 32 дюйма",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Диагональ экрана: 32 дюйма"
+          },
+          {
+            "feature": "Разрешение экрана: 3840х2160 17:9",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Разрешение экрана: 3840х2160 17:9"
+          },
+          {
+            "feature": "Яркость: 650",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Яркость: 650"
+          },
+          {
+            "feature": "Кол-во цветов: 1.07 миллиардов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Кол-во цветов: 1.07 миллиардов"
+          },
+          {
+            "feature": "Интерфейсы: DVI-D, DP, HDMI, 3G-SDI, 12G-SDI",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Интерфейсы: DVI-D, DP, HDMI, 3G-SDI, 12G-SDI"
+          },
+          {
+            "feature": "LUT-коррекция цветопередачи",
+            "source": "existing_approved_key_feature",
+            "sourceText": "LUT-коррекция цветопередачи"
+          },
+          {
+            "feature": "Многоэкранные режимы PIP и POP",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Многоэкранные режимы PIP и POP"
+          }
+        ]
+      },
+      {
+        "productId": "a8dafbd9-eaf1-5170-8733-b19796c38abd",
+        "slug": "medinova-55-4k",
+        "name": "Медицинский монитор Medinova 55\" 4K",
+        "model": "55 4K",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Диагональ экрана: 55 дюйма",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Диагональ экрана: 55 дюйма"
+          },
+          {
+            "feature": "Разрешение экрана: 3840х2160 16:9",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Разрешение экрана: 3840х2160 16:9"
+          },
+          {
+            "feature": "Яркость: 500",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Яркость: 500"
+          },
+          {
+            "feature": "Кол-во цветов: 1.07 миллиардов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Кол-во цветов: 1.07 миллиардов"
+          },
+          {
+            "feature": "Интерфейсы: DVI-D, DP, HDMI, VGA, 3G-SDI, 12G-SDI",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Интерфейсы: DVI-D, DP, HDMI, VGA, 3G-SDI, 12G-SDI"
+          },
+          {
+            "feature": "LUT-коррекция цветопередачи",
+            "source": "existing_approved_key_feature",
+            "sourceText": "LUT-коррекция цветопередачи"
+          },
+          {
+            "feature": "Многоэкранные режимы PIP и POP",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Многоэкранные режимы PIP и POP"
+          }
+        ]
+      },
+      {
+        "productId": "4698d385-d61b-5ead-b0a1-3de09e0558b2",
+        "slug": "sonoscape-eg-ur5",
+        "name": "Видеогастроскоп SonoScape EG-UR5",
+        "model": "EG-UR5",
+        "sourceFeatureCandidatesCount": 5,
+        "existingFeatureCount": 5,
+        "finalFeatureCount": 5,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Радиальное ультразвуковое сканирование 360°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Радиальное ультразвуковое сканирование 360°"
+          },
+          {
+            "feature": "Режимы B/M/CFM, энергетический и импульсно-волновой допплер",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Режимы B/M/CFM, энергетический и импульсно-волновой допплер"
+          },
+          {
+            "feature": "Рабочий канал 2,2 мм для прямой биопсии",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рабочий канал 2,2 мм для прямой биопсии"
+          },
+          {
+            "feature": "Изгиб дистального конца в четырёх направлениях",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб дистального конца в четырёх направлениях"
+          },
+          {
+            "feature": "Эндоскопическая хромоэндоскопия SonoScape",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эндоскопическая хромоэндоскопия SonoScape"
+          }
+        ]
+      },
+      {
+        "productId": "99747c2c-f8f3-5e9d-88be-55b1ac9a16d7",
+        "slug": "sonoscape-eg-uc5t",
+        "name": "Видеогастроскоп SonoScape EG-UC5T",
+        "model": "EG-UC5T",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Канал датчика 4,0 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Канал датчика 4,0 мм"
+          },
+          {
+            "feature": "Диаметр вставной трубки 12,4 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Диаметр вставной трубки 12,4 мм"
+          },
+          {
+            "feature": "Малый радиус изгиба",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Малый радиус изгиба"
+          },
+          {
+            "feature": "Угол сканирования 150°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Угол сканирования 150°"
+          },
+          {
+            "feature": "Акустическая частота 5–12 МГц",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Акустическая частота 5–12 МГц"
+          },
+          {
+            "feature": "Кнопка воздух-вода",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Кнопка воздух-вода"
+          },
+          {
+            "feature": "Первоклассная визуализация",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Первоклассная визуализация"
+          }
+        ]
+      },
+      {
+        "productId": "88111db4-3918-51f3-81c1-0d1ec46d5cf8",
+        "slug": "sonoscape-eg-500",
+        "name": "Видеогастроскоп SonoScape EG-500",
+        "model": "EG-500",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 2.8 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 2.8 мм"
+          },
+          {
+            "feature": "Изгиб: вверх/вниз 210° / 90°; вправо/влево 100°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: вверх/вниз 210° / 90°; вправо/влево 100°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "d341c796-df53-5cdc-a32a-b69a07aa785c",
+        "slug": "sonoscape-eg-500l",
+        "name": "Видеогастроскоп SonoScape EG-500L",
+        "model": "EG-500L",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 3.2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 3.2 мм"
+          },
+          {
+            "feature": "Изгиб: вверх/вниз 210° / 90°; вправо/влево 100°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: вверх/вниз 210° / 90°; вправо/влево 100°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "e7714457-0243-5bc2-b354-f7cb4da1f4c3",
+        "slug": "sonoscape-eg-430",
+        "name": "Видеогастроскоп SonoScape EG-430",
+        "model": "EG-430",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 2.8 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 2.8 мм"
+          },
+          {
+            "feature": "Изгиб: Вверх - 210°, Влево - 100°, Вниз - 90°, Вправо - 100°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: Вверх - 210°, Влево - 100°, Вниз - 90°, Вправо - 100°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "0dcbcb9e-a41e-508f-9d22-83cf26a85250",
+        "slug": "sonoscape-eg-430l",
+        "name": "Видеогастроскоп SonoScape EG-430L",
+        "model": "EG-430L",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 3.2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 3.2 мм"
+          },
+          {
+            "feature": "Изгиб: вверх/вниз 210° / 90°; вправо/влево 100°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: вверх/вниз 210° / 90°; вправо/влево 100°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "7df4c0c0-1baf-5dd5-879b-98b5599f4c16",
+        "slug": "sonoscape-ec-500t",
+        "name": "Видеоколоноскоп SonoScape EC-500T",
+        "model": "EC-500T",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 3,8 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 3,8 мм"
+          },
+          {
+            "feature": "Изгиб: вверх/вниз 180°; вправо/влево 160°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: вверх/вниз 180°; вправо/влево 160°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "1f5ea387-9f9e-5e45-b2a2-7e52e3389ac8",
+        "slug": "sonoscape-ec-500l-t",
+        "name": "Видеоколоноскоп SonoScape EC-500L/T",
+        "model": "EC-500L/T",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 4.2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 4.2 мм"
+          },
+          {
+            "feature": "Изгиб: вверх/вниз 180°; вправо/влево 160°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: вверх/вниз 180°; вправо/влево 160°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "a30b5630-a2f6-544b-aa82-3472d63dfa7a",
+        "slug": "sonoscape-ec-430t",
+        "name": "Видеоколоноскоп SonoScape EC-430T",
+        "model": "EC-430T",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 3.8 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 3.8 мм"
+          },
+          {
+            "feature": "Изгиб: вверх/вниз 180°; вправо/влево 160°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: вверх/вниз 180°; вправо/влево 160°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "9f8d400f-2060-548a-bd7c-84e989430bb0",
+        "slug": "sonoscape-ec-430l-t",
+        "name": "Видеоколоноскоп SonoScape EC-430L/T",
+        "model": "EC-430L/T",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 4.2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 4.2 мм"
+          },
+          {
+            "feature": "Изгиб: вверх/вниз 180°; вправо/влево 160°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб: вверх/вниз 180°; вправо/влево 160°"
+          },
+          {
+            "feature": "Поле зрения 140°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 140°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Удобные регуляторы и программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Удобные регуляторы и программируемые кнопки"
+          },
+          {
+            "feature": "Дополнительный канал подачи воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Дополнительный канал подачи воды"
+          },
+          {
+            "feature": "4 программируемые кнопки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "4 программируемые кнопки"
+          }
+        ]
+      },
+      {
+        "productId": "83034406-2c66-5bcb-9b0d-10771c36118f",
+        "slug": "sonoscape-eb-5h20",
+        "name": "Видеобронхоскоп SonoScape EB-5H20",
+        "model": "EB-5H20",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 2,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Визуализация до четвёртого порядка трахеобронхиального дерева",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Визуализация до четвёртого порядка трахеобронхиального дерева"
+          },
+          {
+            "feature": "Для диагностической и интервенционной бронхоскопии",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Для диагностической и интервенционной бронхоскопии"
+          }
+        ]
+      },
+      {
+        "productId": "d3a495be-6056-5545-87ac-19ac561d49ab",
+        "slug": "sonoscape-eb-5t28",
+        "name": "Видеобронхоскоп SonoScape EB-5T28",
+        "model": "EB-5T28",
+        "sourceFeatureCandidatesCount": 2,
+        "existingFeatureCount": 2,
+        "finalFeatureCount": 2,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "SFI: спектрально-фокусированная визуализация",
+            "source": "existing_approved_key_feature",
+            "sourceText": "SFI: спектрально-фокусированная визуализация"
+          },
+          {
+            "feature": "VIST: универсальная интеллектуальная технология окрашивания",
+            "source": "existing_approved_key_feature",
+            "sourceText": "VIST: универсальная интеллектуальная технология окрашивания"
+          }
+        ]
+      },
+      {
+        "productId": "9b544377-49eb-58a1-a595-6bf7ebc1006b",
+        "slug": "sonoscape-eb-500",
+        "name": "Видеобронхоскоп SonoScape EB-500",
+        "model": "EB-500",
+        "sourceFeatureCandidatesCount": 6,
+        "existingFeatureCount": 6,
+        "finalFeatureCount": 6,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Изображение высокого разрешения с естественной цветопередачей",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изображение высокого разрешения с естественной цветопередачей"
+          },
+          {
+            "feature": "Инструментальный канал 2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 2 мм"
+          },
+          {
+            "feature": "Изгиб вверх/вниз 180°/130°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Изгиб вверх/вниз 180°/130°"
+          },
+          {
+            "feature": "Поле зрения 120°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Поле зрения 120°"
+          },
+          {
+            "feature": "Эргономичная рукоять",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Эргономичная рукоять"
+          },
+          {
+            "feature": "Программируемые кнопки управления",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Программируемые кнопки управления"
+          }
+        ]
+      },
+      {
+        "productId": "3f162b99-c61b-5f0e-bb1b-f8b9fab1f2a0",
+        "slug": "sonoscape-ed-5gt",
+        "name": "Видеодуоденоскоп SonoScape ED-5GT",
+        "model": "ED-5GT",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Инструментальный канал 4,2 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Инструментальный канал 4,2 мм"
+          },
+          {
+            "feature": "Двойная фиксация механизма подъёмника",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Двойная фиксация механизма подъёмника"
+          },
+          {
+            "feature": "Направление обзора 15° назад и широкое поле зрения",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Направление обзора 15° назад и широкое поле зрения"
+          },
+          {
+            "feature": "Высокая чёткость изображения и технология VIST",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Высокая чёткость изображения и технология VIST"
+          }
+        ]
+      },
+      {
+        "productId": "598bb29f-f5ca-5253-be7d-ae3887a708d2",
+        "slug": "medinova-endo-clean-1000",
+        "name": "Установка для мойки и дезинфекции ENDO CLEAN-1000 MEDINOVA",
+        "model": "ENDO CLEAN-1000",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Ванна 15 л с трёхканальной насадкой 360°",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Ванна 15 л с трёхканальной насадкой 360°"
+          },
+          {
+            "feature": "Цикл от 20 минут; два программируемых режима A/B",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Цикл от 20 минут; два программируемых режима A/B"
+          },
+          {
+            "feature": "Работа с разными типами дезинфектантов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Работа с разными типами дезинфектантов"
+          },
+          {
+            "feature": "Контроль концентрации и уровня дезинфектанта",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Контроль концентрации и уровня дезинфектанта"
+          },
+          {
+            "feature": "Защита от утечки стерилизующих средств",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Защита от утечки стерилизующих средств"
+          },
+          {
+            "feature": "Автоматический впрыск спирта во внутренние каналы",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Автоматический впрыск спирта во внутренние каналы"
+          },
+          {
+            "feature": "Предварительная фильтрация воды",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Предварительная фильтрация воды"
+          },
+          {
+            "feature": "Химически стойкая ванна, встроенный принтер и колёса",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Химически стойкая ванна, встроенный принтер и колёса"
+          }
+        ]
+      },
+      {
+        "productId": "e541bffe-ad1d-5f0e-a84a-e39771497438",
+        "slug": "medinova-endo-clean-2000",
+        "name": "Установка для мойки и дезинфекции ENDO CLEAN-2000 MEDINOVA",
+        "model": "ENDO CLEAN-2000",
+        "sourceFeatureCandidatesCount": 7,
+        "existingFeatureCount": 7,
+        "finalFeatureCount": 7,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Одновременная обработка двух и более эндоскопов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Одновременная обработка двух и более эндоскопов"
+          },
+          {
+            "feature": "Полный цикл мойки и дезинфекции от 20 минут",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Полный цикл мойки и дезинфекции от 20 минут"
+          },
+          {
+            "feature": "Работа с разными дезинфицирующими средствами",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Работа с разными дезинфицирующими средствами"
+          },
+          {
+            "feature": "Насадка 360° с тремя форсунками",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Насадка 360° с тремя форсунками"
+          },
+          {
+            "feature": "Трёхступенчатая водоподготовка",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Трёхступенчатая водоподготовка"
+          },
+          {
+            "feature": "Звуковое и визуальное оповещение о замене дезинфектанта",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Звуковое и визуальное оповещение о замене дезинфектанта"
+          },
+          {
+            "feature": "Защита от смешивания дезинфектанта с водой и промывка бака",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Защита от смешивания дезинфектанта с водой и промывка бака"
+          }
+        ]
+      },
+      {
+        "productId": "40385d54-1b6f-5324-8977-ed6dda2ac1d0",
+        "slug": "medinova-ec-5bd",
+        "name": "Шкаф для сушки и хранения эндоскопов EC-5BD",
+        "model": "EC-5BD",
+        "sourceFeatureCandidatesCount": 5,
+        "existingFeatureCount": 5,
+        "finalFeatureCount": 5,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Универсальные держатели для эндоскопов 1400–1700 мм",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Универсальные держатели для эндоскопов 1400–1700 мм"
+          },
+          {
+            "feature": "Сенсорный контроль времени и температуры",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Сенсорный контроль времени и температуры"
+          },
+          {
+            "feature": "Запираемые отсеки хранения",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Запираемые отсеки хранения"
+          },
+          {
+            "feature": "Термопринтер для отчётов по каждому каналу",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Термопринтер для отчётов по каждому каналу"
+          },
+          {
+            "feature": "Корпус из нержавеющей стали",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Корпус из нержавеющей стали"
+          }
+        ]
+      },
+      {
+        "productId": "b69aba8d-0e4c-563f-b342-5282fd36c232",
+        "slug": "medinova-ec-10bd",
+        "name": "Шкаф для сушки и хранения эндоскопов EC-10BD",
+        "model": "EC-10BD",
+        "sourceFeatureCandidatesCount": 5,
+        "existingFeatureCount": 5,
+        "finalFeatureCount": 5,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Хранение и сушка до 10 эндоскопов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Хранение и сушка до 10 эндоскопов"
+          },
+          {
+            "feature": "Подогрев циркулирующего воздуха",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Подогрев циркулирующего воздуха"
+          },
+          {
+            "feature": "Одновременная продувка каналов",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Одновременная продувка каналов"
+          },
+          {
+            "feature": "УФ-обработка и фильтрация воздуха",
+            "source": "existing_approved_key_feature",
+            "sourceText": "УФ-обработка и фильтрация воздуха"
+          },
+          {
+            "feature": "Раздельные рабочий, технический и воздухоподготовительный отсеки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Раздельные рабочий, технический и воздухоподготовительный отсеки"
+          }
+        ]
+      },
+      {
+        "productId": "576aacfb-d003-51a3-bb21-9847ea9e863a",
+        "slug": "erbe-vio-apc-2",
+        "name": "Рабочая станция ERBE VIO с аргоновым модулем APC 2",
+        "model": "VIO + APC 2",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Бесконтактная аргоноплазменная коагуляция",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Бесконтактная аргоноплазменная коагуляция"
+          },
+          {
+            "feature": "Коагуляция поверхностей для гемостаза и девитализации",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Коагуляция поверхностей для гемостаза и девитализации"
+          },
+          {
+            "feature": "Регулируемая глубина воздействия",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Регулируемая глубина воздействия"
+          },
+          {
+            "feature": "Снижение образования обугливания и дыма",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Снижение образования обугливания и дыма"
+          }
+        ]
+      },
+      {
+        "productId": "2a43d10d-1e8c-5f73-b230-be3e954bc7a5",
+        "slug": "erbe-vio-200-s",
+        "name": "Коагулятор ERBE VIO 200 S",
+        "model": "VIO 200 S",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 3,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Максимальная выходная мощность: 200 Вт при 500 Ом",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Максимальная выходная мощность: 200 Вт при 500 Ом"
+          },
+          {
+            "feature": "Система безопасности: NESSY",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Система безопасности: NESSY"
+          },
+          {
+            "feature": "Контроль нейтрального электрода NESSY",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Контроль нейтрального электрода NESSY"
+          }
+        ]
+      },
+      {
+        "productId": "0d7cb9c7-4560-5904-8ca1-6d6c309fb836",
+        "slug": "erbe-vio-200-d",
+        "name": "Коагулятор ERBE VIO 200 D",
+        "model": "VIO 200 D",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Максимальная выходная мощность: 200 Вт при 500 Ом",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Максимальная выходная мощность: 200 Вт при 500 Ом"
+          },
+          {
+            "feature": "Максимальная мощность коагуляции: до 120 Вт",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Максимальная мощность коагуляции: до 120 Вт"
+          },
+          {
+            "feature": "Система безопасности: NESSY",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Система безопасности: NESSY"
+          },
+          {
+            "feature": "Контроль нейтрального электрода NESSY",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Контроль нейтрального электрода NESSY"
+          }
+        ]
+      },
+      {
+        "productId": "59a2d5cb-81d5-51ab-b654-00ce5c26a934",
+        "slug": "erbe-vio-3",
+        "name": "Коагулятор ERBE VIO 3",
+        "model": "VIO 3",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Макс. мощность разреза: 400 Ватт на 300 Ом",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Макс. мощность разреза: 400 Ватт на 300 Ом"
+          },
+          {
+            "feature": "Макс. мощность коагуляции: до 360 Ватт",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Макс. мощность коагуляции: до 360 Ватт"
+          },
+          {
+            "feature": "Размер дисплея: 10,4 дюйма",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Размер дисплея: 10,4 дюйма"
+          },
+          {
+            "feature": "Универсальный разъём MF-U 3 в 1",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Универсальный разъём MF-U 3 в 1"
+          }
+        ]
+      },
+      {
+        "productId": "766b6369-5558-5449-8af2-084114700ab2",
+        "slug": "bowa-arc-303",
+        "name": "Электрохирургический аппарат ARC 303",
+        "model": "ARC 303",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Макс. мощность MONOPOLAR: 300 Вт",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Макс. мощность MONOPOLAR: 300 Вт"
+          },
+          {
+            "feature": "Макс. мощность BIPOLAR: 120 Вт",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Макс. мощность BIPOLAR: 120 Вт"
+          },
+          {
+            "feature": "Вес: 10 кг",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Вес: 10 кг"
+          },
+          {
+            "feature": "Монополярное и биполярное применение",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Монополярное и биполярное применение"
+          }
+        ]
+      },
+      {
+        "productId": "59bd4807-41f1-5db0-9c90-8e4bcb05be35",
+        "slug": "bowa-arc-350",
+        "name": "Электрохирургический аппарат ARC 350",
+        "model": "ARC 350",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Максимальная мощность резания: 350 Вт",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Максимальная мощность резания: 350 Вт"
+          },
+          {
+            "feature": "Максимальная мощность коагуляции: 350 Вт (Биполярная резекция)",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Максимальная мощность коагуляции: 350 Вт (Биполярная резекция)"
+          },
+          {
+            "feature": "Вес: 12,5 кг",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Вес: 12,5 кг"
+          },
+          {
+            "feature": "Монополярное и биполярное применение",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Монополярное и биполярное применение"
+          }
+        ]
+      },
+      {
+        "productId": "994afd79-f81a-54df-9cc1-3e7702cf6d5b",
+        "slug": "bowa-arc-400",
+        "name": "Электрохирургический аппарат ARC 400",
+        "model": "ARC 400",
+        "sourceFeatureCandidatesCount": 3,
+        "existingFeatureCount": 3,
+        "finalFeatureCount": 3,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Маркировка CE: CE0123; Макс. мощность MONOPOLAR 400 Вт (при 200 Ом); Макс. мощность BIPOLAR 400 Вт (при 75 Ом)",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Маркировка CE: CE0123; Макс. мощность MONOPOLAR 400 Вт (при 200 Ом); Макс. мощность BIPOLAR 400 Вт (при 75 Ом)"
+          },
+          {
+            "feature": "Вес: 12,5 кг",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Вес: 12,5 кг"
+          },
+          {
+            "feature": "Монополярное и биполярное применение",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Монополярное и биполярное применение"
+          }
+        ]
+      },
+      {
+        "productId": "653872c6-5bf6-556f-a9a2-b93eeb9a496c",
+        "slug": "ilivtouch-ilivtouch",
+        "name": "Аппарат для диагностики печени iLivTouch",
+        "model": "iLivTouch",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Для пациентов разного возраста и комплекции",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Для пациентов разного возраста и комплекции"
+          },
+          {
+            "feature": "Точность диагностики до 97%",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Точность диагностики до 97%"
+          },
+          {
+            "feature": "Неинвазивное и безболезненное исследование",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Неинвазивное и безболезненное исследование"
+          },
+          {
+            "feature": "Исследование до 5 минут",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Исследование до 5 минут"
+          }
+        ]
+      },
+      {
+        "productId": "2fa94eb5-7a68-5e3a-a269-29ebf8199ff9",
+        "slug": "met-ks-350",
+        "name": "Смотровой стол МЕТ KS-350",
+        "model": "KS-350",
+        "sourceFeatureCandidatesCount": 4,
+        "existingFeatureCount": 4,
+        "finalFeatureCount": 4,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Регулируемая высота и наклон спинки кресла для адаптации к индивидуальным потребностям пациента",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Регулируемая высота и наклон спинки кресла для адаптации к индивидуальным потребностям пациента"
+          },
+          {
+            "feature": "Каркас из стальной профильной трубы с полимерно-порошковым покрытием",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Каркас из стальной профильной трубы с полимерно-порошковым покрытием"
+          },
+          {
+            "feature": "Колесики для удобной транспортировки стола",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Колесики для удобной транспортировки стола"
+          },
+          {
+            "feature": "Обивка из искусственной кожи водонепроницаема и легко моется",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Обивка из искусственной кожи водонепроницаема и легко моется"
+          }
+        ]
+      },
+      {
+        "productId": "f43d0e8f-9f7e-536c-966e-8817f939c9f3",
+        "slug": "zerts-1",
+        "name": "Кушетка электромеханическая ZERTS с 1 эл. приводом",
+        "model": "1 электропривод",
+        "sourceFeatureCandidatesCount": 8,
+        "existingFeatureCount": 8,
+        "finalFeatureCount": 8,
+        "featureSectionVisible": true,
+        "sourceBacked": true,
+        "verdict": "PASS",
+        "evidence": [
+          {
+            "feature": "Новая кушетка без люфтов, более устойчивая и надежная",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Новая кушетка без люфтов, более устойчивая и надежная"
+          },
+          {
+            "feature": "Бесшовная технология горячей обтяжки, с отсутствием видимых швов на всех обтянутых кожей деталях",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Бесшовная технология горячей обтяжки, с отсутствием видимых швов на всех обтянутых кожей деталях"
+          },
+          {
+            "feature": "Искусственная ВИНИЛИС-кожа для медицинской мебели SKADEN (Польша), устойчивая к химическим…",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Искусственная ВИНИЛИС-кожа для медицинской мебели SKADEN (Польша), устойчивая к химическим…"
+          },
+          {
+            "feature": "Рама кушетки окрашивается немецкой полимерной порошковой краской, устойчивой к сколам и царапинам,…",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Рама кушетки окрашивается немецкой полимерной порошковой краской, устойчивой к сколам и царапинам,…"
+          },
+          {
+            "feature": "Палитра кожи Skaden (Польша)",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Палитра кожи Skaden (Польша)"
+          },
+          {
+            "feature": "Ножной педальный блок управления с удлиненным кабелем, позволяет удобно управлять подъемом кушетки",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Ножной педальный блок управления с удлиненным кабелем, позволяет удобно управлять подъемом кушетки"
+          },
+          {
+            "feature": "Высота кушетки позволяет использовать ее в гастроскопии и колоноскопии",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Высота кушетки позволяет использовать ее в гастроскопии и колоноскопии"
+          },
+          {
+            "feature": "Ширина кушетки позволяет размещать пациентов с избыточным весом",
+            "source": "existing_approved_key_feature",
+            "sourceText": "Ширина кушетки позволяет размещать пациентов с избыточным весом"
+          }
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "routesAudited": 6,
+    "routes": [
+      {
+        "path": "/catalog/endoskopiya",
+        "questionCount": 3,
+        "answerCount": 3,
+        "answersNonEmpty": true
+      },
+      {
+        "path": "/catalog/endoskopiya/videoendoskopicheskie-sistemy",
+        "questionCount": 3,
+        "answerCount": 3,
+        "answersNonEmpty": true
+      },
+      {
+        "path": "/solutions/portativnaya-bronkhoskopiya",
+        "questionCount": 3,
+        "answerCount": 3,
+        "answersNonEmpty": true
+      },
+      {
+        "path": "/catalog/endoskopiya/obrabotka-endoskopov",
+        "questionCount": 3,
+        "answerCount": 3,
+        "answersNonEmpty": true
+      },
+      {
+        "path": "/catalog/reanimatsiya/transportnye-apparaty-ivl",
+        "questionCount": 3,
+        "answerCount": 3,
+        "answersNonEmpty": true
+      },
+      {
+        "path": "/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty",
+        "questionCount": 3,
+        "answerCount": 3,
+        "answersNonEmpty": true
+      }
+    ],
+    "renderedContract": "native_details_with_visible_first_answer_and_explicit_toggle"
+  },
+  "safety": {
+    "productionWrites": 0,
+    "productionDeploymentChanged": false,
+    "productCount": 114,
+    "featureAuditFailures": 0
+  }
+}

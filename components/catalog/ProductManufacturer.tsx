@@ -7,8 +7,10 @@ import type { Manufacturer } from "@/lib/storefront/types";
 
 export default function ProductManufacturer({
   manufacturer,
+  linkEnabled = true,
 }: {
   manufacturer: Manufacturer | null;
+  linkEnabled?: boolean;
 }) {
   if (!manufacturer) {
     return (
@@ -48,12 +50,14 @@ export default function ProductManufacturer({
             ) : null}
           </div>
         </div>
-        <Link
-          href={`/manufacturers/${manufacturer.slug}`}
-          className="cm-button-secondary shrink-0 self-start"
-        >
-          Все товары производителя
-        </Link>
+        {linkEnabled ? (
+          <Link
+            href={`/manufacturers/${manufacturer.slug}`}
+            className="cm-button-secondary shrink-0 self-start"
+          >
+            Все товары производителя
+          </Link>
+        ) : null}
       </div>
     </div>
   );

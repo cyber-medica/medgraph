@@ -6,6 +6,7 @@ import type { ManufacturerService } from "./manufacturer-service.ts";
 import type { ProductService } from "./product-service.ts";
 import { STOREFRONT_SITE_URL } from "./seo.ts";
 import type { Category, Manufacturer, Product } from "./types.ts";
+import { filterPublicManufacturers, publicPublishedProducts } from "./public-discovery.ts";
 
 export { STOREFRONT_SITE_URL } from "./seo.ts";
 
@@ -53,12 +54,16 @@ export function buildStorefrontSitemapFromCatalog(
   siteUrl = STOREFRONT_SITE_URL,
 ): MetadataRoute.Sitemap {
   const activeCategoryIds = new Set(categories.map(({ id }) => id));
-  const sitemapProducts = products.filter(({ categoryId }) =>
+  const sitemapProducts = publicPublishedProducts(products).filter(({ categoryId }) =>
     activeCategoryIds.has(categoryId),
+  );
+  const sitemapManufacturers = filterPublicManufacturers(
+    manufacturers,
+    sitemapProducts,
   );
   const lastModified = latestUpdatedAt([
     ...sitemapProducts,
-    ...manufacturers,
+    ...sitemapManufacturers,
     ...categories,
   ]);
   const url = (path: string) => absoluteUrl(path, siteUrl);
@@ -97,7 +102,7 @@ export function buildStorefrontSitemapFromCatalog(
       priority: 0.72,
     }),
   );
-  const manufacturerRoutes: MetadataRoute.Sitemap = manufacturers.map(
+  const manufacturerRoutes: MetadataRoute.Sitemap = sitemapManufacturers.map(
     (manufacturer) => ({
       url: url(`/manufacturers/${manufacturer.slug}`),
       lastModified: new Date(manufacturer.updatedAt),

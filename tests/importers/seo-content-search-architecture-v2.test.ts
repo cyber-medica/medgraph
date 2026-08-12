@@ -13,6 +13,7 @@ import {
 } from "../../lib/storefront/cloud-preview-mapper.ts";
 import { getPlainProductType, STOREFRONT_SITE_URL } from "../../lib/storefront/seo.ts";
 import { buildStorefrontSitemapFromCatalog } from "../../lib/storefront/storefront-sitemap.ts";
+import { filterPublicManufacturers, publicPublishedProducts } from "../../lib/storefront/public-discovery.ts";
 import { buildProductStructuredData } from "../../lib/storefront/structured-data.ts";
 import type { StorefrontCatalog } from "../../lib/storefront/types.ts";
 import {
@@ -143,8 +144,8 @@ test("all 71 planned indexable Products have unique metadata inputs", () => {
 test("production sitemap is canonical and contains only approved content routes", () => {
   const sitemap = buildStorefrontSitemapFromCatalog(publishedCatalog);
   const urls = sitemap.map(({ url }) => url);
-  const expectedUrls = publishedCatalog.products.length
-    + publishedCatalog.manufacturers.length
+  const expectedUrls = publicPublishedProducts(publishedCatalog.products).length
+    + filterPublicManufacturers(publishedCatalog.manufacturers, publishedCatalog.products).length
     + 3
     + SEO_LANDING_PATHS.length;
   assert.equal(urls.length, expectedUrls);
