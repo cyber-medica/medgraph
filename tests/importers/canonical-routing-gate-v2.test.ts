@@ -65,3 +65,12 @@ test("WebKit smoke isolates only the Vercel Preview toolbar CSP diagnostic", asy
   assert.match(source, /https:\/\/vercel\.live\/_next-live\/feedback\/feedback\.js/u);
   assert.doesNotMatch(source, /runtimeErrors\s*=\s*\[\]/u);
 });
+
+test("canonical mobile synthetic uses isolated direct-route pages", async () => {
+  const source = await readFile("scripts/qa/canonical-routing-mobile-synthetic.ts", "utf8");
+  const loop = source.indexOf('for (const route of ["/", "/catalog"');
+  const page = source.indexOf("const page = await context.newPage();", loop);
+  const close = source.indexOf("await page.close();", page);
+  assert.ok(loop >= 0 && page > loop && close > page);
+  assert.doesNotMatch(source.slice(0, loop), /const page = await context\.newPage\(\)/u);
+});

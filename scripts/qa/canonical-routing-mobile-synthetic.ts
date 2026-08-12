@@ -29,14 +29,18 @@ try {
       + "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1",
     viewport: { width: 390, height: 844 },
   });
-  const page = await context.newPage();
   const runtimeErrors: string[] = [];
-  page.on("pageerror", (error) => runtimeErrors.push(error.name));
-  page.on("console", (message) => {
-    if (message.type() === "error") runtimeErrors.push("console:error");
-  });
 
   for (const route of ["/", "/catalog", stableDetailPath, "/request"] as const) {
+    // A fresh page models a cold/direct iPhone navigation without cancelling
+    // Next.js prefetches from the previously tested document. WebKit reports
+    // those synthetic cross-navigation cancellations as page errors even
+    // though neither the source nor destination route failed.
+    const page = await context.newPage();
+    page.on("pageerror", (error) => runtimeErrors.push(error.name));
+    page.on("console", (message) => {
+      if (message.type() === "error") runtimeErrors.push("console:error");
+    });
     const response = await page.goto(new URL(`${route}?mobile_synthetic=${Date.now()}`, origin).toString(), {
       timeout: 30_000,
       waitUntil: "domcontentloaded",
@@ -53,6 +57,7 @@ try {
     assertNoLegacyPageShell(await page.content(), route);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     assert.ok(overflow <= 1, `${route} has horizontal mobile overflow`);
+    await page.close();
   }
   assert.deepEqual(runtimeErrors, [], "iPhone WebKit emitted runtime errors");
   await context.close();
