@@ -19,15 +19,21 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: npx playwright install --with-deps webkit
+      - run: npx --no-install playwright-core install --with-deps webkit
       - run: npm run qa:catalog-reliability-gate
       - run: npm run build
       - run: |
+          CATALOG_DATA_SOURCE=cloud_published \
+          CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk \
+          CYBERMEDICA_SUPABASE_URL=https://gjlpkqdhlzbfnzzoxlsk.supabase.co \
+          SUPABASE_SERVICE_ROLE_KEY=fault-injection-only \
+          VERCEL=1 \
+          VERCEL_ENV=preview \
           CYBERMEDICA_CATALOG_FAULT_INJECTION=all npm start &
           server_pid=$!
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:3000/catalog >/dev/null; then
-              WEBKIT_SMOKE_PRODUCT_PATH=/catalog/catalog-resilience-seed npm run qa:ios-webkit-smoke
+              WEBKIT_SMOKE_PRODUCT_PATH=/catalog/767632362-330695211247-apparat-ivl-hamilton-t1 npm run qa:ios-webkit-smoke
               kill "$server_pid"
               exit 0
             fi
@@ -42,14 +48,28 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
       - run: npm ci --ignore-scripts
+      - name: Resolve the canonical runtime release
+        id: runtime-release
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          if git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null \
+            && git diff --quiet "$BEFORE_SHA" "$CURRENT_SHA" -- . ':(exclude).github/**'; then
+            echo "sha=$BEFORE_SHA" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=$CURRENT_SHA" >> "$GITHUB_OUTPUT"
+          fi
       - name: Wait for the exact canonical Git release
         env:
-          EXPECTED_RELEASE_SHA: ${{ github.sha }}
+          EXPECTED_RELEASE_SHA: ${{ steps.runtime-release.outputs.sha }}
           EXPECTED_PUBLISHED_PRODUCT_COUNT: "114"
         run: |
           for attempt in $(seq 1 40); do
