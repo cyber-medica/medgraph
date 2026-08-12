@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "task": "CYBERMEDICA / КИБЕРМЕДИКА — PRODUCTION PERFORMANCE CORRECTIVE v1",
+  "measuredAt": "2026-08-12",
+  "method": {
+    "tool": "Lighthouse",
+    "version": "13.4.1",
+    "runsPerRouteAndFormFactor": 3,
+    "aggregation": "median",
+    "stageOrigin": "https://stage.cyber-medica.ru",
+    "performanceRuntimeCommit": "e42b1e195b746171c610b82fa6f874d48bce640f",
+    "performanceRuntimeDeployment": "dpl_8f2hoDFmYgKmySQ8zrhRnagYWJBC",
+    "note": "The complete cold-run set was captured on runtime-equivalent deployment dpl_5wDEH94xRe97Ja2Koc12kmmfP5zU. Subsequent changes only corrected foreground contrast, a stale image-size test expectation, and an accessible-name advisory. The final runtime was rebuilt and smoke-tested."
+  },
+  "homepage": {
+    "mobile": {
+      "before": {
+        "source": "PageSpeed Insights supplied baseline",
+        "performance": 83,
+        "fcpMs": 900,
+        "lcpMs": 3900,
+        "tbtMs": 70,
+        "cls": 0,
+        "speedIndexMs": 5600
+      },
+      "afterMedian": {
+        "performance": 96,
+        "fcpMs": 1098,
+        "lcpMs": 2778,
+        "tbtMs": 21,
+        "cls": 0,
+        "speedIndexMs": 1833,
+        "serverResponseMs": 34
+      },
+      "afterRuns": [
+        { "performance": 92, "fcpMs": 1283, "lcpMs": 3263, "tbtMs": 27, "cls": 0, "speedIndexMs": 3019, "serverResponseMs": 34 },
+        { "performance": 97, "fcpMs": 1021, "lcpMs": 2551, "tbtMs": 7, "cls": 0, "speedIndexMs": 1833, "serverResponseMs": 34 },
+        { "performance": 96, "fcpMs": 1098, "lcpMs": 2778, "tbtMs": 21, "cls": 0, "speedIndexMs": 1465, "serverResponseMs": 30 }
+      ]
+    },
+    "desktop": {
+      "before": {
+        "source": "PageSpeed Insights supplied baseline",
+        "performance": 84,
+        "fcpMs": 300,
+        "lcpMs": 1000,
+        "tbtMs": 40,
+        "cls": 0.25,
+        "speedIndexMs": 1500
+      },
+      "afterMedian": {
+        "performance": 99,
+        "fcpMs": 438,
+        "lcpMs": 828,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 655,
+        "serverResponseMs": 36
+      },
+      "afterRuns": [
+        { "performance": 99, "fcpMs": 462, "lcpMs": 852, "tbtMs": 0, "cls": 0, "speedIndexMs": 786, "serverResponseMs": 65 },
+        { "performance": 99, "fcpMs": 438, "lcpMs": 828, "tbtMs": 0, "cls": 0, "speedIndexMs": 655, "serverResponseMs": 36 },
+        { "performance": 100, "fcpMs": 420, "lcpMs": 810, "tbtMs": 0, "cls": 0, "speedIndexMs": 624, "serverResponseMs": 31 }
+      ]
+    }
+  },
+  "otherRouteMedians": {
+    "catalog": {
+      "mobile": { "performance": 94, "fcpMs": 1234, "lcpMs": 3062, "tbtMs": 20, "cls": 0, "speedIndexMs": 2514, "serverResponseMs": 52 },
+      "desktop": { "performance": 82, "fcpMs": 1222, "lcpMs": 1642, "tbtMs": 0, "cls": 0, "speedIndexMs": 3768, "serverResponseMs": 510 }
+    },
+    "manufacturers": {
+      "mobile": { "performance": 96, "fcpMs": 1060, "lcpMs": 2851, "tbtMs": 1, "cls": 0, "speedIndexMs": 1398, "serverResponseMs": 39 },
+      "desktop": { "performance": 97, "fcpMs": 781, "lcpMs": 821, "tbtMs": 0, "cls": 0, "speedIndexMs": 1678, "serverResponseMs": 65 }
+    },
+    "hamiltonT1": {
+      "mobile": { "performance": 85, "fcpMs": 1365, "lcpMs": 3284, "tbtMs": 16, "cls": 0, "speedIndexMs": 8501, "serverResponseMs": 128 },
+      "desktop": { "performance": 84, "fcpMs": 1195, "lcpMs": 1528, "tbtMs": 0, "cls": 0, "speedIndexMs": 3725, "serverResponseMs": 96 }
+    },
+    "sonoscapeHeavyGallery": {
+      "mobile": { "performance": 95, "fcpMs": 1024, "lcpMs": 3004, "tbtMs": 0, "cls": 0, "speedIndexMs": 2054, "serverResponseMs": 28 },
+      "desktop": { "performance": 100, "fcpMs": 343, "lcpMs": 733, "tbtMs": 0, "cls": 0, "speedIndexMs": 756, "serverResponseMs": 30 }
+    },
+    "seoEndoscopy": {
+      "mobile": { "performance": 94, "fcpMs": 1025, "lcpMs": 3080, "tbtMs": 12, "cls": 0, "speedIndexMs": 1743, "serverResponseMs": 32 },
+      "desktop": { "performance": 100, "fcpMs": 360, "lcpMs": 730, "tbtMs": 0, "cls": 0, "speedIndexMs": 629, "serverResponseMs": 36 }
+    }
+  },
+  "rootCauses": {
+    "documentTtfb": "Anonymous SSR paths repeated the complete published-projection transport read. Production logs showed successful reads taking 1450–3566 ms and transient fallback paths waiting about 10708–10794 ms.",
+    "mobileLcp": "The Hamilton-T1 hero image was discovered after the blocking catalog read and used an oversized responsive candidate. The old trace attributed about 3242 ms to resource-load delay.",
+    "desktopCls": "The global streaming shell reserved only 70vh, allowing the footer to render too high and shift when page content replaced the shell.",
+    "console": "No first-party runtime error remained. Vercel Preview injects its feedback toolbar, which the canonical CSP correctly blocks; the production runtime does not inject this toolbar."
+  },
+  "correctives": {
+    "catalogCache": "Validated 60-second server cache shared by public reads, plus request memoization. The health endpoint explicitly bypasses this cache.",
+    "images": "True homepage LCP receives a server-emitted responsive preload hint and high fetch priority; responsive sizes were tightened for hero, cards and gallery; below-fold carousel media is lazy; logo intrinsic sizes were reduced.",
+    "layout": "The global loading shell now reserves a full viewport.",
+    "javascript": "The Metrica queue remains immediate, while the external script loads after five seconds or first pointer/keyboard intent. R9 first/last-touch and rfq_success contracts remain covered.",
+    "fonts": "The storefront uses the system typography stack and issues no custom-font network requests, so no font preload or weight change was justified.",
+    "cacheHeaders": "Hashed Next.js assets retain immutable caching and optimized images retain the existing 60-day revalidation policy. Mutable HTML and RFQ/API responses were not given immutable caching."
+  },
+  "quality": {
+    "accessibilityScore": 100,
+    "firstPartyConsoleErrors": 0,
+    "previewOnlyAdvisories": [
+      "Vercel Preview feedback toolbar is blocked by the canonical script-src CSP",
+      "Broad HSTS/Trusted Types changes remain outside this performance corrective"
+    ],
+    "previewSmoke": { "passed": 28, "failed": 0 },
+    "webkit": { "profiles": 3, "routesPerProfile": 5, "passed": 15, "failed": 0 },
+    "unitTests": { "passed": 680, "failed": 0 },
+    "targetedTests": { "passed": 47, "failed": 0 },
+    "lint": "pass",
+    "typescript": "pass",
+    "webpackBuild": "pass",
+    "turbopackBuild": "pass"
+  },
+  "safety": {
+    "productionDeployment": "dpl_3jdAxhmrergpjzw8qbC9N7GtxWvX",
+    "productionCommit": "d6369e656aedf86a62bc089781f761cb76b65850",
+    "productionLiveTransport": "healthy",
+    "productionFallbackActive": false,
+    "productionProjectionVersion": 75,
+    "productionProjectionChecksumPrefix": "a3c933eb1bf4",
+    "productionPublishedProducts": 114,
+    "productionSitemapProductUrls": 114,
+    "stageHealthDiagnostic": {
+      "liveTransport": "degraded",
+      "fallbackActive": true,
+      "reason": "Preview does not receive or impersonate the Production service boundary; health reports the fallback honestly while the approved Stage catalog source remains isolated."
+    },
+    "productionWrites": 0,
+    "productionDeploymentChanged": false,
+    "mainChanged": false,
+    "productionBranchChanged": false
+  }
+}
