@@ -16,6 +16,6 @@ test("ProductCard visual polish prioritizes equipment without changing its publi
   assert.match(productCard, /compareEnabled\?: boolean;/u);
   assert.equal((productCard.match(/aspect-\[16\/8\]/gu) ?? []).length, 2);
   assert.match(productCard, /object-contain p-2/u);
-  assert.match(productCard, /sizes="\(max-width: 767px\) 100vw, \(max-width: 1535px\) 33vw, 25vw"/u);
+  assert.match(productCard, /sizes="\(max-width: 767px\) 92vw, \(max-width: 1535px\) 33vw, 25vw"/u);
   assert.doesNotMatch(productCard, /object-cover|scale-1[1-9]|variant|featured|recommended|marketing/iu);
 });

@@ -42,7 +42,7 @@ export default function ManufacturerMark({
       aria-label={`${name} — типографический логотип`}
       title={name}
       data-logo-kind="fallback"
-      className={`grid ${size === "hero" ? "size-10 sm:size-14" : sizes[size]} shrink-0 place-items-center rounded-lg border border-[var(--cm-rule)] bg-cm-surface-low px-1 font-bold tracking-[-0.04em] text-cm-teal`}
+      className={`grid ${size === "hero" ? "size-10 sm:size-14" : sizes[size]} shrink-0 place-items-center rounded-lg border border-[var(--cm-rule)] bg-cm-surface-low px-1 font-bold tracking-[-0.04em] text-cm-teal-dark`}
     >
       <span aria-hidden="true" className={size === "sm" ? "text-[10px]" : "text-xs"}>
         {presentation.monogram}

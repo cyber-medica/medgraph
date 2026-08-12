@@ -92,12 +92,20 @@ test("Metrica retains the immediate R9 queue but leaves the critical render path
 });
 
 test("secondary foreground color meets normal-text contrast on light surfaces", async () => {
-  const styles = await source("app/globals.css");
+  const [styles, manufacturerMark] = await Promise.all([
+    source("app/globals.css"),
+    source("components/storefront/ManufacturerMark.tsx"),
+  ]);
   const match = styles.match(/--cm-dim:\s*(#[0-9a-f]{6})/iu);
+  const tealDarkMatch = styles.match(/--cm-teal-dark:\s*(#[0-9a-f]{6})/iu);
   assert.ok(match);
+  assert.ok(tealDarkMatch);
   const foreground = match[1];
 
   for (const background of ["#ffffff", "#f4f7fa", "#eef2f7", "#dcf0f4"]) {
     assert.ok(contrast(foreground, background) >= 4.5, `${foreground} on ${background}`);
   }
+
+  assert.match(manufacturerMark, /data-logo-kind="fallback"[\s\S]+?text-cm-teal-dark/u);
+  assert.ok(contrast(tealDarkMatch[1], "#eef2f7") >= 4.5);
 });
