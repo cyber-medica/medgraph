@@ -63,6 +63,13 @@ test("WebKit smoke isolates only the Vercel Preview toolbar CSP diagnostic", asy
   const source = await readFile("scripts/qa/ios-webkit-smoke.ts", "utf8");
   assert.match(source, /parsedOrigin\.hostname\.endsWith\("\.vercel\.app"\)/u);
   assert.match(source, /https:\/\/vercel\.live\/_next-live\/feedback\/feedback\.js/u);
+  assert.match(source, /waitUntil: "domcontentloaded"/u);
+  assert.match(source, /document\.body\?\.innerText/u);
+  assert.match(source, /aria-label="Загрузка страницы"[\s\S]+state: "detached"/u);
+  assert.doesNotMatch(source, /waitUntil: "networkidle"/u);
+  const routeLoop = source.indexOf("for (const route of routes)");
+  const page = source.indexOf("const page = await context.newPage();", routeLoop);
+  assert.ok(routeLoop >= 0 && page > routeLoop);
   assert.doesNotMatch(source, /runtimeErrors\s*=\s*\[\]/u);
 });
 

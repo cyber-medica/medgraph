@@ -58,25 +58,31 @@ try {
       viewport: profile.viewport,
       ...(profile.userAgent ? { userAgent: profile.userAgent } : {}),
     });
-    const page = await context.newPage();
-    const runtimeErrors: string[] = [];
-
-    page.on("pageerror", (error) => runtimeErrors.push(error.name));
-    page.on("console", (message) => {
-      if (message.type() !== "error") return;
-      const isVercelPreviewToolbarCsp = parsedOrigin.hostname.endsWith(".vercel.app")
-        && message.text().includes(
-          "https://vercel.live/_next-live/feedback/feedback.js",
-        );
-      if (!isVercelPreviewToolbarCsp) runtimeErrors.push("console:error");
-    });
-
     for (const route of routes) {
+      const page = await context.newPage();
+      const runtimeErrors: string[] = [];
+      page.on("pageerror", (error) => runtimeErrors.push(error.name));
+      page.on("console", (message) => {
+        if (message.type() !== "error") return;
+        const isVercelPreviewToolbarCsp = parsedOrigin.hostname.endsWith(".vercel.app")
+          && message.text().includes(
+            "https://vercel.live/_next-live/feedback/feedback.js",
+          );
+        if (!isVercelPreviewToolbarCsp) runtimeErrors.push("console:error");
+      });
       const response = await page.goto(new URL(route, parsedOrigin).toString(), {
-        waitUntil: "networkidle",
+        waitUntil: "domcontentloaded",
         timeout: 30_000,
       });
       assert.equal(response?.status(), 200, `${profile.name}: ${route} must return HTTP 200.`);
+      await page.waitForFunction(
+        () => (document.body?.innerText ?? "").trim().length > 200,
+        { timeout: 30_000 },
+      );
+      await page.locator('[aria-label="Загрузка страницы"]').waitFor({
+        state: "detached",
+        timeout: 30_000,
+      });
       assert.ok(
         (await page.locator("body").innerText()).trim().length > 0,
         `${profile.name}: ${route} must render visible text in WebKit.`,
@@ -86,8 +92,13 @@ try {
         0,
         `${profile.name}: ${route} must not leave the streaming fallback mounted.`,
       );
+      assert.deepEqual(
+        runtimeErrors,
+        [],
+        `${profile.name}: ${route} must not emit runtime errors.`,
+      );
+      await page.close();
     }
-    assert.deepEqual(runtimeErrors, [], `${profile.name} must not emit runtime errors.`);
     await context.close();
   }
   console.log(`WebKit smoke passed for ${profiles.length} profiles and ${routes.length} routes.`);
