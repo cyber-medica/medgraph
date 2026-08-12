@@ -45,26 +45,37 @@ test("catalog and manufacturer listing omit static public KPI summaries", async 
   assert.match(explorer, /Найдено: <strong[^>]*>\{results\.length\}<\/strong>/u);
 });
 
-test("all 31 published manufacturer slugs have a fail-closed logo presentation", async () => {
-  const publishedSlugs = catalog.manufacturers.map(({ slug }) => slug).sort();
+test("all 25 public non-empty manufacturer routes have a fail-closed logo presentation", async () => {
+  const publicManufacturerIds = new Set(catalog.products.map(({ manufacturerId }) => manufacturerId));
+  const publicManufacturers = catalog.manufacturers.filter(({ id }) => publicManufacturerIds.has(id));
+  const catalogSlugs = catalog.manufacturers.map(({ slug }) => slug).sort();
   const manifestSlugs = MANUFACTURER_LOGO_POLICY.map(({ slug }) => slug).sort();
 
-  assert.equal(catalog.manufacturers.length, 31);
+  assert.equal(publicManufacturers.length, 25);
   assert.equal(new Set(manifestSlugs).size, 31);
-  assert.deepEqual(manifestSlugs, publishedSlugs);
+  assert.deepEqual(manifestSlugs, catalogSlugs);
 
-  const presentations = catalog.manufacturers.map((manufacturer) =>
+  const presentations = publicManufacturers.map((manufacturer) =>
     getManufacturerLogoPresentation(manufacturer),
   );
-  assert.equal(presentations.filter(({ kind }) => kind === "graphic").length, 2);
-  assert.equal(presentations.filter(({ kind }) => kind === "fallback").length, 29);
+  assert.equal(presentations.filter(({ kind }) => kind === "graphic").length, 8);
+  assert.equal(presentations.filter(({ kind }) => kind === "fallback").length, 17);
   assert.ok(presentations.every(({ assetUrl }) => !assetUrl || assetUrl.startsWith("/manufacturers/")));
   assert.ok(presentations.every(({ kind, fallbackReason }) => kind === "graphic" || Boolean(fallbackReason)));
 });
 
 test("approved manufacturer assets are local, present and checksum pinned", async () => {
   const graphicEntries = MANUFACTURER_LOGO_POLICY.filter(({ assetUrl }) => assetUrl);
-  assert.deepEqual(graphicEntries.map(({ slug }) => slug), ["fresenius-kabi", "olympus"]);
+  assert.deepEqual(graphicEntries.map(({ slug }) => slug), [
+    "b-braun",
+    "bionet",
+    "comen",
+    "fresenius-kabi",
+    "ge-healthcare",
+    "huntleigh",
+    "olympus",
+    "pentax-medical",
+  ]);
 
   for (const entry of graphicEntries) {
     assert.ok(entry.assetUrl);

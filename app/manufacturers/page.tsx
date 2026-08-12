@@ -82,7 +82,7 @@ export default async function ManufacturersPage() {
                   slug={manufacturer.slug}
                   name={manufacturer.name}
                 />
-                <h2 className="text-[15px] font-bold leading-5">{manufacturer.name}</h2>
+                <h2 className="min-w-0 break-words text-[15px] font-bold leading-5">{manufacturer.name}</h2>
               </div>
               <p className="mt-3 line-clamp-2 text-[11px] leading-5 text-cm-slate">
                 {manufacturer.shortDescription}

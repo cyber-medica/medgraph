@@ -39,7 +39,7 @@ export default function ProductManufacturer({
             size="lg"
           />
           <div className="min-w-0">
-            <h3 className="text-base font-bold">{manufacturer.name}</h3>
+            <h3 className="break-words text-base font-bold">{manufacturer.name}</h3>
             {country ? (
               <p className="mt-1 text-[11px] font-semibold text-cm-teal">{country}</p>
             ) : null}

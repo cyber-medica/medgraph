@@ -22,15 +22,17 @@ export default function ManufacturerMark({
   if (presentation.kind === "graphic" && presentation.assetUrl) {
     return (
       <span
-        className={`relative ${sizes[size]} shrink-0 overflow-hidden rounded-lg border border-[var(--cm-rule)] bg-white`}
+        className={`relative flex ${sizes[size]} shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[var(--cm-rule)] ${presentation.assetSurface === "dark" ? "bg-[#273746]" : "bg-white"}`}
         data-logo-kind="graphic"
       >
         <Image
           src={presentation.assetUrl}
           alt={presentation.alt}
-          fill
+          width={presentation.assetWidth}
+          height={presentation.assetHeight}
           sizes={imageSizes[size]}
-          className="object-contain p-[5%]"
+          loading={size === "hero" ? "eager" : "lazy"}
+          className="h-auto max-h-full w-auto max-w-full object-contain p-[5%]"
         />
       </span>
     );
@@ -42,9 +44,9 @@ export default function ManufacturerMark({
       aria-label={`${name} — типографический логотип`}
       title={name}
       data-logo-kind="fallback"
-      className={`grid ${size === "hero" ? "size-10 sm:size-14" : sizes[size]} shrink-0 place-items-center rounded-lg border border-[var(--cm-rule)] bg-cm-surface-low px-1 font-bold tracking-[-0.04em] text-cm-teal-dark`}
+      className={`grid ${size === "hero" ? "size-10 sm:size-14" : sizes[size]} shrink-0 place-items-center overflow-hidden rounded-lg border border-[var(--cm-rule)] bg-[linear-gradient(145deg,#ffffff_0%,#eef7f8_100%)] px-1 font-bold tracking-[-0.04em] text-cm-teal-dark shadow-[inset_0_0_0_1px_rgba(255,255,255,0.65)]`}
     >
-      <span aria-hidden="true" className={size === "sm" ? "text-[10px]" : "text-xs"}>
+      <span aria-hidden="true" className={size === "hero" ? "text-sm" : size === "sm" ? "text-[10px]" : "text-xs"}>
         {presentation.monogram}
       </span>
     </span>

@@ -65,7 +65,7 @@ export default function FeaturedManufacturers({
                   <div className="flex items-center gap-3">
                     <ManufacturerMark slug={manufacturer.slug} name={manufacturer.name} />
                     <div className="min-w-0">
-                      <h3 className="text-[15px] font-bold leading-5">{manufacturer.name}</h3>
+                      <h3 className="break-words text-[15px] font-bold leading-5">{manufacturer.name}</h3>
                       {manufacturer.country && (
                         <div className="mt-1 text-[10px] text-cm-slate">{manufacturer.country}</div>
                       )}
