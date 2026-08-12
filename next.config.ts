@@ -37,7 +37,7 @@ export const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: blob: https://mc.yandex.ru ${cloudMediaOrigins}`,
   "font-src 'self' data:",
-  `connect-src 'self' https://mc.yandex.ru${isDevelopment ? " ws: wss:" : ""}`,
+  `connect-src 'self' https://mc.yandex.ru wss://mc.yandex.ru${isDevelopment ? " ws: wss:" : ""}`,
   `media-src 'self' ${cloudMediaOrigins}`,
   "worker-src 'self' blob:",
   "manifest-src 'self'",
