@@ -118,6 +118,10 @@ export default function CatalogExplorer({
   const hasUnassignedManufacturer = products.some(
     (product) => product.manufacturerId === CLOUD_PREVIEW_UNKNOWN_MANUFACTURER_ID,
   );
+  const hasActiveSearchOrFilters = query.trim().length > 0
+    || category !== DEFAULT_CATEGORY
+    || manufacturer !== DEFAULT_MANUFACTURER
+    || applicationArea !== DEFAULT_APPLICATION_AREA;
 
   useEffect(() => {
     let active = true;
@@ -320,10 +324,12 @@ export default function CatalogExplorer({
         </div>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-          <div className="font-mono text-[10px] text-cm-slate" aria-live="polite">
-            Найдено: <strong className="text-cm-ink">{results.length}</strong> из {products.length}
-          </div>
-          <label className="flex items-center gap-2 text-[11px] text-cm-dim">
+          {hasActiveSearchOrFilters ? (
+            <div className="font-mono text-[10px] text-cm-slate" aria-live="polite">
+              Найдено: <strong className="text-cm-ink">{results.length}</strong>
+            </div>
+          ) : null}
+          <label className="ml-auto flex items-center gap-2 text-[11px] text-cm-dim">
             <span>Сортировка</span>
             <select
               value={sort}

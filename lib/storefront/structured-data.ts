@@ -1,5 +1,5 @@
 import type { Category, Manufacturer, Product } from "./types.ts";
-import { isVerifiedLocalManufacturerLogo } from "./manufacturer-presentation.ts";
+import { getApprovedManufacturerLogoUrl } from "./manufacturer-logo-policy.ts";
 import {
   buildBreadcrumbJsonLd,
   STOREFRONT_SITE_NAME,
@@ -135,14 +135,15 @@ export function buildManufacturerStructuredData(
   manufacturer: Manufacturer,
 ): StorefrontSchema[] {
   const path = `/manufacturers/${manufacturer.slug}` as const;
+  const approvedLogoUrl = getApprovedManufacturerLogoUrl(manufacturer.slug);
   const organization: StorefrontSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: manufacturer.name,
     description: manufacturer.description,
     url: absoluteUrl(path),
-    ...(isVerifiedLocalManufacturerLogo(manufacturer.logoUrl)
-      ? { logo: absoluteUrl(manufacturer.logoUrl) }
+    ...(approvedLogoUrl
+      ? { logo: absoluteUrl(approvedLogoUrl) }
       : {}),
   };
 

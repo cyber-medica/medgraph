@@ -91,7 +91,6 @@ export default async function Home() {
       slug: manufacturer.slug,
       name: manufacturer.name,
       country: formatCountryForPublic(manufacturer.country),
-      logoUrl: manufacturer.logoUrl,
       productCount: manufacturerProductCounts.get(manufacturer.id) ?? 0,
     }))
     .filter(({ productCount }) => productCount > 0)

@@ -21,18 +21,11 @@ test("catalog uses the compact responsive density contract", async () => {
   assert.match(catalog, /Данные уточняются/u);
 });
 
-test("catalog summary exposes four public storefront metrics", async () => {
+test("catalog omits redundant public summary metrics", async () => {
   const page = await source("app/catalog/page.tsx");
 
-  for (const label of [
-    "Товары",
-    "Производители",
-    "Категории",
-    "Области применения",
-  ]) {
-    assert.match(page, new RegExp(`\\[\"${label}\"`, "u"));
-  }
-  assert.match(page, /products\.flatMap\(\(product\) => product\.applicationAreas\)/u);
+  assert.doesNotMatch(page, /catalogSummary|Сводка каталога/u);
+  assert.doesNotMatch(page, /\["Товары"|\["Производители"|\["Категории"|\["Области применения"/u);
 });
 
 test("catalog presentation uses the shared fail-closed product contract", async () => {

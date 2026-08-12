@@ -1,33 +1,36 @@
 import Image from "next/image";
-import { isVerifiedLocalManufacturerLogo } from "@/lib/storefront/manufacturer-presentation";
+import { getManufacturerLogoPresentation } from "@/lib/storefront/manufacturer-logo-policy";
 
 export default function ManufacturerMark({
-  logoUrl,
+  slug,
   name,
   size = "md",
 }: {
-  logoUrl: string | null;
+  slug: string;
   name: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "hero";
 }) {
+  const presentation = getManufacturerLogoPresentation({ slug, name });
   const sizes = {
     sm: "size-9",
     md: "size-11",
     lg: "size-14",
+    hero: "h-10 w-[min(150px,100%)] sm:h-14 sm:w-[200px]",
   } as const;
-  const imageSizes = { sm: "36px", md: "44px", lg: "56px" } as const;
+  const imageSizes = { sm: "36px", md: "44px", lg: "56px", hero: "(max-width: 639px) 150px, 200px" } as const;
 
-  if (isVerifiedLocalManufacturerLogo(logoUrl)) {
+  if (presentation.kind === "graphic" && presentation.assetUrl) {
     return (
       <span
         className={`relative ${sizes[size]} shrink-0 overflow-hidden rounded-lg border border-[var(--cm-rule)] bg-white`}
+        data-logo-kind="graphic"
       >
         <Image
-          src={logoUrl}
-          alt={`${name} — логотип`}
+          src={presentation.assetUrl}
+          alt={presentation.alt}
           fill
           sizes={imageSizes[size]}
-          className="object-contain p-1"
+          className="object-contain p-[5%]"
         />
       </span>
     );
@@ -35,18 +38,15 @@ export default function ManufacturerMark({
 
   return (
     <span
-      aria-hidden="true"
-      className={`grid ${sizes[size]} shrink-0 place-items-center rounded-lg border border-[var(--cm-rule)] bg-cm-surface-low text-cm-teal`}
+      role="img"
+      aria-label={`${name} — типографический логотип`}
+      title={name}
+      data-logo-kind="fallback"
+      className={`grid ${size === "hero" ? "size-10 sm:size-14" : sizes[size]} shrink-0 place-items-center rounded-lg border border-[var(--cm-rule)] bg-cm-surface-low px-1 font-bold tracking-[-0.04em] text-cm-teal`}
     >
-      <svg viewBox="0 0 24 24" className="size-5" fill="none">
-        <path
-          d="M5 20V8l7-4 7 4v12M9 20v-5h6v5M8 10h1m3 0h1m3 0h1"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <span aria-hidden="true" className={size === "sm" ? "text-[10px]" : "text-xs"}>
+        {presentation.monogram}
+      </span>
     </span>
   );
 }

@@ -9,6 +9,7 @@ import BackToTop from "@/components/catalog/BackToTop";
 import ProductGallery from "@/components/catalog/ProductGallery";
 import ProductManufacturer from "@/components/catalog/ProductManufacturer";
 import ProductCommercialBadges from "@/components/storefront/ProductCommercialBadges";
+import ProductCard from "@/components/storefront/ProductCard";
 import ProductViewTracker from "@/components/analytics/ProductViewTracker";
 import SafeProductDescription from "@/components/catalog/SafeProductDescription";
 import { catalogRepository, productService, storefrontDataSource } from "@/lib/storefront";
@@ -125,6 +126,12 @@ export default async function StorefrontProductPage({
   ].filter((link): link is { href: string; label: string } => link !== null);
   const relatedProductsById = new Map(
     relatedProducts.map((relatedProduct) => [relatedProduct.id, relatedProduct]),
+  );
+  const manufacturersById = new Map(
+    manufacturers.map((entry) => [entry.id, entry]),
+  );
+  const categoriesById = new Map(
+    categories.map((entry) => [entry.id, entry]),
   );
   return (
     <main className="min-h-screen bg-cm-canvas">
@@ -440,38 +447,16 @@ export default async function StorefrontProductPage({
             {presentation.sections.relatedProducts && (
             <div>
               <h3 className="cm-label">Товары</h3>
-              <div className="mt-3">
-              <div className="grid gap-3">
+              <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 {relatedProducts.map((relatedProduct) => (
-                  <article
+                  <ProductCard
                     key={relatedProduct.slug}
-                    className="cm-card p-4"
-                  >
-                    <Link
-                      href={`/catalog/${relatedProduct.slug}`}
-                      className="text-sm font-semibold hover:text-cm-teal"
-                    >
-                      {relatedProduct.name}
-                    </Link>
-                    <p className="mt-2 text-xs leading-6 text-cm-slate">
-                      {relatedProduct.shortDescription}
-                    </p>
-                    <div className="mt-3 text-xs font-semibold text-cm-teal">
-                      Открыть →
-                    </div>
-                    {presentation.canCompare && (
-                      <div className="mt-3 border-t border-[var(--cm-rule)] pt-3">
-                      <Link
-                        href="/compare"
-                        className="text-xs font-semibold text-cm-slate hover:text-cm-teal"
-                      >
-                        Сравнить товары →
-                      </Link>
-                      </div>
-                    )}
-                  </article>
+                    product={relatedProduct}
+                    manufacturer={manufacturersById.get(relatedProduct.manufacturerId)}
+                    categoryName={categoriesById.get(relatedProduct.categoryId)?.name}
+                    compareEnabled={presentation.canCompare && storefrontDataSource !== "cloud_preview"}
+                  />
                 ))}
-              </div>
               </div>
             </div>
             )}

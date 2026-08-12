@@ -141,9 +141,10 @@ test("public product surfaces consume the shared presentation contract", async (
     "components/search/SearchExperience.tsx",
   ].map((path) => readFile(path, "utf8")));
 
-  for (const source of sources) {
+  for (const source of [sources[0], sources[2], sources[3]]) {
     assert.match(source, /getProductPresentation/u);
   }
+  assert.match(sources[1], /<ProductCard/u);
   assert.match(sources[0], /presentation\.canRequestQuote/u);
   assert.match(sources[0], /presentation\.sections\.documents/u);
   assert.doesNotMatch(sources[1], /presentation\.canCompare/u);

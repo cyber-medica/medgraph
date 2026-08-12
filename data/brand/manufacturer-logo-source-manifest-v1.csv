@@ -1,0 +1,32 @@
+slug,display_name,authoritative_source,source_type,usage_status,implementation_note
+ambu,Ambu,https://www.ambu.com/corporate-info/media/image-bank/logo,official logo/media page,PERMISSION_REQUIRED,Official page explicitly says third parties generally may not use the logo without license/authorization; use text fallback until permission is documented.
+aohua,AOHUA,https://www.aohua.com/en/,official manufacturer website,RIGHTS_REVIEW,"Official brand source found; obtain logo from official site/brand asset, store locally, review trademark terms before public use."
+b-braun,B. Braun,https://www.bbraun.com/en/about-us/company/brand.html,official brand page,RIGHTS_REVIEW,Official brand page contains logo guidance; implement only from official artwork after terms review.
+bionet,Bionet,https://www.ebionet.com/medical/,official manufacturer website,RIGHTS_REVIEW,Official medical-device manufacturer site found; use official artwork only.
+biotech-m,БИОТЕК / Biotech,https://biotech-medical.ru/,official manufacturer website,RIGHTS_REVIEW,Russian official site found; confirm exact public display name against existing manufacturer record before asset import.
+bowa,BOWA MEDICAL,https://www.bowa-medical.com/,official manufacturer website,RIGHTS_REVIEW,Official global site found; source logo from official header/download assets only.
+canon-medical-systems,Canon Medical Systems,https://global.medical.canon/,official manufacturer website,RIGHTS_REVIEW,"Use Canon Medical Systems wordmark from official medical site/approved media asset, not generic Canon logo if a medical wordmark is available."
+comen,COMEN,https://en.comen.com/,official manufacturer website,RIGHTS_REVIEW,Official manufacturer site found; source clean official logo only.
+dixion,DIXION,https://dixion.ru/,official manufacturer website,RIGHTS_REVIEW,Official Russian manufacturer site found.
+drager,Dräger,https://www.draeger.com/,official manufacturer website,RIGHTS_REVIEW,"Official corporate site found; use current Dräger identity, not obsolete logo."
+electron,Электрон,https://www.elektron.ru/,official manufacturer website,RIGHTS_REVIEW,Official NIPK Electron site found; source logo from official site/press kit.
+erbe,ERBE,https://en.erbegroup.com/en-en/company/press-information/,official press/media page,RIGHTS_REVIEW,Official press/media source found; prefer current Erbe Group/Erbe Elektromedizin artwork from official source.
+fresenius-kabi,Fresenius Kabi,https://www.fresenius-kabi.com/de/downloads/downloadbereich-logo-fresenius-kabi-deutschland,official logo download page,READY_WITH_TERMS,Official page explicitly permits non-exclusive commercial use of downloadable image material subject to stated terms; store local approved asset and retain source/terms reference.
+ge-healthcare,GE HealthCare,https://brand.gehealthcare.com/,official brand hub,RIGHTS_REVIEW,Official brand hub found; use current GE HealthCare identity only in accordance with brand guidelines.
+hamilton-medical,Hamilton Medical,https://www.hamilton-medical.com/,official manufacturer website,RIGHTS_REVIEW,Official manufacturer site found; source current logo from official site/media assets.
+huger,HUGER,https://www.huger.cn/,official manufacturer website,RIGHTS_REVIEW,"Official site is currently under maintenance but identifies HUGER; source current artwork from official property, otherwise temporary text fallback."
+huntleigh,Huntleigh Healthcare,https://www.huntleigh-diagnostics.com/,official manufacturer website,RIGHTS_REVIEW,Official Huntleigh healthcare site found; source current official artwork.
+ilivtouch,iLivTouch,https://ilivtouch.ru/,official Russian distributor/brand site,RIGHTS_REVIEW,Official Russian iLivTouch site/distributor found; verify asset usage permission and manufacturer/brand attribution.
+longfian,Longfian,https://www.longfian.com/,official manufacturer website,RIGHTS_REVIEW,Official Longfian Scitech site found.
+medinova,Medinova,https://www.medinova.ru/,official Russian brand/authorized representative site,RIGHTS_REVIEW,Official Medinova-branded site found; site states authorized representative status for ENDO CLEAN line. Use current Medinova trademark artwork only.
+met,MET,https://met-company.ru/,official manufacturer website,RIGHTS_REVIEW,"Official MET producer site found; use current MET brand asset, not third-party marketplace artwork."
+mindray,Mindray,https://www.mindray.com/en/media-center/press/mindray-new-logo-launch-announcement,official manufacturer/media page,RIGHTS_REVIEW,Official logo/brand source found; use current Mindray logo.
+monitor,НПП «Монитор»,https://www.monitor-ltd.ru/,official manufacturer website,RIGHTS_REVIEW,Official Russian manufacturer site found; ensure manufacturer display name matches existing catalog identity.
+olympus,Olympus,https://www.olympusamerica.com/news-media/column-media/olympus-logos,official logo download page,READY_WITH_GUIDELINES,Official logo package and usage guidelines are available. Use official blue/gold or approved variant after guideline review.
+pentax-medical,PENTAX Medical,https://www.pentaxmedical.com/en,official manufacturer website,RIGHTS_REVIEW,"Official PENTAX Medical site found; use medical brand wordmark, not camera-brand artwork."
+philips,Philips,https://www.philips.com/a-w/about/news/media-library/2024-Philips-Wordmark.html,official logo/media page,PERMISSION_REQUIRED,Official page says wordmark is for non-commercial use or explicit written authorization. Use text fallback unless authorization is documented.
+sonoscape,SonoScape,https://www.sonoscape.com/en/,official manufacturer website,RIGHTS_REVIEW,Official manufacturer site found; use current SonoScape artwork.
+trismed,TRISMED,https://www.mfds.go.kr/eng/brd/m_41/view.do?seq=70318,Korean regulator company record,ASSET_UNRESOLVED,"Korean MFDS record confirms company/site www.trismed.com, but current official site was not retrievable. Do not scrape a third-party logo; use typographic fallback until an official asset is obtained."
+unicos,УНИКОС,https://unicosme.ru/,official manufacturer website,RIGHTS_REVIEW,Official Russian manufacturer site found.
+uomz,УОМЗ,https://uomz.su/,official manufacturer website,RIGHTS_REVIEW,Official UOMZ medical-equipment site found.
+zerts,ZERTS,https://zerts.ru/,official manufacturer website,RIGHTS_REVIEW,Official Russian manufacturer site found.

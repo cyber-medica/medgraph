@@ -19,7 +19,7 @@ test("manufacturer list loads active manufacturers through ManufacturerService",
   const list = await source(listPath);
   assert.match(list, /manufacturerService\.getManufacturers\(\)/);
   assert.match(list, /productService\.getActiveProducts\(\)/);
-  assert.match(list, /catalogRepository\.getCategories\(\)/);
+  assert.match(list, /manufacturers\.map\(\(manufacturer\)/u);
 
   const service = new ManufacturerService(
     new FilesystemCatalogRepository(resolve(root, "data/storefront")),
@@ -35,12 +35,14 @@ test("manufacturer page uses Storefront manufacturer lookup", async () => {
 
   assert.match(detail, /manufacturerService\.getManufacturerBySlug\(slug\)/);
   assert.match(detail, /manufacturer\.name/);
-  assert.match(detail, /manufacturer\.logoUrl/);
+  assert.match(detail, /getApprovedManufacturerLogoUrl\(manufacturer\.slug\)/u);
+  assert.match(detail, /<ManufacturerMark/u);
   assert.match(detail, /getManufacturerSeoContent\(manufacturer\)/u);
   assert.match(detail, /manufacturerSeo\.intro/u);
   assert.match(detail, /manufacturer\.country/);
   assert.match(detail, /manufacturer\.websiteUrl/);
   assert.match(detail, /products\.length/);
+  assert.match(detail, /<ProductCard/u);
 });
 
 test("manufacturer products are loaded through ProductService", async () => {

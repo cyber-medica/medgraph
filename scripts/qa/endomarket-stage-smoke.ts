@@ -193,7 +193,11 @@ async function runProfile({
     await assertPage(page, "/catalog", label);
     await page.getByRole("heading", { name: "Каталог медицинских изделий" }).waitFor();
     assert.equal(await page.locator("article.group").count(), 114, `${label}: visible catalog must contain 114 Product cards.`);
-    await page.getByText(/Найдено:\s*114\s*из 114/u).waitFor();
+    assert.equal(
+      await page.getByText(/Найдено:\s*\d+/u).count(),
+      0,
+      `${label}: unfiltered catalog must omit the redundant result counter.`,
+    );
     assert.ok((await page.getByText("В наличии", { exact: true }).count()) >= 50, `${label}: visible EndoMarket presentations missing.`);
     assert.ok((await page.getByText("Рассрочка 0%", { exact: true }).count()) >= 50, `${label}: EndoMarket installment badges missing.`);
     assert.equal(await page.locator("article dl").count(), 0, `${label}: ProductCard leaked technical characteristics.`);
@@ -206,8 +210,40 @@ async function runProfile({
 
     await assertPage(page, "/catalog?q=EC-430T", label);
     assert.equal(await page.getByText(/EC-430T/u).count() > 0, true, `${label}: catalog search failed for EC-430T.`);
+    await page.getByText(/^Найдено:\s*\d+$/u).waitFor();
     if (captureScreenshots && label === "chromium-desktop-1440") {
       await page.screenshot({ path: `${evidenceDir}/catalog-search-ec-430t.png`, fullPage: true });
+    }
+    await assertPage(page, "/manufacturers", label);
+    if (label === "chromium-desktop-1440") {
+      const manufacturerPaths = await page
+        .locator('main a[href^="/manufacturers/"]')
+        .evaluateAll((links) => [...new Set(links.map((link) => link.getAttribute("href")).filter(Boolean))]);
+      assert.equal(manufacturerPaths.length, 31, `${label}: manufacturer directory must contain 31 unique routes.`);
+      assert.equal(await page.locator('[data-logo-kind="graphic"]').count(), 2, `${label}: expected two rights-cleared graphic logos.`);
+      assert.equal(await page.locator('[data-logo-kind="fallback"]').count(), 29, `${label}: expected 29 fail-closed logo fallbacks.`);
+
+      for (const manufacturerPath of manufacturerPaths) {
+        const response = await page.goto(new URL(manufacturerPath!, origin).toString(), {
+          waitUntil: "networkidle",
+          timeout: 45_000,
+        });
+        assert.equal(response?.status(), 200, `${manufacturerPath}: manufacturer detail must return HTTP 200.`);
+        assert.equal(await page.locator('[data-logo-kind]').count(), 1, `${manufacturerPath}: logo or fallback missing.`);
+        assert.equal(
+          await page.locator("img").evaluateAll((images) => images.filter(
+            (image) => image instanceof HTMLImageElement && image.complete && image.naturalWidth === 0,
+          ).length),
+          0,
+          `${manufacturerPath}: broken image detected.`,
+        );
+      }
+
+      const supplierResponse = await fetch(new URL("/suppliers/not-a-public-supplier", origin), {
+        redirect: "manual",
+        signal: AbortSignal.timeout(12_000),
+      });
+      assert.equal(supplierResponse.status, 404, `${label}: unknown supplier route must return HTTP 404.`);
     }
     await assertPage(page, "/manufacturers/medinova", label);
     assert.equal(await page.getByText(/Medinova/u).count() > 0, true, `${label}: manufacturer route failed.`);
@@ -218,13 +254,14 @@ async function runProfile({
 
     if (label === "chromium-desktop-1440") {
       for (const slug of hiddenUnpublishedBindings) {
-        const response = await page.goto(new URL(`/catalog/${slug}`, origin).toString(), {
-          waitUntil: "networkidle",
-          timeout: 45_000,
+        const response = await fetch(new URL(`/catalog/${slug}`, origin), {
+          redirect: "manual",
+          signal: AbortSignal.timeout(12_000),
         });
-        assert.ok([200, 404].includes(response?.status() ?? 0), `${slug}: hidden route returned an unexpected transport status.`);
-        assert.match(await response!.text(), /Страница не найдена/u, `${slug}: hidden binding did not resolve to notFound.`);
-        assert.equal(await page.locator('a[href^="/request?"]').count(), 0, `${slug}: hidden binding exposed an RFQ action.`);
+        const body = await response.text();
+        assert.ok([200, 404].includes(response.status), `${slug}: hidden route returned an unexpected transport status.`);
+        assert.match(body, /Страница не найдена/u, `${slug}: hidden binding did not resolve to notFound.`);
+        assert.doesNotMatch(body, /href=["']\/request\?/u, `${slug}: hidden binding exposed an RFQ action.`);
       }
     }
 

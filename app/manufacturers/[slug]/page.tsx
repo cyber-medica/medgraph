@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import JsonLd from "@/components/seo/JsonLd";
 import ManufacturerMark from "@/components/storefront/ManufacturerMark";
+import ProductCard from "@/components/storefront/ProductCard";
 import {
   catalogRepository,
   manufacturerService,
@@ -16,9 +17,8 @@ import {
   orderManufacturerProductsV3,
 } from "@/lib/seo/implementation-v3";
 import { buildManufacturerStructuredData } from "@/lib/storefront/structured-data";
-import { getProductPresentation } from "@/lib/storefront/product-presentation";
 import { formatCountryForPublic } from "@/lib/storefront/country-presentation";
-import { isVerifiedLocalManufacturerLogo } from "@/lib/storefront/manufacturer-presentation";
+import { getApprovedManufacturerLogoUrl } from "@/lib/storefront/manufacturer-logo-policy";
 
 interface ManufacturerPageProps {
   params: Promise<{ slug: string }>;
@@ -39,11 +39,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const manufacturer = await manufacturerService.getManufacturerBySlug(slug);
   if (!manufacturer) notFound();
+  const approvedLogoUrl = getApprovedManufacturerLogoUrl(manufacturer.slug);
 
   return buildManufacturerSeoMetadataV3(
     manufacturer,
-    isVerifiedLocalManufacturerLogo(manufacturer.logoUrl)
-      ? { url: manufacturer.logoUrl, alt: `${manufacturer.name} — логотип` }
+    approvedLogoUrl
+      ? { url: approvedLogoUrl, alt: `${manufacturer.name} — логотип` }
       : undefined,
   );
 }
@@ -87,20 +88,22 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
           ← Все производители
         </Link>
         <div className="mt-4 cm-card overflow-hidden">
-          <div className="flex items-center justify-between gap-4 border-b border-[var(--cm-rule)] bg-cm-surface-low px-5 py-3">
+          <div className="border-b border-[var(--cm-rule)] bg-cm-surface-low px-5 py-3">
             <span className="cm-label">Карточка производителя</span>
-            <ManufacturerMark
-              logoUrl={manufacturer.logoUrl}
-              name={manufacturer.name}
-              size="lg"
-            />
           </div>
           <div className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[1fr_18rem]">
             <div>
               {country && <div className="text-[11px] font-semibold text-cm-teal">{country}</div>}
-              <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em]">
-                {manufacturerSeo.h1}
-              </h1>
+              <div className="mt-2 flex min-w-0 items-center gap-3 sm:gap-4">
+                <ManufacturerMark
+                  slug={manufacturer.slug}
+                  name={manufacturer.name}
+                  size="hero"
+                />
+                <h1 className="min-w-0 break-words text-3xl font-extrabold tracking-[-0.03em]">
+                  {manufacturerSeo.h1}
+                </h1>
+              </div>
               <p className="mt-3 max-w-2xl text-[13px] leading-6 text-cm-slate">
                 {manufacturerSeo.intro}
               </p>
@@ -120,10 +123,6 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
                 <dt className="cm-label">Страна</dt>
                 <dd className="text-xs font-semibold">{country}</dd>
               </div>}
-              <div className="flex justify-between gap-4 py-3">
-                <dt className="cm-label">Изделий</dt>
-                <dd className="font-mono text-xs font-semibold">{products.length}</dd>
-              </div>
               {manufacturer.websiteUrl && (
                 <div className="flex justify-between gap-4 py-3">
                   <dt className="cm-label">Сайт</dt>
@@ -147,6 +146,7 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
           <div>
             <div className="cm-label">Каталог</div>
             <h2 className="mt-2 text-xl font-bold">Изделия производителя</h2>
+            <p className="mt-1 font-mono text-[10px] text-cm-dim">Товаров: {products.length}</p>
           </div>
           <div className="flex flex-wrap gap-4">
             <Link href="/catalog" className="text-xs font-semibold text-cm-slate hover:text-cm-teal">
@@ -158,46 +158,17 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
           </div>
         </div>
 
-        {products.length > 0 ? (
-          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {orderedProducts.map((product) => {
-              const presentation = getProductPresentation(product, {
-                categoryName: categoriesById.get(product.categoryId)?.name,
-                country,
-                manufacturerName: manufacturer.name,
-              });
-              return (
-              <article
+        {orderedProducts.length > 0 ? (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {orderedProducts.map((product) => (
+              <ProductCard
                 key={product.slug}
-                className="group cm-card flex min-h-48 flex-col p-4"
-              >
-                <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-cm-dim">
-                  {presentation.categoryLabel}
-                </div>
-                <h3 className="mt-3 text-sm font-bold leading-5">
-                  <Link
-                    href={`/catalog/${product.slug}`}
-                    className="hover:text-cm-teal"
-                  >
-                    {product.name}
-                  </Link>
-                </h3>
-                {presentation.shortDescription && (
-                  <p className="mt-2 text-xs leading-5 text-cm-slate">
-                    {presentation.shortDescription}
-                  </p>
-                )}
-                <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-[var(--cm-rule)] pt-3 text-xs font-semibold">
-                  <Link
-                    href={`/catalog/${product.slug}`}
-                    className="text-cm-teal"
-                  >
-                    Открыть карточку →
-                  </Link>
-                </div>
-              </article>
-              );
-            })}
+                product={product}
+                manufacturer={manufacturer}
+                categoryName={categoriesById.get(product.categoryId)?.name}
+                compareEnabled={storefrontDataSource !== "cloud_preview"}
+              />
+            ))}
           </div>
         ) : (
           <div className="cm-empty-state mt-5">
@@ -213,9 +184,6 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
               </Link>
               <Link href="/search" className="cm-button-secondary">
                 Начать поиск
-              </Link>
-              <Link href="/manufacturers" className="cm-button-secondary">
-                Все производители
               </Link>
             </div>
           </div>

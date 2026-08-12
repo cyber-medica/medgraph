@@ -45,9 +45,13 @@ test("product page links to manufacturer comparison compatible products and cata
 });
 
 test("manufacturer products link to product detail without promoting comparison", async () => {
-  const manufacturer = await source("app/manufacturers/[slug]/page.tsx");
+  const [manufacturer, productCard] = await Promise.all([
+    source("app/manufacturers/[slug]/page.tsx"),
+    source("components/storefront/ProductCard.tsx"),
+  ]);
 
-  assert.match(manufacturer, /`\/catalog\/\$\{product\.slug\}`/u);
+  assert.match(manufacturer, /<ProductCard/u);
+  assert.match(productCard, /`\/catalog\/\$\{product\.slug\}`/u);
   assert.doesNotMatch(manufacturer, /href="\/compare"/u);
   assert.doesNotMatch(manufacturer, /aria-label=\{`Открыть сравнение/u);
 });

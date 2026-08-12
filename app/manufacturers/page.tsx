@@ -4,7 +4,6 @@ import Link from "next/link";
 import JsonLd from "@/components/seo/JsonLd";
 import ManufacturerMark from "@/components/storefront/ManufacturerMark";
 import {
-  catalogRepository,
   manufacturerService,
   productService,
   storefrontDataSource,
@@ -23,32 +22,18 @@ export const metadata: Metadata = buildStorefrontMetadata({
 });
 
 export default async function ManufacturersPage() {
-  const [manufacturers, products, allCategories] = await Promise.all([
+  const [manufacturers, products] = await Promise.all([
     manufacturerService.getManufacturers(),
     productService.getActiveProducts(),
-    catalogRepository.getCategories(),
   ]);
-  const categories = allCategories.filter(({ status }) => status === "active");
-  const categoriesById = new Map(
-    categories.map((category) => [category.id, category]),
-  );
   const directory = manufacturers.map((manufacturer) => {
     const manufacturerProducts = products.filter(
       (product) => product.manufacturerId === manufacturer.id,
     );
-    const manufacturerCategories = [
-      ...new Set(
-        manufacturerProducts.flatMap((product) => {
-          const category = categoriesById.get(product.categoryId);
-          return category ? [category.name] : [];
-        }),
-      ),
-    ];
     return {
       manufacturer,
       country: formatCountryForPublic(manufacturer.country),
       productCount: manufacturerProducts.length,
-      categories: manufacturerCategories,
     };
   });
 
@@ -65,29 +50,11 @@ export default async function ManufacturersPage() {
       )}
       <header className="border-b border-[var(--cm-rule)] bg-[linear-gradient(135deg,#ffffff_0%,#f6fafc_58%,#e8f5f7_100%)]">
         <div className="cm-container py-7 sm:py-9">
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end">
-            <div>
-              <div className="cm-label">Каталог производителей</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em]">Производители</h1>
-              <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">
-                Производители медицинского оборудования, представленные в каталоге Кибермедика.
-              </p>
-            </div>
-          <div className="grid grid-cols-3 overflow-hidden rounded-xl border border-[var(--cm-rule)] bg-white/78">
-            {[
-              ["Производителей", manufacturers.length],
-              ["Изделий", products.length],
-              ["Категорий", categories.length],
-            ].map(([label, value]) => (
-              <div key={label} className="border-r border-[var(--cm-rule)] px-3 py-3 last:border-r-0">
-                <div className="font-mono text-lg font-bold text-cm-ink sm:text-xl">
-                  {value}
-                </div>
-                <div className="mt-1 font-mono text-[8px] uppercase tracking-[0.08em] text-cm-dim sm:text-[10px]">{label}</div>
-              </div>
-            ))}
-          </div>
-          </div>
+          <div className="cm-label">Каталог производителей</div>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em]">Производители</h1>
+          <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">
+            Производители медицинского оборудования, представленные в каталоге Кибермедика.
+          </p>
         </div>
       </header>
 
@@ -112,7 +79,7 @@ export default async function ManufacturersPage() {
               </div>
               <div className="mt-3 flex items-center gap-3">
                 <ManufacturerMark
-                  logoUrl={manufacturer.logoUrl}
+                  slug={manufacturer.slug}
                   name={manufacturer.name}
                 />
                 <h2 className="text-[15px] font-bold leading-5">{manufacturer.name}</h2>

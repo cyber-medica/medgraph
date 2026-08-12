@@ -32,7 +32,7 @@ export default function ProductManufacturer({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 gap-4">
           <ManufacturerMark
-            logoUrl={manufacturer.logoUrl}
+            slug={manufacturer.slug}
             name={manufacturer.name}
             size="lg"
           />

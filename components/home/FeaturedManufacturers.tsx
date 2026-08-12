@@ -6,7 +6,6 @@ interface ManufacturerEntry {
   slug: string;
   name: string;
   country: string | null;
-  logoUrl: string | null;
   productCount: number;
 }
 
@@ -64,7 +63,7 @@ export default function FeaturedManufacturers({
                   className="group cm-card flex min-h-24 flex-col p-4 sm:min-h-28"
                 >
                   <div className="flex items-center gap-3">
-                    <ManufacturerMark logoUrl={manufacturer.logoUrl} name={manufacturer.name} />
+                    <ManufacturerMark slug={manufacturer.slug} name={manufacturer.name} />
                     <div className="min-w-0">
                       <h3 className="text-[15px] font-bold leading-5">{manufacturer.name}</h3>
                       {manufacturer.country && (

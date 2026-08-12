@@ -24,8 +24,12 @@ test("country presentation localizes canonical values and fails closed", () => {
 
 test("manufacturer logos accept only the verified local asset convention", () => {
   assert.equal(
-    isVerifiedLocalManufacturerLogo("/manufacturers/hamilton-medical/logo.webp"),
+    isVerifiedLocalManufacturerLogo("/manufacturers/fresenius-kabi/logo.png"),
     true,
+  );
+  assert.equal(
+    isVerifiedLocalManufacturerLogo("/manufacturers/hamilton-medical/logo.webp"),
+    false,
   );
   assert.equal(
     isVerifiedLocalManufacturerLogo("https://example.com/hamilton.svg"),
@@ -80,14 +84,13 @@ test("header search uses the existing Storefront SearchService in place", async 
   assert.match(header, /href=\{`\/search/u);
 });
 
-test("catalog summary is compact and product media is an accessible link", async () => {
+test("catalog omits the static summary and product media is an accessible link", async () => {
   const [page, productCard] = await Promise.all([
     source("app/catalog/page.tsx"),
     source("components/storefront/ProductCard.tsx"),
   ]);
 
-  assert.match(page, /sm:grid-cols-4/u);
-  assert.match(page, /overflow-hidden rounded-xl border/u);
+  assert.doesNotMatch(page, /Сводка каталога|catalogSummary|sm:grid-cols-4/u);
   assert.match(productCard, /aria-label=\{`Открыть карточку \$\{product\.name\}`\}/u);
   assert.match(productCard, /const productHref = `\/catalog\/\$\{product\.slug\}`/u);
 });
