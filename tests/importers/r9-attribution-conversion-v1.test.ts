@@ -129,4 +129,5 @@ test("Production Metrica is fail-closed to the one authorized counter", async ()
   assert.match(config, /script-src[^\n]+https:\/\/mc\.yandex\.ru[^\n]+https:\/\/yastatic\.net/u);
   assert.match(config, /connect-src[^\n]+https:\/\/mc\.yandex\.ru/u);
   assert.match(config, /connect-src[^\n]+wss:\/\/mc\.yandex\.ru/u);
+  assert.match(config, /frame-src https:\/\/mc\.yandex\.ru/u);
 });

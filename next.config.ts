@@ -44,7 +44,7 @@ export const contentSecurityPolicy = [
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  "frame-src 'none'",
+  "frame-src https://mc.yandex.ru",
   "frame-ancestors 'none'",
 ].join("; ");
 
