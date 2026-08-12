@@ -22,6 +22,7 @@ import {
   selectPublishedFeaturedProducts,
 } from "@/lib/storefront/featured-products";
 import { loadHomepageOverviewSources } from "@/lib/storefront/homepage-overview";
+import { preloadHomepageHeroImage } from "@/lib/storefront/homepage-hero-preload";
 
 const homepageDescription =
   "Поставка и подбор профессионального медицинского оборудования для государственных и частных медицинских организаций.";
@@ -48,6 +49,7 @@ export const metadata: Metadata = buildStorefrontMetadata({
 });
 
 export default async function Home() {
+  preloadHomepageHeroImage();
   const { products, manufacturers, categories } = await loadHomepageOverviewSources({
     products: () => productService.getActiveProducts(),
     manufacturers: () => manufacturerService.getManufacturers(),
