@@ -80,4 +80,6 @@ test("canonical mobile synthetic uses isolated direct-route pages", async () => 
   const close = source.indexOf("await page.close();", page);
   assert.ok(loop >= 0 && page > loop && close > page);
   assert.doesNotMatch(source.slice(0, loop), /const page = await context\.newPage\(\)/u);
+  assert.match(source, /message\.location\(\)\.url/u);
+  assert.match(source, /message\.text\(\)\.slice\(0, 300\)/u);
 });

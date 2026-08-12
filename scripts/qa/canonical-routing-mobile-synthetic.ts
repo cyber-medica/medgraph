@@ -39,7 +39,15 @@ try {
     const page = await context.newPage();
     page.on("pageerror", (error) => runtimeErrors.push(error.name));
     page.on("console", (message) => {
-      if (message.type() === "error") runtimeErrors.push("console:error");
+      if (message.type() !== "error") return;
+      const location = message.location().url;
+      let source = "unknown";
+      try {
+        source = location ? new URL(location).hostname : source;
+      } catch {}
+      runtimeErrors.push(
+        `console:error:${source}:${message.text().slice(0, 300)}`,
+      );
     });
     const response = await page.goto(new URL(`${route}?mobile_synthetic=${Date.now()}`, origin).toString(), {
       timeout: 30_000,
