@@ -20,7 +20,7 @@ const catalog = mapCloudPublishedCatalogProjection(
   snapshot.projection as unknown as PublishedCatalogProjection,
 );
 
-test("Production uses 22 official-source graphics and three fail-closed fallbacks", async () => {
+test("Stage uses 21 quality graphics and four fail-closed fallbacks", async () => {
   const counts = new Map<string, number>();
   for (const product of catalog.products) {
     counts.set(product.manufacturerId, (counts.get(product.manufacturerId) ?? 0) + 1);
@@ -31,22 +31,23 @@ test("Production uses 22 official-source graphics and three fail-closed fallback
 
   assert.equal(publicManufacturers.length, 25);
   assert.equal(logoReport.manufacturers.length, 25);
-  assert.equal(logoReport.graphicLogos, 25);
+  assert.equal(logoReport.graphicLogos, 21);
   assert.equal(logoReport.externalRuntimeLogoUrls, 0);
 
   for (const manufacturer of publicManufacturers) {
     const entry = logoReport.manufacturers.find(({ slug }) => slug === manufacturer.slug);
     assert.ok(entry);
     assert.equal(entry.productCount, counts.get(manufacturer.id));
-    assert.match(entry.assetPath, /^\/manufacturers\//u);
-    assert.doesNotMatch(entry.assetPath, /^https?:/u);
-
     const presentation = getManufacturerLogoPresentation(manufacturer);
     if (!entry.officialSource) {
       assert.equal(presentation.kind, "fallback");
       assert.equal(presentation.assetUrl, null);
+      assert.equal(entry.assetPath, null);
       continue;
     }
+    assert.ok(entry.assetPath);
+    assert.match(entry.assetPath, /^\/manufacturers\//u);
+    assert.doesNotMatch(entry.assetPath, /^https?:/u);
     assert.equal(presentation.kind, "graphic");
     assert.equal(presentation.assetUrl, entry.assetPath);
     assert.equal(presentation.opticalScale, entry.opticalScale);
@@ -62,7 +63,7 @@ test("Production uses 22 official-source graphics and three fail-closed fallback
 
   assert.deepEqual(
     logoReport.manufacturers.filter(({ officialSource }) => !officialSource).map(({ slug }) => slug),
-    ["hamilton-medical", "mindray", "unicos"],
+    ["ilivtouch", "longfian", "medinova", "unicos"],
   );
 });
 
