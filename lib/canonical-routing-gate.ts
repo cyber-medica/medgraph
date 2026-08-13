@@ -74,3 +74,30 @@ export function extractSitemapProductPaths(xml: string) {
       .filter((path) => !CANONICAL_CATALOG_CONTENT_PATHS.has(path)),
   );
 }
+
+export function extractStylesheetUrls(html: string, documentUrl: URL) {
+  return [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/gu)]
+    .map((match) => new URL(match[1], documentUrl));
+}
+
+export function assertStylesheetResponse(
+  response: Response,
+  body: string,
+  expectedDeploymentHost: string,
+) {
+  const url = new URL(response.url);
+  assert.equal(url.hostname, expectedDeploymentHost, "stylesheet escaped its deployment-pinned host");
+  assert.equal(response.status, 200, `stylesheet returned ${response.status}`);
+  assert.match(
+    response.headers.get("content-type") ?? "",
+    /^text\/css(?:;|$)/iu,
+    "stylesheet MIME is not text/css",
+  );
+  assert.match(
+    response.headers.get("cache-control") ?? "",
+    /immutable/iu,
+    "stylesheet is not immutable",
+  );
+  assert.ok(body.trim().length > 1_000, "stylesheet body is unexpectedly small");
+  assert.doesNotMatch(body, /<!doctype html|<html/iu, "stylesheet returned an HTML shell");
+}

@@ -4,8 +4,10 @@ import {
   CANONICAL_HOST,
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
+  assertStylesheetResponse,
   extractCatalogProductPaths,
   extractSitemapProductPaths,
+  extractStylesheetUrls,
   readCanonicalRouteFingerprint,
   type CanonicalRouteFingerprint,
 } from "../../lib/canonical-routing-gate.ts";
@@ -74,6 +76,23 @@ for (const [route, body] of [
   assertNoLegacyPageShell(body, route);
 }
 
+const stylesheetUrls = extractStylesheetUrls(home.text, new URL(home.response.url));
+assert.ok(stylesheetUrls.length > 0, "homepage contains no application stylesheet");
+const stylesheetHost = new URL(home.response.url).hostname;
+for (const stylesheetUrl of stylesheetUrls) {
+  const response = await fetch(stylesheetUrl, {
+    cache: "no-store",
+    redirect: "follow",
+    signal: AbortSignal.timeout(routeResponseBudgetMs),
+    headers: {
+      "Cache-Control": "no-cache",
+      "User-Agent": "CyberMedica-Canonical-Routing-Gate/2.0",
+    },
+  });
+  const body = await response.text();
+  assertStylesheetResponse(response, body, stylesheetHost);
+}
+
 const sitemapPaths = extractSitemapProductPaths(sitemap.text);
 const catalogPaths = extractCatalogProductPaths(catalog.text);
 assert.ok(sitemapPaths.size > 0, "sitemap contains no Product URLs");
@@ -107,5 +126,7 @@ console.info(JSON.stringify({
   origin: canonicalFingerprint?.origin,
   productUrls: sitemapPaths.size,
   release: canonicalFingerprint?.release,
+  stylesheetHost,
+  stylesheets: stylesheetUrls.length,
   status: "pass",
 }));

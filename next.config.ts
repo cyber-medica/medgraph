@@ -9,6 +9,14 @@ import { getStorefrontDataSource } from "./lib/storefront/data-source.ts";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 const isCloudPreview = getStorefrontDataSource(process.env) === "cloud_preview";
+export const previousCanonicalAssetOrigin =
+  "https://medgraph-qwz6kflq8-medgraph.vercel.app";
+export const preCorrectiveStylesheetBridges = [
+  {
+    source: "/_next/static/chunks/2oenka20_-bmt.css",
+    destination: `${previousCanonicalAssetOrigin}/_next/static/chunks/2oenka20_-bmt.css`,
+  },
+] as const;
 const cloudMediaOrigins = APPROVED_PUBLIC_MEDIA_HOSTS
   .map((hostname) => `https://${hostname}`)
   .join(" ");
@@ -97,6 +105,16 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
     ];
+  },
+  async rewrites() {
+    return {
+      // Vercel resolves its reserved /_next/static namespace before fallback
+      // rewrites, so only the proven missing pre-corrective stylesheet hash is
+      // bridged here. A wildcard would risk shadowing the current deployment.
+      beforeFiles: [...preCorrectiveStylesheetBridges],
+      afterFiles: [],
+      fallback: [],
+    };
   },
   outputFileTracingExcludes: {
     "/*": [

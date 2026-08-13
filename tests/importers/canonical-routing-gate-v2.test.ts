@@ -4,10 +4,16 @@ import { readFile } from "node:fs/promises";
 
 import nextConfig from "../../next.config.ts";
 import {
+  preCorrectiveStylesheetBridges,
+  previousCanonicalAssetOrigin,
+} from "../../next.config.ts";
+import {
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
+  assertStylesheetResponse,
   extractCatalogProductPaths,
   extractSitemapProductPaths,
+  extractStylesheetUrls,
   readCanonicalRouteFingerprint,
   safeRoutingHeaderValue,
 } from "../../lib/canonical-routing-gate.ts";
@@ -47,6 +53,59 @@ test("routing header values reject unsafe or missing environment input", () => {
   assert.equal(safeRoutingHeaderValue("dpl_123", "local"), "dpl_123");
   assert.equal(safeRoutingHeaderValue("bad header", "local"), "local");
   assert.equal(safeRoutingHeaderValue(undefined, "untracked"), "untracked");
+});
+
+test("stale pre-corrective assets have a narrow previous-deployment fallback", async () => {
+  const rewrites = await nextConfig.rewrites?.();
+  assert.ok(rewrites && !Array.isArray(rewrites));
+  assert.deepEqual(rewrites.beforeFiles, [
+    {
+      source: "/_next/static/chunks/2oenka20_-bmt.css",
+      destination: `${previousCanonicalAssetOrigin}/_next/static/chunks/2oenka20_-bmt.css`,
+    },
+  ]);
+  assert.deepEqual(rewrites.beforeFiles, preCorrectiveStylesheetBridges);
+  assert.deepEqual(rewrites.afterFiles, []);
+  assert.deepEqual(rewrites.fallback, []);
+  assert.ok(rewrites.beforeFiles.every(({ source }) => source.endsWith(".css")));
+  assert.ok(rewrites.beforeFiles.every(({ source }) => !source.includes(":path")));
+});
+
+test("stylesheet gate rejects missing, wrong-MIME and HTML responses", () => {
+  const documentUrl = new URL("https://cyber-medica.ru/");
+  assert.deepEqual(
+    extractStylesheetUrls(
+      '<link rel="stylesheet" href="/_next/static/app.css">',
+      documentUrl,
+    ).map(String),
+    ["https://cyber-medica.ru/_next/static/app.css"],
+  );
+  const css = ".a{color:red}".repeat(100);
+  function response(body: string, init: ResponseInit) {
+    const value = new Response(body, init);
+    Object.defineProperty(value, "url", {
+      value: "https://cyber-medica.ru/_next/static/app.css",
+    });
+    return value;
+  }
+  assert.doesNotThrow(() => assertStylesheetResponse(
+    response(css, {
+      status: 200,
+      headers: { "content-type": "text/css; charset=utf-8", "cache-control": "public,max-age=31536000,immutable" },
+    }),
+    css,
+    "cyber-medica.ru",
+  ));
+  assert.throws(() => assertStylesheetResponse(
+    response("<!doctype html><html></html>", { status: 200, headers: { "content-type": "text/html" } }),
+    "<!doctype html><html></html>",
+    "cyber-medica.ru",
+  ));
+  assert.throws(() => assertStylesheetResponse(
+    response("missing", { status: 404, headers: { "content-type": "text/plain" } }),
+    "missing",
+    "cyber-medica.ru",
+  ));
 });
 
 test("Next config exposes one canonical fingerprint on every application route", async () => {
