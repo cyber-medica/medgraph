@@ -35,6 +35,8 @@ const routes = [
   ...representativeProductRoutes,
   ...seoRoutes,
 ];
+const expectedGraphicCount = logoReport.manufacturers.filter(({ assetPath }) => assetPath !== null).length;
+const expectedFallbackCount = logoReport.manufacturers.length - expectedGraphicCount;
 
 if (captureScreenshots) await mkdir(evidenceDir, { recursive: true });
 
@@ -89,8 +91,10 @@ async function runProfile(
     if (route === "/manufacturers") {
       const graphicCount = await page.locator('[data-logo-kind="graphic"]').count();
       const fallbackCount = await page.locator('[data-logo-kind="fallback"]').count();
-      if (graphicCount !== 22 || fallbackCount !== 3) {
-        throw new Error(`${label}: expected 22/3 graphic/fallback marks, got ${graphicCount}/${fallbackCount}`);
+      if (graphicCount !== expectedGraphicCount || fallbackCount !== expectedFallbackCount) {
+        throw new Error(
+          `${label}: expected ${expectedGraphicCount}/${expectedFallbackCount} graphic/fallback marks, got ${graphicCount}/${fallbackCount}`,
+        );
       }
     }
     results.push({ route, status: response.status(), breadcrumbCount, ...layout });
