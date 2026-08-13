@@ -20,7 +20,7 @@ const catalog = mapCloudPublishedCatalogProjection(
   snapshot.projection as unknown as PublishedCatalogProjection,
 );
 
-test("all 25 public manufacturers use checksum-pinned local graphic logos", async () => {
+test("Production uses 22 official-source graphics and three fail-closed fallbacks", async () => {
   const counts = new Map<string, number>();
   for (const product of catalog.products) {
     counts.set(product.manufacturerId, (counts.get(product.manufacturerId) ?? 0) + 1);
@@ -42,6 +42,11 @@ test("all 25 public manufacturers use checksum-pinned local graphic logos", asyn
     assert.doesNotMatch(entry.assetPath, /^https?:/u);
 
     const presentation = getManufacturerLogoPresentation(manufacturer);
+    if (!entry.officialSource) {
+      assert.equal(presentation.kind, "fallback");
+      assert.equal(presentation.assetUrl, null);
+      continue;
+    }
     assert.equal(presentation.kind, "graphic");
     assert.equal(presentation.assetUrl, entry.assetPath);
     assert.equal(presentation.opticalScale, entry.opticalScale);
@@ -54,6 +59,11 @@ test("all 25 public manufacturers use checksum-pinned local graphic logos", asyn
       assert.doesNotMatch(svg, /(?:href|src)=["']https?:/iu);
     }
   }
+
+  assert.deepEqual(
+    logoReport.manufacturers.filter(({ officialSource }) => !officialSource).map(({ slug }) => slug),
+    ["hamilton-medical", "mindray", "unicos"],
+  );
 });
 
 test("the exact logo Stage branch uses the tracked published snapshot without weakening Production", () => {

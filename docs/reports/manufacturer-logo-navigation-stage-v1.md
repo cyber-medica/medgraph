@@ -72,3 +72,7 @@ Targeted automated coverage проверяет:
 - all 25 manufacturer routes, five representative Product Detail routes и все six SEO/solution routes.
 
 Runtime QA и Lighthouse evidence фиксируются после Stage deployment; Production deployment не меняется.
+
+## Production disposition
+
+Product Owner принял canonical breadcrumb contract полностью и разрешил для Production ровно 22 графических логотипа с `officialSource: true`. Три Stage-only secondary-source asset — Hamilton Medical, Mindray и УНИКОС — в Production policy остаются типографическими fallback; их файлы не входят в Production release. Это не возвращает прежний консервативный набор 8/17: остальные 22 official-source graphics сохраняются.

@@ -38,7 +38,7 @@ test("manufacturer logo v2 manifest exactly matches the 25 non-empty public rout
   }
 });
 
-test("every public manufacturer resolves to a local graphic", () => {
+test("public manufacturers resolve to 22 official graphics and three fallbacks", () => {
   const bySlug = new Map(catalog.manufacturers.map((manufacturer) => [manufacturer.slug, manufacturer]));
   const graphics = manifest.manufacturers.filter(({ assetPath }) => assetPath);
 
@@ -49,14 +49,19 @@ test("every public manufacturer resolves to a local graphic", () => {
     const manufacturer = bySlug.get(entry.slug);
     assert.ok(manufacturer);
     const presentation = getManufacturerLogoPresentation(manufacturer);
-    assert.equal(presentation.kind, "graphic");
-    assert.equal(presentation.assetUrl, entry.assetPath);
+    assert.equal(presentation.kind, entry.officialSource ? "graphic" : "fallback");
+    assert.equal(presentation.assetUrl, entry.officialSource ? entry.assetPath : null);
     assert.equal(/^https?:\/\//u.test(entry.assetPath ?? ""), false);
   }
+
+  assert.equal(manifest.manufacturers.filter(({ officialSource }) => officialSource).length, 22);
+  assert.equal(manifest.manufacturers.filter(({ officialSource }) => !officialSource).length, 3);
 });
 
 test("manufacturer graphic assets have intrinsic dimensions and no SVG runtime references", async () => {
-  const graphics = manifest.manufacturers.filter(({ assetPath }) => assetPath);
+  const graphics = manifest.manufacturers.filter(({ assetPath, officialSource }) => assetPath && officialSource);
+
+  assert.equal(graphics.length, 22);
 
   for (const entry of graphics) {
     assert.ok(entry.assetPath);

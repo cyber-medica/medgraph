@@ -89,8 +89,8 @@ async function runProfile(
     if (route === "/manufacturers") {
       const graphicCount = await page.locator('[data-logo-kind="graphic"]').count();
       const fallbackCount = await page.locator('[data-logo-kind="fallback"]').count();
-      if (graphicCount !== 25 || fallbackCount !== 0) {
-        throw new Error(`${label}: expected 25/0 graphic/fallback marks, got ${graphicCount}/${fallbackCount}`);
+      if (graphicCount !== 22 || fallbackCount !== 3) {
+        throw new Error(`${label}: expected 22/3 graphic/fallback marks, got ${graphicCount}/${fallbackCount}`);
       }
     }
     results.push({ route, status: response.status(), breadcrumbCount, ...layout });
