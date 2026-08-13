@@ -16,24 +16,27 @@ test("catalog cards use a single category presentation and retain stable alignme
   assert.doesNotMatch(catalog, /Тип товара<\/dt>/u);
 });
 
-test("product detail exposes a real return path, only real section links, and an accessible top action", async () => {
-  const [page, backToCatalog, backToTop] = await Promise.all([
+test("product detail exposes canonical orientation, only real section links, and an accessible top action", async () => {
+  const [page, breadcrumb, backToCatalog, backToTop] = await Promise.all([
     source("app/catalog/[slug]/page.tsx"),
+    source("components/navigation/Breadcrumbs.tsx"),
     source("components/catalog/BackToCatalog.tsx"),
     source("components/catalog/BackToTop.tsx"),
   ]);
 
-  assert.match(page, /<BackToCatalog productSlug=\{product\.slug\}/u);
+  assert.match(page, /<Breadcrumbs/u);
+  assert.doesNotMatch(page, /BackToCatalog/u);
   assert.match(page, /<BackToTop \/>/u);
   assert.match(page, /aria-label="Навигация по странице товара"/u);
   assert.match(page, /experience\.description/u);
   assert.match(page, /experience\.manufacturer/u);
   assert.doesNotMatch(page, /href: "#documents"/u);
   assert.doesNotMatch(page, /href: "#regulatory"/u);
-  assert.match(backToCatalog, /window\.history\.back\(\)/u);
-  assert.match(backToCatalog, /router\.push\(entry\?\.source \?\? "\/catalog"\)/u);
   assert.match(backToCatalog, /scrollY: window\.scrollY/u);
   assert.match(backToCatalog, /sessionStorage/u);
+  assert.doesNotMatch(backToCatalog, /Назад к каталогу/u);
+  assert.match(breadcrumb, /aria-label="Хлебные крошки"/u);
+  assert.match(breadcrumb, /aria-current="page"/u);
   assert.match(backToTop, /prefers-reduced-motion/u);
   assert.match(backToTop, /aria-label="Наверх"/u);
 });

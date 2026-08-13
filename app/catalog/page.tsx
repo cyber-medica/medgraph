@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CatalogExplorer from "@/components/catalog/CatalogExplorer";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   catalogRepository,
@@ -9,7 +10,7 @@ import {
   searchService,
   storefrontDataSource,
 } from "@/lib/storefront";
-import { buildStorefrontMetadata } from "@/lib/storefront/seo";
+import { buildBreadcrumbJsonLd, buildStorefrontMetadata } from "@/lib/storefront/seo";
 import { buildCollectionPageStructuredData } from "@/lib/storefront/structured-data";
 
 const catalogDescription =
@@ -64,17 +65,28 @@ export default async function CatalogPage({
     <main className="min-h-screen bg-cm-canvas">
       {storefrontDataSource !== "cloud_preview" && (
         <JsonLd
-          data={buildCollectionPageStructuredData({
-            name: "Каталог медицинских изделий",
-            description: catalogDescription,
-            path: "/catalog",
-          })}
+          data={[
+            buildCollectionPageStructuredData({
+              name: "Каталог медицинских изделий",
+              description: catalogDescription,
+              path: "/catalog",
+            }),
+            buildBreadcrumbJsonLd([
+              { name: "Главная", path: "/" },
+              { name: "Каталог", path: "/catalog" },
+            ]),
+          ]}
         />
       )}
       <header className="border-b border-[var(--cm-rule)] bg-[linear-gradient(135deg,#ffffff_0%,#f6fafc_58%,#e8f5f7_100%)]">
         <div className="cm-container cm-page-intro">
-          <div className="cm-label">Кибермедика · Каталог</div>
-          <h1 className="mt-2 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
+          <Breadcrumbs
+            items={[
+              { name: "Главная", path: "/" },
+              { name: "Каталог", path: "/catalog" },
+            ]}
+          />
+          <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
             Каталог медицинских изделий
           </h1>
           <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">

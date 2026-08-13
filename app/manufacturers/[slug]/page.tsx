@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import JsonLd from "@/components/seo/JsonLd";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import ManufacturerMark from "@/components/storefront/ManufacturerMark";
 import ProductCard from "@/components/storefront/ProductCard";
 import {
@@ -84,9 +85,13 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
         <JsonLd data={buildManufacturerStructuredData(manufacturer)} />
       )}
       <section className="cm-container py-6">
-        <Link href="/manufacturers" className="text-xs font-semibold text-cm-teal">
-          ← Все производители
-        </Link>
+        <Breadcrumbs
+          items={[
+            { name: "Главная", path: "/" },
+            { name: "Производители", path: "/manufacturers" },
+            { name: manufacturer.name, path: `/manufacturers/${manufacturer.slug}` },
+          ]}
+        />
         <div className="mt-4 cm-card overflow-hidden">
           <div className="border-b border-[var(--cm-rule)] bg-cm-surface-low px-5 py-3">
             <span className="cm-label">Карточка производителя</span>

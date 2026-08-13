@@ -4,6 +4,8 @@ export const ENDOMARKET_STAGE_PREVIEW_BRANCH =
   "codex/endomarket-catalog-integration-stage-v1";
 export const FINAL_STAGE_ACCEPTANCE_PREVIEW_BRANCH =
   "codex/final-stage-acceptance-corrective-v2";
+export const MANUFACTURER_LOGO_NAVIGATION_PREVIEW_BRANCH =
+  "codex/all-manufacturer-logos-breadcrumbs-stage-v1";
 
 const ENDOMARKET_STAGE_PREVIEW_BRANCHES = new Set([
   ENDOMARKET_STAGE_PREVIEW_BRANCH,
@@ -27,9 +29,27 @@ export function isEndoMarketStagePreview(
   return exactVercelPreview || explicitVercelPreview || explicitLocalQa;
 }
 
+/**
+ * The logo/navigation acceptance Stage must render the same public graph that
+ * was captured in the checksum-validated 114-Product LKG snapshot. Keeping
+ * this exact-branch gate separate avoids granting a Preview runtime access to
+ * Production credentials or changing any shared Preview catalog state.
+ */
+export function isManufacturerLogoNavigationStagePreview(
+  environment: Readonly<Record<string, string | undefined>> = process.env,
+) {
+  const exactGitPreview = environment.VERCEL_ENV === "preview"
+    && environment.VERCEL_GIT_COMMIT_REF === MANUFACTURER_LOGO_NAVIGATION_PREVIEW_BRANCH;
+  const explicitCliPreview = environment.VERCEL_ENV === "preview"
+    && environment.VERCEL === "1"
+    && environment.CYBERMEDICA_MANUFACTURER_LOGO_STAGE === "1";
+  return exactGitPreview || explicitCliPreview;
+}
+
 export function getStorefrontDataSource(
   environment: Readonly<Record<string, string | undefined>> = process.env,
 ): StorefrontDataSource {
+  if (isManufacturerLogoNavigationStagePreview(environment)) return "cloud_preview";
   if (isEndoMarketStagePreview(environment)) return "cloud_preview";
   const value = environment.CATALOG_DATA_SOURCE?.trim() || "static";
   if (value !== "static" && value !== "cloud_preview" && value !== "cloud_published") {

@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
 import JsonLd from "@/components/seo/JsonLd";
-import BackToCatalog from "@/components/catalog/BackToCatalog";
 import BackToTop from "@/components/catalog/BackToTop";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import ProductGallery from "@/components/catalog/ProductGallery";
 import ProductManufacturer from "@/components/catalog/ProductManufacturer";
 import ProductCommercialBadges from "@/components/storefront/ProductCommercialBadges";
@@ -155,43 +155,30 @@ export default async function StorefrontProductPage({
         productManufacturer={manufacturer?.name ?? ""}
       />
       {storefrontDataSource !== "cloud_preview" && (
-        <JsonLd data={buildProductStructuredData({ product, manufacturer, category })} />
+        <JsonLd
+          data={buildProductStructuredData({
+            product,
+            manufacturer,
+            category,
+            breadcrumbName: productH1,
+          })}
+        />
       )}
       <section className="border-b border-[var(--cm-rule)] bg-[linear-gradient(135deg,#ffffff_0%,#f6fafc_56%,#e8f5f7_100%)]">
         <div className="cm-container py-4 sm:py-5">
-          <BackToCatalog productSlug={product.slug} />
-          <nav aria-label="Хлебные крошки">
-            <ol className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-cm-slate">
-              <li>
-                <Link href="/" className="hover:text-cm-teal">
-                  Главная
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li>
-                <Link href="/catalog" className="hover:text-cm-teal">
-                  Каталог
-                </Link>
-              </li>
-              {category ? (
-                <>
-                  <li aria-hidden="true">/</li>
-                  <li>
-                    <Link
-                      href={`/catalog?category=${encodeURIComponent(category.slug)}`}
-                      className="hover:text-cm-teal"
-                    >
-                      {category.name}
-                    </Link>
-                  </li>
-                </>
-              ) : null}
-              <li aria-hidden="true">/</li>
-              <li aria-current="page" className="break-words text-cm-ink">
-                {productH1}
-              </li>
-            </ol>
-          </nav>
+          <Breadcrumbs
+            items={[
+              { name: "Главная", path: "/" },
+              { name: "Каталог", path: "/catalog" },
+              ...(category
+                ? [{
+                    name: category.name,
+                    path: `/catalog?category=${encodeURIComponent(category.slug)}` as const,
+                  }]
+                : []),
+              { name: productH1, path: `/catalog/${product.slug}` },
+            ]}
+          />
           <div
             className="mt-3 grid overflow-hidden rounded-2xl border border-[var(--cm-rule)] bg-white shadow-[0_16px_45px_rgba(11,19,32,0.07)] md:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:grid-cols-[minmax(0,40fr)_minmax(0,60fr)]"
             data-testid="product-hero"

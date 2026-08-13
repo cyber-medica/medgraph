@@ -13,7 +13,10 @@ import {
   type CloudPreviewCatalogSnapshot,
 } from "./cloud-preview-mapper.ts";
 import { filterProductsForSearch } from "./search-service.ts";
-import { isEndoMarketStagePreview } from "./data-source.ts";
+import {
+  isEndoMarketStagePreview,
+  isManufacturerLogoNavigationStagePreview,
+} from "./data-source.ts";
 import { composeEndoMarketStageCatalog } from "./endomarket-stage-catalog.ts";
 import { applyFinalStageAcceptanceCorrectiveV2 } from "./final-stage-acceptance-corrective-v2.ts";
 import { mapCloudPublishedCatalogProjection } from "./cloud-published-mapper.ts";
@@ -23,6 +26,11 @@ import type { StorefrontCatalog } from "./types.ts";
 type CatalogLoader = () => Promise<StorefrontCatalog>;
 
 async function requestCloudPreviewCatalog(): Promise<StorefrontCatalog> {
+  if (isManufacturerLogoNavigationStagePreview()) {
+    return mapCloudPublishedCatalogProjection(
+      publishedCatalogSnapshotJson.projection as unknown as PublishedCatalogProjection,
+    );
+  }
   if (isEndoMarketStagePreview()) {
     const publishedCatalog = endoMarketPublishedCatalogJson as StorefrontCatalog;
     const stageCatalog = mapCloudPreviewSnapshot(

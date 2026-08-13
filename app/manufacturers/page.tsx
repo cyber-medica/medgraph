@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import JsonLd from "@/components/seo/JsonLd";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import ManufacturerMark from "@/components/storefront/ManufacturerMark";
 import {
   manufacturerService,
   productService,
   storefrontDataSource,
 } from "@/lib/storefront";
-import { buildStorefrontMetadata } from "@/lib/storefront/seo";
+import { buildBreadcrumbJsonLd, buildStorefrontMetadata } from "@/lib/storefront/seo";
 import { buildCollectionPageStructuredData } from "@/lib/storefront/structured-data";
 import { formatCountryForPublic } from "@/lib/storefront/country-presentation";
 
@@ -41,17 +42,28 @@ export default async function ManufacturersPage() {
     <main className="min-h-screen bg-cm-canvas">
       {storefrontDataSource !== "cloud_preview" && (
         <JsonLd
-          data={buildCollectionPageStructuredData({
-            name: "Производители медицинских изделий",
-            description: manufacturersDescription,
-            path: "/manufacturers",
-          })}
+          data={[
+            buildCollectionPageStructuredData({
+              name: "Производители медицинских изделий",
+              description: manufacturersDescription,
+              path: "/manufacturers",
+            }),
+            buildBreadcrumbJsonLd([
+              { name: "Главная", path: "/" },
+              { name: "Производители", path: "/manufacturers" },
+            ]),
+          ]}
         />
       )}
       <header className="border-b border-[var(--cm-rule)] bg-[linear-gradient(135deg,#ffffff_0%,#f6fafc_58%,#e8f5f7_100%)]">
         <div className="cm-container py-7 sm:py-9">
-          <div className="cm-label">Каталог производителей</div>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em]">Производители</h1>
+          <Breadcrumbs
+            items={[
+              { name: "Главная", path: "/" },
+              { name: "Производители", path: "/manufacturers" },
+            ]}
+          />
+          <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em]">Производители</h1>
           <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">
             Производители медицинского оборудования, представленные в каталоге Кибермедика.
           </p>

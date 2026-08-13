@@ -90,10 +90,24 @@ export function buildSeoLandingMetadataV3(path: SeoLandingPath) {
 }
 
 export function buildSeoLandingBreadcrumbsV3(path: SeoLandingPath) {
+  if (path === "/solutions/portativnaya-bronkhoskopiya") {
+    return [
+      { name: "Главная", path: "/" as const },
+      { name: "Решения", path: "/solutions" as const },
+      { name: getSeoLandingV3(path).h1, path },
+    ];
+  }
   if (isSeoP0Path(path)) return buildSeoLandingBreadcrumbsV2(path);
+  const section = path.startsWith("/catalog/reanimatsiya/")
+    ? { name: "Реанимация", path: "/catalog?category=ventilators" as const }
+    : {
+        name: "Анестезиология",
+        path: "/catalog?applicationArea=%D0%90%D0%BD%D0%B5%D1%81%D1%82%D0%B5%D0%B7%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F" as const,
+      };
   return [
     { name: "Главная", path: "/" as const },
     { name: "Каталог", path: "/catalog" as const },
+    section,
     { name: getSeoLandingV3(path).h1, path },
   ];
 }

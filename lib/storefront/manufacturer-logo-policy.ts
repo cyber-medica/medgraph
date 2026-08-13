@@ -20,6 +20,7 @@ interface ManufacturerLogoPolicyEntry {
   assetWidth?: number;
   assetHeight?: number;
   assetSurface?: "light" | "dark";
+  opticalScale?: number;
   metadataEligible?: boolean;
 }
 
@@ -29,32 +30,32 @@ export const MANUFACTURER_LOGO_POLICY: readonly ManufacturerLogoPolicyEntry[] = 
   { slug: "b-braun", usageStatus: "READY_WITH_GUIDELINES", sourceUrl: "https://www.bbraun.com/en/about-us/company/brand.html", assetUrl: "/manufacturers/b-braun/logo.svg", assetSha256: "daea6df088b4c38074d26867a17c5062b6b9702356d223e2116cdc333effdb9d", assetWidth: 172, assetHeight: 42 },
   { slug: "bionet", usageStatus: "READY_WITH_GUIDELINES", sourceUrl: "https://www.ebionet.com/medical/", assetUrl: "/manufacturers/bionet/logo.svg", assetSha256: "b42edc16fbbd143fa514afb57a5ec0cd69cd94ccb8df30ed5f760dca915156b5", assetWidth: 3832, assetHeight: 1019 },
   { slug: "biotech-m", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://biotech-medical.ru/", assetUrl: null, assetSha256: null },
-  { slug: "bowa", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.bowa-medical.com/", assetUrl: null, assetSha256: null },
-  { slug: "canon-medical-systems", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://global.medical.canon/", assetUrl: null, assetSha256: null },
+  { slug: "bowa", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.bowa-medical.com/", assetUrl: "/manufacturers/bowa/logo.webp", assetSha256: "493b69be90ca21118720543ed50995f297710c25f9bd16f69112be311547d1cb", assetWidth: 600, assetHeight: 146, opticalScale: 0.9 },
+  { slug: "canon-medical-systems", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://global.medical.canon/", assetUrl: "/manufacturers/canon-medical-systems/logo.svg", assetSha256: "f9e6a47014e5206fff5e78040b2b5f1de9f32c64341e8b69260f557659578c12", assetWidth: 2553, assetHeight: 125, opticalScale: 0.94 },
   { slug: "comen", usageStatus: "READY_WITH_GUIDELINES", sourceUrl: "https://en.comen.com/", assetUrl: "/manufacturers/comen/logo.png", assetSha256: "2e45b04e9a91d35770ab9c545f930fff989a4394b09b1c035bee4fe1479056e0", assetWidth: 565, assetHeight: 91 },
-  { slug: "dixion", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://dixion.ru/", assetUrl: null, assetSha256: null },
+  { slug: "dixion", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://dixion.ru/", assetUrl: "/manufacturers/dixion/logo.jpg", assetSha256: "07bcaf1f1c263ae1c36d5d88e30347d3de8a5d8ae84d25bda789aa4eb1457d82", assetWidth: 170, assetHeight: 39, opticalScale: 0.88 },
   { slug: "drager", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.draeger.com/", assetUrl: null, assetSha256: null },
-  { slug: "electron", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.elektron.ru/", assetUrl: null, assetSha256: null },
-  { slug: "erbe", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://en.erbegroup.com/en-en/company/press-information/", assetUrl: null, assetSha256: null },
+  { slug: "electron", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://electronxray.com/", assetUrl: "/manufacturers/electron/logo.svg", assetSha256: "032a6b38997847fce7183980a6d6cd54f91ee93ae76acbcfced5e4a6626b61ad", assetWidth: 233, assetHeight: 50, assetSurface: "dark", opticalScale: 0.92 },
+  { slug: "erbe", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://en.erbegroup.com/en-en/company/press-information/", assetUrl: "/manufacturers/erbe/logo.png", assetSha256: "e251cf08eb0f7380acfee85c40202c3901b08145207ac404154c35f6ac19330a", assetWidth: 2501, assetHeight: 410, opticalScale: 0.9 },
   { slug: "fresenius-kabi", usageStatus: "READY_WITH_TERMS", sourceUrl: "https://www.fresenius-kabi.com/de/downloads/downloadbereich-logo-fresenius-kabi-deutschland", assetUrl: "/manufacturers/fresenius-kabi/logo.png", assetSha256: "a6c339f1784f9df5f69fbc3d04fc0930eb425ea5aa854eb0062873b51600a883", assetWidth: 1200, assetHeight: 323, metadataEligible: true },
   { slug: "ge-healthcare", usageStatus: "READY_WITH_GUIDELINES", sourceUrl: "https://brand.gehealthcare.com/", assetUrl: "/manufacturers/ge-healthcare/logo.png", assetSha256: "24ba4080fa302c61bbe47a57edbbe2632152d6286c7e6d33c797fc099672d82a", assetWidth: 332, assetHeight: 72, assetSurface: "dark" },
-  { slug: "hamilton-medical", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.hamilton-medical.com/", assetUrl: null, assetSha256: null },
+  { slug: "hamilton-medical", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.hamilton-medical.com/", assetUrl: "/manufacturers/hamilton-medical/logo.svg", assetSha256: "6e9942500b35ac2b758fe251a96edc898c369f0ce6c407ca8b7dcf277b596c75", assetWidth: 601, assetHeight: 143, opticalScale: 0.92 },
   { slug: "huger", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.huger.cn/", assetUrl: null, assetSha256: null },
   { slug: "huntleigh", usageStatus: "READY_WITH_GUIDELINES", sourceUrl: "https://www.huntleigh-diagnostics.com/", assetUrl: "/manufacturers/huntleigh/logo.png", assetSha256: "0e6a721f3baebbc146b386c68804496363e2a7bf26e68d4f8a2110d2b4e79bc9", assetWidth: 392, assetHeight: 91 },
-  { slug: "ilivtouch", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://ilivtouch.ru/", assetUrl: null, assetSha256: null },
-  { slug: "longfian", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.longfian.com/", assetUrl: null, assetSha256: null },
-  { slug: "medinova", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.medinova.ru/", assetUrl: null, assetSha256: null },
-  { slug: "met", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://met-company.ru/", assetUrl: null, assetSha256: null },
-  { slug: "mindray", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.mindray.com/en/media-center/press/mindray-new-logo-launch-announcement", assetUrl: null, assetSha256: null },
-  { slug: "monitor", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.monitor-ltd.ru/", assetUrl: null, assetSha256: null },
+  { slug: "ilivtouch", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://ilivtouch.ru/", assetUrl: "/manufacturers/ilivtouch/logo.svg", assetSha256: "be8cec9383c6a5e158af928a638f9b8d874f0d7745adaa3f9da4b4cf4ebf6938", assetWidth: 178, assetHeight: 35, opticalScale: 0.9 },
+  { slug: "longfian", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.longfian.com/", assetUrl: "/manufacturers/longfian/logo.png", assetSha256: "311ccfdcc0cbce7e331a9cefcc89fcd995250c56be00579bfa19350f11b3be4a", assetWidth: 215, assetHeight: 30, opticalScale: 0.9 },
+  { slug: "medinova", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.medinova.ru/", assetUrl: "/manufacturers/medinova/logo.svg", assetSha256: "3303f0c0a9c862c10143faa38771c03f9d683cee590d218595239575c6d92780", assetWidth: 1724, assetHeight: 478, opticalScale: 0.9 },
+  { slug: "met", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://met-company.ru/", assetUrl: "/manufacturers/met/logo.svg", assetSha256: "3425a5512be4f069114844916666c2ecf8f75c145a770df3425ab60188e96411", assetWidth: 159, assetHeight: 81, opticalScale: 0.8 },
+  { slug: "mindray", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.mindray.com/en/media-center/press/mindray-new-logo-launch-announcement", assetUrl: "/manufacturers/mindray/logo.svg", assetSha256: "9a8925c8d62f3d555a48cadf4bedac0967a13fb0e145ab5e8da10b2c0d21d0cd", assetWidth: 601, assetHeight: 143, opticalScale: 0.92 },
+  { slug: "monitor", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.monitor-ltd.ru/", assetUrl: "/manufacturers/monitor/logo.png", assetSha256: "cecde0affa42e4b94825ff5dfca432e3b158b57dbf075eba9bc8ba7ad649f13e", assetWidth: 233, assetHeight: 41, opticalScale: 0.9 },
   { slug: "olympus", usageStatus: "READY_WITH_GUIDELINES", sourceUrl: "https://www.olympusamerica.com/news-media/column-media/olympus-logos", assetUrl: "/manufacturers/olympus/logo.png", assetSha256: "24e0348689afdcaa18224f424145625ae3dddb4398f5a2f47f6aec9876d0a330", assetWidth: 1470, assetHeight: 282, metadataEligible: true },
   { slug: "pentax-medical", usageStatus: "READY_WITH_GUIDELINES", sourceUrl: "https://www.pentaxmedical.com/en", assetUrl: "/manufacturers/pentax-medical/logo.svg", assetSha256: "30947445e14687837fe8391eaf9c762e780add6cb950ccdd97c5a86d55281307", assetWidth: 226, assetHeight: 84 },
   { slug: "philips", usageStatus: "PERMISSION_REQUIRED", sourceUrl: "https://www.philips.com/a-w/about/news/media-library/2024-Philips-Wordmark.html", assetUrl: null, assetSha256: null },
-  { slug: "sonoscape", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.sonoscape.com/en/", assetUrl: null, assetSha256: null },
-  { slug: "trismed", usageStatus: "ASSET_UNRESOLVED", sourceUrl: "https://www.mfds.go.kr/eng/brd/m_41/view.do?seq=70318", assetUrl: null, assetSha256: null },
-  { slug: "unicos", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://unicosme.ru/", assetUrl: null, assetSha256: null },
-  { slug: "uomz", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://uomz.su/", assetUrl: null, assetSha256: null },
-  { slug: "zerts", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://zerts.ru/", assetUrl: null, assetSha256: null },
+  { slug: "sonoscape", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://www.sonoscape.com/en/", assetUrl: "/manufacturers/sonoscape/logo.svg", assetSha256: "679de216709cbb5ab96ec9fc9fb09240a08f6716b8f0388f1bc10f67151bb705", assetWidth: 130, assetHeight: 24, opticalScale: 0.9 },
+  { slug: "trismed", usageStatus: "RIGHTS_REVIEW", sourceUrl: "http://www.trismed.com/2014/eng/", assetUrl: "/manufacturers/trismed/logo.jpg", assetSha256: "656c1bdce841cc68fb29a70bd03054f18ece1f817264900184bc695dce1620a8", assetWidth: 1134, assetHeight: 314, opticalScale: 0.88 },
+  { slug: "unicos", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://reg-znaki.ru/trademarks/?action=details&id=583079", assetUrl: "/manufacturers/unicos/logo.jpg", assetSha256: "1f485cd7391c6f95aedd12cb8e6b8bfd243f6a9242a082d9ec1c0315958a55df", assetWidth: 298, assetHeight: 110, opticalScale: 0.84 },
+  { slug: "uomz", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://uomz.su/", assetUrl: "/manufacturers/uomz/logo.jpg", assetSha256: "1f188486d394af1bb2ee5a9727bc202a975ac415ca23aad24e5bff95c8f587c2", assetWidth: 453, assetHeight: 217, opticalScale: 0.78 },
+  { slug: "zerts", usageStatus: "RIGHTS_REVIEW", sourceUrl: "https://zerts.ru/", assetUrl: "/manufacturers/zerts/logo.svg", assetSha256: "6715a91d805577dbc55f71d55a79da1ad731246c4721fe83c56419f229a703f9", assetWidth: 239, assetHeight: 56, opticalScale: 0.9 },
 ] as const;
 
 const policyBySlug = new Map(
@@ -71,6 +72,7 @@ export interface ManufacturerLogoPresentation {
   assetWidth: number;
   assetHeight: number;
   assetSurface: "light" | "dark";
+  opticalScale: number;
   usageStatus: ManufacturerLogoUsageStatus | "UNLISTED";
   fallbackReason: string | null;
 }
@@ -117,6 +119,7 @@ export function getManufacturerLogoPresentation(
     assetWidth: policy?.assetWidth ?? 200,
     assetHeight: policy?.assetHeight ?? 56,
     assetSurface: policy?.assetSurface ?? "light",
+    opticalScale: policy?.opticalScale ?? 0.9,
     usageStatus,
     fallbackReason: assetUrl ? null : fallbackReason(usageStatus),
   };

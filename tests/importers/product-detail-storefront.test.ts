@@ -185,10 +185,12 @@ test("product hero uses a media-first 40/60 layout without decorative duplicates
 
 test("product detail exposes semantic breadcrumbs and public regulatory information", async () => {
   const source = await pageSource();
+  const breadcrumbs = await readFile("components/navigation/Breadcrumbs.tsx", "utf8");
 
-  assert.match(source, /aria-label="Хлебные крошки"/);
-  assert.match(source, /href="\/catalog"/);
-  assert.match(source, /aria-current="page"/);
+  assert.match(source, /<Breadcrumbs/u);
+  assert.match(source, /name: "Каталог", path: "\/catalog"/u);
+  assert.match(breadcrumbs, /aria-label="Хлебные крошки"/u);
+  assert.match(breadcrumbs, /aria-current="page"/u);
   assert.match(source, /hasRegulatoryInformation/);
   assert.match(source, /title="Регистрационная информация"/);
   assert.match(source, /record\.number/);

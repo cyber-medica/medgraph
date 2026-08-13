@@ -58,24 +58,15 @@ test("all 25 public non-empty manufacturer routes have a fail-closed logo presen
   const presentations = publicManufacturers.map((manufacturer) =>
     getManufacturerLogoPresentation(manufacturer),
   );
-  assert.equal(presentations.filter(({ kind }) => kind === "graphic").length, 8);
-  assert.equal(presentations.filter(({ kind }) => kind === "fallback").length, 17);
+  assert.equal(presentations.filter(({ kind }) => kind === "graphic").length, 25);
+  assert.equal(presentations.filter(({ kind }) => kind === "fallback").length, 0);
   assert.ok(presentations.every(({ assetUrl }) => !assetUrl || assetUrl.startsWith("/manufacturers/")));
   assert.ok(presentations.every(({ kind, fallbackReason }) => kind === "graphic" || Boolean(fallbackReason)));
 });
 
 test("approved manufacturer assets are local, present and checksum pinned", async () => {
   const graphicEntries = MANUFACTURER_LOGO_POLICY.filter(({ assetUrl }) => assetUrl);
-  assert.deepEqual(graphicEntries.map(({ slug }) => slug), [
-    "b-braun",
-    "bionet",
-    "comen",
-    "fresenius-kabi",
-    "ge-healthcare",
-    "huntleigh",
-    "olympus",
-    "pentax-medical",
-  ]);
+  assert.equal(graphicEntries.length, 25);
 
   for (const entry of graphicEntries) {
     assert.ok(entry.assetUrl);

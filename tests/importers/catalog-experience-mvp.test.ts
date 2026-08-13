@@ -33,13 +33,14 @@ test("catalog cards expose required public list fields without unsafe specificat
   assert.match(productCard, /<ProductImage product=\{product\} href=\{productHref\} \/>/);
 });
 
-test("catalog state and unified recovery navigation preserve the complete URL", async () => {
-  const [page, explorer, productCard, backToCatalog, productPage] = await Promise.all([
+test("catalog state restoration and canonical breadcrumbs preserve the complete URL", async () => {
+  const [page, explorer, productCard, backToCatalog, productPage, breadcrumb] = await Promise.all([
     source("app/catalog/page.tsx"),
     source("components/catalog/CatalogExplorer.tsx"),
     source("components/storefront/ProductCard.tsx"),
     source("components/catalog/BackToCatalog.tsx"),
     source("app/catalog/[slug]/page.tsx"),
+    source("components/navigation/Breadcrumbs.tsx"),
   ]);
 
   assert.match(page, /initialSort=\{sort\}/);
@@ -61,17 +62,11 @@ test("catalog state and unified recovery navigation preserve the complete URL", 
 
   assert.match(productCard, /rememberCatalogReturn\(productHref\)/);
   assert.doesNotMatch(productCard, /<a\s+href=\{productHref\}/);
-  assert.match(backToCatalog, /window\.location\.pathname/);
-  assert.match(backToCatalog, /window\.location\.search/);
   assert.match(backToCatalog, /scrollY: window\.scrollY/);
-  assert.match(backToCatalog, /window\.history\.scrollRestoration = "manual"/);
-  assert.match(backToCatalog, /"popstate",\s*\(\) => restoreCatalogScroll\(entry\)/u);
-  assert.match(backToCatalog, /maxScroll \+ 1 >= entry\.scrollY/u);
   assert.match(backToCatalog, /window\.sessionStorage\.setItem/);
-  assert.match(backToCatalog, /window\.history\.back\(\)/);
-  assert.match(backToCatalog, /router\.push\(entry\?\.source \?\? "\/catalog"\)/);
-  assert.match(productPage, /<BackToCatalog productSlug=\{product\.slug\} \/>/);
-  assert.doesNotMatch(productPage, /BackToCatalogButton/);
+  assert.match(productPage, /<Breadcrumbs/u);
+  assert.doesNotMatch(productPage, /BackToCatalog|Назад к каталогу/u);
+  assert.match(breadcrumb, /aria-current="page"/u);
 });
 
 test("catalog has accessible skeleton, empty and recoverable error states", async () => {

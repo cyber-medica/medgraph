@@ -21,6 +21,7 @@ interface ProductSchemaInput {
   product: Product;
   manufacturer?: Manufacturer;
   category?: Category;
+  breadcrumbName?: string;
 }
 
 function absoluteUrl(pathOrUrl: string) {
@@ -82,6 +83,7 @@ export function buildProductStructuredData({
   product,
   manufacturer,
   category,
+  breadcrumbName = product.name,
 }: ProductSchemaInput): StorefrontSchema[] {
   const images = product.media
     .filter(({ type }) => type === "image")
@@ -126,7 +128,7 @@ export function buildProductStructuredData({
             path: `/catalog?category=${encodeURIComponent(category.slug)}` as const,
           }]
         : []),
-      { name: product.name, path: `/catalog/${product.slug}` },
+      { name: breadcrumbName, path: `/catalog/${product.slug}` },
     ]),
   ];
 }

@@ -38,7 +38,7 @@ test("product page links to manufacturer comparison compatible products and cata
   assert.match(experience, /`\/manufacturers\/\$\{manufacturer\.slug\}`/u);
   assert.match(manufacturer, /`\/manufacturers\/\$\{manufacturer\.slug\}`/u);
   assert.match(product, /href="\/compare"/u);
-  assert.match(product, /href="\/catalog"/u);
+  assert.match(product, /name: "Каталог", path: "\/catalog"/u);
   assert.match(product, /item\.compatibleProductId/u);
   assert.match(product, /relatedProductsById\.get/u);
   assert.match(product, /compatibleProduct\.slug/u);

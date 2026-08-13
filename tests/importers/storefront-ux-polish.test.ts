@@ -55,10 +55,10 @@ test("catalog cards use real Storefront fields and expose useful journeys", asyn
   assert.doesNotMatch(catalog, /\bprice\b|скидк|рейтинг|\bналичие\b/iu);
 });
 
-test("UX polish does not change product canonical or JSON-LD", async () => {
+test("UX polish keeps product canonical and aligns JSON-LD with the visible H1", async () => {
   const product = await source("app/catalog/[slug]/page.tsx");
 
   assert.match(product, /buildProductSeoMetadataV3/u);
   assert.match(product, /<JsonLd/u);
-  assert.match(product, /buildProductStructuredData\(\{ product, manufacturer, category \}\)/u);
+  assert.match(product, /buildProductStructuredData\(\{[\s\S]*breadcrumbName: productH1/u);
 });

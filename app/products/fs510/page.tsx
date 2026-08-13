@@ -4,6 +4,7 @@ import Link from "next/link";
 import { connection } from "next/server";
 
 import CompatibilityEvidencePanel from "@/components/knowledge/CompatibilityEvidencePanel";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import { ProvenanceChain } from "@/components/verticals/fs510/ProvenanceChain";
 import { getCompatibilityResult } from "@/lib/compatibility/mock-data";
 import { formatDate } from "@/lib/date";
@@ -52,6 +53,16 @@ function PageState({
 }) {
   return (
     <main className="min-h-[calc(100vh-4rem)] bg-cm-canvas px-5 py-16 text-cm-ink">
+      <div className="mx-auto max-w-4xl">
+        <Breadcrumbs
+          className="mb-4"
+          items={[
+            { name: "Главная", path: "/" },
+            { name: "Каталог", path: "/catalog" },
+            { name: "FS510", path: "/products/fs510" },
+          ]}
+        />
+      </div>
       <section className="mx-auto grid max-w-4xl overflow-hidden rounded-lg border border-[var(--cm-rule)] bg-white shadow-[0_16px_46px_rgba(11,19,32,0.07)] lg:grid-cols-[1fr_17rem]">
         <div className="p-7 sm:p-9">
           <p className="cm-label !text-cm-teal">
@@ -167,20 +178,14 @@ export default async function Fs510ProductPage() {
       </div>
 
       <div className="cm-container py-6">
-        <nav
-          aria-label="Хлебные крошки"
-          className="mb-4 flex flex-wrap items-center gap-2 font-mono text-[10px] text-cm-dim"
-        >
-          <Link href="/" className="transition hover:text-cm-teal">
-            Главная
-          </Link>
-          <span aria-hidden="true">/</span>
-          <Link href="/catalog" className="transition hover:text-cm-teal">
-            Каталог
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span className="font-medium text-cm-ink">FS510</span>
-        </nav>
+        <Breadcrumbs
+          className="mb-4"
+          items={[
+            { name: "Главная", path: "/" },
+            { name: "Каталог", path: "/catalog" },
+            { name: "FS510", path: "/products/fs510" },
+          ]}
+        />
 
         <section className="cm-card overflow-hidden">
           <div className="flex items-center justify-between gap-4 border-b border-[var(--cm-rule)] bg-cm-surface-low px-5 py-3">

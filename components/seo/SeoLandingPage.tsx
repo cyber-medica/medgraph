@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoLandingBreadcrumbsV3,
@@ -39,28 +40,10 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
 
       <header className="border-b border-[var(--cm-rule)] bg-[linear-gradient(135deg,#ffffff_0%,#f6fafc_56%,#e8f5f7_100%)]">
         <div className="cm-container py-6 sm:py-9 lg:py-11">
-          <nav aria-label="Хлебные крошки">
-            <ol className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-cm-slate">
-              {breadcrumbs.map((breadcrumb, index) => (
-                <li key={breadcrumb.path} className="flex items-center gap-2">
-                  {index > 0 ? <span aria-hidden="true">/</span> : null}
-                  {index === breadcrumbs.length - 1 ? (
-                    <span aria-current="page" className="text-cm-ink">
-                      {breadcrumb.name}
-                    </span>
-                  ) : (
-                    <Link href={breadcrumb.path} className="hover:text-cm-teal">
-                      {breadcrumb.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
+          <Breadcrumbs items={breadcrumbs} />
 
-          <div className="mt-6 max-w-4xl">
-            <div className="cm-label text-cm-teal">Кибермедика · Каталог</div>
-            <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-[-0.035em] sm:text-4xl lg:text-5xl">
+          <div className="mt-5 max-w-4xl">
+            <h1 className="text-3xl font-extrabold leading-tight tracking-[-0.035em] sm:text-4xl lg:text-5xl">
               {content.h1}
             </h1>
             <p className="mt-5 max-w-3xl text-sm leading-7 text-cm-slate sm:text-base">

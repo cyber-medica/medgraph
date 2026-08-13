@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-13",
+  "stageOnly": true,
+  "canonicalComponent": "components/navigation/Breadcrumbs.tsx",
+  "primaryCategoryRule": "Use the Product's single existing categoryId and the matching current catalog category. Do not infer from copy, application areas, or SEO landings.",
+  "routesAudited": 41,
+  "duplicateNavigationRemaining": 0,
+  "breadcrumbListConsistent": true,
+  "routes": [
+    {
+      "route": "/",
+      "previousPattern": "none",
+      "finalPattern": "none",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": false,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog",
+      "previousPattern": "legacy utility label: Кибермедика · Каталог",
+      "finalPattern": "Главная / Каталог",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers",
+      "previousPattern": "no breadcrumb; route-specific label",
+      "finalPattern": "Главная / Производители",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/solutions",
+      "previousPattern": "route absent",
+      "finalPattern": "Главная / Решения",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": false,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/products/fs510",
+      "previousPattern": "route-specific custom breadcrumb",
+      "finalPattern": "Главная / Каталог / FS510",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/b-braun",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / B. Braun",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/bionet",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Bionet",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/bowa",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / BOWA",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/canon-medical-systems",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Canon Medical",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/comen",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Comen",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/dixion",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / DIXION",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/electron",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Электрон",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/erbe",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / ERBE",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/fresenius-kabi",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Fresenius Kabi",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/ge-healthcare",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / GE HealthCare",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/hamilton-medical",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Hamilton Medical",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/huntleigh",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Huntleigh",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/ilivtouch",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / iLivTouch",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/longfian",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Longfian",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/medinova",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Medinova",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/met",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / MET",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/mindray",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Mindray",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/monitor",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / НПП «МОНИТОР»",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/olympus",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / Olympus",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/pentax-medical",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / PENTAX Medical",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/sonoscape",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / SonoScape",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/trismed",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / TRISMED",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/unicos",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / УНИКОС",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/uomz",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / УОМЗ",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/manufacturers/zerts",
+      "previousPattern": "standalone ← Все производители",
+      "finalPattern": "Главная / Производители / ZERTS",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/767632362-330695211247-apparat-ivl-hamilton-t1",
+      "previousPattern": "standalone back control plus route-specific breadcrumb",
+      "finalPattern": "Главная / Каталог / Аппараты ИВЛ / Аппарат ИВЛ Hamilton-T1",
+      "primaryCategory": "Аппараты ИВЛ",
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/medinova-br-1231",
+      "previousPattern": "standalone back control plus route-specific breadcrumb",
+      "finalPattern": "Главная / Каталог / Эндоскопические системы / Видеобронхоскоп BR-1231 Medinova",
+      "primaryCategory": "Эндоскопические системы",
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/videoendoskopicheskaya-sistema-sonoscape-hd-550",
+      "previousPattern": "standalone back control plus route-specific breadcrumb",
+      "finalPattern": "Главная / Каталог / Эндоскопические системы / Видеоэндоскопическая система SonoScape HD-550",
+      "primaryCategory": "Эндоскопические системы",
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/bowa-arc-350",
+      "previousPattern": "standalone back control plus route-specific breadcrumb",
+      "finalPattern": "Главная / Каталог / Эндоскопические системы / Электрохирургический аппарат ARC 350",
+      "primaryCategory": "Эндоскопические системы",
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/767632362-401374530532-apparat-ivl-mindray-sv300",
+      "previousPattern": "standalone back control plus route-specific breadcrumb",
+      "finalPattern": "Главная / Каталог / Аппараты ИВЛ / Аппарат ИВЛ Mindray SV300",
+      "primaryCategory": "Аппараты ИВЛ",
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/endoskopiya",
+      "previousPattern": "custom breadcrumb plus legacy utility label",
+      "finalPattern": "Главная / Каталог / Оборудование для эндоскопии",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/endoskopiya/videoendoskopicheskie-sistemy",
+      "previousPattern": "custom breadcrumb plus legacy utility label",
+      "finalPattern": "Главная / Каталог / Оборудование для эндоскопии / Видеоэндоскопические системы",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/solutions/portativnaya-bronkhoskopiya",
+      "previousPattern": "custom catalog breadcrumb plus legacy utility label",
+      "finalPattern": "Главная / Решения / Портативная бронхоскопия",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/endoskopiya/obrabotka-endoskopov",
+      "previousPattern": "custom breadcrumb plus legacy utility label",
+      "finalPattern": "Главная / Каталог / Оборудование для эндоскопии / Оборудование для обработки эндоскопов",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/reanimatsiya/transportnye-apparaty-ivl",
+      "previousPattern": "custom root-level breadcrumb plus legacy utility label",
+      "finalPattern": "Главная / Каталог / Реанимация / Транспортные аппараты ИВЛ",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    },
+    {
+      "route": "/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty",
+      "previousPattern": "custom root-level breadcrumb plus legacy utility label",
+      "finalPattern": "Главная / Каталог / Анестезиология / Наркозно-дыхательные аппараты",
+      "primaryCategory": null,
+      "duplicateNavigationRemoved": true,
+      "BreadcrumbListConsistent": true
+    }
+  ]
+}

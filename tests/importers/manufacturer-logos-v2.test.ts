@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import test from "node:test";
 
-import manifest from "../../docs/reports/manufacturer-logo-manifest-v2.json" with { type: "json" };
+import manifest from "../../docs/reports/all-manufacturer-logos-stage-v1.json" with { type: "json" };
 import publishedSnapshot from "../../data/published-catalog-last-known-good.json" with { type: "json" };
 import type { PublishedCatalogProjection } from "../../lib/published-catalog/contracts.ts";
 import { mapCloudPublishedCatalogProjection } from "../../lib/storefront/cloud-published-mapper.ts";
@@ -38,21 +38,18 @@ test("manufacturer logo v2 manifest exactly matches the 25 non-empty public rout
   }
 });
 
-test("every public manufacturer resolves to a local graphic or polished fallback", () => {
+test("every public manufacturer resolves to a local graphic", () => {
   const bySlug = new Map(catalog.manufacturers.map((manufacturer) => [manufacturer.slug, manufacturer]));
-  const graphics = manifest.manufacturers.filter(({ finalMode }) => finalMode === "graphic_logo");
-  const fallbacks = manifest.manufacturers.filter(({ finalMode }) => finalMode === "fallback_monogram");
+  const graphics = manifest.manufacturers.filter(({ assetPath }) => assetPath);
 
-  assert.equal(graphics.length, 8);
-  assert.equal(fallbacks.length, 17);
-  assert.equal(manifest.graphicLogosTotal, graphics.length);
-  assert.equal(manifest.fallbacksTotal, fallbacks.length);
+  assert.equal(graphics.length, 25);
+  assert.equal(manifest.graphicLogos, graphics.length);
 
   for (const entry of manifest.manufacturers) {
     const manufacturer = bySlug.get(entry.slug);
     assert.ok(manufacturer);
     const presentation = getManufacturerLogoPresentation(manufacturer);
-    assert.equal(presentation.kind, entry.finalMode === "graphic_logo" ? "graphic" : "fallback");
+    assert.equal(presentation.kind, "graphic");
     assert.equal(presentation.assetUrl, entry.assetPath);
     assert.equal(/^https?:\/\//u.test(entry.assetPath ?? ""), false);
   }
@@ -80,6 +77,7 @@ test("manufacturer mark keeps the visual and performance contract", async () => 
   assert.match(mark, /width=\{presentation\.assetWidth\}/u);
   assert.match(mark, /height=\{presentation\.assetHeight\}/u);
   assert.match(mark, /max-h-full[\s\S]*max-w-full[\s\S]*object-contain/u);
+  assert.match(mark, /presentation\.opticalScale/u);
   assert.match(mark, /loading=\{size === "hero" \? "eager" : "lazy"\}/u);
   assert.doesNotMatch(mark, /src=\{manufacturer\.logoUrl\}/u);
 });
