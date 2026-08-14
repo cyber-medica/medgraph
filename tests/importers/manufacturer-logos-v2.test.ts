@@ -38,11 +38,11 @@ test("manufacturer logo v2 manifest exactly matches the 25 non-empty public rout
   }
 });
 
-test("public manufacturers resolve to 21 quality graphics and four fallbacks", () => {
+test("public manufacturers resolve to 22 quality graphics and three fallbacks", () => {
   const bySlug = new Map(catalog.manufacturers.map((manufacturer) => [manufacturer.slug, manufacturer]));
   const graphics = manifest.manufacturers.filter(({ assetPath }) => assetPath);
 
-  assert.equal(graphics.length, 21);
+  assert.equal(graphics.length, 22);
   assert.equal(manifest.graphicLogos, graphics.length);
 
   for (const entry of manifest.manufacturers) {
@@ -54,14 +54,14 @@ test("public manufacturers resolve to 21 quality graphics and four fallbacks", (
     assert.equal(/^https?:\/\//u.test(entry.assetPath ?? ""), false);
   }
 
-  assert.equal(manifest.manufacturers.filter(({ officialSource }) => officialSource).length, 21);
-  assert.equal(manifest.manufacturers.filter(({ officialSource }) => !officialSource).length, 4);
+  assert.equal(manifest.manufacturers.filter(({ officialSource }) => officialSource).length, 22);
+  assert.equal(manifest.manufacturers.filter(({ officialSource }) => !officialSource).length, 3);
 });
 
 test("manufacturer graphic assets have intrinsic dimensions and no SVG runtime references", async () => {
   const graphics = manifest.manufacturers.filter(({ assetPath, officialSource }) => assetPath && officialSource);
 
-  assert.equal(graphics.length, 21);
+  assert.equal(graphics.length, 22);
 
   for (const entry of graphics) {
     assert.ok(entry.assetPath);
@@ -95,17 +95,20 @@ test("new graphic marks do not change the existing metadata logo allowlist", () 
   assert.deepEqual(metadataLogoSlugs, ["fresenius-kabi", "olympus"]);
 });
 
-test("the five quality decisions fail closed and remain local", () => {
+test("manufacturer quality decisions fail closed and remain local", () => {
   const bySlug = new Map(catalog.manufacturers.map((manufacturer) => [manufacturer.slug, manufacturer]));
   const hamilton = getManufacturerLogoPresentation(bySlug.get("hamilton-medical")!);
   const mindray = getManufacturerLogoPresentation(bySlug.get("mindray")!);
+  const medinova = getManufacturerLogoPresentation(bySlug.get("medinova")!);
 
   assert.equal(hamilton.kind, "graphic");
   assert.equal(hamilton.assetUrl, "/manufacturers/hamilton-medical/logo.svg");
   assert.equal(mindray.kind, "graphic");
   assert.equal(mindray.assetUrl, "/manufacturers/mindray/logo.svg");
+  assert.equal(medinova.kind, "graphic");
+  assert.equal(medinova.assetUrl, "/manufacturers/medinova/logo.svg");
 
-  for (const slug of ["ilivtouch", "longfian", "medinova"] as const) {
+  for (const slug of ["ilivtouch", "longfian"] as const) {
     const presentation = getManufacturerLogoPresentation(bySlug.get(slug)!);
     assert.equal(presentation.kind, "fallback");
     assert.equal(presentation.assetUrl, null);

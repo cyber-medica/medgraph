@@ -94,7 +94,7 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
         />
         <div className="mt-4 cm-card overflow-hidden">
           <div className="border-b border-[var(--cm-rule)] bg-cm-surface-low px-5 py-3">
-            <span className="cm-label">Карточка производителя</span>
+            <span className="cm-eyebrow">Карточка производителя</span>
           </div>
           <div className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[1fr_18rem]">
             <div>
@@ -125,12 +125,12 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
             </div>
             <dl className="divide-y divide-[var(--cm-rule)] border-t border-[var(--cm-rule)] lg:border-t-0">
               {country && <div className="flex justify-between gap-4 py-3">
-                <dt className="cm-label">Страна</dt>
+                <dt className="cm-eyebrow">Страна</dt>
                 <dd className="text-xs font-semibold">{country}</dd>
               </div>}
               {manufacturer.websiteUrl && (
                 <div className="flex justify-between gap-4 py-3">
-                  <dt className="cm-label">Сайт</dt>
+                  <dt className="cm-eyebrow">Сайт</dt>
                   <dd className="text-right text-xs font-semibold">
                     <a
                       href={manufacturer.websiteUrl}
@@ -149,9 +149,9 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
 
         <div className="mt-7 flex items-end justify-between gap-6">
           <div>
-            <div className="cm-label">Каталог</div>
+            <div className="cm-eyebrow">Каталог</div>
             <h2 className="mt-2 text-xl font-bold">Изделия производителя</h2>
-            <p className="mt-1 font-mono text-[10px] text-cm-dim">Товаров: {products.length}</p>
+            <p className="mt-1 font-sans text-[10px] font-semibold tracking-normal text-cm-dim">Товаров: {products.length}</p>
           </div>
           <div className="flex flex-wrap gap-4">
             <Link href="/catalog" className="text-xs font-semibold text-cm-slate hover:text-cm-teal">

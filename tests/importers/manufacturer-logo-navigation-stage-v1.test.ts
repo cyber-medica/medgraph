@@ -20,7 +20,7 @@ const catalog = mapCloudPublishedCatalogProjection(
   snapshot.projection as unknown as PublishedCatalogProjection,
 );
 
-test("Stage uses 21 quality graphics and four fail-closed fallbacks", async () => {
+test("Stage uses 22 quality graphics and three fail-closed fallbacks", async () => {
   const counts = new Map<string, number>();
   for (const product of catalog.products) {
     counts.set(product.manufacturerId, (counts.get(product.manufacturerId) ?? 0) + 1);
@@ -31,7 +31,7 @@ test("Stage uses 21 quality graphics and four fail-closed fallbacks", async () =
 
   assert.equal(publicManufacturers.length, 25);
   assert.equal(logoReport.manufacturers.length, 25);
-  assert.equal(logoReport.graphicLogos, 21);
+  assert.equal(logoReport.graphicLogos, 22);
   assert.equal(logoReport.externalRuntimeLogoUrls, 0);
 
   for (const manufacturer of publicManufacturers) {
@@ -63,7 +63,7 @@ test("Stage uses 21 quality graphics and four fail-closed fallbacks", async () =
 
   assert.deepEqual(
     logoReport.manufacturers.filter(({ officialSource }) => !officialSource).map(({ slug }) => slug),
-    ["ilivtouch", "longfian", "medinova", "unicos"],
+    ["ilivtouch", "longfian", "unicos"],
   );
 });
 

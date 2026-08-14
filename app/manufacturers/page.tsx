@@ -85,7 +85,7 @@ export default async function ManufacturersPage() {
               />
               <div className="flex items-center justify-between gap-3">
                 {country ? <div className="text-[10px] text-cm-slate">{country}</div> : <span />}
-                <div className="rounded border border-[var(--cm-rule)] bg-cm-surface-low px-2.5 py-1 font-mono text-[9px] text-cm-dim">
+                <div className="rounded border border-[var(--cm-rule)] bg-cm-surface-low px-2.5 py-1 font-sans text-[9px] font-semibold tracking-normal text-cm-dim">
                   {productCount} товаров
                 </div>
               </div>
