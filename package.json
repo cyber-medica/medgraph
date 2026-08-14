@@ -50,6 +50,7 @@
     "qa:product-structured-data": "node scripts/qa/product-structured-data-gsc.ts",
     "qa:canonical-routing-gate": "node scripts/qa/canonical-routing-gate.ts",
     "qa:canonical-routing-mobile": "node scripts/qa/canonical-routing-mobile-synthetic.ts",
+    "qa:query-indexing-hygiene": "node scripts/qa/query-indexing-hygiene.ts",
     "supabase:health": "node scripts/qa/supabase-health.ts",
     "audit:evidence-integrity": "node scripts/importers/catalog/evidence-integrity.ts audit",
     "repair:evidence-references": "node scripts/importers/catalog/evidence-integrity.ts repair",
