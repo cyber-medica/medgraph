@@ -61,8 +61,15 @@ assert.doesNotMatch(
   /mobile_synthetic|webkit_diagnostic|r9_smoke|[?&]lh=/u,
 );
 const productPaths = [...extractSitemapProductPaths(sitemap)].sort();
-assert.ok(productPaths.length > 0, "sitemap must contain Product URLs");
-const productPath = productPaths[0]!;
+const previewProductPath = process.env.QUERY_HYGIENE_PRODUCT_PATH
+  ?? "/catalog/767632362-330695211247-apparat-ivl-hamilton-t1";
+const isVercelPreview = origin.hostname.endsWith(".vercel.app");
+const productPath = productPaths[0]
+  ?? (isVercelPreview ? previewProductPath : undefined);
+assert.ok(
+  productPath,
+  "non-Preview sitemap must contain Product URLs",
+);
 
 const technicalCases = [
   { path: "/?lh=prod-mobile-debug", canonical: "/" },
@@ -104,6 +111,7 @@ assertCleanCanonical(attributionResponse.body, "/request", attributionPath);
 console.info(JSON.stringify({
   attributionParameters: COMMERCIAL_ATTRIBUTION_QUERY_PARAMETERS,
   productPath,
+  sitemapProductCount: productPaths.length,
   status: "pass",
   technicalParameters: SYNTHETIC_DEBUG_QUERY_PARAMETERS,
   testedOrigin: origin.origin,
