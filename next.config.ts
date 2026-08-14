@@ -6,6 +6,7 @@ import {
   safeRoutingHeaderValue,
 } from "./lib/canonical-routing-gate.ts";
 import { getStorefrontDataSource } from "./lib/storefront/data-source.ts";
+import { buildSyntheticDebugQueryHeaderRules } from "./lib/seo/query-indexing-hygiene.ts";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 const isCloudPreview = getStorefrontDataSource(process.env) === "cloud_preview";
@@ -144,6 +145,7 @@ const nextConfig: NextConfig = {
     imageSizes: [32, 48, 64, 96, 128, 160, 192, 256, 320, 384],
   },
   async headers() {
+    const syntheticDebugQueryHeaders = buildSyntheticDebugQueryHeaderRules();
     const previewHeaders = isCloudPreview
       ? [
           {
@@ -181,6 +183,10 @@ const nextConfig: NextConfig = {
         "/internal/login",
         "/internal/review/hamilton-t1",
       ].map((source) => ({ source, headers: [...internalAuthHeaders] })),
+      // Keep QA/debug parameters available to the requested route while
+      // preventing those URL variants from becoming separate search results.
+      // Preview's global noindex/nofollow rule intentionally remains last.
+      ...syntheticDebugQueryHeaders,
       ...previewHeaders,
     ];
   },
