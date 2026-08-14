@@ -16,7 +16,6 @@ import { buildProductStructuredData } from "../../lib/storefront/structured-data
 
 const projection = publishedSnapshotJson.projection as unknown as PublishedCatalogProjection;
 const catalog = mapCloudPublishedCatalogProjection(projection);
-const manufacturers = new Map(catalog.manufacturers.map((entry) => [entry.id, entry]));
 const categories = new Map(catalog.categories.map((entry) => [entry.id, entry]));
 
 const legacyProductPaths = {
@@ -26,19 +25,16 @@ const legacyProductPaths = {
     "/catalog/767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
 } as const;
 
-test("all 114 published Product Detail pages use one truthful non-commerce ItemPage contract", () => {
+test("all 114 published Product Detail pages use one truthful MedicalDevice ItemPage contract", () => {
   assert.equal(catalog.products.length, 114);
   let sanitizedDescriptionCount = 0;
 
   for (const product of catalog.products) {
-    const manufacturer = manufacturers.get(product.manufacturerId);
     const category = categories.get(product.categoryId);
-    assert.ok(manufacturer, product.slug);
     assert.ok(category, product.slug);
     const pageName = getProductSeoH1(product);
     const [itemPage, breadcrumb] = buildProductStructuredData({
       product,
-      manufacturer,
       category,
       breadcrumbName: pageName,
     });
@@ -51,10 +47,8 @@ test("all 114 published Product Detail pages use one truthful non-commerce ItemP
     assert.equal(itemPage["@type"], "ItemPage", product.slug);
     assert.equal(itemPage.name, pageName, product.slug);
     assert.equal(itemPage.url, `${STOREFRONT_SITE_URL}/catalog/${product.slug}`, product.slug);
-    assert.equal(mainEntity["@type"], "Thing", product.slug);
+    assert.equal(mainEntity["@type"], "MedicalDevice", product.slug);
     assert.equal(mainEntity.name, pageName, product.slug);
-    assert.equal(mainEntity.identifier, product.model, product.slug);
-    assert.equal((itemPage.provider as Record<string, unknown>).name, manufacturer.name, product.slug);
     assert.doesNotMatch(description, /<[^>]+>|&(?:nbsp|amp|lt|gt|quot|apos);/iu, product.slug);
     assert.equal(breadcrumb["@type"], "BreadcrumbList", product.slug);
 
@@ -68,7 +62,7 @@ test("all 114 published Product Detail pages use one truthful non-commerce ItemP
     const serialized = JSON.stringify(itemPage);
     assert.doesNotMatch(
       serialized,
-      /"@type":"Product"|"(?:offers|price|priceCurrency|availability|review|aggregateRating|ratingValue|sku|gtin|mpn)"/u,
+      /"@type":"Product"|"(?:offers|price|priceCurrency|availability|review|aggregateRating|ratingValue|manufacturer|brand|model|sku|gtin|mpn|category|identifier)"/u,
       product.slug,
     );
     assert.doesNotMatch(serialized, /stage\.cyber-medica\.ru|\.vercel\.app|medvist\.ru/iu, product.slug);

@@ -53,7 +53,7 @@ JavaScript.
 | --- | --- | --- |
 | `/` | `WebSite`, `Organization` | Storefront site constants and homepage public description |
 | `/catalog` | `CollectionPage` | Catalog page content |
-| `/catalog/[slug]` | `Product`, `BreadcrumbList` | `Product`, `Manufacturer`, `Category` |
+| `/catalog/[slug]` | `ItemPage` → `MedicalDevice`, `BreadcrumbList` | `Product`, `Category` |
 | `/manufacturers` | `CollectionPage` | Manufacturer directory content |
 | `/manufacturers/[slug]` | `Organization`, `BreadcrumbList` | `Manufacturer` |
 | `/search` | None | Deliberately omitted |
@@ -69,24 +69,25 @@ publisher reference. No stable CyberMedica logo URL exists in the Storefront,
 so a logo is not invented. Address, telephone, email, `sameAs`, founding date,
 and contact points are omitted.
 
-## Product
+## Product Detail
 
-Product JSON-LD uses only the current Storefront `Product` and its associated
-public manufacturer/category models:
+Product Detail does not declare schema.org `Product`, because the RFQ storefront
+does not publish truthful Product-specific prices, offers, reviews, or ratings.
+The page instead emits an `ItemPage` whose `mainEntity` is a `MedicalDevice`.
+All 114 published catalog entries are medical equipment used for diagnosis,
+treatment, monitoring, or clinical support, so this subtype is truthful.
 
-- name, description, canonical URL;
-- image URLs from image media only;
-- brand name from the Storefront manufacturer;
-- category name;
-- `mpn` from the explicit product model;
-- `additionalProperty` entries from Storefront specifications.
-
-Each specification becomes a `PropertyValue` with name, value, and optional
-`unitText`. No Storefront IDs are emitted.
+The `MedicalDevice` entity is intentionally limited to inherited `Thing`
+properties whose values are already public and unambiguous: `name`, plain-text
+`description`, canonical `url`, and resolvable `image`. Product-oriented
+properties `manufacturer`, `brand`, `model`, `sku`, `mpn`, and `category` are
+not copied to `MedicalDevice`, because their schema.org domains do not include
+that type. Category remains page navigation context and an `ItemPage` keyword.
 
 The following fields and concepts are explicitly prohibited and absent:
 
-- offers, price, discount, availability;
+- schema.org `Product`, offers, price, discount, availability;
+- manufacturer, brand, model, SKU, MPN, or category on `MedicalDevice`;
 - aggregate ratings and reviews;
 - GTIN or invented identifiers;
 - registration, verification, or provenance metadata;

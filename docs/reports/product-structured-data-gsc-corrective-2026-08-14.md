@@ -2,7 +2,7 @@
 
 ## Scope and safety
 
-- Source Production SHA: `f09fe0ea4b0e02679efd5a674ee15238f6b54098`.
+- Source Production SHA: `946fce149f75d29449daf586ec1a8ca349c767d1`.
 - Scope: JSON-LD on all 114 published Product Detail pages and two exact legacy URL assumptions.
 - Product/content/lifecycle/Supabase writes: `0`.
 - Migrations: `0`.
@@ -23,7 +23,8 @@ Decision:
 
 - no `Offer`, fake price, review or rating is added;
 - the Google Product rich-result declaration is removed;
-- the page remains described with schema.org `ItemPage`, a neutral `Thing` main entity, canonical URL, H1-aligned name, plain-text description, manufacturer `Organization`, model as a generic identifier and canonical-host image URLs;
+- the page remains described with schema.org `ItemPage` and a `MedicalDevice` main entity, canonical URL, H1-aligned name, plain-text description and canonical-host image URLs;
+- `manufacturer`, `brand`, `model`, `sku`, `mpn` and `category` are omitted from `MedicalDevice`: current schema.org domains do not support them on that type, and no substitute relationship is invented;
 - the existing `BreadcrumbList` is preserved exactly once.
 
 This intentionally gives up Product rich-result eligibility until truthful public price or review data exists. It removes the critical Product enhancement error without inventing commercial facts.
@@ -33,6 +34,8 @@ References:
 - [Google Product snippet requirements](https://developers.google.com/search/docs/appearance/structured-data/product-snippet)
 - [Google Product structured data overview](https://developers.google.com/search/docs/appearance/structured-data/product)
 - [schema.org ItemPage](https://schema.org/ItemPage)
+- [schema.org MedicalDevice](https://schema.org/MedicalDevice)
+- [schema.org mainEntity](https://schema.org/mainEntity)
 
 ## 114-page evidence matrix — before
 

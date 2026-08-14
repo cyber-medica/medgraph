@@ -12,6 +12,7 @@ const outputPath = process.env.CYBERMEDICA_AUDIT_OUTPUT;
 const expectedStrategy = process.env.CYBERMEDICA_AUDIT_STRATEGY ?? "auto";
 const allowFailures = process.env.CYBERMEDICA_AUDIT_ALLOW_FAILURES === "1";
 const concurrency = 8;
+const imageResolutionCache = new Map<string, Promise<boolean>>();
 
 function decodeHtml(value: string) {
   return value
@@ -68,17 +69,23 @@ function schemaImages(node: JsonObject | undefined) {
 
 async function imageResolves(url: string | undefined) {
   if (!url) return false;
-  try {
-    const response = await fetch(url, {
-      headers: { Range: "bytes=0-0", "User-Agent": "CyberMedica-Structured-Data-Audit/1.0" },
-      redirect: "follow",
-      signal: AbortSignal.timeout(15_000),
-    });
-    await response.body?.cancel();
-    return response.ok && (response.headers.get("content-type") ?? "").startsWith("image/");
-  } catch {
-    return false;
-  }
+  const cached = imageResolutionCache.get(url);
+  if (cached) return cached;
+  const request = (async () => {
+    try {
+      const response = await fetch(url, {
+        headers: { Range: "bytes=0-0", "User-Agent": "CyberMedica-Structured-Data-Audit/1.0" },
+        redirect: "follow",
+        signal: AbortSignal.timeout(15_000),
+      });
+      await response.body?.cancel();
+      return response.ok && (response.headers.get("content-type") ?? "").startsWith("image/");
+    } catch {
+      return false;
+    }
+  })();
+  imageResolutionCache.set(url, request);
+  return request;
 }
 
 async function auditProduct(row: PublishedCatalogProjection["products"][number], index: number) {
@@ -92,10 +99,12 @@ async function auditProduct(row: PublishedCatalogProjection["products"][number],
   });
   const html = await response.text();
   const nodes = jsonLdNodes(html);
-  const productNode = nodes.find((node) => node["@type"] === "Product");
   const itemPageNode = nodes.find((node) => node["@type"] === "ItemPage");
-  const breadcrumbNode = nodes.find((node) => node["@type"] === "BreadcrumbList");
-  const identityNode = itemPageNode ?? productNode;
+  const mainEntityNode = itemPageNode?.mainEntity && typeof itemPageNode.mainEntity === "object"
+    ? itemPageNode.mainEntity as JsonObject
+    : undefined;
+  const productGraphCount = nodes.filter((node) => node["@type"] === "Product").length;
+  const breadcrumbGraphCount = nodes.filter((node) => node["@type"] === "BreadcrumbList").length;
   const h1 = decodeHtml(firstMatch(html, /<h1[^>]*>([\s\S]*?)<\/h1>/iu) ?? "");
   const canonical = firstMatch(
     html,
@@ -104,17 +113,8 @@ async function auditProduct(row: PublishedCatalogProjection["products"][number],
     html,
     /<link[^>]*href=["']([^"']+)["'][^>]*rel=["']canonical["'][^>]*>/iu,
   );
-  const description = String(identityNode?.description ?? "");
-  const imageUrls = schemaImages(identityNode);
-  const provider = itemPageNode?.provider && typeof itemPageNode.provider === "object"
-    ? itemPageNode.provider as JsonObject
-    : undefined;
-  const brand = productNode?.brand && typeof productNode.brand === "object"
-    ? productNode.brand as JsonObject
-    : undefined;
-  const offer = productNode?.offers && typeof productNode.offers === "object"
-    ? productNode.offers as JsonObject
-    : undefined;
+  const description = String(mainEntityNode?.description ?? itemPageNode?.description ?? "");
+  const imageUrls = schemaImages(itemPageNode);
   const urls = stringsIn(nodes).flatMap((value) => {
     try {
       return value.startsWith("http") ? [new URL(value)] : [];
@@ -125,55 +125,55 @@ async function auditProduct(row: PublishedCatalogProjection["products"][number],
   const forbiddenHosts = urls
     .map(({ hostname }) => hostname)
     .filter((hostname) => /(?:^|\.)stage\.cyber-medica\.ru$|\.vercel\.app$|(?:^|\.)medvist\.ru$/iu.test(hostname));
-  const productEligibilityErrors = productNode
-    ? [
-        ...(productNode.offers || productNode.review || productNode.aggregateRating
-          ? []
-          : ["missing_offers_review_aggregateRating"]),
-        ...(offer && !(offer.price || (offer.priceSpecification as JsonObject | undefined)?.price)
-          ? ["offer_missing_price"]
-          : []),
-      ]
-    : [];
-  const primaryImageResolved = await imageResolves(imageUrls[0]);
+  const imageResolution = await Promise.all(imageUrls.map(imageResolves));
+  const allImagesResolvable = imageUrls.length > 0 && imageResolution.every(Boolean);
+  const structuredName = String(mainEntityNode?.name ?? itemPageNode?.name ?? "");
+  const descriptionIsPlainText = Boolean(description)
+    && !/<[^>]+>|&(?:nbsp|amp|lt|gt|quot|apos);/iu.test(description);
+  const offersPresent = stringsIn(nodes).some((value) => value === "offers")
+    || nodes.some((node) => "offers" in node)
+    || Boolean(mainEntityNode && "offers" in mainEntityNode);
+  const reviewPresent = nodes.some((node) => "review" in node)
+    || Boolean(mainEntityNode && "review" in mainEntityNode);
+  const aggregateRatingPresent = nodes.some((node) => "aggregateRating" in node)
+    || Boolean(mainEntityNode && "aggregateRating" in mainEntityNode);
+  const validationErrors = [
+    ...(response.status === 200 ? [] : [`http_${response.status}`]),
+    ...(itemPageNode?.["@type"] === "ItemPage" ? [] : ["missing_item_page"]),
+    ...(mainEntityNode?.["@type"] === "MedicalDevice" ? [] : ["invalid_main_entity_type"]),
+    ...(breadcrumbGraphCount === 1 ? [] : [`breadcrumb_graph_count_${breadcrumbGraphCount}`]),
+    ...(productGraphCount === 0 ? [] : [`product_graph_count_${productGraphCount}`]),
+    ...(Boolean(h1) && structuredName === h1 ? [] : ["structured_name_h1_mismatch"]),
+    ...(descriptionIsPlainText ? [] : ["structured_description_not_plain_text"]),
+    ...(canonical === `${canonicalOrigin}${route}` ? [] : ["canonical_mismatch"]),
+    ...(allImagesResolvable ? [] : ["structured_image_unresolved"]),
+    ...(forbiddenHosts.length === 0 ? [] : ["forbidden_host_detected"]),
+    ...(offersPresent ? ["offers_present"] : []),
+    ...(reviewPresent ? ["review_present"] : []),
+    ...(aggregateRatingPresent ? ["aggregate_rating_present"] : []),
+  ];
 
   return {
-    route,
     productId: row.id,
     slug: row.slug,
-    model: row.model,
-    publicationState: row.status,
+    canonicalUrl: canonical,
     httpStatus: response.status,
-    finalUrl: response.url.split("?")[0],
     h1,
-    canonical,
-    productDetected: Boolean(productNode),
-    itemPageDetected: Boolean(itemPageNode),
-    breadcrumbDetected: Boolean(breadcrumbNode),
-    name: String(identityNode?.name ?? ""),
-    nameMatchesH1: Boolean(h1) && identityNode?.name === h1,
-    descriptionPlainText: Boolean(description) && !/<[^>]+>|&(?:nbsp|amp|lt|gt|quot|apos);/iu.test(description),
-    brandOrProvider: String(brand?.name ?? provider?.name ?? ""),
+    structuredName,
+    nameMatchesH1: Boolean(h1) && structuredName === h1,
+    pageType: String(itemPageNode?.["@type"] ?? ""),
+    mainEntityType: String(mainEntityNode?.["@type"] ?? ""),
+    structuredDescriptionPlainText: description,
     imageCount: imageUrls.length,
-    imageResolved: primaryImageResolved,
-    imageHosts: [...new Set(imageUrls.map((value) => new URL(value).hostname))],
-    offers: Boolean(productNode?.offers),
-    review: Boolean(productNode?.review),
-    aggregateRating: Boolean(productNode?.aggregateRating),
-    googleProductRichResultEligible: Boolean(productNode) && productEligibilityErrors.length === 0,
-    productEligibilityErrors,
-    forbiddenHosts: [...new Set(forbiddenHosts)],
-    pass: response.status === 200
-      && Boolean(identityNode)
-      && Boolean(breadcrumbNode)
-      && Boolean(h1)
-      && identityNode?.name === h1
-      && Boolean(description)
-      && !/<[^>]+>|&(?:nbsp|amp|lt|gt|quot|apos);/iu.test(description)
-      && canonical === `${canonicalOrigin}${route}`
-      && imageUrls.length > 0
-      && primaryImageResolved
-      && forbiddenHosts.length === 0,
+    allImagesResolvable,
+    breadcrumbGraphCount,
+    productGraphCount,
+    offersPresent,
+    reviewPresent,
+    aggregateRatingPresent,
+    forbiddenHostDetected: forbiddenHosts.length > 0,
+    validationStatus: validationErrors.length === 0 ? "PASS" : "FAIL",
+    validationErrors,
   };
 }
 
@@ -191,8 +191,8 @@ async function mapConcurrent<T, R>(values: readonly T[], worker: (value: T, inde
 }
 
 const products = await mapConcurrent(projection.products, auditProduct);
-const productDetected = products.filter((entry) => entry.productDetected).length;
-const itemPageDetected = products.filter((entry) => entry.itemPageDetected).length;
+const productDetected = products.reduce((total, entry) => total + entry.productGraphCount, 0);
+const itemPageDetected = products.filter((entry) => entry.pageType === "ItemPage").length;
 const strategyMatches = expectedStrategy === "auto"
   || (expectedStrategy === "product" && productDetected === products.length)
   || (expectedStrategy === "item-page" && itemPageDetected === products.length && productDetected === 0);
@@ -206,14 +206,17 @@ const report = {
     http200: products.filter((entry) => entry.httpStatus === 200).length,
     productDetected,
     itemPageDetected,
-    breadcrumbDetected: products.filter((entry) => entry.breadcrumbDetected).length,
+    medicalDeviceDetected: products.filter((entry) => entry.mainEntityType === "MedicalDevice").length,
+    breadcrumbDetected: products.filter((entry) => entry.breadcrumbGraphCount === 1).length,
     namesMatchH1: products.filter((entry) => entry.nameMatchesH1).length,
-    plainTextDescriptions: products.filter((entry) => entry.descriptionPlainText).length,
-    imagesResolved: products.filter((entry) => entry.imageResolved).length,
-    googleProductRichResultEligible: products.filter((entry) => entry.googleProductRichResultEligible).length,
-    missingOfferReviewRating: products.filter((entry) => entry.productEligibilityErrors.includes("missing_offers_review_aggregateRating")).length,
-    forbiddenHostFindings: products.reduce((total, entry) => total + entry.forbiddenHosts.length, 0),
-    pass: products.filter((entry) => entry.pass).length,
+    plainTextDescriptions: products.filter((entry) => Boolean(entry.structuredDescriptionPlainText)
+      && !/<[^>]+>|&(?:nbsp|amp|lt|gt|quot|apos);/iu.test(entry.structuredDescriptionPlainText)).length,
+    imagesResolved: products.filter((entry) => entry.allImagesResolvable).length,
+    offersPresent: products.filter((entry) => entry.offersPresent).length,
+    reviewPresent: products.filter((entry) => entry.reviewPresent).length,
+    aggregateRatingPresent: products.filter((entry) => entry.aggregateRatingPresent).length,
+    forbiddenHostFindings: products.filter((entry) => entry.forbiddenHostDetected).length,
+    pass: products.filter((entry) => entry.validationStatus === "PASS").length,
     strategyMatches,
   },
   products,

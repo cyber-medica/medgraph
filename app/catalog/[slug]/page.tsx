@@ -159,7 +159,6 @@ export default async function StorefrontProductPage({
         <JsonLd
           data={buildProductStructuredData({
             product,
-            manufacturer,
             category,
             breadcrumbName: productH1,
           })}

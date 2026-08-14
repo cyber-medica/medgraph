@@ -162,13 +162,12 @@ test("production sitemap is canonical and contains only approved content routes"
 
 test("Product Detail ItemPage JSON-LD is truthful and breadcrumbs include category", () => {
   for (const product of publishedCatalog.products) {
-    const manufacturer = publishedCatalog.manufacturers.find(({ id }) => id === product.manufacturerId);
     const category = publishedCatalog.categories.find(({ id }) => id === product.categoryId);
     assert.ok(category);
-    const [schema, breadcrumb] = buildProductStructuredData({ product, manufacturer, category });
+    const [schema, breadcrumb] = buildProductStructuredData({ product, category });
     const serialized = JSON.stringify(schema);
     assert.equal(schema["@type"], "ItemPage");
-    assert.equal((schema.mainEntity as Record<string, unknown>)["@type"], "Thing");
+    assert.equal((schema.mainEntity as Record<string, unknown>)["@type"], "MedicalDevice");
     assert.doesNotMatch(
       serialized,
       /"(?:Product|offers|price|availability|aggregateRating|review|rating)"/u,

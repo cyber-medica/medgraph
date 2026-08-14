@@ -19,7 +19,6 @@ interface PageSchemaInput {
 
 interface ProductSchemaInput {
   product: Product;
-  manufacturer?: Manufacturer;
   category?: Category;
   breadcrumbName?: string;
 }
@@ -108,7 +107,6 @@ export function buildCollectionPageStructuredData({
 
 export function buildProductStructuredData({
   product,
-  manufacturer,
   category,
   breadcrumbName = product.name,
 }: ProductSchemaInput): StorefrontSchema[] {
@@ -126,11 +124,10 @@ export function buildProductStructuredData({
     inLanguage: "ru-RU",
     isPartOf: websiteReference(),
     mainEntity: {
-      "@type": "Thing",
+      "@type": "MedicalDevice",
       name: breadcrumbName,
       description,
       url: canonicalUrl,
-      ...(product.model ? { identifier: product.model } : {}),
       ...(images.length > 0 ? { image: images } : {}),
     },
     ...(images.length > 0
@@ -139,14 +136,6 @@ export function buildProductStructuredData({
             "@type": "ImageObject",
             contentUrl: images[0],
             caption: breadcrumbName,
-          },
-        }
-      : {}),
-    ...(manufacturer
-      ? {
-          provider: {
-            "@type": "Organization",
-            name: manufacturer.name,
           },
         }
       : {}),

@@ -71,49 +71,41 @@ test("catalog and manufacturer directories use CollectionPage without a full Ite
   assert.equal(schema.itemListElement, undefined);
 });
 
-test("Product Detail uses a truthful ItemPage graph without Google Product claims", async () => {
-  const [products, manufacturers, categories] = await Promise.all([
+test("Product Detail uses a truthful MedicalDevice ItemPage graph without Google Product claims", async () => {
+  const [products, categories] = await Promise.all([
     repository.getActiveProducts(),
-    repository.getManufacturers(),
     repository.getCategories(),
   ]);
   const product = products[0];
   assert.ok(product);
-  const manufacturer = manufacturers.find(({ id }) => id === product.manufacturerId);
   const category = categories.find(({ id }) => id === product.categoryId);
   const [schema, breadcrumb] = buildProductStructuredData({
     product,
-    manufacturer,
     category,
   });
 
   assert.equal(schema["@type"], "ItemPage");
   assert.equal(schema.url, `${STOREFRONT_SITE_URL}/catalog/${product.slug}`);
-  assert.equal((schema.mainEntity as Record<string, unknown>)["@type"], "Thing");
-  assert.equal((schema.mainEntity as Record<string, unknown>).identifier, product.model);
-  assert.equal((schema.provider as Record<string, unknown>)["@type"], "Organization");
+  assert.equal((schema.mainEntity as Record<string, unknown>)["@type"], "MedicalDevice");
   assert.equal(breadcrumb["@type"], "BreadcrumbList");
 
   const forbidden = JSON.stringify(schema);
   assert.doesNotMatch(
     forbidden,
-    /"(?:Product|offers|price|availability|aggregateRating|review|gtin|mpn|registration|verification|provenance|evidence|artifactPath|sha256)"/u,
+    /"(?:Product|offers|price|availability|aggregateRating|review|manufacturer|brand|model|sku|gtin|mpn|category|identifier|registration|verification|provenance|evidence|artifactPath|sha256)"/u,
   );
 });
 
 test("Ambu VivaSight image flows into canonical ItemPage JSON-LD", async () => {
-  const [products, manufacturers, categories] = await Promise.all([
+  const [products, categories] = await Promise.all([
     repository.getActiveProducts(),
-    repository.getManufacturers(),
     repository.getCategories(),
   ]);
   const product = products.find(({ slug }) => slug === "ambu-vivasight-2-dlt");
   assert.ok(product);
-  const manufacturer = manufacturers.find(({ id }) => id === product.manufacturerId);
   const category = categories.find(({ id }) => id === product.categoryId);
   const [schema] = buildProductStructuredData({
     product,
-    manufacturer,
     category,
   });
 
