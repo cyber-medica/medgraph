@@ -73,37 +73,53 @@ Both redirects are one hop and never target the homepage or generic catalog. The
 
 ## Stage validation
 
-- Stage URL: `https://medgraph-ovoh20662-medgraph.vercel.app`.
-- Deployment: `dpl_85w8AFitKSqp8W7pFu4Cazm3DE5F` (`READY`, Preview).
-- Runtime commit: `6c8888676cd5e364f5cfd2e42cc6f45b8a506589`.
+- Branch: `codex/google-product-indexing-readiness-v1`.
+- Stage URL: `https://medgraph-k04ec8phw-medgraph.vercel.app`.
+- Deployment: `dpl_CrZKYUq7XVHisqL1tnXAEUqDYrjt` (`READY`, Preview).
+- Runtime commit: `bc6b6b666569c91cf6b0e485e00fceb838cd5f05`.
 - After-audit artifact: `/tmp/product-structured-data-gsc-after-2026-08-14.json`.
-- After-audit SHA-256: `49698440c3819b9f666c93e01efe8d7a8b7bf2bfad501dca3abffb3bb70a128a`.
+- After-audit SHA-256: `a6bfb2c52bbdede1b2faab51320cfc5c190651ee1ec860562422eecbc97761be`.
 
 | Check | Result |
 |---|---:|
 | Product Detail routes audited | 114 |
 | HTTP 200 | 114 |
 | `ItemPage` detected | 114 |
+| `MedicalDevice` main entities | 114 |
 | Google `Product` detected | 0 |
 | `BreadcrumbList` detected | 114 |
 | Name equals visible H1 | 114 |
 | Plain-text structured descriptions | 114 |
-| Canonical-host structured images resolve | 114 |
+| Every structured image resolves | 114/114 Products |
+| `offers` / `review` / `aggregateRating` present | 0 / 0 / 0 |
+| Forbidden hosts | 0 |
 | Google Product critical errors caused by our markup | 0 |
 | Stage matrix PASS | 114/114 |
 
-Representative Product Detail checks passed for Hamilton-T1, SonoScape HD-550, Medinova ENDO CLEAN-2000, Mindray SV300 and BOWA ARC 350. All render `ItemPage` plus one `BreadcrumbList`; none declares Product commerce, Offer, price, review or rating data.
+Representative Product Detail checks passed for Hamilton-T1, SonoScape HD-550, SonoScape HD-500, SonoScape HD-350, Medinova ENDO CLEAN-2000, Mindray SV300 and BOWA ARC 350. All render `ItemPage` → `MedicalDevice` plus one `BreadcrumbList`; none declares Product commerce, Offer, price, review or rating data. Chromium desktop and iPhone WebKit each returned HTTP 200, one H1, one visible canonical breadcrumb, zero horizontal overflow and measured CLS `0` on all seven routes.
 
 The two expected SonoScape URLs return exact HTTP 301 responses and reach their canonical Product pages in one hop. Both canonical pages return HTTP 200 with the correct title and H1 and the new JSON-LD contract.
 
 Preview indexing remains intentionally disabled, so its sitemap is empty by design. The unchanged Production sitemap contains 114 unique canonical Product URLs, includes both HD-500 and HD-350 canonical routes, and contains neither redirect alias.
 
-WebKit smoke passed across iPhone Safari portrait, iPhone WebKit landscape and desktop Safari/WebKit for homepage, catalog, request, HD-500 Product Detail and internal login.
+The extended browser matrix passed 41 routes in Chromium desktop, Chromium mobile 390 px and iPhone WebKit 390 px. A second WebKit smoke passed across iPhone Safari portrait, iPhone WebKit landscape and desktop Safari/WebKit for homepage, catalog, request, HD-500 Product Detail and internal login. No first-party browser errors were observed.
+
+Validation gates:
+
+- targeted structured-data/redirect tests: `23/23` PASS;
+- full test suite: `699/699` PASS;
+- R9/SEO regression subset: `21/21` PASS;
+- TypeScript: PASS;
+- ESLint: PASS;
+- Next.js 16.2.9 Turbopack production build: PASS;
+- catalog reliability prebuild gate: `8/8` PASS.
+
+The accepted Stage is deliberately backed by the checksum-validated 114-Product snapshot and receives no Production service credential. Its health endpoint therefore identifies the Preview source as degraded/fallback rather than falsely claiming a live Production transport. Canonical Production was checked separately after the Preview deployment and remained `liveTransport=healthy`, `fallbackActive=false`.
 
 Production invariance after Preview deployment:
 
-- deployment: `dpl_HZPTg2vU7Z3wbYg3W2iQfQx9qJ5e`;
-- SHA: `f09fe0ea4b0e02679efd5a674ee15238f6b54098`;
+- deployment: `dpl_7HmHguJD2QMZKJ78xzakcAkpjdao`;
+- SHA: `946fce149f75d29449daf586ec1a8ca349c767d1`;
 - Products: `114`;
 - projection version: `75`;
 - `liveTransport`: `healthy`;
