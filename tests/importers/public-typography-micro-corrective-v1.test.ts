@@ -53,6 +53,8 @@ test("public typography has one loaded Onest token system", async () => {
   assert.match(layout, /subsets: \["cyrillic", "latin"\]/u);
   assert.match(layout, /weight: "variable"/u);
   assert.match(layout, /variable: "--font-onest"/u);
+  assert.match(layout, /<html lang="ru" className=\{onest\.variable\}>/u);
+  assert.match(layout, /<body className="bg-cm-canvas font-sans text-cm-ink antialiased">/u);
   assert.match(css, /--font-sans: var\(--font-onest\), "Onest", "Inter", system-ui, sans-serif;/u);
   assert.match(css, /\.cm-label,\s*\.cm-eyebrow\s*\{[\s\S]*font-weight: 700;[\s\S]*letter-spacing: 0\.08em;/u);
   assert.match(css, /\.cm-heading-1\s*\{[\s\S]*letter-spacing: normal;/u);

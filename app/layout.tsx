@@ -77,8 +77,8 @@ export default function RootLayout({
   const cloudPreview = isCloudPreviewCatalog();
 
   return (
-    <html lang="ru">
-      <body className={`${onest.variable} bg-cm-canvas font-sans text-cm-ink antialiased`}>
+    <html lang="ru" className={onest.variable}>
+      <body className="bg-cm-canvas font-sans text-cm-ink antialiased">
         <Header
           products={[]}
           manufacturers={[]}
