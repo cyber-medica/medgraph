@@ -1,7 +1,7 @@
 # Public typography system and homepage/RFQ micro-corrective v1
 
-Date: 2026-08-14  
-Baseline: `aad07eb6c15c079f8e6aaa4d776f9aa0c49fecdf`  
+Date: 2026-08-14
+Baseline: `aad07eb6c15c079f8e6aaa4d776f9aa0c49fecdf`
 Branch: `codex/public-typography-micro-corrective-v1`
 
 ## Scope
