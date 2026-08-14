@@ -54,6 +54,53 @@ header/footer, cards, CTA blocks, breadcrumbs and the public FS510 vertical.
 
 ## Stage validation
 
-Stage deployment and final responsive/browser evidence are recorded after the
-feature deployment. Production promotion remains intentionally blocked pending
-visual review.
+Final Stage:
+`https://medgraph-4gbmcxcdt-medgraph.vercel.app`
+(`dpl_Yx4CrYqnfbASYpB1tfmLqouekheD`). It was built from the feature commit
+using the existing read-only EndoMarket Stage fixture so the complete
+eight-card featured block could be reviewed without Production credentials or
+writes. An attempted Production-shaped Preview correctly failed closed at the
+Supabase Preview/Production project-binding guard; that guard was not changed.
+
+Validation evidence:
+
+- responsive homepage matrix: `1440 / 1280 / 1024 / 768 / 390`, all HTTP 200;
+- exact featured subtitle present; `рассрочкой 0%` stayed on one rendered line
+  at every audited width;
+- computed public font family begins with `Onest` on all checked routes;
+- computed public mono text: `0`;
+- horizontal overflow: `0`;
+- homepage CLS: `0` at all five widths; the maximum representative-route CLS
+  was `0.00096` on `/manufacturers`, attributed exclusively to pre-existing
+  lazy logo image decoding (Bionet, Fresenius Kabi, Mindray, PENTAX Medical,
+  B. Braun and SonoScape), not to font or text nodes;
+- external Google Fonts runtime requests: `0`;
+- Chromium desktop and WebKit mobile route matrix: `20/20` PASS, including
+  homepage, Catalog, manufacturer directory/detail, Hamilton-T1, Mindray SV300,
+  Request and the Endoscopy SEO landing;
+- Medinova ENDO CLEAN-2000: Chromium mobile PASS and the project WebKit smoke
+  PASS in all three device profiles;
+- project iOS WebKit smoke: `3 profiles × 5 routes` PASS for both Hamilton-T1
+  and Medinova Product Detail runs;
+- RFQ hierarchy: one `Запросить КП` H1; `ДЕЛОВАЯ ЗАЯВКА` absent;
+- full test suite: `703/703` PASS;
+- targeted typography/manufacturer/R9 suite: `12/12` PASS;
+- ESLint: PASS;
+- TypeScript: PASS;
+- Vercel Turbopack build: PASS;
+- Lighthouse Stage smoke: mobile `95` Performance / `96` Accessibility,
+  desktop `100` Performance / `96` Accessibility; CLS `0` in both profiles,
+  mobile TBT `51 ms`, desktop TBT `0 ms`. Against the accepted Production
+  homepage baseline (`97 / 100`) the Preview delta is `-2 / 0`, within normal
+  Preview variance and below the material-regression threshold. The two
+  Lighthouse accessibility findings (existing color contrast and visible-label
+  name mismatch) are outside the typography corrective; changed surfaces keep
+  one H1, semantic links/buttons and valid focus behavior.
+
+Screenshots and machine-readable runtime evidence were generated at:
+
+- `/tmp/public-typography-stage-home-1440.png`;
+- `/tmp/public-typography-stage-home-390.png`;
+- `/tmp/public-typography-stage-qa-v1-result.json`.
+
+Production promotion remains intentionally blocked pending visual review.

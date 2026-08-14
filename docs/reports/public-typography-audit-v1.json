@@ -3,8 +3,23 @@
   "generatedAt": "2026-08-14",
   "baselineSha": "aad07eb6c15c079f8e6aaa4d776f9aa0c49fecdf",
   "canonicalFontFamily": "Onest, Inter, system-ui, sans-serif",
-  "routesAudited": 12,
+  "routesAudited": 15,
   "publicMonoOverridesRemoved": 71,
+  "stageValidation": {
+    "deploymentId": "dpl_Yx4CrYqnfbASYpB1tfmLqouekheD",
+    "url": "https://medgraph-4gbmcxcdt-medgraph.vercel.app",
+    "fixture": "existing read-only EndoMarket Stage catalog",
+    "responsiveWidths": [1440, 1280, 1024, 768, 390],
+    "homepageZeroPercentSameLine": true,
+    "publicMonoComputedCount": 0,
+    "horizontalOverflowPixels": 0,
+    "homepageMeasuredCls": 0,
+    "maxRepresentativeRouteCls": 0.00096,
+    "maxRepresentativeRouteClsCause": "pre-existing lazy manufacturer logo decode; no typography source attribution",
+    "externalFontRequests": 0,
+    "chromiumAndWebKitRouteChecks": 20,
+    "failures": 0
+  },
   "audits": [
     {
       "route": "/",
