@@ -28,6 +28,33 @@ function absoluteUrl(pathOrUrl: string) {
   return new URL(pathOrUrl, STOREFRONT_SITE_URL).toString();
 }
 
+function plainStructuredDataText(value: string) {
+  return value
+    .replace(/<br\s*\/?>/giu, " ")
+    .replace(/<\/(?:p|li|h[1-6])>/giu, " ")
+    .replace(/<[^>]+>/gu, "")
+    .replace(/&nbsp;|&#160;/giu, " ")
+    .replace(/&amp;|&#38;/giu, "&")
+    .replace(/&lt;|&#60;/giu, "<")
+    .replace(/&gt;|&#62;/giu, ">")
+    .replace(/&quot;|&#34;/giu, '"')
+    .replace(/&#39;|&apos;/giu, "'")
+    .replace(/\s+/gu, " ")
+    .trim();
+}
+
+function structuredDataImageUrl(pathOrUrl: string) {
+  const imageUrl = absoluteUrl(pathOrUrl);
+  if (new URL(imageUrl).origin === STOREFRONT_SITE_URL) return imageUrl;
+
+  const search = new URLSearchParams({
+    url: imageUrl,
+    w: "1200",
+    q: "75",
+  });
+  return absoluteUrl(`/_next/image?${search.toString()}`);
+}
+
 function websiteReference() {
   return {
     "@type": "WebSite",
@@ -87,38 +114,47 @@ export function buildProductStructuredData({
 }: ProductSchemaInput): StorefrontSchema[] {
   const images = product.media
     .filter(({ type }) => type === "image")
-    .map(({ url }) => absoluteUrl(url));
-  const productSchema: StorefrontSchema = {
+    .map(({ url }) => structuredDataImageUrl(url));
+  const canonicalUrl = absoluteUrl(`/catalog/${product.slug}`);
+  const description = plainStructuredDataText(product.description);
+  const itemPageSchema: StorefrontSchema = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description: product.description,
-    url: absoluteUrl(`/catalog/${product.slug}`),
-    ...(images.length > 0 ? { image: images } : {}),
+    "@type": "ItemPage",
+    name: breadcrumbName,
+    description,
+    url: canonicalUrl,
+    inLanguage: "ru-RU",
+    isPartOf: websiteReference(),
+    mainEntity: {
+      "@type": "Thing",
+      name: breadcrumbName,
+      description,
+      url: canonicalUrl,
+      ...(product.model ? { identifier: product.model } : {}),
+      ...(images.length > 0 ? { image: images } : {}),
+    },
+    ...(images.length > 0
+      ? {
+          primaryImageOfPage: {
+            "@type": "ImageObject",
+            contentUrl: images[0],
+            caption: breadcrumbName,
+          },
+        }
+      : {}),
     ...(manufacturer
       ? {
-          brand: {
-            "@type": "Brand",
+          provider: {
+            "@type": "Organization",
             name: manufacturer.name,
           },
         }
       : {}),
-    ...(category ? { category: category.name } : {}),
-    ...(product.model ? { mpn: product.model } : {}),
-    ...(product.specifications.length > 0
-      ? {
-          additionalProperty: product.specifications.map((specification) => ({
-            "@type": "PropertyValue",
-            name: specification.label,
-            value: specification.value,
-            ...(specification.unit ? { unitText: specification.unit } : {}),
-          })),
-        }
-      : {}),
+    ...(category ? { keywords: category.name } : {}),
   };
 
   return [
-    productSchema,
+    itemPageSchema,
     buildBreadcrumbJsonLd([
       { name: "Главная", path: "/" },
       { name: "Каталог", path: "/catalog" },

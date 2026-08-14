@@ -47,8 +47,11 @@ test("security headers are applied globally with only approved public media orig
 test("www permanently redirects to the canonical apex domain", async () => {
   assert.equal(typeof nextConfig.redirects, "function");
   const redirects = await nextConfig.redirects!();
+  const canonicalRedirects = redirects.filter(
+    (entry) => entry.source === "/:path*" && "has" in entry,
+  );
 
-  assert.deepEqual(redirects, [
+  assert.deepEqual(canonicalRedirects, [
     {
       source: "/:path*",
       has: [{ type: "host", value: "www.cyber-medica.ru" }],

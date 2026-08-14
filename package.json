@@ -47,6 +47,7 @@
     "qa:seo:v3": "node scripts/qa/seo-business-package-v3.ts",
     "qa:catalog-reliability-gate": "node --test tests/importers/published-catalog-transport-resilience-v1.test.ts",
     "qa:catalog-production-synthetic": "node scripts/qa/catalog-production-synthetic.ts",
+    "qa:product-structured-data": "node scripts/qa/product-structured-data-gsc.ts",
     "qa:canonical-routing-gate": "node scripts/qa/canonical-routing-gate.ts",
     "qa:canonical-routing-mobile": "node scripts/qa/canonical-routing-mobile-synthetic.ts",
     "supabase:health": "node scripts/qa/supabase-health.ts",

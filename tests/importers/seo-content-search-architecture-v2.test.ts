@@ -160,16 +160,18 @@ test("production sitemap is canonical and contains only approved content routes"
   assert.equal(urls.some((url) => /stage\.|vercel\.app|\/search|\/compare|\/request/u.test(url)), false);
 });
 
-test("Product JSON-LD is truthful and breadcrumbs include category", () => {
+test("Product Detail ItemPage JSON-LD is truthful and breadcrumbs include category", () => {
   for (const product of publishedCatalog.products) {
     const manufacturer = publishedCatalog.manufacturers.find(({ id }) => id === product.manufacturerId);
     const category = publishedCatalog.categories.find(({ id }) => id === product.categoryId);
     assert.ok(category);
     const [schema, breadcrumb] = buildProductStructuredData({ product, manufacturer, category });
     const serialized = JSON.stringify(schema);
+    assert.equal(schema["@type"], "ItemPage");
+    assert.equal((schema.mainEntity as Record<string, unknown>)["@type"], "Thing");
     assert.doesNotMatch(
       serialized,
-      /"(?:offers|price|availability|aggregateRating|review|rating)"/u,
+      /"(?:Product|offers|price|availability|aggregateRating|review|rating)"/u,
     );
     assert.deepEqual(
       (breadcrumb.itemListElement as Array<{ name: string }>).map(({ name }) => name),

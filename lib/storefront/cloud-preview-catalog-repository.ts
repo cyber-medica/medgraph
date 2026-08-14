@@ -16,6 +16,7 @@ import { filterProductsForSearch } from "./search-service.ts";
 import {
   isEndoMarketStagePreview,
   isManufacturerLogoNavigationStagePreview,
+  isProductStructuredDataGscStagePreview,
 } from "./data-source.ts";
 import { composeEndoMarketStageCatalog } from "./endomarket-stage-catalog.ts";
 import { applyFinalStageAcceptanceCorrectiveV2 } from "./final-stage-acceptance-corrective-v2.ts";
@@ -26,7 +27,10 @@ import type { StorefrontCatalog } from "./types.ts";
 type CatalogLoader = () => Promise<StorefrontCatalog>;
 
 async function requestCloudPreviewCatalog(): Promise<StorefrontCatalog> {
-  if (isManufacturerLogoNavigationStagePreview()) {
+  if (
+    isManufacturerLogoNavigationStagePreview()
+    || isProductStructuredDataGscStagePreview()
+  ) {
     return mapCloudPublishedCatalogProjection(
       publishedCatalogSnapshotJson.projection as unknown as PublishedCatalogProjection,
     );

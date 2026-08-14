@@ -99,6 +99,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/catalog/videoendoskopicheskaya-sistema-sonoscape-hd-500",
+        destination: "/catalog/767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+        statusCode: 301,
+      },
+      {
+        source: "/catalog/videoendoskopicheskaya-sistema-sonoscape-hd-350",
+        destination: "/catalog/767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+        statusCode: 301,
+      },
+      {
         source: "/:path*",
         has: [{ type: "host", value: "www.cyber-medica.ru" }],
         destination: "https://cyber-medica.ru/:path*",
