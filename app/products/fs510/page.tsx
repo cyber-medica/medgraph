@@ -68,7 +68,7 @@ function PageState({
           <p className="cm-label !text-cm-teal">
             {eyebrow}
           </p>
-          <h1 className="mt-3 text-2xl font-extrabold tracking-[-0.025em]">
+          <h1 className="cm-heading-1 mt-3 text-2xl font-extrabold">
             {title}
           </h1>
           <p className="mt-4 max-w-xl text-[13px] leading-7 text-cm-slate">
@@ -93,7 +93,7 @@ function PageState({
           <div className="rounded-lg border border-[var(--cm-rule)] bg-white/88 p-4 shadow-[0_10px_30px_rgba(11,19,32,0.055)] backdrop-blur">
             <div className="flex items-center justify-between gap-3">
               <div className="cm-label !text-cm-teal">Временная карточка</div>
-              <span className="rounded-md border border-cm-teal/20 bg-cm-teal-soft px-2 py-1 font-mono text-[8px] font-semibold text-cm-teal">
+              <span className="rounded-md border border-cm-teal/20 bg-cm-teal-soft px-2 py-1 font-sans text-[8px] font-semibold text-cm-teal">
                 обновляется
               </span>
             </div>
@@ -154,13 +154,13 @@ export default async function Fs510ProductPage() {
     <main className="min-h-screen bg-cm-canvas text-cm-ink">
       <div className="border-b border-[var(--cm-rule)] bg-white">
         <div className="cm-container flex flex-wrap items-center justify-between gap-3 py-2.5 text-[10px]">
-          <div className="flex items-center gap-2 font-mono font-semibold uppercase tracking-[0.06em] text-cm-verified">
+          <div className="cm-eyebrow flex items-center gap-2 !text-cm-verified">
             <span className="flex size-5 items-center justify-center rounded-full bg-cm-verified">
               <Checkmark className="size-3.5 text-white" />
             </span>
             Опубликовано Кибермедика
           </div>
-          <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-cm-dim">
+          <div className="flex flex-wrap gap-x-5 gap-y-1 font-sans text-cm-dim">
             <span>
               Проверка:{" "}
               <time dateTime={product.publication.verifiedAt}>
@@ -190,7 +190,7 @@ export default async function Fs510ProductPage() {
         <section className="cm-card overflow-hidden">
           <div className="flex items-center justify-between gap-4 border-b border-[var(--cm-rule)] bg-cm-surface-low px-5 py-3">
             <span className="cm-label">Карточка медицинского изделия · CMR-FS510</span>
-            <span className="rounded-md border border-[var(--cm-verified-border)] bg-cm-verified-soft px-2 py-1 font-mono text-[9px] font-semibold text-cm-verified">
+            <span className="rounded-md border border-[var(--cm-verified-border)] bg-cm-verified-soft px-2 py-1 font-sans text-[9px] font-semibold text-cm-verified">
               Опубликовано
             </span>
           </div>
@@ -208,26 +208,26 @@ export default async function Fs510ProductPage() {
                 priority
                 className="relative max-h-[270px] w-full object-contain mix-blend-multiply drop-shadow-[0_16px_28px_rgba(11,19,32,0.14)]"
               />
-              <div className="absolute left-4 top-4 rounded border border-white/70 bg-white/80 px-2 py-1 font-mono text-[9px] text-cm-teal backdrop-blur">
+              <div className="absolute left-4 top-4 rounded border border-white/70 bg-white/80 px-2 py-1 font-sans text-[9px] text-cm-teal backdrop-blur">
                 Фото изделия
               </div>
             </div>
 
             <div className="p-6 sm:p-8">
               <div className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-md border border-[var(--cm-verified-border)] bg-cm-verified-soft px-2.5 py-1 font-mono text-[9px] font-semibold text-cm-verified">
+                <span className="inline-flex items-center gap-1.5 rounded-md border border-[var(--cm-verified-border)] bg-cm-verified-soft px-2.5 py-1 font-sans text-[9px] font-semibold text-cm-verified">
                   <Checkmark className="size-3" />
                   {displayStatus(product.publication.status)}
                 </span>
-                <span className="rounded border border-[var(--cm-rule)] bg-white px-2.5 py-1 font-mono text-[9px] text-cm-dim">
+                <span className="rounded border border-[var(--cm-rule)] bg-white px-2.5 py-1 font-sans text-[9px] text-cm-dim">
                   {product.category}
                 </span>
               </div>
 
-              <p className="mt-5 font-mono text-[10px] font-semibold tracking-[0.1em] text-cm-teal">
+              <p className="cm-eyebrow mt-5 !text-cm-teal">
                 FS510 · HMEF
               </p>
-              <h1 className="mt-2 max-w-2xl text-2xl font-extrabold leading-[1.12] tracking-[-0.03em] sm:text-3xl">
+              <h1 className="cm-heading-1 mt-2 max-w-2xl text-2xl font-extrabold leading-[1.12] sm:text-3xl">
                 {product.name}
               </h1>
               <p className="mt-4 max-w-2xl text-[13px] leading-6 text-cm-slate">
@@ -245,7 +245,7 @@ export default async function Fs510ProductPage() {
                   <dt className="cm-label">
                     Регистрационное удостоверение
                   </dt>
-                  <dd className="font-mono text-[11px] font-semibold">
+                  <dd className="font-sans text-[11px] font-semibold">
                     {product.registration.number}
                   </dd>
                 </div>
@@ -304,13 +304,13 @@ export default async function Fs510ProductPage() {
               <p className="cm-label !text-white/40">
                 Для быстрого решения
               </p>
-              <h2 className="mt-2 text-xl font-bold tracking-[-0.02em]">
+              <h2 className="cm-heading-2 mt-2 text-xl font-bold">
                 Ключевое за 30 секунд
               </h2>
               <ul className="mt-6 space-y-4">
                 {product.keySummary.map((item, index) => (
                   <li key={item} className="flex gap-3 text-xs leading-6 text-white/70">
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-cm-teal font-mono text-[9px] font-bold text-white">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-cm-teal font-sans text-[9px] font-bold text-white">
                       {index + 1}
                     </span>
                     <span>{item}</span>
@@ -325,11 +325,11 @@ export default async function Fs510ProductPage() {
                   <p className="cm-label !text-cm-teal">
                     Характеристики
                   </p>
-                  <h2 className="mt-2 text-xl font-bold tracking-[-0.02em]">
+                  <h2 className="cm-heading-2 mt-2 text-xl font-bold">
                     Ключевые характеристики
                   </h2>
                 </div>
-                <span className="rounded border border-[var(--cm-rule)] bg-cm-surface-low px-2 py-1 font-mono text-[9px] text-cm-dim">
+                <span className="rounded border border-[var(--cm-rule)] bg-cm-surface-low px-2 py-1 font-sans text-[9px] text-cm-dim">
                   {product.characteristics.length} параметра
                 </span>
               </div>
@@ -339,10 +339,10 @@ export default async function Fs510ProductPage() {
                     key={item.label}
                     className="bg-white p-4"
                   >
-                    <dt className="font-mono text-[9px] uppercase tracking-[0.06em] text-cm-dim">
+                    <dt className="cm-eyebrow !text-[9px]">
                       {item.label}
                     </dt>
-                    <dd className="mt-2 font-mono text-base font-bold">
+                    <dd className="mt-2 font-sans text-base font-bold">
                       {item.value}
                     </dd>
                   </div>
@@ -359,7 +359,7 @@ export default async function Fs510ProductPage() {
             <p className="cm-label !text-cm-teal">
               Проверенные факты
             </p>
-            <h2 className="mt-2 text-xl font-bold tracking-[-0.02em] sm:text-2xl">
+            <h2 className="cm-heading-2 mt-2 text-xl font-bold sm:text-2xl">
               Что именно проверено — и в каких границах
             </h2>
             <p className="mt-3 max-w-2xl text-xs leading-6 text-cm-slate">
@@ -383,14 +383,14 @@ export default async function Fs510ProductPage() {
                   <div className="border-b border-[var(--cm-rule)] p-5">
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div>
-                        <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.08em] text-cm-teal">
+                        <p className="cm-eyebrow !text-cm-teal">
                           {claim.code}
                         </p>
                         <h3 className="mt-2 text-sm font-bold">
                           {claim.displayName}
                         </h3>
                       </div>
-                      <span className="rounded-md bg-cm-teal-soft px-3 py-2 font-mono text-base font-bold text-cm-teal">
+                      <span className="rounded-md bg-cm-teal-soft px-3 py-2 font-sans text-base font-bold text-cm-teal">
                         {claim.formattedValue}
                       </span>
                     </div>
@@ -437,7 +437,7 @@ export default async function Fs510ProductPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--cm-rule)] px-5 py-3 font-mono text-[9px] text-cm-dim">
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--cm-rule)] px-5 py-3 font-sans text-[9px] text-cm-dim">
                     <span>
                       Публикация: <span className="text-cm-ink">проверенная запись</span>
                     </span>
@@ -462,7 +462,7 @@ export default async function Fs510ProductPage() {
               <p className="cm-label !text-cm-teal">
                 Источник данных
               </p>
-              <h2 className="mt-2 text-xl font-bold tracking-[-0.02em] sm:text-2xl">
+              <h2 className="cm-heading-2 mt-2 text-xl font-bold sm:text-2xl">
                 От источника до публикации
               </h2>
               <p className="mt-3 max-w-2xl text-xs leading-6 text-cm-slate">
@@ -470,7 +470,7 @@ export default async function Fs510ProductPage() {
                 Документ можно открыть напрямую, а основание — сверить по локатору.
               </p>
             </div>
-            <span className="rounded border border-cm-teal/20 bg-cm-teal-soft px-2.5 py-1 font-mono text-[9px] text-cm-teal">
+            <span className="rounded border border-cm-teal/20 bg-cm-teal-soft px-2.5 py-1 font-sans text-[9px] text-cm-teal">
               {product.sources.length} источника данных
             </span>
           </div>
@@ -491,24 +491,24 @@ export default async function Fs510ProductPage() {
                 <div className="mt-5 grid gap-4 rounded-lg border border-[var(--cm-rule)] bg-cm-surface-low p-5 lg:grid-cols-[1fr_auto] lg:items-center">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-md border border-[var(--cm-verified-border)] bg-cm-verified-soft px-2 py-1 font-mono text-[9px] font-semibold text-cm-verified">
+                      <span className="rounded-md border border-[var(--cm-verified-border)] bg-cm-verified-soft px-2 py-1 font-sans text-[9px] font-semibold text-cm-verified">
                         {displayStatus(source.verification.status)}
                       </span>
-                      <span className="font-mono text-[9px] text-cm-dim">
+                      <span className="font-sans text-[9px] text-cm-dim">
                         Публичная запись
                       </span>
                     </div>
                     <h3 className="mt-3 text-sm font-bold">
                       {source.document.title}
                     </h3>
-                    <p className="mt-1 font-mono text-[9px] text-cm-dim">
+                    <p className="mt-1 font-sans text-[9px] text-cm-dim">
                       {source.source.name} · {displayDocumentType(source.document.type)} ·{" "}
                       {source.documentVersion.label}
                     </p>
-                    <blockquote className="mt-4 border-l-2 border-cm-teal pl-4 font-mono text-[10px] leading-5 text-cm-slate">
+                    <blockquote className="mt-4 border-l-2 border-cm-teal pl-4 font-sans text-[10px] leading-5 text-cm-slate">
                       «{source.evidence.excerpt}»
                     </blockquote>
-                    <p className="mt-3 font-mono text-[9px] text-cm-dim">
+                    <p className="mt-3 font-sans text-[9px] text-cm-dim">
                       Локатор: {source.evidence.locator}
                     </p>
                   </div>
@@ -533,7 +533,7 @@ export default async function Fs510ProductPage() {
               <p className="cm-label !text-cm-teal">
                 История изменений
               </p>
-              <h2 className="mt-2 text-xl font-bold tracking-[-0.02em]">
+              <h2 className="cm-heading-2 mt-2 text-xl font-bold">
                 История публикаций
               </h2>
               <p className="mt-3 text-xs leading-6 text-cm-slate">
@@ -552,11 +552,11 @@ export default async function Fs510ProductPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <time
                       dateTime={item.effectiveAt}
-                      className="font-mono text-[10px] font-semibold text-cm-teal"
+                      className="font-sans text-[10px] font-semibold text-cm-teal"
                     >
                       {formatDate(item.effectiveAt)}
                     </time>
-                    <span className="rounded bg-cm-surface-low px-2 py-1 font-mono text-[8px] uppercase tracking-wider text-cm-dim">
+                    <span className="rounded bg-cm-surface-low px-2 py-1 font-sans text-[8px] uppercase tracking-[0.08em] text-cm-dim">
                       {displayEvent(item.event)}
                     </span>
                   </div>

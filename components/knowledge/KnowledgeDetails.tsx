@@ -21,12 +21,12 @@ function ListCard({
 
   return (
     <section className="cm-card p-6">
-      <h2 className="text-base font-bold tracking-[-0.01em]">{title}</h2>
+      <h2 className="cm-heading-2 text-base font-bold">{title}</h2>
       <ul className="mt-4 space-y-3">
         {items.map((item, index) => (
           <li key={item} className="flex gap-3 text-xs leading-6 text-cm-slate">
             <span
-              className={`mt-1 flex size-5 shrink-0 items-center justify-center rounded-md font-mono text-[9px] font-bold ${marker}`}
+              className={`mt-1 flex size-5 shrink-0 items-center justify-center rounded-md font-sans text-[9px] font-bold ${marker}`}
             >
               {index + 1}
             </span>
@@ -59,7 +59,7 @@ export default function KnowledgeDetails({
           {identifiers.map(([label, value]) => (
             <div key={label} className="rounded-md border border-[var(--cm-rule)] bg-cm-surface-low/75 p-4">
               <div className="cm-label">{label}</div>
-              <div className="mt-2 font-mono text-[11px] font-semibold">{value}</div>
+              <div className="mt-2 font-sans text-[11px] font-semibold">{value}</div>
             </div>
           ))}
         </div>
@@ -121,7 +121,7 @@ export default function KnowledgeDetails({
         ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="font-mono text-[9px] uppercase tracking-[0.06em] text-cm-dim">
+              <thead className="cm-eyebrow !text-[9px]">
                 <tr>
                   <th className="pb-4">Заказчик</th>
                   <th className="pb-4">Дата</th>

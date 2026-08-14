@@ -62,11 +62,11 @@ export default function FeaturedProducts({
               )}
             </Link>
             <div className="flex flex-1 flex-col p-5">
-              <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-cm-teal">
+              <div className="cm-eyebrow !text-cm-teal">
                 {product.category}
               </div>
               <Link href={`/catalog/${product.slug}`} className="mt-3 block">
-                <h3 className="text-[17px] font-bold leading-6 tracking-[-0.02em] transition group-hover:text-cm-teal">{product.name}</h3>
+                <h3 className="cm-heading-3 text-[17px] font-bold leading-6 transition group-hover:text-cm-teal">{product.name}</h3>
               </Link>
               {product.description && (
                 <p className="mt-2 line-clamp-2 text-xs leading-5 text-cm-slate">

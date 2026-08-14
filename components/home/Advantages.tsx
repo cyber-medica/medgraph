@@ -29,7 +29,7 @@ export default function Advantages() {
   return (
     <section className="bg-cm-surface-low py-16">
       <div className="cm-container">
-        <h2 className="text-center text-[1.55rem] font-extrabold tracking-[-0.02em]">
+        <h2 className="cm-heading-2 text-center text-[1.55rem] font-extrabold">
           Почему Кибермедика
         </h2>
 
@@ -43,7 +43,7 @@ export default function Advantages() {
               key={item.title}
               className="cm-card p-5"
             >
-              <h3 className="text-sm font-bold tracking-[-0.01em]">
+              <h3 className="cm-heading-3 text-sm font-bold">
                 {item.title}
               </h3>
 

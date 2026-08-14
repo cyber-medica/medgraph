@@ -36,7 +36,7 @@ export default function Specifications({
               {label}
             </span>
 
-            <span className="font-mono text-[11px] font-semibold text-cm-ink sm:text-right">
+            <span className="font-sans text-[11px] font-semibold text-cm-ink sm:text-right">
               {value}
             </span>
           </div>

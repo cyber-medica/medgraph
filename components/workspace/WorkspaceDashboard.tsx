@@ -63,7 +63,7 @@ export default function WorkspaceDashboard({
     <div className="space-y-7">
       <section className="grid gap-3 lg:grid-cols-4">
         <Panel title="Поиск изделия" eyebrow="Поиск" href="/search?q=FS510">
-          <div className="font-mono text-2xl font-semibold text-cm-ink">
+          <div className="font-sans text-2xl font-semibold text-cm-ink">
             {session.search.total}
           </div>
           <p className="mt-2 text-sm leading-6 text-cm-slate">
@@ -72,7 +72,7 @@ export default function WorkspaceDashboard({
         </Panel>
 
         <Panel title="Сравнение" eyebrow="Модели" href="/compare">
-          <div className="font-mono text-2xl font-semibold text-cm-ink">
+          <div className="font-sans text-2xl font-semibold text-cm-ink">
             {session.comparison.summary.differences}
           </div>
           <p className="mt-2 text-sm leading-6 text-cm-slate">
@@ -85,7 +85,7 @@ export default function WorkspaceDashboard({
           eyebrow="Связи"
           href="/products/fs510#compatibility"
         >
-          <div className="font-mono text-2xl font-semibold text-cm-ink">
+          <div className="font-sans text-2xl font-semibold text-cm-ink">
             {compatibilityRecords.length}
           </div>
           <p className="mt-2 text-sm leading-6 text-cm-slate">
@@ -94,7 +94,7 @@ export default function WorkspaceDashboard({
         </Panel>
 
         <Panel title="Проверка ТЗ" eyebrow="Требования" href="/tender">
-          <div className="font-mono text-2xl font-semibold text-cm-ink">
+          <div className="font-sans text-2xl font-semibold text-cm-ink">
             {session.tender.summary.matches}/{session.tender.summary.totalRequirements}
           </div>
           <p className="mt-2 text-sm leading-6 text-cm-slate">
@@ -132,7 +132,7 @@ export default function WorkspaceDashboard({
                   <div className="font-semibold text-cm-ink">
                     {recommendation.label}
                   </div>
-                  <span className="rounded-md border border-[var(--cm-rule)] bg-white px-2 py-1 font-mono text-[9px] text-cm-dim">
+                  <span className="rounded-md border border-[var(--cm-rule)] bg-white px-2 py-1 font-sans text-[9px] text-cm-dim">
                     {priorityLabel(recommendation.priority)}
                   </span>
                 </div>

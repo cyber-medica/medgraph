@@ -80,7 +80,7 @@ function StepBadge({
           : "border-[var(--cm-rule)] bg-white text-cm-slate"
       }`}
     >
-      <div className="font-mono text-[10px] font-semibold">Шаг {index}</div>
+      <div className="font-sans text-[10px] font-semibold">Шаг {index}</div>
       <div className="mt-1 text-sm font-semibold">{label}</div>
     </div>
   );
@@ -90,7 +90,7 @@ function SummaryMetric({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-lg border border-[var(--cm-rule)] bg-white px-4 py-3">
       <div className="cm-label">{label}</div>
-      <div className="mt-2 font-mono text-2xl font-semibold text-cm-ink">
+      <div className="mt-2 font-sans text-2xl font-semibold text-cm-ink">
         {value}
       </div>
     </div>
@@ -198,7 +198,7 @@ export default function TenderAssistantWorkflow() {
               <div className="mt-1 text-sm text-cm-slate">
                 {selectedProduct.manufacturer} · {selectedProduct.category}
               </div>
-              <div className="mt-3 inline-flex rounded-md border border-slate-200 bg-white px-2.5 py-1 font-mono text-[10px] font-semibold text-cm-slate">
+              <div className="mt-3 inline-flex rounded-md border border-slate-200 bg-white px-2.5 py-1 font-sans text-[10px] font-semibold text-cm-slate">
                 Published Projection
               </div>
             </div>
@@ -337,7 +337,7 @@ export default function TenderAssistantWorkflow() {
         <div className="rounded-lg border border-[var(--cm-rule)] bg-white px-4 py-3">
           <div className="cm-label">Risk Level</div>
           <div
-            className={`mt-3 inline-flex rounded-md border px-3 py-1.5 font-mono text-sm font-semibold ${riskClass(result.summary.riskLevel)}`}
+            className={`mt-3 inline-flex rounded-md border px-3 py-1.5 font-sans text-sm font-semibold ${riskClass(result.summary.riskLevel)}`}
           >
             {metricLabel(result.summary.riskLevel)}
           </div>

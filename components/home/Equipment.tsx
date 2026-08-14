@@ -31,12 +31,12 @@ export default function Equipment({
           <div>
             <h2
               id="homepage-equipment-title"
-              className="text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] sm:text-[26px] lg:text-[30px]"
+              className="cm-heading-2 text-2xl font-extrabold leading-[1.2] sm:text-[26px] lg:text-[30px]"
             >
               Популярное медицинское оборудование
             </h2>
             <p className="mt-2 max-w-[42rem] text-sm leading-6 text-cm-slate">
-              Оборудование для эндоскопии, диагностики и оснащения клиник — в наличии и с рассрочкой 0%.
+              Оборудование для эндоскопии, диагностики и оснащения клиник — в наличии и с рассрочкой{"\u00a0"}0%.
             </p>
           </div>
           <Link href="/catalog" className="cm-button-secondary !min-h-[44px] w-full sm:w-auto">

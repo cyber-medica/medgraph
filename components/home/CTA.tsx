@@ -11,7 +11,7 @@ export default function CTA() {
           <div className="max-w-[38rem]">
             <h2
               id="homepage-cta-title"
-              className="text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] sm:text-[26px] lg:text-[30px]"
+              className="cm-heading-2 text-2xl font-extrabold leading-[1.2] sm:text-[26px] lg:text-[30px]"
             >
               Не нашли нужное оборудование?
             </h2>

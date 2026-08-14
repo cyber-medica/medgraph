@@ -90,7 +90,7 @@ export default function WhyCyberMedica() {
       <div className="cm-container">
         <h2
           id="platform-benefits-title"
-          className="text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] sm:text-[26px] lg:text-[30px]"
+          className="cm-heading-2 text-2xl font-extrabold leading-[1.2] sm:text-[26px] lg:text-[30px]"
         >
           Подбор и сопровождение поставки
         </h2>
@@ -104,7 +104,7 @@ export default function WhyCyberMedica() {
               className="cm-card min-h-[9.5rem] p-4 sm:p-5"
             >
               <TrustIcon kind={kind} />
-              <h3 className="mt-4 text-[15px] font-bold leading-5 tracking-[-0.01em]">{title}</h3>
+              <h3 className="cm-heading-3 mt-4 text-[15px] font-bold leading-5">{title}</h3>
               <p className="mt-2 text-xs leading-5 text-cm-slate">{text}</p>
             </div>
           ))}

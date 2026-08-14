@@ -331,7 +331,7 @@ export default function CatalogExplorer({
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
           {hasActiveSearchOrFilters ? (
-            <div className="font-mono text-[10px] text-cm-slate" aria-live="polite">
+            <div className="font-sans text-[10px] text-cm-slate" aria-live="polite">
               Найдено: <strong className="text-cm-ink">{results.length}</strong>
             </div>
           ) : null}

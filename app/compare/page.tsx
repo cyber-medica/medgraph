@@ -16,7 +16,7 @@ function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-lg border border-[var(--cm-rule)] bg-white px-4 py-3">
       <div className="cm-label">{label}</div>
-      <div className="mt-2 font-mono text-2xl font-semibold text-cm-ink">
+      <div className="mt-2 font-sans text-2xl font-semibold text-cm-ink">
         {value}
       </div>
     </div>
@@ -92,7 +92,7 @@ export default async function ComparePage() {
       <header className="border-b border-[var(--cm-rule)] bg-white">
         <div className="cm-container cm-page-intro">
           <div className="cm-label">Кибермедика · Сравнение</div>
-          <h1 className="mt-2 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
+          <h1 className="cm-heading-1 mt-2 max-w-3xl text-3xl font-extrabold">
             Сравнение медицинского оборудования
           </h1>
           <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">

@@ -35,15 +35,15 @@ export default function ProductCard({
       <ProductImage product={product} href={productHref} />
       <div className="flex flex-1 flex-col p-3 sm:p-3.5">
         <div className="flex min-h-6 flex-wrap items-center gap-2">
-          <span className="rounded-md border border-[var(--cm-rule)] bg-cm-surface-low px-2 py-1 font-mono text-[9px] font-semibold text-cm-dim">
+          <span className="rounded-md border border-[var(--cm-rule)] bg-cm-surface-low px-2 py-1 font-sans text-[9px] font-semibold text-cm-dim">
             <span className="sr-only">Категория: </span>
             {presentation.categoryLabel}
           </span>
-          <span className="font-mono text-[9px] text-cm-dim">
+          <span className="font-sans text-[9px] text-cm-dim">
             {presentation.modelLabel}
           </span>
         </div>
-        <h2 className="mt-2.5 line-clamp-2 min-h-10 text-[15px] font-bold leading-5 tracking-[-0.015em]">
+        <h2 className="cm-heading-2 mt-2.5 line-clamp-2 min-h-10 text-[15px] font-bold leading-5">
           <Link
             href={productHref}
             onClick={() => rememberCatalogReturn(productHref)}

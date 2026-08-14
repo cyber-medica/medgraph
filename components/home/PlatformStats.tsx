@@ -26,7 +26,7 @@ export default function PlatformStats({
               key={label}
               className="bg-white p-5 transition duration-200 hover:bg-cm-surface-low/55"
             >
-              <div className="font-mono text-2xl font-bold text-cm-ink">
+              <div className="font-sans text-2xl font-bold text-cm-ink">
                 {value}
               </div>
               <div className="mt-1 cm-label">{label}</div>

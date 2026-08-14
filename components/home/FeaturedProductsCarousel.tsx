@@ -82,10 +82,10 @@ export default function FeaturedProductsCarousel({
               </div>
               <div className="flex flex-1 flex-col p-4">
                 <p className="text-xs font-bold text-cm-teal">{product.manufacturer}</p>
-                <h3 className="mt-2 line-clamp-2 text-lg font-extrabold leading-6 tracking-[-0.02em]">
+                <h3 className="cm-heading-3 mt-2 line-clamp-2 text-lg font-extrabold leading-6">
                   {product.name}
                 </h3>
-                <p className="mt-1 font-mono text-[11px] font-semibold text-cm-dim">
+                <p className="mt-1 font-sans text-[11px] font-semibold text-cm-dim">
                   Модель: {product.model}
                 </p>
                 <p className="mt-3 line-clamp-3 text-sm leading-6 text-cm-slate">

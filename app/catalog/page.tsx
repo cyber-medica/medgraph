@@ -86,7 +86,7 @@ export default async function CatalogPage({
               { name: "Каталог", path: "/catalog" },
             ]}
           />
-          <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
+          <h1 className="cm-heading-1 mt-3 max-w-3xl text-3xl font-extrabold">
             Каталог медицинских изделий
           </h1>
           <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">

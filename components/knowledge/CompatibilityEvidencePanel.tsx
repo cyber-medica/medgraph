@@ -72,7 +72,7 @@ function CompatibilityCard({
           </p>
         </div>
         <span
-          className={`inline-flex w-fit rounded-md border px-2.5 py-1 font-mono text-[9px] font-semibold ${statusClass(record.status)}`}
+          className={`inline-flex w-fit rounded-md border px-2.5 py-1 font-sans text-[9px] font-semibold ${statusClass(record.status)}`}
         >
           {statusLabel(record.status)}
         </span>
@@ -93,13 +93,13 @@ function CompatibilityCard({
         </div>
         <div>
           <dt className="cm-label text-[8px]">Документ</dt>
-          <dd className="mt-1 font-mono text-cm-slate">
+          <dd className="mt-1 font-sans text-cm-slate">
             {record.evidence.documentVersionIds.join(", ")}
           </dd>
         </div>
         <div>
           <dt className="cm-label text-[8px]">Последнее обновление</dt>
-          <dd className="mt-1 font-mono text-cm-slate">
+          <dd className="mt-1 font-sans text-cm-slate">
             {record.evidence.lastUpdated}
           </dd>
         </div>
@@ -135,7 +135,7 @@ export default function CompatibilityEvidencePanel({
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="cm-label !text-cm-teal">Совместимость</p>
-            <h2 className="mt-2 text-xl font-bold tracking-[-0.02em] sm:text-2xl">
+            <h2 className="cm-heading-2 mt-2 text-xl font-bold sm:text-2xl">
               Доказуемая совместимость
             </h2>
             <p className="mt-3 max-w-2xl text-xs leading-6 text-cm-slate">

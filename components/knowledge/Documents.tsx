@@ -40,7 +40,7 @@ export default function Documents({ product }: DocumentsProps) {
                   {document.title}
                 </div>
 
-                <div className="mt-1 flex flex-wrap gap-2 font-mono text-[9px] text-cm-dim">
+                <div className="mt-1 flex flex-wrap gap-2 font-sans text-[9px] text-cm-dim">
                   <span>PDF</span>
                   <span>Размер: нет данных</span>
                   <span>Страниц: нет данных</span>

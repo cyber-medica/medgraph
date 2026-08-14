@@ -195,7 +195,7 @@ export default async function StorefrontProductPage({
               className="flex min-w-0 flex-col justify-start p-4 sm:p-5 lg:p-6"
               data-testid="product-hero-content"
             >
-              <h1 className="max-w-4xl break-words text-[1.65rem] font-extrabold leading-[1.12] tracking-[-0.03em] sm:text-[2rem] lg:text-[2.25rem]">
+              <h1 className="cm-heading-1 max-w-4xl break-words text-[1.65rem] font-extrabold leading-[1.12] sm:text-[2rem] lg:text-[2.25rem]">
                 {productH1}
               </h1>
               {experience.summary && (
@@ -489,7 +489,7 @@ function DocumentLink({ document }: { document: ProductDocument }) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-sm font-semibold">{document.title}</div>
-          <div className="mt-2 font-mono text-[10px] text-cm-dim">
+          <div className="mt-2 font-sans text-[10px] text-cm-dim">
             {document.language}
           </div>
         </div>
@@ -554,7 +554,7 @@ function Section({
       id={id}
       className="my-4 scroll-mt-24 rounded-2xl border border-[var(--cm-rule)] bg-white p-5 shadow-[0_10px_32px_rgba(11,19,32,0.035)] sm:my-5 sm:p-7"
     >
-      <h2 className="text-lg font-bold tracking-[-0.02em] sm:text-xl">{title}</h2>
+      <h2 className="cm-heading-2 text-lg font-bold sm:text-xl">{title}</h2>
       <div className="mt-4 sm:mt-5">{children}</div>
     </section>
   );
@@ -562,7 +562,7 @@ function Section({
 
 function Badge({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-md border border-[var(--cm-rule)] bg-white/80 px-2 py-1 font-mono text-[9px] font-semibold text-cm-slate">
+    <span className="rounded-md border border-[var(--cm-rule)] bg-white/80 px-2 py-1 font-sans text-[9px] font-semibold text-cm-slate">
       {children}
     </span>
   );

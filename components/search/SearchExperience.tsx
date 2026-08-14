@@ -45,7 +45,7 @@ function ResultCard({
           </span>
         )}
         <div className="min-w-0">
-          <h2 className="text-base font-semibold tracking-[-0.015em] text-cm-ink">
+          <h2 className="cm-heading-2 text-base font-semibold text-cm-ink">
             {product.name}
           </h2>
           <p className="mt-1.5 text-xs leading-5 text-cm-slate">
@@ -149,7 +149,7 @@ export default function SearchExperience({
                 setQuery(suggestion);
                 submit(suggestion);
               }}
-              className="rounded-md border border-[var(--cm-rule)] bg-cm-surface-low px-3 py-1.5 font-mono text-[11px] font-semibold text-cm-slate transition duration-200 hover:border-cm-teal/30 hover:bg-white hover:text-cm-teal"
+              className="rounded-md border border-[var(--cm-rule)] bg-cm-surface-low px-3 py-1.5 font-sans text-[11px] font-semibold text-cm-slate transition duration-200 hover:border-cm-teal/30 hover:bg-white hover:text-cm-teal"
             >
               {suggestion}
             </button>
@@ -161,7 +161,7 @@ export default function SearchExperience({
         <div className="flex items-center justify-between gap-4">
           <div className="text-sm text-cm-slate">
             Найдено изделий:{" "}
-            <span className="font-mono font-semibold text-cm-ink">
+            <span className="font-sans font-semibold text-cm-ink">
               {products.length}
             </span>
           </div>

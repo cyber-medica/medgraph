@@ -63,7 +63,7 @@ export default async function ManufacturersPage() {
               { name: "Производители", path: "/manufacturers" },
             ]}
           />
-          <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em]">Производители</h1>
+          <h1 className="cm-heading-1 mt-3 text-3xl font-extrabold">Производители</h1>
           <p className="mt-2 max-w-2xl text-[13px] leading-6 text-cm-slate">
             Производители медицинского оборудования, представленные в каталоге Кибермедика.
           </p>

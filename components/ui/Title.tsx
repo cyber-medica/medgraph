@@ -8,7 +8,7 @@ export default function Title({
   children,
 }: TitleProps) {
   return (
-    <h2 className="text-2xl font-extrabold tracking-[-0.025em] sm:text-3xl">
+    <h2 className="cm-heading-2 text-2xl font-extrabold sm:text-3xl">
       {children}
     </h2>
   );

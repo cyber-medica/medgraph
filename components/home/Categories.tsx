@@ -26,7 +26,7 @@ export default function Categories({
           <div>
             <h2
               id="featured-categories-title"
-              className="text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] sm:text-[26px] lg:text-[30px]"
+              className="cm-heading-2 text-2xl font-extrabold leading-[1.2] sm:text-[26px] lg:text-[30px]"
             >
               Основные категории оборудования
             </h2>
@@ -66,7 +66,7 @@ export default function Categories({
                   key={category.id}
                   className="cm-card group flex min-h-[8.5rem] flex-col p-4 sm:min-h-36"
                 >
-                  <h3 className="text-[15px] font-bold leading-5 tracking-[-0.01em]">
+                  <h3 className="cm-heading-3 text-[15px] font-bold leading-5">
                     {category.name}
                   </h3>
                   {category.shortDescription && (
@@ -75,7 +75,7 @@ export default function Categories({
                     </p>
                   )}
                   <div className="mt-auto flex items-center justify-between gap-4 border-t border-[var(--cm-rule)] pt-3">
-                    <span className="font-mono text-[10px] text-cm-dim">
+                    <span className="font-sans text-[10px] text-cm-dim">
                       {category.productCount} товаров
                     </span>
                     <span className="text-xs font-semibold text-cm-teal">

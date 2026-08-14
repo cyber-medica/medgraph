@@ -51,10 +51,10 @@ export function ProvenanceChain({ source }: { source: PublicProductSource }) {
           className="group relative flex min-w-0 flex-1 flex-col items-center px-2 text-center"
         >
           <div className="flex flex-col items-center gap-2">
-            <span className="font-mono text-[8px] tracking-[0.08em] text-cm-dim">
+            <span className="font-sans text-[8px] tracking-[0.08em] text-cm-dim">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <span className={`flex size-11 items-center justify-center rounded-lg border font-mono text-[10px] font-bold uppercase ${
+            <span className={`flex size-11 items-center justify-center rounded-lg border font-sans text-[10px] font-bold uppercase ${
               index === 4
                 ? "border-[var(--cm-verified-border)] bg-cm-verified-soft text-cm-verified"
                 : index === 5
@@ -63,14 +63,14 @@ export function ProvenanceChain({ source }: { source: PublicProductSource }) {
             }`}>
               {stage.short}
             </span>
-            <span className="font-mono text-[8px] font-semibold uppercase tracking-[0.1em] text-cm-dim">
+            <span className="cm-eyebrow !text-[8px]">
               {stage.label}
             </span>
           </div>
           <p className="mt-2 line-clamp-2 max-w-24 text-[10px] font-semibold leading-4 text-cm-ink">
             {stage.value}
           </p>
-          <p className="mt-1 max-w-24 truncate font-mono text-[8px] text-cm-dim">{stage.detail}</p>
+          <p className="mt-1 max-w-24 truncate font-sans text-[8px] text-cm-dim">{stage.detail}</p>
           {index < stages.length - 1 ? (
             <span
               aria-hidden="true"

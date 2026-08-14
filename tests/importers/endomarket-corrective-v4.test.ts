@@ -288,7 +288,7 @@ test("catalog and Product Detail implement the compact v7 presentation contract"
   assert.match(experience, /isEndoMarketSourceTruth \? uniqueValues : uniqueValues\.slice\(0, 6\)/u);
   assert.match(
     equipment,
-    /Оборудование для эндоскопии, диагностики и оснащения клиник — в наличии и с рассрочкой 0%\./u,
+    /Оборудование для эндоскопии, диагностики и оснащения клиник — в наличии и с рассрочкой\{"\\u00a0"\}0%\./u,
   );
   assert.match(service, /Гарантийное и постгарантийное обслуживание через сеть профильных сервисных партнеров\./u);
   assert.equal(formatCountryForPublic("Страна не указана"), null);

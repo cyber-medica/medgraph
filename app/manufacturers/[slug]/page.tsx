@@ -105,7 +105,7 @@ export default async function ManufacturerPage({ params }: ManufacturerPageProps
                   name={manufacturer.name}
                   size="hero"
                 />
-                <h1 className="min-w-0 break-words text-3xl font-extrabold tracking-[-0.03em]">
+                <h1 className="cm-heading-1 min-w-0 break-words text-3xl font-extrabold">
                   {manufacturerSeo.h1}
                 </h1>
               </div>

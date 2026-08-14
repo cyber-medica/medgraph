@@ -9,7 +9,7 @@ export default function CompanyCredibility() {
           <p className="cm-label !text-cm-teal">О компании</p>
           <h2
             id="company-credibility-title"
-            className="cm-balanced mt-3 text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] sm:text-[26px] lg:text-[30px]"
+            className="cm-heading-2 cm-balanced mt-3 text-2xl font-extrabold leading-[1.2] sm:text-[26px] lg:text-[30px]"
           >
             Кибермедика помогает подобрать оборудование под задачу учреждения
           </h2>

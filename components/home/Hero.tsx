@@ -20,12 +20,12 @@ export default function Hero({ products }: { products: readonly Product[] }) {
         <div className="cm-container py-7 sm:py-9 lg:py-10">
           <div className="grid gap-7 lg:grid-cols-[minmax(0,1.12fr)_minmax(23rem,0.88fr)] lg:items-center lg:gap-10">
             <div className="max-w-[42rem]">
-              <p className="text-xs font-bold tracking-[0.16em] text-cm-teal">
+              <p className="cm-eyebrow !text-cm-teal">
                 ПОДБОР И ПОСТАВКА ОБОРУДОВАНИЯ
               </p>
               <h1
                 id="homepage-title"
-                className="cm-balanced mt-3 max-w-[43rem] text-[2.125rem] font-extrabold leading-[1.08] tracking-[-0.035em] text-cm-ink sm:text-[2.5rem] lg:text-[2.75rem]"
+                className="cm-heading-1 cm-balanced mt-3 max-w-[43rem] text-[2.125rem] font-extrabold leading-[1.08] text-cm-ink sm:text-[2.5rem] lg:text-[2.75rem]"
               >
                 Медицинское оборудование для клиник и медицинских учреждений
               </h1>
@@ -61,7 +61,7 @@ export default function Hero({ products }: { products: readonly Product[] }) {
                   />
                 </div>
                 <div className="absolute inset-x-4 bottom-4 rounded-xl border border-white/80 bg-white/90 px-4 py-3 shadow-sm backdrop-blur sm:inset-x-6 sm:bottom-6">
-                  <p className="text-[10px] font-bold tracking-[0.14em] text-cm-teal">
+                  <p className="cm-eyebrow !text-cm-teal">
                     МОДЕЛЬ ИЗ КАТАЛОГА
                   </p>
                   <p className="mt-1 text-sm font-bold text-cm-ink sm:text-base">
@@ -80,10 +80,10 @@ export default function Hero({ products }: { products: readonly Product[] }) {
       <section aria-labelledby="homepage-search-title" className="bg-cm-ink text-white">
         <div className="cm-container grid gap-5 py-6 sm:py-7 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:items-center lg:gap-10">
           <div>
-            <p className="text-xs font-bold tracking-[0.16em] text-cm-teal-soft">
+            <p className="cm-eyebrow !text-cm-teal-soft">
               ПОИСК ПО КАТАЛОГУ
             </p>
-            <h2 id="homepage-search-title" className="mt-2 text-2xl font-extrabold tracking-[-0.025em] sm:text-[26px] lg:text-[30px]">
+            <h2 id="homepage-search-title" className="cm-heading-2 mt-2 text-2xl font-extrabold sm:text-[26px] lg:text-[30px]">
               Быстро найдите нужную модель
             </h2>
             <p className="mt-2 max-w-[32rem] text-sm leading-6 text-white/75 sm:text-base">

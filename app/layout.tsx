@@ -1,6 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
+import { Onest } from "next/font/google";
 import { Suspense } from "react";
 import AttributionRuntime from "@/components/analytics/AttributionRuntime";
 import Header from "@/components/layout/Header";
@@ -10,6 +11,14 @@ import { isCloudPreviewCatalog } from "@/lib/storefront/data-source";
 import { isProductionIndexingEnvironment } from "@/lib/storefront/indexing";
 
 const allowIndexing = isProductionIndexingEnvironment();
+const onest = Onest({
+  display: "swap",
+  fallback: ["Inter", "system-ui", "sans-serif"],
+  preload: true,
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-onest",
+  weight: "variable",
+});
 const siteUrl = "https://cyber-medica.ru";
 const siteTitle = "Кибермедика — экспертная база медицинских изделий";
 const siteDescription =
@@ -69,7 +78,7 @@ export default function RootLayout({
 
   return (
     <html lang="ru">
-      <body className="bg-cm-canvas text-cm-ink antialiased">
+      <body className={`${onest.variable} bg-cm-canvas font-sans text-cm-ink antialiased`}>
         <Header
           products={[]}
           manufacturers={[]}

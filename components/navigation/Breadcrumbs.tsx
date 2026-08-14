@@ -17,7 +17,7 @@ export default function Breadcrumbs({
       className={className}
       data-testid="canonical-breadcrumbs"
     >
-      <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 font-sans text-[11px] font-semibold leading-5 tracking-normal text-cm-slate">
+      <ol className="cm-breadcrumb flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[11px] leading-5 text-cm-slate">
         {items.map((item, index) => {
           const current = index === items.length - 1;
           return (

@@ -43,7 +43,7 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
           <Breadcrumbs items={breadcrumbs} />
 
           <div className="mt-5 max-w-4xl">
-            <h1 className="text-3xl font-extrabold leading-tight tracking-[-0.035em] sm:text-4xl lg:text-5xl">
+            <h1 className="cm-heading-1 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
               {content.h1}
             </h1>
             <p className="mt-5 max-w-3xl text-sm leading-7 text-cm-slate sm:text-base">
@@ -60,7 +60,7 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
               key={title}
               className="rounded-2xl border border-[var(--cm-rule)] bg-white p-5 shadow-[0_8px_28px_rgba(11,19,32,0.035)] sm:p-6"
             >
-              <h2 className="text-lg font-bold leading-6 tracking-[-0.02em]">
+              <h2 className="cm-heading-2 text-lg font-bold leading-6">
                 {title}
               </h2>
               <p className="mt-3 text-sm leading-7 text-cm-slate">{body}</p>
@@ -71,7 +71,7 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
         {links.length > 0 ? (
           <section className="mt-10" aria-labelledby="seo-related-links">
             <div className="cm-label">Связанные страницы и товары</div>
-            <h2 id="seo-related-links" className="mt-2 text-2xl font-bold tracking-[-0.025em]">
+            <h2 id="seo-related-links" className="cm-heading-2 mt-2 text-2xl font-bold">
               Перейти к оборудованию
             </h2>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -95,7 +95,7 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
 
         <section className="mt-10" aria-labelledby="seo-faq">
           <div className="cm-label">FAQ</div>
-          <h2 id="seo-faq" className="mt-2 text-2xl font-bold tracking-[-0.025em]">
+          <h2 id="seo-faq" className="cm-heading-2 mt-2 text-2xl font-bold">
             Частые вопросы
           </h2>
           <div className="mt-4 divide-y divide-[var(--cm-rule)] overflow-hidden rounded-2xl border border-[var(--cm-rule)] bg-white">
@@ -120,7 +120,7 @@ export default async function SeoLandingPage({ path }: SeoLandingPageProps) {
           <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
             <div>
               {content.cta.title ? (
-                <h2 className="text-2xl font-bold tracking-[-0.025em]">{content.cta.title}</h2>
+                <h2 className="cm-heading-2 text-2xl font-bold">{content.cta.title}</h2>
               ) : null}
               <p className={`${content.cta.title ? "mt-2 " : ""}max-w-3xl text-sm leading-6 text-white/75`}>
                 {content.cta.body}

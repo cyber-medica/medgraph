@@ -1,0 +1,130 @@
+{
+  "version": "public-typography-audit-v1",
+  "generatedAt": "2026-08-14",
+  "baselineSha": "aad07eb6c15c079f8e6aaa4d776f9aa0c49fecdf",
+  "canonicalFontFamily": "Onest, Inter, system-ui, sans-serif",
+  "routesAudited": 12,
+  "publicMonoOverridesRemoved": 71,
+  "audits": [
+    {
+      "route": "/",
+      "element": "hero eyebrow labels",
+      "previousFontFamily": "inherited system sans",
+      "previousTracking": "0.14em–0.16em route-local utilities",
+      "finalTypographyToken": "cm-eyebrow",
+      "corrected": true
+    },
+    {
+      "route": "/",
+      "element": "homepage headings",
+      "previousFontFamily": "unloaded Onest stack with system fallback",
+      "previousTracking": "-0.01em–-0.035em route-local utilities",
+      "finalTypographyToken": "cm-heading-1 / cm-heading-2 / cm-heading-3",
+      "corrected": true
+    },
+    {
+      "route": "/",
+      "element": "featured equipment subtitle",
+      "previousFontFamily": "inherited system sans",
+      "previousTracking": "normal; final 0% could orphan",
+      "finalTypographyToken": "cm-body via public root",
+      "corrected": true
+    },
+    {
+      "route": "/catalog",
+      "element": "page H1 and filter utility labels",
+      "previousFontFamily": "system sans H1; IBM Plex Mono labels",
+      "previousTracking": "-0.03em H1; 0.1em labels",
+      "finalTypographyToken": "cm-heading-1 / cm-eyebrow",
+      "corrected": true
+    },
+    {
+      "route": "/catalog",
+      "element": "ProductCard badges, metadata and headings",
+      "previousFontFamily": "IBM Plex Mono metadata",
+      "previousTracking": "-0.015em heading",
+      "finalTypographyToken": "font-sans / cm-heading-2",
+      "corrected": true
+    },
+    {
+      "route": "/manufacturers",
+      "element": "directory heading and card metadata",
+      "previousFontFamily": "system sans with mixed local overrides",
+      "previousTracking": "-0.03em H1",
+      "finalTypographyToken": "cm-heading-1 / cm-eyebrow",
+      "corrected": true
+    },
+    {
+      "route": "/manufacturers/mindray",
+      "element": "breadcrumbs, hero and eyebrow labels",
+      "previousFontFamily": "Onest stack not loaded; mixed utility weights",
+      "previousTracking": "-0.03em H1; 0.08em eyebrows",
+      "finalTypographyToken": "cm-breadcrumb / cm-heading-1 / cm-eyebrow",
+      "corrected": true
+    },
+    {
+      "route": "/catalog/767632362-330695211247-apparat-ivl-hamilton-t1",
+      "element": "Product Detail headings, breadcrumbs and metadata",
+      "previousFontFamily": "mixed system sans and IBM Plex Mono",
+      "previousTracking": "-0.02em–-0.03em headings",
+      "finalTypographyToken": "cm-heading-1 / cm-heading-2 / cm-breadcrumb / font-sans",
+      "corrected": true
+    },
+    {
+      "route": "/request",
+      "element": "page hierarchy, form labels and utility metadata",
+      "previousFontFamily": "IBM Plex Mono utility labels",
+      "previousTracking": "0.1em labels; -0.03em H1",
+      "finalTypographyToken": "cm-heading-1 / cm-eyebrow / font-sans",
+      "corrected": true
+    },
+    {
+      "route": "/catalog/endoskopiya",
+      "element": "SEO landing headings, labels and CTA",
+      "previousFontFamily": "mixed system sans and IBM Plex Mono labels",
+      "previousTracking": "-0.02em–-0.035em headings",
+      "finalTypographyToken": "cm-heading-1 / cm-heading-2 / cm-eyebrow",
+      "corrected": true
+    },
+    {
+      "route": "/solutions",
+      "element": "solution page H1",
+      "previousFontFamily": "unloaded Onest stack with system fallback",
+      "previousTracking": "-0.03em",
+      "finalTypographyToken": "cm-heading-1",
+      "corrected": true
+    },
+    {
+      "route": "shared public shell",
+      "element": "header, footer, breadcrumbs and buttons",
+      "previousFontFamily": "mixed inherited sans and IBM Plex Mono labels",
+      "previousTracking": "mixed label tracking and route-local utilities",
+      "finalTypographyToken": "Onest root / cm-eyebrow / cm-breadcrumb / cm-button-primary / cm-button-secondary",
+      "corrected": true
+    },
+    {
+      "route": "/search",
+      "element": "search heading, filters and result metadata",
+      "previousFontFamily": "mixed system sans and IBM Plex Mono",
+      "previousTracking": "-0.015em heading; 0.1em labels",
+      "finalTypographyToken": "cm-heading-1 / cm-heading-2 / cm-eyebrow / font-sans",
+      "corrected": true
+    },
+    {
+      "route": "/compare",
+      "element": "comparison headings and values",
+      "previousFontFamily": "IBM Plex Mono values",
+      "previousTracking": "-0.03em H1",
+      "finalTypographyToken": "cm-heading-1 / font-sans",
+      "corrected": true
+    },
+    {
+      "route": "/products/fs510",
+      "element": "public vertical utility typography",
+      "previousFontFamily": "IBM Plex Mono throughout utility content",
+      "previousTracking": "mixed 0.06em–0.1em utilities and negative heading tracking",
+      "finalTypographyToken": "cm-heading-1 / cm-heading-2 / cm-eyebrow / font-sans",
+      "corrected": true
+    }
+  ]
+}

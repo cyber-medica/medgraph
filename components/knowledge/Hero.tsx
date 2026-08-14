@@ -15,7 +15,7 @@ export default function Hero({ product }: HeroProps) {
       <div className="p-6 sm:p-8">
         <Badge>{product.category}</Badge>
 
-        <h1 className="mt-4 max-w-3xl text-2xl font-extrabold leading-[1.12] tracking-[-0.03em] sm:text-3xl">
+        <h1 className="cm-heading-1 mt-4 max-w-3xl text-2xl font-extrabold leading-[1.12] sm:text-3xl">
           {product.name}
         </h1>
 
@@ -51,11 +51,11 @@ export default function Hero({ product }: HeroProps) {
         <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[var(--cm-rule)] bg-[var(--cm-rule)]">
           {product.highlights.map((item) => (
             <div key={item.label} className="bg-white p-4">
-              <div className="font-mono text-lg font-bold text-cm-teal">
+              <div className="font-sans text-lg font-bold text-cm-teal">
                 {item.value}
               </div>
 
-              <div className="mt-2 font-mono text-[9px] uppercase tracking-[0.06em] text-cm-dim">
+              <div className="cm-eyebrow mt-2 !text-[9px]">
                 {item.label}
               </div>
             </div>
@@ -74,10 +74,10 @@ export default function Hero({ product }: HeroProps) {
         />
         <div className="absolute bottom-4 left-4 right-4 rounded-lg border border-white/70 bg-white/86 p-4 shadow-[0_12px_34px_rgba(11,19,32,0.09)] backdrop-blur">
           <div className="flex items-center justify-between gap-3">
-            <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-cm-teal">
+            <div className="cm-eyebrow !text-cm-teal">
               Проверенная запись
             </div>
-            <span className="rounded border border-cm-teal/20 bg-cm-teal-soft px-2 py-1 font-mono text-[9px] text-cm-teal">
+            <span className="rounded border border-cm-teal/20 bg-cm-teal-soft px-2 py-1 font-sans text-[9px] text-cm-teal">
               Активно
             </span>
           </div>

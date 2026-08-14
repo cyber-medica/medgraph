@@ -35,7 +35,7 @@ export default function ThanksPage() {
           </div>
 
           <div className="mt-6" role="status" aria-live="polite">
-            <h1 className="cm-balanced text-[1.75rem] font-extrabold leading-tight tracking-[-0.03em] sm:text-3xl">
+            <h1 className="cm-heading-1 cm-balanced text-[1.75rem] font-extrabold leading-tight sm:text-3xl">
               Заявка отправлена
             </h1>
             <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-cm-slate">

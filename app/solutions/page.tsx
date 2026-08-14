@@ -19,7 +19,7 @@ export default function SolutionsPage() {
               { name: "Решения", path: "/solutions" },
             ]}
           />
-          <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em]">Решения</h1>
+          <h1 className="cm-heading-1 mt-3 text-3xl font-extrabold">Решения</h1>
         </div>
       </header>
       <section className="cm-container py-6">

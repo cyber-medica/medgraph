@@ -16,8 +16,8 @@ test("manufacturer utility typography uses the canonical sans family", async () 
     readFile("app/manufacturers/[slug]/page.tsx", "utf8"),
   ]);
 
-  assert.match(css, /\.cm-eyebrow\s*\{[\s\S]*font-family:\s*var\(--font-sans\);[\s\S]*font-weight:\s*700;[\s\S]*letter-spacing:\s*0\.08em;/u);
-  assert.match(breadcrumbs, /font-sans[\s\S]*tracking-normal/u);
+  assert.match(css, /\.cm-label,\s*\.cm-eyebrow\s*\{[\s\S]*font-family:\s*var\(--font-sans\);[\s\S]*font-weight:\s*700;[\s\S]*letter-spacing:\s*0\.08em;/u);
+  assert.match(breadcrumbs, /cm-breadcrumb/u);
   assert.doesNotMatch(detail, /cm-label|font-mono/u);
   assert.doesNotMatch(directory, /font-mono/u);
   assert.equal((detail.match(/cm-eyebrow/gu) ?? []).length, 4);

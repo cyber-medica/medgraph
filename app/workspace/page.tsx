@@ -22,7 +22,7 @@ export default async function WorkspacePage() {
           <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
             <div>
               <div className="cm-label">Кибермедика · Рабочее пространство</div>
-              <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-[-0.03em]">
+              <h1 className="cm-heading-1 mt-3 max-w-3xl text-3xl font-extrabold">
                 Рабочее пространство закупки
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-cm-slate">

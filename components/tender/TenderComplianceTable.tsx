@@ -38,7 +38,7 @@ function EvidenceCell({ result }: { result: RequirementResult }) {
         <td className="min-w-52 border-l border-[var(--cm-rule)] px-4 py-4 align-top text-xs text-cm-slate">
           Нет документа
         </td>
-        <td className="min-w-32 border-l border-[var(--cm-rule)] px-4 py-4 align-top font-mono text-xs text-cm-dim">
+        <td className="min-w-32 border-l border-[var(--cm-rule)] px-4 py-4 align-top font-sans text-xs text-cm-dim">
           Нет даты
         </td>
       </>
@@ -57,11 +57,11 @@ function EvidenceCell({ result }: { result: RequirementResult }) {
       </td>
       <td className="min-w-52 border-l border-[var(--cm-rule)] px-4 py-4 align-top text-xs text-cm-slate">
         {result.evidence.documentVersion.title}
-        <div className="mt-1 font-mono text-[10px] text-cm-dim">
+        <div className="mt-1 font-sans text-[10px] text-cm-dim">
           {result.evidence.documentVersion.version}
         </div>
       </td>
-      <td className="min-w-32 border-l border-[var(--cm-rule)] px-4 py-4 align-top font-mono text-xs text-cm-dim">
+      <td className="min-w-32 border-l border-[var(--cm-rule)] px-4 py-4 align-top font-sans text-xs text-cm-dim">
         {result.evidence.lastUpdated}
       </td>
     </>
@@ -101,7 +101,7 @@ export default function TenderComplianceTable({
                 <div className="mt-1 text-xs text-cm-dim">
                   {item.requirement.category}
                 </div>
-                <div className="mt-2 font-mono text-[11px] text-cm-slate">
+                <div className="mt-2 font-sans text-[11px] text-cm-slate">
                   требуется: {item.expectedValueLabel}
                 </div>
               </th>
@@ -110,7 +110,7 @@ export default function TenderComplianceTable({
               </td>
               <td className="border-l border-[var(--cm-rule)] px-4 py-4 align-top">
                 <span
-                  className={`inline-flex rounded-md border px-2.5 py-1 font-mono text-[10px] font-semibold ${statusClass(item.status)}`}
+                  className={`inline-flex rounded-md border px-2.5 py-1 font-sans text-[10px] font-semibold ${statusClass(item.status)}`}
                 >
                   {statusLabel(item.status)}
                 </span>

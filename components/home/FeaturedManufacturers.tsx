@@ -26,7 +26,7 @@ export default function FeaturedManufacturers({
         <div className="flex items-end justify-between gap-5">
           <h2
             id="featured-manufacturers-title"
-            className="text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] sm:text-[26px] lg:text-[30px]"
+            className="cm-heading-2 text-2xl font-extrabold leading-[1.2] sm:text-[26px] lg:text-[30px]"
           >
             Производители
           </h2>
@@ -72,7 +72,7 @@ export default function FeaturedManufacturers({
                     </div>
                   </div>
                   <div className="mt-auto flex items-center justify-between gap-4 border-t border-[var(--cm-rule)] pt-3 text-xs">
-                    <span className="font-mono text-[9px] text-cm-dim">
+                    <span className="font-sans text-[9px] text-cm-dim">
                       {manufacturer.productCount} товаров
                     </span>
                     <span className="font-semibold text-cm-dim transition group-hover:text-cm-teal">
