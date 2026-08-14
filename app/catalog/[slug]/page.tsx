@@ -33,6 +33,7 @@ import {
 } from "@/lib/seo/implementation-v3";
 import { buildProductStructuredData } from "@/lib/storefront/structured-data";
 import { buildProductRequestHref } from "@/lib/request/product-context";
+import { isProductStructuredDataGscStagePreview } from "@/lib/storefront/data-source";
 
 // Published slugs are runtime data and must not require an application rebuild.
 export const dynamic = "force-dynamic";
@@ -154,7 +155,7 @@ export default async function StorefrontProductPage({
         productModel={product.model}
         productManufacturer={manufacturer?.name ?? ""}
       />
-      {storefrontDataSource !== "cloud_preview" && (
+      {(storefrontDataSource !== "cloud_preview" || isProductStructuredDataGscStagePreview()) && (
         <JsonLd
           data={buildProductStructuredData({
             product,

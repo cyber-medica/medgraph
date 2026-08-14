@@ -71,7 +71,7 @@ test("catalog and manufacturer directories use CollectionPage without a full Ite
   assert.equal(schema.itemListElement, undefined);
 });
 
-test("Product schema uses public Storefront fields and PropertyValue specifications", async () => {
+test("Product Detail uses a truthful ItemPage graph without Google Product claims", async () => {
   const [products, manufacturers, categories] = await Promise.all([
     repository.getActiveProducts(),
     repository.getManufacturers(),
@@ -87,23 +87,21 @@ test("Product schema uses public Storefront fields and PropertyValue specificati
     category,
   });
 
-  assert.equal(schema["@type"], "Product");
+  assert.equal(schema["@type"], "ItemPage");
   assert.equal(schema.url, `${STOREFRONT_SITE_URL}/catalog/${product.slug}`);
-  assert.equal(schema.mpn, product.model);
-  assert.equal((schema.brand as Record<string, unknown>)["@type"], "Brand");
-  const properties = schema.additionalProperty as Record<string, unknown>[];
-  assert.ok(properties.length > 0);
-  assert.ok(properties.every((property) => property["@type"] === "PropertyValue"));
+  assert.equal((schema.mainEntity as Record<string, unknown>)["@type"], "Thing");
+  assert.equal((schema.mainEntity as Record<string, unknown>).identifier, product.model);
+  assert.equal((schema.provider as Record<string, unknown>)["@type"], "Organization");
   assert.equal(breadcrumb["@type"], "BreadcrumbList");
 
   const forbidden = JSON.stringify(schema);
   assert.doesNotMatch(
     forbidden,
-    /"(?:offers|price|availability|aggregateRating|review|gtin|registration|verification|provenance|evidence|artifactPath|sha256)"/u,
+    /"(?:Product|offers|price|availability|aggregateRating|review|gtin|mpn|registration|verification|provenance|evidence|artifactPath|sha256)"/u,
   );
 });
 
-test("Ambu VivaSight image flows into Product JSON-LD", async () => {
+test("Ambu VivaSight image flows into canonical ItemPage JSON-LD", async () => {
   const [products, manufacturers, categories] = await Promise.all([
     repository.getActiveProducts(),
     repository.getManufacturers(),
@@ -119,13 +117,17 @@ test("Ambu VivaSight image flows into Product JSON-LD", async () => {
     category,
   });
 
-  assert.deepEqual(schema.image, [
+  assert.deepEqual((schema.mainEntity as Record<string, unknown>).image, [
     `${STOREFRONT_SITE_URL}/products/ambu-vivasight-2-dlt/photo.jpg`,
   ]);
+  assert.equal(
+    (schema.primaryImageOfPage as Record<string, unknown>).contentUrl,
+    `${STOREFRONT_SITE_URL}/products/ambu-vivasight-2-dlt/photo.jpg`,
+  );
   assert.equal(schema.url, `${STOREFRONT_SITE_URL}/catalog/ambu-vivasight-2-dlt`);
 });
 
-test("FS510 Product JSON-LD keeps the Storefront canonical", async () => {
+test("FS510 ItemPage JSON-LD keeps the Storefront canonical", async () => {
   const product = await repository.getProductBySlug("fs510");
   assert.ok(product);
   const [schema] = buildProductStructuredData({ product });
@@ -133,7 +135,23 @@ test("FS510 Product JSON-LD keeps the Storefront canonical", async () => {
   assert.equal(schema.url, `${STOREFRONT_SITE_URL}/catalog/fs510`);
 });
 
-test("Product and Manufacturer breadcrumbs use absolute canonical URLs", async () => {
+test("structured description is plain text without changing visible Product HTML", async () => {
+  const product = await repository.getProductBySlug("fs510");
+  assert.ok(product);
+  const htmlDescription = "<strong>FS510</strong><br><ul><li>Пункт &amp; значение</li></ul>";
+  const [schema] = buildProductStructuredData({
+    product: { ...product, description: htmlDescription },
+  });
+
+  assert.equal(schema.description, "FS510 Пункт & значение");
+  assert.equal(
+    (schema.mainEntity as Record<string, unknown>).description,
+    "FS510 Пункт & значение",
+  );
+  assert.equal(htmlDescription.includes("<strong>"), true);
+});
+
+test("Product Detail and Manufacturer breadcrumbs use absolute canonical URLs", async () => {
   const [products, manufacturers] = await Promise.all([
     repository.getActiveProducts(),
     repository.getManufacturers(),
