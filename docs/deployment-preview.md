@@ -1,14 +1,18 @@
 # Vercel Preview Deployment Workflow
 
+**Статус:** действующая специализированная Preview-процедура
+
 **Scope:** Storefront visual review
-**Preview branch:** `preview/storefront-ux-polish-v1`
+
+**Canonical environment map:**
+[Infrastructure, Environments and Access](./04-technical/infrastructure-and-access.md)
 
 ## 1. Workflow
 
 ```text
-feature branch / local changes
-        ↓ isolated Storefront commit
-preview/storefront-ux-polish-v1
+codex/* feature branch / local changes
+        ↓ isolated task commit
+GitHub feature branch
         ↓ push to GitHub
 Vercel Git integration or Vercel CLI Preview
         ↓ smoke-check
@@ -22,9 +26,10 @@ change DNS, or move `cyber-medica.ru`.
 
 ## 2. Branch purpose
 
-`preview/storefront-ux-polish-v1` contains only the reviewed Storefront UX
-changes and deployment documentation. User-owned staged catalog and review
-decision data are deliberately excluded from its commits.
+Каждая `codex/*` feature-ветка содержит только принятый task scope и связанную
+evidence-документацию. User-owned staged catalog and review decision data are
+deliberately excluded from unrelated commits. `main` имеет стабильный Vercel
+branch Preview alias; generated deployment URL остаётся immutable evidence.
 
 ## 3. Creating the Preview
 
@@ -88,8 +93,12 @@ Values are configured only in Vercel and are never committed.
 | `CYBERMEDICA_ENABLE_WAVE2_DASHBOARD` | Leave unset for public Preview |
 | `CYBERMEDICA_REVIEWER_ID` | Required only for enabled reviewer writes |
 | `CYBERMEDICA_ENABLE_REVIEW_FIXTURES` | Development/test only; leave unset |
-| `NEXT_PUBLIC_SUPABASE_URL` | Optional for build; required for the FS510 projection |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Optional for build; required for the FS510 projection |
+| `NEXT_PUBLIC_SUPABASE_URL` | Browser-safe URL only where the approved Preview path requires it |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Browser-safe anon key only where the approved Preview path requires it |
+| `CYBERMEDICA_SUPABASE_URL` | Server-only; exact Stage origin for cloud Preview paths |
+| `CYBERMEDICA_SUPABASE_PROJECT_REF` | Server-only; exact Stage ref for cloud Preview paths |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only; only for an explicitly approved protected Preview boundary |
+| `CATALOG_DATA_SOURCE` | Exact approved Preview source; verify branch-scoped binding before QA |
 
 Import-only variables (`CATALOG_RESEARCH_PROVIDER`, `CHROME_PATH`,
 `PDFTOTEXT_PATH`, and `PYTHON_PATH`) are not configured for Preview UI.
@@ -97,7 +106,6 @@ Import-only variables (`CATALOG_RESEARCH_PROVIDER`, `CHROME_PATH`,
 ## 9. Removing the Preview branch
 
 After acceptance or rejection, first confirm that no further visual review is
-needed. Then delete the remote preview branch with
-`git push origin --delete preview/storefront-ux-polish-v1` and delete the local
-branch from another branch. Removing a branch must not delete production
-deployments, domains, or catalog data.
+needed. Delete an obsolete remote feature branch only through the approved Git
+process, then remove its local branch from another branch. Removing a branch
+must not delete production deployments, domains or catalog data.

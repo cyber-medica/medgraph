@@ -3,7 +3,7 @@
 > Нормативная основа: [PROJECT_GUIDE.md](./PROJECT_GUIDE.md).
 
 **Статус:** действующий архитектурный обзор  
-**Дата:** 21 июля 2026 года
+**Дата:** 17 августа 2026 года
 
 ## 1. Контекст системы
 
@@ -15,8 +15,9 @@ CyberMedica состоит из публичного Storefront, внутрен�
     Next.js on Vercel
       |
       +-- Public UI --> Storefront Services --> CatalogRepository
-      |                                      |-- Filesystem adapter
-      |                                      +-- Cloud Preview adapter
+      |                                      |-- Static adapter (local/tests)
+      |                                      |-- Cloud Preview adapter (Stage)
+      |                                      +-- Cloud Published + LKG (Production)
       |
       +-- Internal UI/API --> server-only adapters --> cloud_api RPC
       |
@@ -31,8 +32,9 @@ CyberMedica состоит из публичного Storefront, внутрен�
 | Public routes | каталог, поиск, товары, manufacturers, compare, SEO | читать Research/Review/Publication или service credentials |
 | Storefront Services | продуктовые use cases | знать способ физического хранения |
 | CatalogRepository | read contract каталога | содержать UI logic |
-| Static adapter | local/tests/fallback | считаться Source of Truth |
+| Static adapter | local/tests/deterministic QA | считаться Source of Truth или Production fallback |
 | Cloud Preview adapter | read-only staging projection | работать в Production |
+| Cloud Published adapter | validated published-only Production transport with LKG resilience | принимать empty/partial response как новый snapshot |
 | Catalog Admin | ограниченные staging corrections | публиковать, менять immutable snapshot, выполнять bulk edit |
 | Import tooling | воспроизводимый перенос данных | запускаться как side effect web build |
 | Supabase | operational data, RLS, RPC, audit boundary | отдавать закрытую cloud schema публично |
@@ -62,7 +64,9 @@ Supabase является operational Source of Truth. Git остаётся ка
 - machine-readable baselines;
 - deterministic test fixtures.
 
-Временный static runtime является fallback. Его наличие не меняет ownership данных.
+Production resilience использует только validated last-known-good published
+snapshot. Static runtime сохраняется для local/tests и не является Production
+fallback; наличие любого fallback не меняет ownership данных.
 
 ## 5. Security boundary
 

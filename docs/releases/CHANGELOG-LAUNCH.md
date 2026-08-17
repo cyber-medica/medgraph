@@ -1,5 +1,18 @@
 # CyberMedica Launch Changelog
 
+## 2026-08-17 — Infrastructure and access documentation audit
+
+- Audited repository, environments, external services and operational access
+  ownership without runtime or Production changes.
+- Added one canonical current infrastructure/environment/access reference and
+  linked it from the project and operations indexes.
+- Reconciled the stale static/cloud Preview transition in `PROJECT_GUIDE` and
+  marked the FS510-era Preview checklist as historical.
+- Verified current Git/Vercel deployment lineage, Supabase Production/Stage and
+  Data API boundaries, RFQ Make → Resend path, analytics/indexing properties and
+  authoritative DNS/MX records.
+- Secrets added: 0.
+
 ## 2026-08-12 — Final Production Release v2
 
 - Integrated the accepted Stage lineage as a linear fast-forward from the

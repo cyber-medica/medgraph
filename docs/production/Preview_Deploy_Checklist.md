@@ -1,6 +1,12 @@
 # CyberMedica Preview Deploy Checklist
 
-Status: MVP preview checklist
+> **Исторический документ.** Этот FS510-era MVP checklist superseded by
+> [Infrastructure, Environments and Access](../04-technical/infrastructure-and-access.md)
+> and [Vercel Preview Deployment Workflow](../deployment-preview.md). Do not use
+> its routes, data-source assumptions or environment list as the current Stage
+> contract.
+
+Status: historical MVP preview checklist
 
 Purpose: prepare a Vercel Preview URL for external demonstration without changing the CyberMedica architecture or publishing unverified data.
 

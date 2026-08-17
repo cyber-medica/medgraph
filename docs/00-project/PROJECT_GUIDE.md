@@ -1,8 +1,8 @@
 # CyberMedica — руководство проекта
 
 **Статус:** нормативный документ  
-**Версия:** 1.2
-**Дата вступления в силу:** 1 августа 2026 года
+**Версия:** 1.3
+**Дата вступления в силу:** 17 августа 2026 года
 **Владелец:** владелец продукта и технический руководитель CyberMedica  
 **Область действия:** репозиторий, облачная инфраструктура, разработка, данные и релизы
 
@@ -110,9 +110,12 @@ CyberMedica — коммерческая B2B-витрина медицинско
         |        v
         |    CatalogRepository
         |        |
-        |        +--> Cloud Preview adapter --> Supabase cloud_api (read-only)
+        |        +--> Cloud Preview adapter --> Stage Supabase cloud_api
         |        |
-        |        +--> Static adapter (fallback, tests, local)
+        |        +--> Cloud Published adapter --> Production Supabase cloud_api
+        |        |                              + validated LKG resilience
+        |        |
+        |        +--> Static adapter (tests, local)
         |
         +--> Internal protected routes
                  |
@@ -239,18 +242,22 @@ Local предназначен для разработки, tests, dry-run и п
 | Static Fallback | local/tests/compatibility | **никогда не Source of Truth** | отдельная fixture task |
 | Published Catalog | approved public projection | канон публичной видимости | explicit publication action |
 
-### 5.3. Текущее переходное состояние
+### 5.3. Текущее runtime-состояние
 
-На дату версии 1.0:
-
-- staging baseline: 79 товаров, 25 производителей, 19 assignable-категорий, 7 областей применения;
-- READY: 76; REQUIRES_EDITOR_REVIEW: 3; Published: 0;
-- Storefront поддерживает static и cloud_preview;
-- static остаётся runtime default и production safety fallback;
-- cloud_preview запрещён в Vercel Production;
-- Production switch на Cloud требует отдельного принятого release.
-
-Runtime fallback не делает static-файлы канонической базой.
+- Production Storefront использует только `cloud_published` через approved
+  server-only `cloud_api` boundary.
+- Validated last-known-good published snapshot является resilience fallback,
+  но не самостоятельным Source of Truth. Пустой, partial или невалидный live
+  ответ не заменяет валидный snapshot.
+- `cloud_preview` разрешён только в Vercel Preview/Stage и запрещён в
+  Production.
+- Static adapter сохраняется для local/tests и deterministic QA; он не является
+  Production data source.
+- Production и Stage используют разные Supabase projects. Environment должен
+  быть подтверждён по exact project ref до любого read/write preflight.
+- Изменяемые Product counts, projection version, SHA и deployment ID не
+  закрепляются в конституции. Их текущий проверенный baseline находится в
+  [Infrastructure, Environments and Access](../04-technical/infrastructure-and-access.md).
 
 ---
 
@@ -538,6 +545,7 @@ strings alone.
 - [Процесс разработки](./DEVELOPMENT.md)
 - [Процесс релизов](./RELEASE_PROCESS.md)
 - [Corporate Identity and Access Policy](./CORPORATE_IDENTITY_AND_ACCESS.md)
+- [Infrastructure, Environments and Access](../04-technical/infrastructure-and-access.md)
 - [Реестр ADR](./ADR/README.md)
 - [Product index](../01-product/README.md)
 - [Backend index](../02-backend/README.md)

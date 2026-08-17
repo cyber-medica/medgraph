@@ -1,6 +1,8 @@
 # CyberMedica — Corporate Identity and Access Policy
 
 > Нормативная основа: [PROJECT_GUIDE.md](./PROJECT_GUIDE.md), раздел 15.
+> Текущая карта сервисов, environments и safe account identities:
+> [Infrastructure, Environments and Access](../04-technical/infrastructure-and-access.md).
 
 **Статус:** действующая security/access policy
 **Версия:** 1.0
