@@ -95,7 +95,7 @@ test("server operation surface accepts no browser Product scope", async () => {
   assert.doesNotMatch(component, /sourceUid|productId|SUPABASE_SERVICE_ROLE_KEY/u);
 });
 
-test("canonical production synthetic uses the lockfile playwright-core CLI", async () => {
+test("canonical production synthetic runs availability before an apt-free pinned browser image", async () => {
   const [workflow, packageJson, lockfile] = await Promise.all([
     readFile(`${root}/.github/workflows/catalog-production-synthetic.yml`, "utf8"),
     readFile(`${root}/package.json`, "utf8").then(JSON.parse) as Promise<{
@@ -107,9 +107,12 @@ test("canonical production synthetic uses the lockfile playwright-core CLI", asy
   assert.match(lockfile, /"node_modules\/playwright-core"[\s\S]+"version": "1\.61\.0"/u);
   assert.match(
     workflow,
-    /npx --no-install playwright-core install --with-deps webkit/u,
+    /image: mcr\.microsoft\.com\/playwright:v1\.61\.0-noble/u,
   );
+  assert.match(workflow, /needs: availability/u);
+  assert.match(workflow, /npm run qa:production-availability/u);
   assert.match(workflow, /EXPECTED_PUBLISHED_PRODUCT_COUNT=114/u);
   assert.doesNotMatch(workflow, /npx playwright install/u);
+  assert.doesNotMatch(workflow, /install --with-deps/u);
   assert.doesNotMatch(workflow, /continue-on-error:\s*true/u);
 });
