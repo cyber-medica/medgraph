@@ -1,6 +1,10 @@
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { EXPECTED_PRODUCTION_FRONT_DOOR } from "../../lib/canonical-routing-gate.ts";
+
+export { EXPECTED_PRODUCTION_FRONT_DOOR } from "../../lib/canonical-routing-gate.ts";
+
 export const PRODUCTION_AVAILABILITY_ROUTES = [
   "/",
   "/catalog",
@@ -22,6 +26,8 @@ export type ProductionAvailabilityResult = Readonly<{
   ttfbMs: number | null;
   totalMs: number;
   bytes: number;
+  server: string | null;
+  frontDoor: string | null;
   cache: string | null;
   deployment: string | null;
   release: string | null;
@@ -96,22 +102,27 @@ async function probe(
     const ttfbMs = now() - startedAt;
     const body = await response.arrayBuffer();
     const server = response.headers.get("server");
+    const frontDoor = response.headers.get("x-cybermedica-front-door");
     const vercelId = response.headers.get("x-vercel-id");
     const release = response.headers.get("x-cybermedica-release");
+    const deployment = response.headers.get("x-cybermedica-deployment");
     return {
       attempt,
       path,
       passed: response.status === 200
         && body.byteLength > 0
-        && server?.toLowerCase() === "vercel"
+        && frontDoor === EXPECTED_PRODUCTION_FRONT_DOOR
         && Boolean(vercelId)
-        && Boolean(release),
+        && Boolean(release)
+        && Boolean(deployment),
       status: response.status,
       ttfbMs,
       totalMs: now() - startedAt,
       bytes: body.byteLength,
+      server,
+      frontDoor,
       cache: response.headers.get("x-vercel-cache"),
-      deployment: response.headers.get("x-cybermedica-deployment"),
+      deployment,
       release,
       vercelId,
       errorClass: null,
@@ -125,6 +136,8 @@ async function probe(
       ttfbMs: null,
       totalMs: now() - startedAt,
       bytes: 0,
+      server: null,
+      frontDoor: null,
       cache: null,
       deployment: null,
       release: null,

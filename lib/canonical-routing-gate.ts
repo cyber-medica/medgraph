@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 
 export const CANONICAL_HOST = "cyber-medica.ru";
 export const CANONICAL_ORIGIN_FAMILY = "medgraph";
+export const EXPECTED_PRODUCTION_FRONT_DOOR = "ru-vps-production-candidate";
 export const APPROVED_LEGACY_MEDIA_HOST = "static.tildacdn.com";
 export const CANONICAL_CATALOG_CONTENT_PATHS = new Set([
   "/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty",
@@ -49,6 +50,19 @@ export function readCanonicalRouteFingerprint(headers: Headers): CanonicalRouteF
   assert.ok(fingerprint.deployment.length > 0, "canonical deployment fingerprint is missing");
   assert.ok(fingerprint.release.length > 0, "canonical release fingerprint is missing");
   return fingerprint;
+}
+
+export function assertCanonicalProductionDelivery(headers: Headers, route: string) {
+  assert.equal(
+    headers.get("x-cybermedica-front-door"),
+    EXPECTED_PRODUCTION_FRONT_DOOR,
+    `${route} is missing the canonical production front-door marker`,
+  );
+  assert.ok(
+    headers.get("x-vercel-id"),
+    `${route} is missing the Vercel upstream request fingerprint`,
+  );
+  return readCanonicalRouteFingerprint(headers);
 }
 
 export function assertSameCanonicalFingerprint(

@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 
 import {
   CANONICAL_HOST,
+  assertCanonicalProductionDelivery,
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
   assertStylesheetResponse,
   extractCatalogProductPaths,
   extractSitemapProductPaths,
   extractStylesheetUrls,
-  readCanonicalRouteFingerprint,
   type CanonicalRouteFingerprint,
 } from "../../lib/canonical-routing-gate.ts";
 
@@ -37,9 +37,7 @@ async function read(path: string, expectedStatus = 200) {
   });
   assert.equal(response.status, expectedStatus, `${path} returned ${response.status}`);
   assert.equal(new URL(response.url).hostname, CANONICAL_HOST, `${path} escaped the canonical host`);
-  assert.equal(response.headers.get("server"), "Vercel", `${path} is not served by Vercel`);
-  assert.ok(response.headers.get("x-vercel-id"), `${path} is missing the Vercel request fingerprint`);
-  const fingerprint = readCanonicalRouteFingerprint(response.headers);
+  const fingerprint = assertCanonicalProductionDelivery(response.headers, path);
   if (canonicalFingerprint) assertSameCanonicalFingerprint(canonicalFingerprint, fingerprint, path);
   else canonicalFingerprint = fingerprint;
   if (expectedRelease) assert.equal(fingerprint.release, expectedRelease, "canonical release SHA is not ready");

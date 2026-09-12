@@ -8,6 +8,8 @@ import {
   previousCanonicalAssetOrigin,
 } from "../../next.config.ts";
 import {
+  EXPECTED_PRODUCTION_FRONT_DOOR,
+  assertCanonicalProductionDelivery,
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
   assertStylesheetResponse,
@@ -36,6 +38,27 @@ test("canonical routing fingerprints fail closed on a split deployment", () => {
   const expected = readCanonicalRouteFingerprint(headers);
   assert.doesNotThrow(() => assertSameCanonicalFingerprint(expected, expected, "/catalog"));
   assert.throws(() => assertSameCanonicalFingerprint(expected, { ...expected, deployment: "dpl_legacy" }, "/request"));
+});
+
+test("canonical production delivery requires the Nginx front door and Vercel upstream", () => {
+  const headers = new Headers({
+    server: "nginx/1.24.0 (Ubuntu)",
+    "x-cybermedica-front-door": EXPECTED_PRODUCTION_FRONT_DOOR,
+    "x-cybermedica-deployment": "dpl_current",
+    "x-cybermedica-origin": "medgraph",
+    "x-cybermedica-release": "abc123",
+    "x-vercel-id": "fra1::upstream",
+  });
+  assert.doesNotThrow(() => assertCanonicalProductionDelivery(headers, "/catalog"));
+  assert.throws(() => assertCanonicalProductionDelivery(new Headers({
+    ...Object.fromEntries(headers),
+    server: "Vercel",
+    "x-cybermedica-front-door": "",
+  }), "/catalog"));
+  assert.throws(() => assertCanonicalProductionDelivery(new Headers({
+    ...Object.fromEntries(headers),
+    "x-vercel-id": "",
+  }), "/catalog"));
 });
 
 test("catalog and sitemap extract unique canonical Product paths", () => {
