@@ -4,8 +4,11 @@ import { webkit } from "playwright-core";
 
 import {
   CANONICAL_HOST,
+  assertCanonicalProductionDelivery,
   assertNoLegacyPageShell,
+  assertSameCanonicalFingerprint,
   extractSitemapProductPaths,
+  type CanonicalRouteFingerprint,
 } from "../../lib/canonical-routing-gate.ts";
 
 const origin = new URL(process.env.CANONICAL_ROUTING_ORIGIN ?? `https://${CANONICAL_HOST}`);
@@ -19,6 +22,7 @@ assert.equal(sitemapResponse.status, 200);
 const sitemapPaths = extractSitemapProductPaths(await sitemapResponse.text());
 assert.ok(sitemapPaths.size > 0);
 const stableDetailPath = [...sitemapPaths].sort()[0];
+let canonicalFingerprint: CanonicalRouteFingerprint | undefined;
 
 const browser = await webkit.launch({ headless: true });
 try {
@@ -54,8 +58,10 @@ try {
       waitUntil: "domcontentloaded",
     });
     assert.equal(response?.status(), 200, `${route} must return HTTP 200`);
-    assert.equal(response?.headers().server, "Vercel", `${route} must be served by Vercel`);
-    assert.equal(response?.headers()["x-cybermedica-origin"], "medgraph");
+    assert.ok(response, `${route} returned no navigation response`);
+    const fingerprint = assertCanonicalProductionDelivery(new Headers(response.headers()), route);
+    if (canonicalFingerprint) assertSameCanonicalFingerprint(canonicalFingerprint, fingerprint, route);
+    else canonicalFingerprint = fingerprint;
     await page.waitForFunction(
       () => (document.body?.innerText ?? "").trim().length > 200,
       { timeout: 30_000 },
