@@ -20,7 +20,7 @@ export default function Footer() {
             Подбор и поставка медицинского оборудования для государственных и частных организаций.
           </p>
           <p className="mt-3 text-[10px] leading-5 text-white/65">
-            {PUBLIC_COMPANY.legalName}<br />
+            {PUBLIC_COMPANY.shortLegalName}<br />
             ИНН {PUBLIC_COMPANY.inn}
           </p>
         </div>

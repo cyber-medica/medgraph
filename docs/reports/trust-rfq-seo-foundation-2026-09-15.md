@@ -14,11 +14,12 @@ This sprint adds a focused public trust and RFQ foundation without changing Prod
 
 | Field | Public value |
 | --- | --- |
-| Legal name | ООО «КИБЕРМЕДИКА» |
+| Full legal name | Общество с ограниченной ответственностью «Кибермедика» |
+| Short legal name | ООО «КИМ» |
 | INN | 9102256625 |
 | KPP | 910201001 |
 | OGRN | 1199112011020 |
-| Legal address | 295021, Республика Крым, г. Симферополь, ул. Данилова, д. 43, этаж 2, кабинет 32 |
+| Legal address | 295021, Республика Крым, г. Симферополь, ул. Данилова, д. 43, кабинет 32 |
 | Phone | +7 (903) 947-72-47 |
 | Email | info@cyber-medica.ru |
 | Business hours | Пн–Пт, 09:00–18:00 |

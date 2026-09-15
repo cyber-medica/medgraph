@@ -2,7 +2,8 @@ import { STOREFRONT_SITE_URL } from "../storefront/seo.ts";
 
 export const PUBLIC_COMPANY = {
   brandName: "Кибермедика",
-  legalName: "ООО «КИБЕРМЕДИКА»",
+  legalName: "Общество с ограниченной ответственностью «Кибермедика»",
+  shortLegalName: "ООО «КИМ»",
   inn: "9102256625",
   ogrn: "1199112011020",
   kpp: "910201001",
@@ -12,7 +13,7 @@ export const PUBLIC_COMPANY = {
   emailHref: "mailto:info@cyber-medica.ru",
   businessHours: "Пн–Пт, 09:00–18:00",
   legalAddress:
-    "295021, Республика Крым, г. Симферополь, ул. Данилова, д. 43, этаж 2, кабинет 32",
+    "295021, Республика Крым, г. Симферополь, ул. Данилова, д. 43, кабинет 32",
   geography: "Российская Федерация",
   specialization:
     "Подбор и поставка медицинского оборудования для государственных и частных организаций",
@@ -25,6 +26,7 @@ export function buildPublicCompanyStructuredData() {
     "@id": `${STOREFRONT_SITE_URL}/#organization`,
     name: PUBLIC_COMPANY.brandName,
     legalName: PUBLIC_COMPANY.legalName,
+    alternateName: PUBLIC_COMPANY.shortLegalName,
     url: STOREFRONT_SITE_URL,
     logo: `${STOREFRONT_SITE_URL}/brand/cybermedica-logo.png`,
     email: PUBLIC_COMPANY.email,
@@ -48,7 +50,7 @@ export function buildPublicCompanyStructuredData() {
       addressCountry: "RU",
       addressRegion: "Республика Крым",
       addressLocality: "Симферополь",
-      streetAddress: "ул. Данилова, д. 43, этаж 2, кабинет 32",
+      streetAddress: "ул. Данилова, д. 43, кабинет 32",
     },
     areaServed: {
       "@type": "Country",

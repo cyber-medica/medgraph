@@ -53,7 +53,12 @@ test("homepage schema contains only conservative WebSite and Organization data",
   );
   assert.equal(schemas[0].url, `${STOREFRONT_SITE_URL}/`);
   assert.equal(schemas[0].description, "Каталог оборудования");
-  assert.equal(schemas[1].legalName, "ООО «КИБЕРМЕДИКА»");
+  assert.equal(schemas[1].name, "Кибермедика");
+  assert.equal(
+    schemas[1].legalName,
+    "Общество с ограниченной ответственностью «Кибермедика»",
+  );
+  assert.equal(schemas[1].alternateName, "ООО «КИМ»");
   assert.equal(schemas[1].taxID, "9102256625");
   assert.equal(schemas[1].logo, `${STOREFRONT_SITE_URL}/brand/cybermedica-logo.png`);
   assert.equal((schemas[1].contactPoint as Record<string, unknown>).contactType, "sales");

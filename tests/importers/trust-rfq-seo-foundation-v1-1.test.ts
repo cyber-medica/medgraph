@@ -16,6 +16,9 @@ test("public company contract contains exact trust details and conservative Orga
   assert.deepEqual(
     {
       legalName: PUBLIC_COMPANY.legalName,
+      shortLegalName: PUBLIC_COMPANY.shortLegalName,
+      brandName: PUBLIC_COMPANY.brandName,
+      legalAddress: PUBLIC_COMPANY.legalAddress,
       inn: PUBLIC_COMPANY.inn,
       ogrn: PUBLIC_COMPANY.ogrn,
       kpp: PUBLIC_COMPANY.kpp,
@@ -23,7 +26,10 @@ test("public company contract contains exact trust details and conservative Orga
       phone: PUBLIC_COMPANY.phoneDisplay,
     },
     {
-      legalName: "ООО «КИБЕРМЕДИКА»",
+      legalName: "Общество с ограниченной ответственностью «Кибермедика»",
+      shortLegalName: "ООО «КИМ»",
+      brandName: "Кибермедика",
+      legalAddress: "295021, Республика Крым, г. Симферополь, ул. Данилова, д. 43, кабинет 32",
       inn: "9102256625",
       ogrn: "1199112011020",
       kpp: "910201001",
@@ -34,7 +40,9 @@ test("public company contract contains exact trust details and conservative Orga
 
   const schema = buildPublicCompanyStructuredData();
   assert.equal(schema["@type"], "Organization");
+  assert.equal(schema.name, PUBLIC_COMPANY.brandName);
   assert.equal(schema.legalName, PUBLIC_COMPANY.legalName);
+  assert.equal(schema.alternateName, PUBLIC_COMPANY.shortLegalName);
   assert.equal(schema.taxID, PUBLIC_COMPANY.inn);
   assert.equal(JSON.stringify(schema).includes("LocalBusiness"), false);
   assert.equal(JSON.stringify(schema).includes("MedicalBusiness"), false);
@@ -92,7 +100,7 @@ test("footer exposes company, contacts and legal navigation without personal ema
   for (const path of ["/about", "/contacts", "/privacy", "/personal-data-consent", "/request"]) {
     assert.match(footer, new RegExp(`href=[{]?["]${path}`, "u"));
   }
-  assert.match(footer, /PUBLIC_COMPANY\.legalName/u);
+  assert.match(footer, /PUBLIC_COMPANY\.shortLegalName/u);
   assert.match(footer, /PUBLIC_COMPANY\.inn/u);
   assert.doesNotMatch(footer, /arman|gmail\.com/iu);
 });

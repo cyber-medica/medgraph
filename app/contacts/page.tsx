@@ -10,7 +10,7 @@ import {
 import { buildBreadcrumbJsonLd, buildStorefrontMetadata } from "@/lib/storefront/seo";
 
 const description =
-  "Контакты и реквизиты ООО «КИБЕРМЕДИКА»: телефон, email, адрес и форма запроса коммерческого предложения.";
+  `Контакты и реквизиты юридического лица — ${PUBLIC_COMPANY.legalName}: телефон, email, адрес и форма запроса коммерческого предложения.`;
 
 export const metadata: Metadata = buildStorefrontMetadata({
   title: "Контакты и реквизиты",
