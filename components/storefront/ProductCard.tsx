@@ -7,6 +7,7 @@ import { rememberCatalogReturn } from "@/components/catalog/BackToCatalog";
 import { getProductPresentation } from "@/lib/storefront/product-presentation";
 import type { Manufacturer, Product } from "@/lib/storefront/types";
 import ProductCommercialBadges from "@/components/storefront/ProductCommercialBadges";
+import { buildProductRequestHref } from "@/lib/request/product-context";
 
 export interface ProductCardProps {
   product: Product;
@@ -29,6 +30,11 @@ export default function ProductCard({
     manufacturerName: manufacturer?.name,
   });
   const productHref = `/catalog/${product.slug}`;
+  const requestHref = buildProductRequestHref(product);
+  const hasRegistrationEvidence = Boolean(
+    product.registrationRecords?.some(({ number, sourceUrl }) => number || sourceUrl)
+      || product.documents.some(({ kind }) => kind === "registration"),
+  );
 
   return (
     <article className="group cm-card flex min-h-full flex-col overflow-hidden">
@@ -83,6 +89,12 @@ export default function ProductCard({
             />
           </div>
         ) : null}
+        <ul className="mt-2.5 space-y-1 text-[10px] leading-4 text-cm-slate" aria-label={`Условия запроса: ${product.name}`}>
+          <li><strong className="font-semibold text-cm-ink">Цена</strong> — по запросу</li>
+          <li><strong className="font-semibold text-cm-ink">Срок поставки</strong> — уточняется</li>
+          <li>Подбор комплектации под ТЗ</li>
+          {hasRegistrationEvidence ? <li>РУ предоставляется по запросу</li> : null}
+        </ul>
         <div className="mt-2 min-h-7">
           {product.applicationAreas.length > 0 && (
             <ul
@@ -105,11 +117,23 @@ export default function ProductCard({
             </ul>
           )}
         </div>
-        <div className="mt-auto flex items-center justify-between gap-2 border-t border-[var(--cm-rule)] pt-3 text-[11px] font-semibold">
+        <div className="mt-auto grid grid-cols-2 gap-2 border-t border-[var(--cm-rule)] pt-3 text-[11px] font-semibold">
+          <Link
+            href={requestHref}
+            className="cm-button-primary !min-h-10 !px-2 !py-2 text-center text-[10px]"
+          >
+            Запросить КП
+          </Link>
+          <Link
+            href={`${requestHref}&query=${encodeURIComponent("Техническое задание")}`}
+            className="cm-button-secondary !min-h-10 !px-2 !py-2 text-center text-[10px]"
+          >
+            Отправить ТЗ
+          </Link>
           <Link
             href={productHref}
             onClick={() => rememberCatalogReturn(productHref)}
-            className="text-cm-teal"
+            className="col-span-2 text-cm-teal"
           >
             Открыть карточку →
           </Link>
@@ -117,7 +141,7 @@ export default function ProductCard({
             <Link
               href="/compare"
               aria-label={`Открыть сравнение для ${product.name}`}
-              className="text-cm-slate hover:text-cm-teal"
+              className="col-span-2 text-cm-slate hover:text-cm-teal"
             >
               Сравнить
             </Link>

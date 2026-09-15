@@ -34,6 +34,7 @@ import {
 import { buildProductStructuredData } from "@/lib/storefront/structured-data";
 import { buildProductRequestHref } from "@/lib/request/product-context";
 import { isProductStructuredDataGscStagePreview } from "@/lib/storefront/data-source";
+import { hasNonAttributionQueryParameter } from "@/lib/seo/query-indexing-hygiene";
 
 // Published slugs are runtime data and must not require an application rebuild.
 export const dynamic = "force-dynamic";
@@ -46,8 +47,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }): Promise<Metadata> {
   const { slug } = await params;
   const [product, categories] = await Promise.all([
@@ -64,6 +67,7 @@ export async function generateMetadata({
     category,
     image: image ? { url: image.url, alt: image.alt } : undefined,
     fallbackDescription: presentation.shortDescription ?? product.description,
+    noindexFollow: hasNonAttributionQueryParameter(await searchParams),
   });
 }
 
@@ -160,6 +164,7 @@ export default async function StorefrontProductPage({
           data={buildProductStructuredData({
             product,
             category,
+            manufacturer,
             breadcrumbName: productH1,
           })}
         />
@@ -240,6 +245,12 @@ export default async function StorefrontProductPage({
                     className="cm-button-primary shadow-[0_12px_30px_rgba(11,19,32,0.16)]"
                   >
                     Запросить КП
+                  </Link>
+                  <Link
+                    href={`${buildProductRequestHref(product)}&query=${encodeURIComponent("Техническое задание")}`}
+                    className="cm-button-secondary"
+                  >
+                    Отправить ТЗ
                   </Link>
                   {presentation.canCompare && storefrontDataSource !== "cloud_preview" ? (
                   <Link

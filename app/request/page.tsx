@@ -1,17 +1,40 @@
 import type { Metadata } from "next";
 
 import RequestForm from "@/components/request/RequestForm";
+import { PUBLIC_COMPANY } from "@/lib/company/public-company";
 import { resolveRequestProductContext } from "@/lib/request/product-context";
 import { catalogRepository, productService } from "@/lib/storefront";
+import { buildStorefrontMetadata } from "@/lib/storefront/seo";
+import { hasNonAttributionQueryParameter } from "@/lib/seo/query-indexing-hygiene";
 
-export const metadata: Metadata = {
-  title: "Запросить коммерческое предложение",
-  description:
-    "Отправьте деловую заявку на медицинское изделие, документы, аналоги, совместимость или коммерческое предложение.",
-  alternates: {
+const requestDescription =
+  "Пришлите техническое задание на медицинское оборудование: подготовим подбор, проверку соответствия и коммерческое предложение.";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<Metadata> {
+  return buildStorefrontMetadata({
+    title: "Запросить коммерческое предложение",
+    description: requestDescription,
     canonical: "/request",
-  },
-};
+    noindexFollow: hasNonAttributionQueryParameter(await searchParams),
+  });
+}
+
+const acceptedInputs = ["ТЗ", "ООЗ", "спецификация", "КТРУ", "ссылка на закупку"] as const;
+const outputs = [
+  "подбор оборудования",
+  "таблица соответствия",
+  "коммерческое предложение",
+  "документы по запросу",
+] as const;
+const audiences = [
+  "государственные медицинские учреждения",
+  "частные клиники и медицинские центры",
+  "службы закупок и технические специалисты",
+] as const;
 
 export default async function RequestPage({
   searchParams,
@@ -41,37 +64,26 @@ export default async function RequestPage({
       <section className="cm-container grid gap-6 py-10 lg:grid-cols-[0.78fr_1.22fr]">
         <div className="rounded-lg border border-[var(--cm-rule)] bg-white/78 p-6 pt-6 shadow-[0_14px_42px_rgba(11,19,32,0.055)]">
           <h1 className="cm-heading-1 cm-balanced text-3xl font-extrabold">
-            Запросить КП
+            <span className="sr-only">Запросить КП. </span>
+            Пришлите ТЗ — подберём медицинское оборудование, проверим соответствие требованиям и подготовим КП
           </h1>
           <p className="mt-4 max-w-md text-sm leading-7 text-cm-slate">
-            Опишите изделие, закупочную задачу или параметры. Мы поможем
-            подобрать позицию, проверить документы и подготовить коммерческое
-            предложение.
+            Укажите предмет закупки и важные параметры в форме или направьте
+            материалы на <a className="font-semibold text-cm-teal underline" href={PUBLIC_COMPANY.emailHref}>{PUBLIC_COMPANY.email}</a>.
           </p>
-          <div className="mt-8 space-y-3 border-t border-[var(--cm-rule)] pt-6 text-xs text-cm-slate">
-            {[
-              ["1", "Уточним задачу", "изделие, количество, сроки и важные характеристики"],
-              ["2", "Проверим документы", "регистрационные сведения, инструкции и совместимость"],
-              ["3", "Подготовим ответ", "КП или консультацию по доступным вариантам"],
-            ].map(([number, title, text]) => (
-              <div key={title} className="rounded-md border border-[var(--cm-rule)] bg-white/72 p-3">
-                <div className="flex gap-2">
-                  <span className="flex size-5 shrink-0 items-center justify-center rounded-md bg-cm-teal-soft font-sans text-[9px] font-bold text-cm-teal">
-                    {number}
-                  </span>
-                  <div>
-                    <div className="font-semibold text-cm-ink">{title}</div>
-                    <div className="mt-1 leading-5">{text}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="mt-7 space-y-5 border-t border-[var(--cm-rule)] pt-6 text-xs text-cm-slate">
+            <RequestInfo title="Для кого" items={audiences} />
+            <RequestInfo title="Что можно прислать" items={acceptedInputs} compact />
+            <RequestInfo title="Что подготовим" items={outputs} />
           </div>
           <div className="mt-5 rounded-md border border-[var(--cm-rule)] bg-cm-surface-low/70 p-4 text-[11px] leading-6 text-cm-slate">
-            Ответ обычно готовится в течение рабочего дня. Данные заявки не
-            публикуются и используются только для ответа. Кибермедика помогает
-            с проверкой информации, но не заменяет официальную экспертизу или
-            регистратора.
+            <strong className="block text-xs text-cm-ink">{PUBLIC_COMPANY.legalName}</strong>
+            <span className="mt-1 block">ИНН {PUBLIC_COMPANY.inn} · ОГРН {PUBLIC_COMPANY.ogrn}</span>
+            <span className="mt-1 block">{PUBLIC_COMPANY.specialization}.</span>
+            <span className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+              <a className="font-semibold text-cm-teal underline" href={PUBLIC_COMPANY.phoneHref}>{PUBLIC_COMPANY.phoneDisplay}</a>
+              <a className="font-semibold text-cm-teal underline" href={PUBLIC_COMPANY.emailHref}>{PUBLIC_COMPANY.email}</a>
+            </span>
           </div>
         </div>
         <div className="cm-card p-6 sm:p-8">
@@ -86,6 +98,29 @@ export default async function RequestPage({
         </div>
       </section>
     </main>
+  );
+}
+
+function RequestInfo({
+  title,
+  items,
+  compact = false,
+}: {
+  title: string;
+  items: readonly string[];
+  compact?: boolean;
+}) {
+  return (
+    <div>
+      <h2 className="cm-label text-cm-ink">{title}</h2>
+      <ul className={`mt-2 flex flex-wrap ${compact ? "gap-1.5" : "gap-2"}`}>
+        {items.map((item) => (
+          <li key={item} className="rounded-full border border-[var(--cm-rule)] bg-white px-2.5 py-1.5 leading-4">
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

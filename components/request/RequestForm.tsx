@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { RequestProductContext } from "@/lib/request/product-context";
 import { readBrowserAttribution, trackRfqEvent } from "@/lib/analytics/events";
 
@@ -230,6 +231,19 @@ export default function RequestForm({
         aria-hidden="true"
       />
 
+      <label className="flex cursor-pointer items-start gap-3 rounded-md border border-[var(--cm-rule)] bg-cm-surface-low/55 p-3 text-[11px] leading-5 text-cm-slate">
+        <input
+          type="checkbox"
+          name="personalDataConsent"
+          value="accepted"
+          required
+          className="mt-1 size-4 shrink-0 accent-[var(--cm-teal)]"
+        />
+        <span>
+          Я даю <Link className="font-semibold text-cm-teal underline" href="/personal-data-consent" target="_blank" rel="noreferrer">согласие на обработку персональных данных</Link> и подтверждаю, что ознакомлен(а) с <Link className="font-semibold text-cm-teal underline" href="/privacy" target="_blank" rel="noreferrer">политикой конфиденциальности</Link>.
+        </span>
+      </label>
+
       {error && (
         <div
           role="alert"
@@ -247,8 +261,7 @@ export default function RequestForm({
       </button>
 
       <p className="text-center text-[10px] leading-5 text-cm-dim">
-        Нажимая кнопку, вы передаёте данные только для подготовки ответа на
-        вашу заявку.
+        Данные заявки используются для подготовки ответа и не публикуются.
       </p>
     </form>
   );

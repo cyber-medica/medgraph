@@ -87,6 +87,18 @@ export function buildStorefrontSitemapFromCatalog(
       changeFrequency: "monthly",
       priority: 0.75,
     },
+    {
+      url: url("/about"),
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: url("/contacts"),
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
     ...SEO_LANDING_PATHS.map((path) => ({
       url: url(path),
       lastModified,

@@ -34,6 +34,18 @@ export function hasSyntheticDebugQueryParameter(
 }
 
 /**
+ * Public query variants are never separate search documents. Commercial
+ * attribution stays available to R9 and keeps normal indexing semantics;
+ * every other query key receives a clean canonical plus noindex-follow.
+ */
+export function hasNonAttributionQueryParameter(
+  searchParams: Readonly<Record<string, string | string[] | undefined>>,
+) {
+  const attribution = new Set<string>(COMMERCIAL_ATTRIBUTION_QUERY_PARAMETERS);
+  return Object.keys(searchParams).some((key) => !attribution.has(key));
+}
+
+/**
  * Next.js applies every matching `has` entry conjunctively, so each technical
  * query key needs its own rule. The rules set response metadata only: they do
  * not redirect, rewrite, or remove query parameters from the application.

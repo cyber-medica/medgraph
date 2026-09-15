@@ -165,6 +165,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  if (formData.get("personalDataConsent") !== "accepted") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Подтвердите согласие на обработку персональных данных.",
+      },
+      { status: 400 },
+    );
+  }
+
   const createdAt = new Date().toISOString();
   const lead = {
     id: crypto.randomUUID(),
