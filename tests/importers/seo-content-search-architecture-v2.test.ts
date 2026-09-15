@@ -146,7 +146,7 @@ test("production sitemap is canonical and contains only approved content routes"
   const urls = sitemap.map(({ url }) => url);
   const expectedUrls = publicPublishedProducts(publishedCatalog.products).length
     + filterPublicManufacturers(publishedCatalog.manufacturers, publishedCatalog.products).length
-    + 3
+    + 5
     + SEO_LANDING_PATHS.length;
   assert.equal(urls.length, expectedUrls);
   assert.equal(new Set(urls).size, expectedUrls);

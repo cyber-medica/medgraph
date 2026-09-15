@@ -235,7 +235,7 @@ test("sitemap derives counts from the visible catalog and includes both P1 route
   const urls = sitemap.map(({ url }) => url);
   const expected = publicPublishedProducts(stageCatalog.products).length
     + filterPublicManufacturers(stageCatalog.manufacturers, stageCatalog.products).length
-    + 3
+    + 5
     + SEO_LANDING_PATHS.length;
   assert.equal(urls.length, expected);
   assert.equal(new Set(urls).size, expected);

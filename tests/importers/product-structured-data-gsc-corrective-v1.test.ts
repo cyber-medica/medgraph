@@ -17,6 +17,7 @@ import { buildProductStructuredData } from "../../lib/storefront/structured-data
 const projection = publishedSnapshotJson.projection as unknown as PublishedCatalogProjection;
 const catalog = mapCloudPublishedCatalogProjection(projection);
 const categories = new Map(catalog.categories.map((entry) => [entry.id, entry]));
+const manufacturers = new Map(catalog.manufacturers.map((entry) => [entry.id, entry]));
 
 const legacyProductPaths = {
   "/catalog/videoendoskopicheskaya-sistema-sonoscape-hd-500":
@@ -31,11 +32,14 @@ test("all 114 published Product Detail pages use one truthful MedicalDevice Item
 
   for (const product of catalog.products) {
     const category = categories.get(product.categoryId);
+    const manufacturer = manufacturers.get(product.manufacturerId);
     assert.ok(category, product.slug);
+    assert.ok(manufacturer, product.slug);
     const pageName = getProductSeoH1(product);
     const [itemPage, breadcrumb] = buildProductStructuredData({
       product,
       category,
+      manufacturer,
       breadcrumbName: pageName,
     });
     const mainEntity = itemPage.mainEntity as Record<string, unknown>;
@@ -49,6 +53,13 @@ test("all 114 published Product Detail pages use one truthful MedicalDevice Item
     assert.equal(itemPage.url, `${STOREFRONT_SITE_URL}/catalog/${product.slug}`, product.slug);
     assert.equal(mainEntity["@type"], "MedicalDevice", product.slug);
     assert.equal(mainEntity.name, pageName, product.slug);
+    assert.equal(mainEntity.model, product.model, product.slug);
+    assert.equal(mainEntity.category, category.name, product.slug);
+    assert.equal(
+      (mainEntity.brand as Record<string, unknown>).name,
+      manufacturer.name,
+      product.slug,
+    );
     assert.doesNotMatch(description, /<[^>]+>|&(?:nbsp|amp|lt|gt|quot|apos);/iu, product.slug);
     assert.equal(breadcrumb["@type"], "BreadcrumbList", product.slug);
 
@@ -62,7 +73,7 @@ test("all 114 published Product Detail pages use one truthful MedicalDevice Item
     const serialized = JSON.stringify(itemPage);
     assert.doesNotMatch(
       serialized,
-      /"@type":"Product"|"(?:offers|price|priceCurrency|availability|review|aggregateRating|ratingValue|manufacturer|brand|model|sku|gtin|mpn|category|identifier)"/u,
+      /"@type":"Product"|"(?:offers|price|priceCurrency|availability|review|aggregateRating|ratingValue|manufacturer|sku|gtin|mpn|identifier)"/u,
       product.slug,
     );
     assert.doesNotMatch(serialized, /stage\.cyber-medica\.ru|\.vercel\.app|medvist\.ru/iu, product.slug);

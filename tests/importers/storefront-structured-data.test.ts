@@ -53,8 +53,10 @@ test("homepage schema contains only conservative WebSite and Organization data",
   );
   assert.equal(schemas[0].url, `${STOREFRONT_SITE_URL}/`);
   assert.equal(schemas[0].description, "Каталог оборудования");
-  assert.equal(schemas[1].logo, undefined);
-  assert.equal(schemas[1].contactPoint, undefined);
+  assert.equal(schemas[1].legalName, "ООО «КИБЕРМЕДИКА»");
+  assert.equal(schemas[1].taxID, "9102256625");
+  assert.equal(schemas[1].logo, `${STOREFRONT_SITE_URL}/brand/cybermedica-logo.png`);
+  assert.equal((schemas[1].contactPoint as Record<string, unknown>).contactType, "sales");
   assert.equal(schemas[1].sameAs, undefined);
 });
 
@@ -71,28 +73,37 @@ test("catalog and manufacturer directories use CollectionPage without a full Ite
   assert.equal(schema.itemListElement, undefined);
 });
 
-test("Product Detail uses a truthful MedicalDevice ItemPage graph without Google Product claims", async () => {
-  const [products, categories] = await Promise.all([
+test("Product Detail uses a truthful MedicalDevice ItemPage graph without offers", async () => {
+  const [products, categories, manufacturers] = await Promise.all([
     repository.getActiveProducts(),
     repository.getCategories(),
+    repository.getManufacturers(),
   ]);
   const product = products[0];
   assert.ok(product);
   const category = categories.find(({ id }) => id === product.categoryId);
+  const manufacturer = manufacturers.find(({ id }) => id === product.manufacturerId);
   const [schema, breadcrumb] = buildProductStructuredData({
     product,
     category,
+    manufacturer,
   });
 
   assert.equal(schema["@type"], "ItemPage");
   assert.equal(schema.url, `${STOREFRONT_SITE_URL}/catalog/${product.slug}`);
   assert.equal((schema.mainEntity as Record<string, unknown>)["@type"], "MedicalDevice");
+  assert.equal((schema.mainEntity as Record<string, unknown>).model, product.model);
+  assert.equal((schema.mainEntity as Record<string, unknown>).category, category?.name);
+  assert.equal(
+    ((schema.mainEntity as Record<string, unknown>).brand as Record<string, unknown>).name,
+    manufacturer?.name,
+  );
   assert.equal(breadcrumb["@type"], "BreadcrumbList");
 
   const forbidden = JSON.stringify(schema);
   assert.doesNotMatch(
     forbidden,
-    /"(?:Product|offers|price|availability|aggregateRating|review|manufacturer|brand|model|sku|gtin|mpn|category|identifier|registration|verification|provenance|evidence|artifactPath|sha256)"/u,
+    /"(?:Product|offers|price|availability|aggregateRating|review|manufacturer|sku|gtin|mpn|identifier|registration|verification|provenance|evidence|artifactPath|sha256)"/u,
   );
 });
 

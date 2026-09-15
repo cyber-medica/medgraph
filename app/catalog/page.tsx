@@ -12,6 +12,7 @@ import {
 } from "@/lib/storefront";
 import { buildBreadcrumbJsonLd, buildStorefrontMetadata } from "@/lib/storefront/seo";
 import { buildCollectionPageStructuredData } from "@/lib/storefront/structured-data";
+import { hasNonAttributionQueryParameter } from "@/lib/seo/query-indexing-hygiene";
 
 const catalogDescription =
   "Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.";
@@ -19,20 +20,10 @@ const catalogDescription =
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; category?: string; manufacturer?: string; applicationArea?: string; sort?: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }): Promise<Metadata> {
-  const {
-    q = "",
-    category = "",
-    manufacturer = "",
-    applicationArea = "",
-    sort = "name-asc",
-  } = await searchParams;
-  const hasFilteredView = q.trim().length > 0
-    || category.length > 0
-    || manufacturer.length > 0
-    || applicationArea.length > 0
-    || sort !== "name-asc";
+  const query = await searchParams;
+  const hasFilteredView = hasNonAttributionQueryParameter(query);
   return buildStorefrontMetadata({
     title: "Каталог медицинских изделий",
     description: catalogDescription,

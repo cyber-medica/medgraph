@@ -1,0 +1,445 @@
+{
+  "generatedAt": "2026-09-15T19:47:48.124Z",
+  "desktop": [
+    {
+      "path": "/",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/",
+      "description": "Поставка и подбор профессионального медицинского оборудования для государственных и частных медицинских организаций.",
+      "h1": [
+        "Медицинское оборудование для клиник и медицинских учреждений"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\",\"description\":\"Поставка и подбор профессионального медицинского оборудования для государственных и частных медицинских организаций.\",\"publisher\":{\"@id\":\"https://cyber-medica.ru/#organization\"}},{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"@id\":\"https://cyber-medica.ru/#organization\",\"name\":\"Кибермедика\",\"legalName\":\"ООО «КИБЕРМЕДИКА»\",\"url\":\"https://cyber-medica.ru\",\"logo\":\"https://cyber-medica.ru/brand/cybermedica-logo.png\",\"email\":\"info@cyber-medica.ru\",\"telephone\":\"+7 (903) 947-72-47\",\"taxID\":\"9102256625\",\"identifier\":[{\"@type\":\"PropertyValue\",\"propertyID\":\"ОГРН\",\"value\":\"1199112011020\"},{\"@type\":\"PropertyValue\",\"propertyID\":\"КПП\",\"value\":\"910201001\"}],\"address\":{\"@type\":\"PostalAddress\",\"postalCode\":\"295021\",\"addressCountry\":\"RU\",\"addressRegion\":\"Республика Крым\",\"addressLocality\":\"Симферополь\",\"streetAddress\":\"ул. Данилова, д. 43, этаж 2, кабинет 32\"},\"areaServed\":{\"@type\":\"Country\",\"name\":\"Российская Федерация\"},\"contactPoint\":{\"@type\":\"ContactPoint\",\"contactType\":\"sales\",\"telephone\":\"+7 (903) 947-72-47\",\"email\":\"info@cyber-medica.ru\",\"availableLanguage\":\"Russian\"},\"description\":\"Подбор и поставка медицинского оборудования для государственных и частных организаций\"}]"
+      ],
+      "overflow": 0,
+      "title": "Кибермедика — медицинское оборудование для клиник и учреждений",
+      "schemaTypes": [
+        "WebSite",
+        "Organization"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/catalog",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/catalog",
+      "description": "Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.",
+      "h1": [
+        "Каталог медицинских изделий"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Каталог медицинских изделий\",\"description\":\"Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.\",\"url\":\"https://cyber-medica.ru/catalog\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Каталог медицинских изделий | Кибермедика",
+      "schemaTypes": [
+        "CollectionPage",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/manufacturers",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/manufacturers",
+      "description": "Производители медицинского оборудования, представленные в каталоге Кибермедика.",
+      "h1": [
+        "Производители"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Производители медицинских изделий\",\"description\":\"Производители медицинского оборудования, представленные в каталоге Кибермедика.\",\"url\":\"https://cyber-medica.ru/manufacturers\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Производители\",\"item\":\"https://cyber-medica.ru/manufacturers\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Производители медицинских изделий | Кибермедика",
+      "schemaTypes": [
+        "CollectionPage",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/request",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/request",
+      "description": "Пришлите техническое задание на медицинское оборудование: подготовим подбор, проверку соответствия и коммерческое предложение.",
+      "h1": [
+        "Запросить КП. Пришлите ТЗ — подберём медицинское оборудование, проверим соответствие требованиям и подготовим КП"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [],
+      "overflow": 0,
+      "title": "Запросить коммерческое предложение | Кибермедика",
+      "schemaTypes": [],
+      "consoleErrors": []
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/about",
+      "description": "О компании Кибермедика: подбор и поставка медицинского оборудования для государственных и частных организаций по техническому заданию.",
+      "h1": [
+        "Кибермедика — поставщик медицинского оборудования для организаций"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"@id\":\"https://cyber-medica.ru/#organization\",\"name\":\"Кибермедика\",\"legalName\":\"ООО «КИБЕРМЕДИКА»\",\"url\":\"https://cyber-medica.ru\",\"logo\":\"https://cyber-medica.ru/brand/cybermedica-logo.png\",\"email\":\"info@cyber-medica.ru\",\"telephone\":\"+7 (903) 947-72-47\",\"taxID\":\"9102256625\",\"identifier\":[{\"@type\":\"PropertyValue\",\"propertyID\":\"ОГРН\",\"value\":\"1199112011020\"},{\"@type\":\"PropertyValue\",\"propertyID\":\"КПП\",\"value\":\"910201001\"}],\"address\":{\"@type\":\"PostalAddress\",\"postalCode\":\"295021\",\"addressCountry\":\"RU\",\"addressRegion\":\"Республика Крым\",\"addressLocality\":\"Симферополь\",\"streetAddress\":\"ул. Данилова, д. 43, этаж 2, кабинет 32\"},\"areaServed\":{\"@type\":\"Country\",\"name\":\"Российская Федерация\"},\"contactPoint\":{\"@type\":\"ContactPoint\",\"contactType\":\"sales\",\"telephone\":\"+7 (903) 947-72-47\",\"email\":\"info@cyber-medica.ru\",\"availableLanguage\":\"Russian\"},\"description\":\"Подбор и поставка медицинского оборудования для государственных и частных организаций\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"О компании\",\"item\":\"https://cyber-medica.ru/about\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "О компании | Кибермедика",
+      "schemaTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/contacts",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/contacts",
+      "description": "Контакты и реквизиты ООО «КИБЕРМЕДИКА»: телефон, email, адрес и форма запроса коммерческого предложения.",
+      "h1": [
+        "Контакты и реквизиты"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"@id\":\"https://cyber-medica.ru/#organization\",\"name\":\"Кибермедика\",\"legalName\":\"ООО «КИБЕРМЕДИКА»\",\"url\":\"https://cyber-medica.ru\",\"logo\":\"https://cyber-medica.ru/brand/cybermedica-logo.png\",\"email\":\"info@cyber-medica.ru\",\"telephone\":\"+7 (903) 947-72-47\",\"taxID\":\"9102256625\",\"identifier\":[{\"@type\":\"PropertyValue\",\"propertyID\":\"ОГРН\",\"value\":\"1199112011020\"},{\"@type\":\"PropertyValue\",\"propertyID\":\"КПП\",\"value\":\"910201001\"}],\"address\":{\"@type\":\"PostalAddress\",\"postalCode\":\"295021\",\"addressCountry\":\"RU\",\"addressRegion\":\"Республика Крым\",\"addressLocality\":\"Симферополь\",\"streetAddress\":\"ул. Данилова, д. 43, этаж 2, кабинет 32\"},\"areaServed\":{\"@type\":\"Country\",\"name\":\"Российская Федерация\"},\"contactPoint\":{\"@type\":\"ContactPoint\",\"contactType\":\"sales\",\"telephone\":\"+7 (903) 947-72-47\",\"email\":\"info@cyber-medica.ru\",\"availableLanguage\":\"Russian\"},\"description\":\"Подбор и поставка медицинского оборудования для государственных и частных организаций\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Контакты\",\"item\":\"https://cyber-medica.ru/contacts\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Контакты и реквизиты | Кибермедика",
+      "schemaTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/catalog/endoskopiya",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/catalog/endoskopiya",
+      "description": "Оборудование для эндоскопических отделений: видеоэндоскопические системы, портативная бронхоскопия, обработка и хранение эндоскопов. Подбор и запрос КП.",
+      "h1": [
+        "Оборудование для эндоскопии"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Оборудование для эндоскопии\",\"description\":\"Оборудование для эндоскопических отделений: видеоэндоскопические системы, портативная бронхоскопия, обработка и хранение эндоскопов. Подбор и запрос КП.\",\"url\":\"https://cyber-medica.ru/catalog/endoskopiya\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Оборудование для эндоскопии\",\"item\":\"https://cyber-medica.ru/catalog/endoskopiya\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Оборудование для эндоскопии | Кибермедика",
+      "schemaTypes": [
+        "CollectionPage",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/catalog/fs510",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/catalog/fs510",
+      "description": "Тепловлагообменный фильтр HMEF для установки в дыхательный контур со стороны пациента.",
+      "h1": [
+        "Тепловлагообменный фильтр FS510"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"ItemPage\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"inLanguage\":\"ru-RU\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"},\"mainEntity\":{\"@type\":\"MedicalDevice\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"brand\":{\"@type\":\"Brand\",\"name\":\"Alba Healthcare\"},\"model\":\"FS510\",\"category\":\"Анестезиология и респираторная терапия\",\"image\":[\"https://cyber-medica.ru/products/fs510/photo.jpg\"]},\"primaryImageOfPage\":{\"@type\":\"ImageObject\",\"contentUrl\":\"https://cyber-medica.ru/products/fs510/photo.jpg\",\"caption\":\"Тепловлагообменный фильтр FS510\"},\"keywords\":\"Анестезиология и респираторная терапия\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Анестезиология и респираторная терапия\",\"item\":\"https://cyber-medica.ru/catalog?category=anesthesia-respiratory\"},{\"@type\":\"ListItem\",\"position\":4,\"name\":\"Тепловлагообменный фильтр FS510\",\"item\":\"https://cyber-medica.ru/catalog/fs510\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Тепловлагообменный фильтр FS510 — Анестезиология и респираторная терапия | Кибермедика",
+      "schemaTypes": [
+        "ItemPage",
+        "MedicalDevice",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    }
+  ],
+  "mobile": [
+    {
+      "path": "/",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/",
+      "description": "Поставка и подбор профессионального медицинского оборудования для государственных и частных медицинских организаций.",
+      "h1": [
+        "Медицинское оборудование для клиник и медицинских учреждений"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\",\"description\":\"Поставка и подбор профессионального медицинского оборудования для государственных и частных медицинских организаций.\",\"publisher\":{\"@id\":\"https://cyber-medica.ru/#organization\"}},{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"@id\":\"https://cyber-medica.ru/#organization\",\"name\":\"Кибермедика\",\"legalName\":\"ООО «КИБЕРМЕДИКА»\",\"url\":\"https://cyber-medica.ru\",\"logo\":\"https://cyber-medica.ru/brand/cybermedica-logo.png\",\"email\":\"info@cyber-medica.ru\",\"telephone\":\"+7 (903) 947-72-47\",\"taxID\":\"9102256625\",\"identifier\":[{\"@type\":\"PropertyValue\",\"propertyID\":\"ОГРН\",\"value\":\"1199112011020\"},{\"@type\":\"PropertyValue\",\"propertyID\":\"КПП\",\"value\":\"910201001\"}],\"address\":{\"@type\":\"PostalAddress\",\"postalCode\":\"295021\",\"addressCountry\":\"RU\",\"addressRegion\":\"Республика Крым\",\"addressLocality\":\"Симферополь\",\"streetAddress\":\"ул. Данилова, д. 43, этаж 2, кабинет 32\"},\"areaServed\":{\"@type\":\"Country\",\"name\":\"Российская Федерация\"},\"contactPoint\":{\"@type\":\"ContactPoint\",\"contactType\":\"sales\",\"telephone\":\"+7 (903) 947-72-47\",\"email\":\"info@cyber-medica.ru\",\"availableLanguage\":\"Russian\"},\"description\":\"Подбор и поставка медицинского оборудования для государственных и частных организаций\"}]"
+      ],
+      "overflow": 0,
+      "title": "Кибермедика — медицинское оборудование для клиник и учреждений",
+      "schemaTypes": [
+        "WebSite",
+        "Organization"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/request",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/request",
+      "description": "Пришлите техническое задание на медицинское оборудование: подготовим подбор, проверку соответствия и коммерческое предложение.",
+      "h1": [
+        "Запросить КП. Пришлите ТЗ — подберём медицинское оборудование, проверим соответствие требованиям и подготовим КП"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [],
+      "overflow": 0,
+      "title": "Запросить коммерческое предложение | Кибермедика",
+      "schemaTypes": [],
+      "consoleErrors": []
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/about",
+      "description": "О компании Кибермедика: подбор и поставка медицинского оборудования для государственных и частных организаций по техническому заданию.",
+      "h1": [
+        "Кибермедика — поставщик медицинского оборудования для организаций"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"@id\":\"https://cyber-medica.ru/#organization\",\"name\":\"Кибермедика\",\"legalName\":\"ООО «КИБЕРМЕДИКА»\",\"url\":\"https://cyber-medica.ru\",\"logo\":\"https://cyber-medica.ru/brand/cybermedica-logo.png\",\"email\":\"info@cyber-medica.ru\",\"telephone\":\"+7 (903) 947-72-47\",\"taxID\":\"9102256625\",\"identifier\":[{\"@type\":\"PropertyValue\",\"propertyID\":\"ОГРН\",\"value\":\"1199112011020\"},{\"@type\":\"PropertyValue\",\"propertyID\":\"КПП\",\"value\":\"910201001\"}],\"address\":{\"@type\":\"PostalAddress\",\"postalCode\":\"295021\",\"addressCountry\":\"RU\",\"addressRegion\":\"Республика Крым\",\"addressLocality\":\"Симферополь\",\"streetAddress\":\"ул. Данилова, д. 43, этаж 2, кабинет 32\"},\"areaServed\":{\"@type\":\"Country\",\"name\":\"Российская Федерация\"},\"contactPoint\":{\"@type\":\"ContactPoint\",\"contactType\":\"sales\",\"telephone\":\"+7 (903) 947-72-47\",\"email\":\"info@cyber-medica.ru\",\"availableLanguage\":\"Russian\"},\"description\":\"Подбор и поставка медицинского оборудования для государственных и частных организаций\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"О компании\",\"item\":\"https://cyber-medica.ru/about\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "О компании | Кибермедика",
+      "schemaTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/contacts",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/contacts",
+      "description": "Контакты и реквизиты ООО «КИБЕРМЕДИКА»: телефон, email, адрес и форма запроса коммерческого предложения.",
+      "h1": [
+        "Контакты и реквизиты"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"@id\":\"https://cyber-medica.ru/#organization\",\"name\":\"Кибермедика\",\"legalName\":\"ООО «КИБЕРМЕДИКА»\",\"url\":\"https://cyber-medica.ru\",\"logo\":\"https://cyber-medica.ru/brand/cybermedica-logo.png\",\"email\":\"info@cyber-medica.ru\",\"telephone\":\"+7 (903) 947-72-47\",\"taxID\":\"9102256625\",\"identifier\":[{\"@type\":\"PropertyValue\",\"propertyID\":\"ОГРН\",\"value\":\"1199112011020\"},{\"@type\":\"PropertyValue\",\"propertyID\":\"КПП\",\"value\":\"910201001\"}],\"address\":{\"@type\":\"PostalAddress\",\"postalCode\":\"295021\",\"addressCountry\":\"RU\",\"addressRegion\":\"Республика Крым\",\"addressLocality\":\"Симферополь\",\"streetAddress\":\"ул. Данилова, д. 43, этаж 2, кабинет 32\"},\"areaServed\":{\"@type\":\"Country\",\"name\":\"Российская Федерация\"},\"contactPoint\":{\"@type\":\"ContactPoint\",\"contactType\":\"sales\",\"telephone\":\"+7 (903) 947-72-47\",\"email\":\"info@cyber-medica.ru\",\"availableLanguage\":\"Russian\"},\"description\":\"Подбор и поставка медицинского оборудования для государственных и частных организаций\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Контакты\",\"item\":\"https://cyber-medica.ru/contacts\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Контакты и реквизиты | Кибермедика",
+      "schemaTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/catalog",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/catalog",
+      "description": "Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.",
+      "h1": [
+        "Каталог медицинских изделий"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Каталог медицинских изделий\",\"description\":\"Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.\",\"url\":\"https://cyber-medica.ru/catalog\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Каталог медицинских изделий | Кибермедика",
+      "schemaTypes": [
+        "CollectionPage",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "path": "/catalog/fs510",
+      "status": 200,
+      "canonical": "https://cyber-medica.ru/catalog/fs510",
+      "description": "Тепловлагообменный фильтр HMEF для установки в дыхательный контур со стороны пациента.",
+      "h1": [
+        "Тепловлагообменный фильтр FS510"
+      ],
+      "robots": "noindex, nofollow",
+      "schema": [
+        "[{\"@context\":\"https://schema.org\",\"@type\":\"ItemPage\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"inLanguage\":\"ru-RU\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"},\"mainEntity\":{\"@type\":\"MedicalDevice\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"brand\":{\"@type\":\"Brand\",\"name\":\"Alba Healthcare\"},\"model\":\"FS510\",\"category\":\"Анестезиология и респираторная терапия\",\"image\":[\"https://cyber-medica.ru/products/fs510/photo.jpg\"]},\"primaryImageOfPage\":{\"@type\":\"ImageObject\",\"contentUrl\":\"https://cyber-medica.ru/products/fs510/photo.jpg\",\"caption\":\"Тепловлагообменный фильтр FS510\"},\"keywords\":\"Анестезиология и респираторная терапия\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Анестезиология и респираторная терапия\",\"item\":\"https://cyber-medica.ru/catalog?category=anesthesia-respiratory\"},{\"@type\":\"ListItem\",\"position\":4,\"name\":\"Тепловлагообменный фильтр FS510\",\"item\":\"https://cyber-medica.ru/catalog/fs510\"}]}]"
+      ],
+      "overflow": 0,
+      "title": "Тепловлагообменный фильтр FS510 — Анестезиология и респираторная терапия | Кибермедика",
+      "schemaTypes": [
+        "ItemPage",
+        "MedicalDevice",
+        "BreadcrumbList"
+      ],
+      "consoleErrors": []
+    }
+  ],
+  "assertions": {
+    "requestForm": {
+      "consentPresent": true,
+      "consentChecked": false,
+      "consentRequired": true,
+      "privacyLink": "/privacy",
+      "consentLink": "/personal-data-consent",
+      "formPresent": true
+    },
+    "sitemap": {
+      "status": 200,
+      "includesAbout": true,
+      "includesContacts": true,
+      "technicalOrQueryUrls": 0
+    },
+    "robots": {
+      "status": 200,
+      "nonEmpty": true
+    },
+    "queryChecks": {
+      "/catalog?category=endoskopiya": {
+        "path": "/catalog?category=endoskopiya",
+        "status": 200,
+        "canonical": "https://cyber-medica.ru/catalog",
+        "description": "Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.",
+        "h1": [
+          "Каталог медицинских изделий"
+        ],
+        "robots": "noindex, nofollow",
+        "schema": [
+          "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Каталог медицинских изделий\",\"description\":\"Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.\",\"url\":\"https://cyber-medica.ru/catalog\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"}]}]"
+        ],
+        "overflow": 0,
+        "title": "Каталог медицинских изделий | Кибермедика",
+        "schemaTypes": [
+          "CollectionPage",
+          "BreadcrumbList"
+        ],
+        "consoleErrors": []
+      },
+      "/catalog?manufacturer=mindray": {
+        "path": "/catalog?manufacturer=mindray",
+        "status": 200,
+        "canonical": "https://cyber-medica.ru/catalog",
+        "description": "Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.",
+        "h1": [
+          "Каталог медицинских изделий"
+        ],
+        "robots": "noindex, nofollow",
+        "schema": [
+          "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Каталог медицинских изделий\",\"description\":\"Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.\",\"url\":\"https://cyber-medica.ru/catalog\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"}]}]"
+        ],
+        "overflow": 0,
+        "title": "Каталог медицинских изделий | Кибермедика",
+        "schemaTypes": [
+          "CollectionPage",
+          "BreadcrumbList"
+        ],
+        "consoleErrors": []
+      },
+      "/catalog?sort=name": {
+        "path": "/catalog?sort=name",
+        "status": 200,
+        "canonical": "https://cyber-medica.ru/catalog",
+        "description": "Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.",
+        "h1": [
+          "Каталог медицинских изделий"
+        ],
+        "robots": "noindex, nofollow",
+        "schema": [
+          "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Каталог медицинских изделий\",\"description\":\"Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.\",\"url\":\"https://cyber-medica.ru/catalog\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"}]}]"
+        ],
+        "overflow": 0,
+        "title": "Каталог медицинских изделий | Кибермедика",
+        "schemaTypes": [
+          "CollectionPage",
+          "BreadcrumbList"
+        ],
+        "consoleErrors": []
+      },
+      "/catalog/fs510?sort=name": {
+        "path": "/catalog/fs510?sort=name",
+        "status": 200,
+        "canonical": "https://cyber-medica.ru/catalog/fs510",
+        "description": "Тепловлагообменный фильтр HMEF для установки в дыхательный контур со стороны пациента.",
+        "h1": [
+          "Тепловлагообменный фильтр FS510"
+        ],
+        "robots": "noindex, nofollow",
+        "schema": [
+          "[{\"@context\":\"https://schema.org\",\"@type\":\"ItemPage\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"inLanguage\":\"ru-RU\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"},\"mainEntity\":{\"@type\":\"MedicalDevice\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"brand\":{\"@type\":\"Brand\",\"name\":\"Alba Healthcare\"},\"model\":\"FS510\",\"category\":\"Анестезиология и респираторная терапия\",\"image\":[\"https://cyber-medica.ru/products/fs510/photo.jpg\"]},\"primaryImageOfPage\":{\"@type\":\"ImageObject\",\"contentUrl\":\"https://cyber-medica.ru/products/fs510/photo.jpg\",\"caption\":\"Тепловлагообменный фильтр FS510\"},\"keywords\":\"Анестезиология и респираторная терапия\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Анестезиология и респираторная терапия\",\"item\":\"https://cyber-medica.ru/catalog?category=anesthesia-respiratory\"},{\"@type\":\"ListItem\",\"position\":4,\"name\":\"Тепловлагообменный фильтр FS510\",\"item\":\"https://cyber-medica.ru/catalog/fs510\"}]}]"
+        ],
+        "overflow": 0,
+        "title": "Тепловлагообменный фильтр FS510 — Анестезиология и респираторная терапия | Кибермедика",
+        "schemaTypes": [
+          "ItemPage",
+          "MedicalDevice",
+          "BreadcrumbList"
+        ],
+        "consoleErrors": []
+      },
+      "/request?query=ivl": {
+        "path": "/request?query=ivl",
+        "status": 200,
+        "canonical": "https://cyber-medica.ru/request",
+        "description": "Пришлите техническое задание на медицинское оборудование: подготовим подбор, проверку соответствия и коммерческое предложение.",
+        "h1": [
+          "Запросить КП. Пришлите ТЗ — подберём медицинское оборудование, проверим соответствие требованиям и подготовим КП"
+        ],
+        "robots": "noindex, nofollow",
+        "schema": [],
+        "overflow": 0,
+        "title": "Запросить коммерческое предложение | Кибермедика",
+        "schemaTypes": [],
+        "consoleErrors": []
+      },
+      "/catalog?utm_source=qa&utm_medium=manual&yclid=123": {
+        "path": "/catalog?utm_source=qa&utm_medium=manual&yclid=123",
+        "status": 200,
+        "canonical": "https://cyber-medica.ru/catalog",
+        "description": "Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.",
+        "h1": [
+          "Каталог медицинских изделий"
+        ],
+        "robots": "noindex, nofollow",
+        "schema": [
+          "[{\"@context\":\"https://schema.org\",\"@type\":\"CollectionPage\",\"name\":\"Каталог медицинских изделий\",\"description\":\"Поиск медицинских изделий по названию, производителю, категории, документам, аналогам и совместимости.\",\"url\":\"https://cyber-medica.ru/catalog\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"}},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"}]}]"
+        ],
+        "overflow": 0,
+        "title": "Каталог медицинских изделий | Кибермедика",
+        "schemaTypes": [
+          "CollectionPage",
+          "BreadcrumbList"
+        ],
+        "consoleErrors": []
+      },
+      "/catalog/fs510?mobile_synthetic=1&utm_source=qa": {
+        "path": "/catalog/fs510?mobile_synthetic=1&utm_source=qa",
+        "status": 200,
+        "canonical": "https://cyber-medica.ru/catalog/fs510",
+        "description": "Тепловлагообменный фильтр HMEF для установки в дыхательный контур со стороны пациента.",
+        "h1": [
+          "Тепловлагообменный фильтр FS510"
+        ],
+        "robots": "noindex, nofollow",
+        "schema": [
+          "[{\"@context\":\"https://schema.org\",\"@type\":\"ItemPage\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"inLanguage\":\"ru-RU\",\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"Кибермедика\",\"url\":\"https://cyber-medica.ru/\"},\"mainEntity\":{\"@type\":\"MedicalDevice\",\"name\":\"Тепловлагообменный фильтр FS510\",\"description\":\"FS510 сочетает функции сохранения тепла и влаги с бактериально-вирусной фильтрацией. Изделие предназначено для применения в дыхательном контуре в соответствии с инструкцией производителя.\",\"url\":\"https://cyber-medica.ru/catalog/fs510\",\"brand\":{\"@type\":\"Brand\",\"name\":\"Alba Healthcare\"},\"model\":\"FS510\",\"category\":\"Анестезиология и респираторная терапия\",\"image\":[\"https://cyber-medica.ru/products/fs510/photo.jpg\"]},\"primaryImageOfPage\":{\"@type\":\"ImageObject\",\"contentUrl\":\"https://cyber-medica.ru/products/fs510/photo.jpg\",\"caption\":\"Тепловлагообменный фильтр FS510\"},\"keywords\":\"Анестезиология и респираторная терапия\"},{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Главная\",\"item\":\"https://cyber-medica.ru/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Каталог\",\"item\":\"https://cyber-medica.ru/catalog\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Анестезиология и респираторная терапия\",\"item\":\"https://cyber-medica.ru/catalog?category=anesthesia-respiratory\"},{\"@type\":\"ListItem\",\"position\":4,\"name\":\"Тепловлагообменный фильтр FS510\",\"item\":\"https://cyber-medica.ru/catalog/fs510\"}]}]"
+        ],
+        "overflow": 0,
+        "title": "Тепловлагообменный фильтр FS510 — Анестезиология и респираторная терапия | Кибермедика",
+        "schemaTypes": [
+          "ItemPage",
+          "MedicalDevice",
+          "BreadcrumbList"
+        ],
+        "consoleErrors": []
+      }
+    },
+    "summary": {
+      "routesChecked": 14,
+      "http200": 14,
+      "singleH1": 14,
+      "overflowFailures": [],
+      "firstPartyConsoleErrors": []
+    }
+  }
+}

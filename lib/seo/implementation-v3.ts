@@ -160,11 +160,13 @@ export function buildProductSeoMetadataV3({
   category,
   image,
   fallbackDescription,
+  noindexFollow = false,
 }: {
   product: Product;
   category?: Pick<Category, "name">;
   image?: { url: string; alt: string };
   fallbackDescription?: string;
+  noindexFollow?: boolean;
 }) {
   const approved = getExactProductSeo(product);
   if (approved) {
@@ -174,6 +176,7 @@ export function buildProductSeoMetadataV3({
       canonical: approved.canonical as `/catalog/${string}`,
       image,
       absoluteTitle: true,
+      noindexFollow,
     });
   }
 
@@ -184,6 +187,7 @@ export function buildProductSeoMetadataV3({
       ?? product.description,
     canonical: `/catalog/${product.slug}`,
     image,
+    noindexFollow,
   });
 }
 

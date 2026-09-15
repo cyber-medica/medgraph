@@ -107,7 +107,7 @@ test("Production-shaped release keeps 114 Products and derives the actual public
     ["Ambu", "AOHUA", "Биотех-М", "Dräger", "HUGER", "Philips"],
   );
   const sitemap = buildStorefrontSitemapFromCatalog(releasedCatalog);
-  assert.equal(sitemap.length, 114 + 25 + 3 + 6);
+  assert.equal(sitemap.length, 114 + 25 + 5 + 6);
   assert.equal(new Set(sitemap.map(({ url }) => url)).size, sitemap.length);
   assert.equal(
     sitemap.some(({ url }) => /(?:tproduct|tfc_|stage\.|vercel\.app)/iu.test(url)),

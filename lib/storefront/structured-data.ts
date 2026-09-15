@@ -1,4 +1,5 @@
 import type { Category, Manufacturer, Product } from "./types.ts";
+import { buildPublicCompanyStructuredData } from "../company/public-company.ts";
 import { getApprovedManufacturerLogoUrl } from "./manufacturer-logo-policy.ts";
 import {
   buildBreadcrumbJsonLd,
@@ -20,6 +21,7 @@ interface PageSchemaInput {
 interface ProductSchemaInput {
   product: Product;
   category?: Category;
+  manufacturer?: Manufacturer;
   breadcrumbName?: string;
 }
 
@@ -65,13 +67,7 @@ function websiteReference() {
 export function buildHomepageStructuredData(
   description: string,
 ): StorefrontSchema[] {
-  const organization = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: STOREFRONT_SITE_NAME,
-    url: absoluteUrl("/"),
-    description,
-  };
+  const organization = buildPublicCompanyStructuredData();
 
   return [
     {
@@ -81,9 +77,7 @@ export function buildHomepageStructuredData(
       url: absoluteUrl("/"),
       description,
       publisher: {
-        "@type": "Organization",
-        name: STOREFRONT_SITE_NAME,
-        url: absoluteUrl("/"),
+        "@id": `${STOREFRONT_SITE_URL}/#organization`,
       },
     },
     organization,
@@ -108,6 +102,7 @@ export function buildCollectionPageStructuredData({
 export function buildProductStructuredData({
   product,
   category,
+  manufacturer,
   breadcrumbName = product.name,
 }: ProductSchemaInput): StorefrontSchema[] {
   const images = product.media
@@ -128,6 +123,16 @@ export function buildProductStructuredData({
       name: breadcrumbName,
       description,
       url: canonicalUrl,
+      ...(manufacturer
+        ? {
+            brand: {
+              "@type": "Brand",
+              name: manufacturer.name,
+            },
+          }
+        : {}),
+      ...(product.model.trim() ? { model: product.model.trim() } : {}),
+      ...(category ? { category: category.name } : {}),
       ...(images.length > 0 ? { image: images } : {}),
     },
     ...(images.length > 0
