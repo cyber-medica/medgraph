@@ -120,7 +120,8 @@ test("homepage and Product cards expose factual RFQ conversion elements", async 
     assert.match(card, new RegExp(value, "u"));
   }
   assert.match(card, /hasRegistrationEvidence[\s\S]*РУ предоставляется по запросу/u);
-  assert.match(detail, /Запросить КП[\s\S]*Отправить ТЗ/u);
+  assert.match(detail, /Запросить КП/u);
+  assert.doesNotMatch(detail, /Отправить ТЗ|Техническое задание/u);
 });
 
 test("non-commercial query variants are noindex candidates while UTM and yclid stay attributable", () => {
