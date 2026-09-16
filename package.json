@@ -8,6 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:rfq-intake": "node services/rfq-intake/server.ts",
     "lint": "eslint",
     "import:roszdravnadzor": "node scripts/importers/roszdravnadzor.ts",
     "replay:roszdravnadzor": "node scripts/importers/roszdravnadzor-replay.ts",
@@ -52,6 +53,8 @@
     "qa:canonical-routing-gate": "node scripts/qa/canonical-routing-gate.ts",
     "qa:canonical-routing-mobile": "node scripts/qa/canonical-routing-mobile-synthetic.ts",
     "qa:query-indexing-hygiene": "node scripts/qa/query-indexing-hygiene.ts",
+    "qa:rfq-ru-first": "node --test tests/importers/rfq-ru-first-intake-v1.test.ts",
+    "qa:rfq-ru-first:postgres": "node scripts/qa/rfq-ru-first-postgres-integration.ts",
     "supabase:health": "node scripts/qa/supabase-health.ts",
     "audit:evidence-integrity": "node scripts/importers/catalog/evidence-integrity.ts audit",
     "repair:evidence-references": "node scripts/importers/catalog/evidence-integrity.ts repair",
@@ -61,6 +64,7 @@
     "@supabase/ssr": "0.12.4",
     "@supabase/supabase-js": "2.111.0",
     "next": "16.2.9",
+    "pg": "8.23.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.4.3"
@@ -68,6 +72,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
