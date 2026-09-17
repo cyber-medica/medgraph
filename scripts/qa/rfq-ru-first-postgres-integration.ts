@@ -3,7 +3,11 @@ import { readFile } from "node:fs/promises";
 
 import pg from "pg";
 
-import { RFQ_CONSENT_TEXT_SHA256 } from "../../services/rfq-intake/intake.ts";
+import { RFQ_CONSENT_TEXT_SHA256 } from "../../lib/privacy/legal-document-hash.ts";
+import {
+  RFQ_CONSENT_VERSION,
+  RFQ_POLICY_VERSION,
+} from "../../lib/privacy/legal-documents.ts";
 import { PostgresRfqRepository } from "../../services/rfq-intake/repository.ts";
 
 const { Pool } = pg;
@@ -39,9 +43,9 @@ const lead = {
   product: null,
   sourcePath: "/request",
   attribution: { landingPath: "/request", utm_source: "contract-test" },
-  consentVersion: "rfq-consent-2026-09-15-v1",
+  consentVersion: RFQ_CONSENT_VERSION,
   consentTextSha256: RFQ_CONSENT_TEXT_SHA256,
-  policyVersion: "privacy-policy-2026-09-15-v1",
+  policyVersion: RFQ_POLICY_VERSION,
   consentAt: createdAt,
   createdAt,
 };

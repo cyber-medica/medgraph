@@ -3,6 +3,12 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import { sanitizeRfqEventParameters } from "../../lib/analytics/events.ts";
+import { RFQ_CONSENT_TEXT_SHA256 } from "../../lib/privacy/legal-document-hash.ts";
+import {
+  RFQ_CONSENT_VERSION,
+  RFQ_LEGAL_VERSION_MISMATCH_MESSAGE,
+  RFQ_POLICY_VERSION,
+} from "../../lib/privacy/legal-documents.ts";
 import type { RequestProductContext } from "../../lib/request/product-context.ts";
 import { readRfqIntakeConfig } from "../../services/rfq-intake/config.ts";
 import {
@@ -56,6 +62,8 @@ function validForm(overrides: Record<string, string> = {}) {
     email: "test@example.invalid",
     message: "Тест локальной первичной записи",
     personalDataConsent: "accepted",
+    consentVersion: RFQ_CONSENT_VERSION,
+    policyVersion: RFQ_POLICY_VERSION,
     sourcePage: "/request",
     ...overrides,
   };
@@ -168,7 +176,12 @@ test("valid consent commits locally before asynchronous SMTP delivery", async ()
   assert.deepEqual(response.body, { ok: true, requestId: REQUEST_ID });
   assert.equal(response.status, 200);
   assert.deepEqual(repository.order, ["commit"]);
-  assert.equal(repository.leads.get(REQUEST_ID)?.deliveryStatus, "pending");
+  const persisted = repository.leads.get(REQUEST_ID);
+  assert.equal(persisted?.deliveryStatus, "pending");
+  assert.equal(persisted?.consentVersion, RFQ_CONSENT_VERSION);
+  assert.equal(persisted?.consentTextSha256, RFQ_CONSENT_TEXT_SHA256);
+  assert.equal(persisted?.policyVersion, RFQ_POLICY_VERSION);
+  assert.equal(persisted?.consentAt.toISOString(), NOW.toISOString());
 
   assert.equal(await runDeliveryCycle({
     repository,
@@ -193,6 +206,24 @@ test("missing consent is rejected before persistence or delivery", async () => {
   assert.equal(repository.leads.size, 0);
   assert.deepEqual(repository.order, []);
 });
+
+for (const [field, staleValue] of [
+  ["consentVersion", "rfq-consent-stale"],
+  ["policyVersion", "privacy-policy-stale"],
+] as const) {
+  test(`stale ${field} is rejected before persistence or delivery`, async () => {
+    const repository = new MemoryRepository();
+    const response = await submit(repository, validForm({ [field]: staleValue }));
+
+    assert.equal(response.status, 409);
+    assert.deepEqual(response.body, {
+      ok: false,
+      error: RFQ_LEGAL_VERSION_MISMATCH_MESSAGE,
+    });
+    assert.equal(repository.leads.size, 0);
+    assert.deepEqual(repository.order, []);
+  });
+}
 
 for (const failure of ["database insert", "transaction commit"] as const) {
   test(`${failure} failure returns 503 and cannot call SMTP`, async () => {
