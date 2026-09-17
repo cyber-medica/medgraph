@@ -18,6 +18,17 @@ export interface SanitizedAttribution extends Partial<Record<AttributionKey, str
 
 export type DeliveryStatus = "pending" | "delivered" | "failed";
 
+export interface YandexSmtpConfig {
+  host: "smtp.yandex.ru";
+  port: 465 | 587;
+  secure: boolean;
+  user: string;
+  password: string;
+  from: string;
+  to: string;
+  replyTo: string | null;
+}
+
 export interface NewRfqLead {
   id: string;
   company: string;

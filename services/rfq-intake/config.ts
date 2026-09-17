@@ -1,11 +1,12 @@
 import { resolve } from "node:path";
 
+import type { YandexSmtpConfig } from "./types.ts";
+
 export interface RfqIntakeConfig {
   databaseUrl: string;
   host: "127.0.0.1" | "::1";
   port: number;
-  makeWebhookUrl: string;
-  makeWebhookToken: string | null;
+  smtp: YandexSmtpConfig;
   rateLimitSecret: string;
   catalogSnapshotPath: string;
   deliveryPollMs: number;
@@ -59,10 +60,54 @@ function localDatabaseUrl(value: string) {
   return value;
 }
 
-function httpsUrl(value: string, name: string) {
-  const url = new URL(value);
-  if (url.protocol !== "https:") throw new Error(`${name} must use HTTPS.`);
-  return url.toString();
+function boolean(environment: Environment, name: string) {
+  const raw = required(environment, name).toLowerCase();
+  if (raw === "true") return true;
+  if (raw === "false") return false;
+  throw new Error(`${name} must be true or false.`);
+}
+
+function mailbox(environment: Environment, name: string) {
+  const value = required(environment, name);
+  if (
+    /[\r\n]/u.test(value)
+    || !/^[^\s@<>(),;:"\\[\]]+@[^\s@<>(),;:"\\[\]]+\.[^\s@<>(),;:"\\[\]]+$/u.test(value)
+  ) {
+    throw new Error(`${name} must be one plain email address without a display name.`);
+  }
+  return value;
+}
+
+function smtpConfig(environment: Environment): YandexSmtpConfig {
+  const host = required(environment, "RFQ_SMTP_HOST").toLowerCase();
+  if (host !== "smtp.yandex.ru") {
+    throw new Error("RFQ_SMTP_HOST must be smtp.yandex.ru.");
+  }
+  const port = integer(environment, "RFQ_SMTP_PORT", 465, 465, 587);
+  if (port !== 465 && port !== 587) {
+    throw new Error("RFQ_SMTP_PORT must be 465 or 587.");
+  }
+  const secure = boolean(environment, "RFQ_SMTP_SECURE");
+  if ((port === 465 && !secure) || (port === 587 && secure)) {
+    throw new Error("RFQ_SMTP_SECURE must be true for 465 and false for 587 STARTTLS.");
+  }
+  const password = required(environment, "RFQ_SMTP_PASSWORD");
+  if (/[\r\n]/u.test(password)) {
+    throw new Error("RFQ_SMTP_PASSWORD must not contain line breaks.");
+  }
+  const replyTo = environment.RFQ_SMTP_REPLY_TO?.trim()
+    ? mailbox(environment, "RFQ_SMTP_REPLY_TO")
+    : null;
+  return {
+    host,
+    port,
+    secure,
+    user: mailbox(environment, "RFQ_SMTP_USER"),
+    password,
+    from: mailbox(environment, "RFQ_SMTP_FROM"),
+    to: mailbox(environment, "RFQ_SMTP_TO"),
+    replyTo,
+  };
 }
 
 export function readRfqIntakeConfig(
@@ -82,11 +127,7 @@ export function readRfqIntakeConfig(
     databaseUrl: localDatabaseUrl(required(environment, "RFQ_DATABASE_URL")),
     host,
     port: integer(environment, "RFQ_INTAKE_PORT", 8787, 1_024, 65_535),
-    makeWebhookUrl: httpsUrl(
-      required(environment, "RFQ_MAKE_WEBHOOK_URL"),
-      "RFQ_MAKE_WEBHOOK_URL",
-    ),
-    makeWebhookToken: environment.RFQ_MAKE_WEBHOOK_TOKEN?.trim() || null,
+    smtp: smtpConfig(environment),
     rateLimitSecret,
     catalogSnapshotPath: resolve(
       environment.RFQ_CATALOG_SNAPSHOT_PATH?.trim()

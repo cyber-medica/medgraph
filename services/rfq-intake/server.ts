@@ -1,7 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 
 import { readRfqIntakeConfig } from "./config.ts";
-import { MakeDeliveryClient } from "./delivery.ts";
+import { YandexSmtpDeliveryClient } from "./delivery.ts";
 import { handleRfqIntake, type IntakeResponse } from "./intake.ts";
 import { safeLogger } from "./logger.ts";
 import { SnapshotProductContextResolver } from "./product-catalog.ts";
@@ -74,10 +74,7 @@ async function main() {
     config.catalogSnapshotPath,
   );
   const rateLimiter = new HashedRateLimiter(config.rateLimitSecret);
-  const deliveryClient = new MakeDeliveryClient(
-    config.makeWebhookUrl,
-    config.makeWebhookToken,
-  );
+  const deliveryClient = new YandexSmtpDeliveryClient(config.smtp);
   await repository.healthCheck();
 
   const stopWorker = startDeliveryWorker({

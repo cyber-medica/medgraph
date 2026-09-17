@@ -5,7 +5,12 @@ import test from "node:test";
 import { sanitizeRfqEventParameters } from "../../lib/analytics/events.ts";
 import type { RequestProductContext } from "../../lib/request/product-context.ts";
 import { readRfqIntakeConfig } from "../../services/rfq-intake/config.ts";
-import { buildMakePayload, DeliveryError } from "../../services/rfq-intake/delivery.ts";
+import {
+  buildRfqEmail,
+  DeliveryError,
+  smtpMessageId,
+  YandexSmtpDeliveryClient,
+} from "../../services/rfq-intake/delivery.ts";
 import { handleRfqIntake } from "../../services/rfq-intake/intake.ts";
 import { SnapshotProductContextResolver } from "../../services/rfq-intake/product-catalog.ts";
 import { HashedRateLimiter } from "../../services/rfq-intake/rate-limit.ts";
@@ -16,6 +21,7 @@ import type {
   RfqDeliveryClient,
   RfqRepository,
   SafeLogger,
+  YandexSmtpConfig,
 } from "../../services/rfq-intake/types.ts";
 import { runDeliveryCycle } from "../../services/rfq-intake/worker.ts";
 
@@ -30,6 +36,16 @@ const PRODUCT: RequestProductContext = {
 const NOW = new Date("2026-09-16T12:00:00.000Z");
 const REQUEST_ID = "11111111-1111-4111-8111-111111111111";
 const NOOP_LOGGER: SafeLogger = { info() {}, error() {} };
+const SMTP_CONFIG: YandexSmtpConfig = {
+  host: "smtp.yandex.ru",
+  port: 465,
+  secure: true,
+  user: "rfq@example.test",
+  password: "test-only-password",
+  from: "rfq@example.test",
+  to: "qa@example.test",
+  replyTo: null,
+};
 
 function validForm(overrides: Record<string, string> = {}) {
   const form = new FormData();
@@ -127,11 +143,11 @@ class RecordingDelivery implements RfqDeliveryClient {
   }
 
   async deliver(lead: PersistedRfqLead) {
-    this.order.push("make");
+    this.order.push("smtp");
     this.calls.push(lead);
     if (this.failuresRemaining > 0) {
       this.failuresRemaining -= 1;
-      throw new DeliveryError("make_transport_error");
+      throw new DeliveryError("smtp_transport_error");
     }
   }
 }
@@ -144,7 +160,7 @@ async function submit(repository: MemoryRepository, form = validForm()) {
   );
 }
 
-test("valid consent commits locally before asynchronous Make delivery", async () => {
+test("valid consent commits locally before asynchronous SMTP delivery", async () => {
   const repository = new MemoryRepository();
   const delivery = new RecordingDelivery(repository.order);
   const response = await submit(repository);
@@ -163,7 +179,7 @@ test("valid consent commits locally before asynchronous Make delivery", async ()
     now: () => NOW,
     createLockToken: () => "22222222-2222-4222-8222-222222222222",
   }), "delivered");
-  assert.deepEqual(repository.order, ["commit", "make"]);
+  assert.deepEqual(repository.order, ["commit", "smtp"]);
   assert.equal(repository.leads.get(REQUEST_ID)?.deliveryStatus, "delivered");
 });
 
@@ -179,8 +195,8 @@ test("missing consent is rejected before persistence or delivery", async () => {
 });
 
 for (const failure of ["database insert", "transaction commit"] as const) {
-  test(`${failure} failure returns 503 and cannot call Make`, async () => {
-    const makeCalls = 0;
+  test(`${failure} failure returns 503 and cannot call SMTP`, async () => {
+    const smtpCalls = 0;
     const response = await handleRfqIntake(
       validForm(),
       { ip: "198.51.100.11", userAgent: "RFQ test agent" },
@@ -192,11 +208,11 @@ for (const failure of ["database insert", "transaction commit"] as const) {
     );
     assert.equal(response.status, 503);
     assert.equal(response.body.ok, false);
-    assert.equal(makeCalls, 0);
+    assert.equal(smtpCalls, 0);
   });
 }
 
-test("Make failure occurs after commit, keeps the lead, and retry has one final outcome", async () => {
+test("SMTP failure occurs after commit, keeps the lead, and retry has one final outcome", async () => {
   const repository = new MemoryRepository();
   const delivery = new RecordingDelivery(repository.order);
   delivery.failuresRemaining = 1;
@@ -220,7 +236,7 @@ test("Make failure occurs after commit, keeps the lead, and retry has one final 
   assert.equal(delivery.calls.length, 2);
 });
 
-test("arbitrary query PII is stripped from persistence and Make payload", async () => {
+test("arbitrary query PII is stripped from persistence and the SMTP message", async () => {
   const repository = new MemoryRepository();
   const capturedAt = NOW.toISOString();
   const expiresAt = new Date(NOW.getTime() + 86_400_000).toISOString();
@@ -244,8 +260,151 @@ test("arbitrary query PII is stripped from persistence and Make payload", async 
   assert.equal(lead.attribution.utm_source, "approved-source");
   assert.equal(lead.attribution.yclid, "approved-click");
 
-  const serialized = JSON.stringify(buildMakePayload(lead));
+  const serialized = JSON.stringify(buildRfqEmail(lead));
   assert.doesNotMatch(serialized, /secret@example\.org|79990000000|token=secret/u);
+});
+
+test("SMTP client uses deterministic Message-ID and safe local-only content", async () => {
+  const repository = new MemoryRepository();
+  const response = await submit(repository, validForm({
+    company: "Клиника <script>alert(1)</script>",
+    name: "Тест & Проверка",
+    message: "Первая строка\n<img src=https://tracker.invalid/pixel>",
+  }));
+  const lead = repository.leads.get(response.body.requestId ?? "");
+  assert.ok(lead);
+
+  const messages: Array<{
+    messageId: string;
+    subject: string;
+    text: string;
+    html: string;
+    disableFileAccess: true;
+    disableUrlAccess: true;
+  }> = [];
+  const delivery = new YandexSmtpDeliveryClient(SMTP_CONFIG, {
+    async sendMail(message) {
+      messages.push(message);
+      return { accepted: [SMTP_CONFIG.to] };
+    },
+  });
+  await delivery.deliver(lead);
+  await delivery.deliver(lead);
+
+  assert.equal(messages.length, 2);
+  assert.equal(messages[0]?.messageId, `<rfq-${REQUEST_ID}@cyber-medica.ru>`);
+  assert.equal(messages[1]?.messageId, messages[0]?.messageId);
+  assert.equal(messages[0]?.subject, "Новая заявка с cyber-medica.ru — 11111111");
+  assert.doesNotMatch(String(messages[0]?.subject), /[\r\n]/u);
+  assert.equal(messages[0]?.disableFileAccess, true);
+  assert.equal(messages[0]?.disableUrlAccess, true);
+  assert.doesNotMatch(String(messages[0]?.html), /<script>|<img/iu);
+  assert.match(String(messages[0]?.html), /&lt;script&gt;alert\(1\)&lt;\/script&gt;/u);
+  assert.match(String(messages[0]?.html), /&lt;img src=https:\/\/tracker\.invalid\/pixel&gt;/u);
+  assert.match(String(messages[0]?.text), /<img src=https:\/\/tracker\.invalid\/pixel>/u);
+});
+
+test("worker retry reuses Message-ID and a delivered row cannot be resent", async () => {
+  const repository = new MemoryRepository();
+  await submit(repository);
+  const messageIds: string[] = [];
+  let shouldFail = true;
+  const delivery = new YandexSmtpDeliveryClient(SMTP_CONFIG, {
+    async sendMail(message) {
+      messageIds.push(message.messageId);
+      if (shouldFail) {
+        shouldFail = false;
+        throw Object.assign(new Error("sensitive provider text"), { code: "ETIMEDOUT" });
+      }
+      return { accepted: [SMTP_CONFIG.to] };
+    },
+  });
+  const worker = {
+    repository,
+    deliveryClient: delivery,
+    logger: NOOP_LOGGER,
+    maxAttempts: 12,
+    leaseSeconds: 60,
+    now: () => NOW,
+    createLockToken: () => crypto.randomUUID(),
+  };
+
+  assert.equal(await runDeliveryCycle(worker), "failed");
+  assert.equal(repository.leads.get(REQUEST_ID)?.lastDeliveryError, "smtp_etimedout");
+  assert.equal(await runDeliveryCycle(worker), "delivered");
+  assert.deepEqual(messageIds, [
+    `<rfq-${REQUEST_ID}@cyber-medica.ru>`,
+    `<rfq-${REQUEST_ID}@cyber-medica.ru>`,
+  ]);
+  assert.equal(await runDeliveryCycle(worker), "idle");
+  assert.equal(messageIds.length, 2);
+});
+
+test("Message-ID rejects non-UUID input instead of allowing header injection", () => {
+  assert.throws(
+    () => smtpMessageId(`${REQUEST_ID}\r\nBcc: attacker@example.org`),
+    /invalid_request_id/u,
+  );
+});
+
+test("SMTP config is Yandex-only and rejects address/header injection", () => {
+  const base = {
+    RFQ_DATABASE_URL: "postgresql://rfq:secret@127.0.0.1:5432/cybermedica_rfq",
+    RFQ_INTAKE_HOST: "127.0.0.1",
+    RFQ_SMTP_HOST: "smtp.yandex.ru",
+    RFQ_SMTP_PORT: "465",
+    RFQ_SMTP_SECURE: "true",
+    RFQ_SMTP_USER: "rfq@cyber-medica.ru",
+    RFQ_SMTP_PASSWORD: "test-only-password",
+    RFQ_SMTP_FROM: "rfq@cyber-medica.ru",
+    RFQ_SMTP_TO: "info@cyber-medica.ru",
+    RFQ_RATE_LIMIT_SECRET: "z".repeat(32),
+  };
+  assert.equal(readRfqIntakeConfig(base).smtp.host, "smtp.yandex.ru");
+  assert.equal(readRfqIntakeConfig({
+    ...base,
+    RFQ_SMTP_PORT: "587",
+    RFQ_SMTP_SECURE: "false",
+  }).smtp.secure, false);
+  assert.throws(() => readRfqIntakeConfig({
+    ...base,
+    RFQ_SMTP_HOST: "smtp.foreign.invalid",
+  }), /smtp\.yandex\.ru/u);
+  for (const name of ["RFQ_SMTP_USER", "RFQ_SMTP_FROM", "RFQ_SMTP_TO"] as const) {
+    assert.throws(() => readRfqIntakeConfig({
+      ...base,
+      [name]: `info@cyber-medica.ru\r\nBcc: attacker@example.org`,
+    }), /plain email address/u);
+  }
+  assert.throws(() => readRfqIntakeConfig({
+    ...base,
+    RFQ_SMTP_REPLY_TO: `info@cyber-medica.ru\nBcc: attacker@example.org`,
+  }), /plain email address/u);
+});
+
+test("worker logs expose no RFQ contact data or SMTP envelope", async () => {
+  const repository = new MemoryRepository();
+  const delivery = new RecordingDelivery(repository.order);
+  delivery.failuresRemaining = 1;
+  await submit(repository);
+  const records: Array<Record<string, unknown>> = [];
+  const logger: SafeLogger = {
+    info(event, fields) { records.push({ event, ...fields }); },
+    error(event, fields) { records.push({ event, ...fields }); },
+  };
+  await runDeliveryCycle({
+    repository,
+    deliveryClient: delivery,
+    logger,
+    maxAttempts: 12,
+    leaseSeconds: 60,
+    now: () => NOW,
+    createLockToken: () => "22222222-2222-4222-8222-222222222222",
+  });
+  const serialized = JSON.stringify(records);
+  assert.doesNotMatch(serialized, /PRE-CUTOVER|Тестовый пользователь|900 000|example\.invalid|локальной первичной записи/iu);
+  assert.doesNotMatch(serialized, /rfq@example\.test|qa@example\.test|test-only-password/iu);
+  assert.match(serialized, /smtp_transport_error/u);
 });
 
 test("analytics parameter allowlist rejects all contact PII", () => {
@@ -295,6 +454,28 @@ test("target Nginx contract bypasses the Vercel RFQ route without deleting rollb
   assert.match(vercelRoute, /export async function POST/u);
 });
 
+test("target runtime has no Make, Resend, webhook, or Vercel RFQ delivery transport", async () => {
+  const runtime = (await Promise.all([
+    readFile("services/rfq-intake/delivery.ts", "utf8"),
+    readFile("services/rfq-intake/config.ts", "utf8"),
+    readFile("services/rfq-intake/server.ts", "utf8"),
+    readFile("services/rfq-intake/.env.example", "utf8"),
+  ])).join("\n");
+  assert.doesNotMatch(runtime, /MakeDelivery|buildMakePayload|RFQ_MAKE|Resend|webhook/iu);
+  assert.doesNotMatch(runtime, /vercel\.app|api\.resend\.com|hook\.[a-z]/iu);
+  assert.match(runtime, /YandexSmtpDeliveryClient/u);
+  assert.match(runtime, /smtp\.yandex\.ru/u);
+});
+
+test("SMTP environment contract contains placeholders and no committed credentials", async () => {
+  const environmentExample = await readFile("services/rfq-intake/.env.example", "utf8");
+  assert.match(environmentExample, /RFQ_SMTP_PASSWORD=SET_MANUALLY/u);
+  assert.match(environmentExample, /RFQ_SMTP_USER=SET_MANUALLY/u);
+  assert.match(environmentExample, /RFQ_SMTP_FROM=SET_MANUALLY/u);
+  assert.match(environmentExample, /RFQ_SMTP_TO=SET_MANUALLY/u);
+  assert.doesNotMatch(environmentExample, /RFQ_MAKE|RFQ_RESEND/u);
+});
+
 test("SQL contract is local-primary, status-aware, consent-evidenced and least-privilege", async () => {
   const sql = await readFile("services/rfq-intake/sql/001_rfq_leads.sql", "utf8");
   assert.match(sql, /id uuid PRIMARY KEY/u);
@@ -308,7 +489,13 @@ test("runtime config refuses remote database and public service bindings", () =>
   const base = {
     RFQ_DATABASE_URL: "postgresql://rfq:secret@127.0.0.1:5432/cybermedica_rfq",
     RFQ_INTAKE_HOST: "127.0.0.1",
-    RFQ_MAKE_WEBHOOK_URL: "https://hook.example.invalid/rfq",
+    RFQ_SMTP_HOST: "smtp.yandex.ru",
+    RFQ_SMTP_PORT: "465",
+    RFQ_SMTP_SECURE: "true",
+    RFQ_SMTP_USER: "rfq@cyber-medica.ru",
+    RFQ_SMTP_PASSWORD: "test-only-password",
+    RFQ_SMTP_FROM: "rfq@cyber-medica.ru",
+    RFQ_SMTP_TO: "info@cyber-medica.ru",
     RFQ_RATE_LIMIT_SECRET: "z".repeat(32),
   };
   assert.equal(readRfqIntakeConfig(base).host, "127.0.0.1");

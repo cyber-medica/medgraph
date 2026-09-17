@@ -1,45 +1,35 @@
-# RFQ RU-first intake rollout and rollback
+# RFQ RU-first intake + Yandex SMTP rollout and rollback
 
-This runbook is a plan. Do not execute it from the Draft PR. Each Production
-step requires explicit approval, a maintenance owner and evidence capture that
-contains no contact data.
+This is a plan only. The Draft branch does not mutate Production, VPS, Nginx,
+PostgreSQL, SMTP credentials or any external service.
 
-## 1. Preflight
+## 1. Evidence and release preflight
 
-1. Record current Nginx config checksum and Vercel `/api/request` rollback path.
-2. Confirm the Timeweb VPS/datacenter and planned backup destination are in
-   Russia using provider account/contract evidence.
-3. Measure free RAM/disk/load and confirm at least 25% post-install headroom.
-   Confirm the service host uses Node.js 24.x, matching the tested native
-   type-stripping runtime used by the systemd unit.
-4. Confirm `data/published-catalog-last-known-good.json` has 114 active Products
-   and is deployed with its repository checksum.
-5. Confirm the Make scenario will deduplicate the stable `requestId` before
-   sending Resend/email. Do not cut over with only header acceptance assumed.
-6. Take and verify a restorable VPS configuration backup.
+1. Record the exact accepted commit and current Nginx checksum.
+2. Retain official Timeweb evidence that the VPS and backup location are in
+   Russia.
+3. Retain the Yandex 360 agreement/account evidence for ООО «КИМ» and the
+   applicable DPA.
+4. Keep Roskomnadzor/operator status as a separate owner/legal gate.
+5. Measure VPS RAM/disk/load and preserve at least 25% headroom.
+6. Confirm the deployed Node version is at least 20 and matches the tested
+   systemd runtime.
+7. Confirm the published catalog snapshot contains the expected 114 Products
+   and matches its recorded checksum.
+8. Capture a restorable VPS configuration backup.
 
 ## 2. PostgreSQL and least-privilege roles
 
-Install the distribution-supported PostgreSQL package without opening its port.
-Set `listen_addresses = 'localhost'`, require SCRAM for the application login,
-and verify `ss -lntp` shows no public `:5432` listener.
+Install the distribution-supported PostgreSQL package without opening its
+port. Require loopback-only listen addresses, SCRAM authentication and no public
+firewall rule for 5432.
 
-As the PostgreSQL administrator, substitute freshly generated secrets only in
-the interactive session (never in shell history or repository):
-
-```sql
-CREATE ROLE cybermedica_rfq_owner NOLOGIN;
-CREATE ROLE cybermedica_rfq_app LOGIN PASSWORD '<SET INTERACTIVELY>';
-CREATE DATABASE cybermedica_rfq OWNER cybermedica_rfq_owner TEMPLATE template0;
-REVOKE ALL ON DATABASE cybermedica_rfq FROM PUBLIC;
-GRANT CONNECT ON DATABASE cybermedica_rfq TO cybermedica_rfq_app;
-```
-
-Connect to the new database as an administrative/migration role, set the table
-owner context, apply `services/rfq-intake/sql/001_rfq_leads.sql`, then grant:
+Create owner/app roles and the database using secrets entered interactively,
+never via repository files or shell history. Apply
+`services/rfq-intake/sql/001_rfq_leads.sql`, revoke `PUBLIC`, then grant the app
+role only:
 
 ```sql
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
 GRANT USAGE ON SCHEMA public TO cybermedica_rfq_app;
 GRANT SELECT, INSERT ON TABLE public.rfq_leads TO cybermedica_rfq_app;
 GRANT UPDATE (
@@ -49,98 +39,114 @@ GRANT UPDATE (
 ) ON TABLE public.rfq_leads TO cybermedica_rfq_app;
 ```
 
-Verify the app role cannot create/drop tables or delete rows. Save migration and
-privilege output without connection strings or row contents.
+Verify that the app role cannot create/drop tables or delete rows.
 
 ## 3. Service files and manual environment
 
-Create system user/group `cybermedica-rfq`, deploy the exact accepted commit to
-`/opt/cybermedica-rfq/releases/<SHA>`, install with `npm ci --omit=dev`, point
-`current` atomically to it, and install the reviewed systemd unit.
+Deploy the exact accepted commit to
+`/opt/cybermedica-rfq/releases/<SHA>`, use `npm ci --omit=dev`, atomically update
+`current`, and install the reviewed systemd unit.
 
-The owner must create `/etc/cybermedica/rfq-intake.env` mode `0600`, root-owned,
-with these manually sourced values:
+The owner creates `/etc/cybermedica/rfq-intake.env` as root, mode `0600`:
 
 | Variable | Source/constraint |
 | --- | --- |
 | `RFQ_DATABASE_URL` | Dedicated local app role; host `127.0.0.1` only |
 | `RFQ_INTAKE_HOST` | `127.0.0.1` |
 | `RFQ_INTAKE_PORT` | `8787` |
-| `RFQ_MAKE_WEBHOOK_URL` | Current approved HTTPS Make hook |
-| `RFQ_MAKE_WEBHOOK_TOKEN` | Existing token if required; never Git/Vercel |
-| `RFQ_RATE_LIMIT_SECRET` | New random value, at least 32 characters |
+| `RFQ_SMTP_HOST` | Exact value `smtp.yandex.ru` |
+| `RFQ_SMTP_PORT` | Preferred `465`; `587` only for STARTTLS |
+| `RFQ_SMTP_SECURE` | `true` for 465; `false` for 587 |
+| `RFQ_SMTP_USER` | Manually created Yandex 360 mailbox credential |
+| `RFQ_SMTP_PASSWORD` | Manually created app password/credential |
+| `RFQ_SMTP_FROM` | Approved single sender mailbox |
+| `RFQ_SMTP_TO` | Approved single corporate recipient |
+| `RFQ_SMTP_REPLY_TO` | Optional approved single mailbox |
+| `RFQ_RATE_LIMIT_SECRET` | New random value of at least 32 characters |
 | `RFQ_CATALOG_SNAPSHOT_PATH` | Absolute path in the accepted release |
-| `RFQ_DELIVERY_POLL_MS` | Default `5000` unless load test justifies change |
+| `RFQ_DELIVERY_POLL_MS` | Default `5000` unless load testing changes it |
 | `RFQ_DELIVERY_MAX_ATTEMPTS` | Default `12` |
 | `RFQ_DELIVERY_LEASE_SECONDS` | Default `60` |
-| `RFQ_RETENTION_DAYS` | **Unset** pending owner/legal decision |
+| `RFQ_RETENTION_DAYS` | Unset pending approved retention/destruction term |
 
-Start and enable the service. From the VPS only, require `GET
-http://127.0.0.1:8787/healthz` to return 200 and verify its journal contains no
-contact fields, bodies or full URLs.
+Credentials must not be copied to Git, GitHub, Vercel, Preview, reports or
+command-line arguments. Confirm systemd/journal output does not expose the
+environment.
 
-## 4. Database backup/restore gate
+## 4. Backup and restore gate
 
-1. Run an encrypted `pg_dump --format=custom` to the approved Russian backup
-   volume without exposing its password on the command line.
-2. Record checksum, PostgreSQL version and schema migration ID.
-3. Restore into an isolated loopback-only database.
-4. Validate table/checks/privileges; drop the isolated restore.
-5. Keep retention disabled until the owner gives a period covering primary and
-   backup copies.
+1. Create an encrypted custom-format `pg_dump` on the approved Russian backup
+   volume without putting its password in process arguments.
+2. Record checksum, PostgreSQL version and migration identity.
+3. Restore into an isolated loopback database.
+4. Validate schema, constraints and grants, then remove the isolated restore.
+5. Do not continue without a verified restore.
 
-No Nginx cutover is allowed before a verified restore.
+## 5. SMTP TLS preflight without mail
 
-## 5. Nginx cutover
+From the VPS, verify DNS, TCP and TLS/SNI to `smtp.yandex.ru:465` (or STARTTLS
+on 587) without authenticating, transmitting an envelope or sending customer
+data. Require a valid certificate chain and TLS 1.2+.
 
-Insert the exact block from
+Start the service and require local `/healthz` 200. The health endpoint checks
+PostgreSQL only and must not send mail. Inspect the journal for safe structured
+fields only.
+
+## 6. Exact Nginx routing change
+
+Only after all gates, insert the reviewed exact `/api/request` location from
 `infra/nginx/rfq-ru-first-intake.conf.example` before the existing generic
-Vercel location. Do not modify TLS, DNS, static routing, upstream host or other
-locations.
+Vercel location. Do not modify TLS, DNS, static routing, upstream host or any
+other location.
 
-Run `nginx -t`, capture the sanitized diff, then reload. Confirm externally that
-`GET /api/request` is 405 from the local service and all normal pages/assets are
-unchanged. Confirm Nginx and service logs have no bodies, contact fields or full
-queries.
+Run `nginx -t`, capture a sanitized diff, reload, and verify:
 
-## 6. Controlled smoke and one tagged RFQ
+- `GET /api/request` is 405 from the local service;
+- normal pages/assets are unchanged;
+- no request body reaches the Vercel upstream;
+- access/error logs contain no body, PII or full query.
 
-With separate authorization for exactly one test write:
+## 7. Controlled synthetic RFQ
 
-1. Load `/request` and a Product-bound request on desktop/mobile.
-2. Submit data clearly marked `RU-FIRST TEST — НЕ ОБРАБАТЫВАТЬ`, with consent,
-   approved UTM fields, `yclid`, and one arbitrary query containing synthetic
-   email/token data.
-3. Require API 200 and a UUID; require `/thanks` and one `rfq_success` only.
-4. Query by request ID locally and prove `created_at`, consent evidence,
-   pathname-only source, allowlisted attribution and initial `pending`/final
-   `delivered` status. Never copy the PII row into evidence.
-5. Prove the local commit timestamp precedes the first Make execution.
-6. Prove Make deduplication, one Resend/email delivery, and no arbitrary-query
-   value in Make, email, analytics or logs.
-7. Simulate Make unavailability: accept one separately authorized synthetic
-   lead after local commit, prove retry and final single downstream outcome.
+With separate authorization for exactly one clearly tagged test write:
 
-## 7. Rollback
+1. Submit through the canonical host with consent and synthetic contact data.
+2. Require API 200, UUID, `/thanks` and exactly one `rfq_success`.
+3. Prove the PostgreSQL commit precedes the first SMTP attempt.
+4. Query by request ID and prove pathname-only source, allowlisted attribution,
+   consent evidence and final `delivered`, without copying PII into evidence.
+5. Require exactly one corporate mailbox message with deterministic
+   `<rfq-{requestId}@cyber-medica.ru>` Message-ID.
+6. Prove Vercel, Make, Resend and analytics received no RFQ PII.
+7. With additional authorization, simulate a transient SMTP failure and prove
+   durable lead retention, controlled retry and stable Message-ID.
 
-Rollback changes routing only:
+Only after acceptance should the owner disable the historical Make RFQ
+scenario. Do not delete rollback evidence or replay old webhook payloads.
 
-1. Restore the recorded Nginx config so exact `/api/request` again reaches the
-   current Vercel upstream.
-2. Run `nginx -t` and reload.
-3. Confirm `/request`, a Product-bound form, current email pipeline and R9 event.
-4. Keep PostgreSQL/service stopped but preserve accepted local leads and backup;
-   do not delete or replay without an incident decision.
+## 8. Rollback
+
+Rollback routing only:
+
+1. Restore the recorded Nginx config so `/api/request` again uses the prior
+   Vercel route.
+2. Run `nginx -t`, reload and verify RFQ behavior.
+3. Stop the local intake worker to prevent additional SMTP sends.
+4. Retain local PostgreSQL rows and encrypted backups; do not delete or replay
+   them without an incident decision.
+5. Do **not** automatically re-enable the old Make/Resend PII path without
+   explicit owner approval.
 
 Rollback does not change DNS, TLS, Vercel deployment, Supabase or Product data.
 
 ## Stop conditions
 
-- Database is remotely reachable or restore is unverified.
+- Account/DPA or Russian-location evidence is missing.
+- Database or service is remotely reachable, or restore is unverified.
 - Nginx diff touches anything outside exact `/api/request`.
-- Any contact PII reaches Vercel or logs.
-- API reports success before commit.
-- Make runs before commit or does not deduplicate request ID.
-- Product binding is stale/invalid, analytics contains PII, or `rfq_success`
-  fires without a valid accepted request ID.
-- Email, current public RFQ UX or rollback path fails.
+- Any RFQ PII reaches Vercel, Make, Resend, analytics or logs.
+- API success occurs before PostgreSQL commit.
+- SMTP credentials appear outside the root-owned VPS environment.
+- Header injection, unsafe HTML, non-deterministic Message-ID or duplicate
+  delivered-row claims are observed.
+- Current public RFQ UX, email delivery or rollback path fails.
