@@ -1,4 +1,4 @@
-import { createHash, randomUUID } from "node:crypto";
+import { randomUUID } from "node:crypto";
 
 import {
   flattenAttribution,
@@ -6,10 +6,12 @@ import {
   parseAttributionEnvelope,
 } from "../../lib/analytics/attribution.ts";
 import {
-  RFQ_CONSENT_EVIDENCE_TEXT,
   RFQ_CONSENT_VERSION,
+  RFQ_LEGAL_VERSION_MISMATCH_MESSAGE,
   RFQ_POLICY_VERSION,
-} from "../../lib/privacy/rfq-consent.ts";
+  hasCurrentRfqLegalVersions,
+} from "../../lib/privacy/legal-documents.ts";
+import { RFQ_CONSENT_TEXT_SHA256 } from "../../lib/privacy/legal-document-hash.ts";
 import type { HashedRateLimiter } from "./rate-limit.ts";
 import {
   ATTRIBUTION_KEYS,
@@ -28,10 +30,6 @@ const LIMITS = {
   productId: 200,
   productSlug: 240,
 } as const;
-
-export const RFQ_CONSENT_TEXT_SHA256 = createHash("sha256")
-  .update(RFQ_CONSENT_EVIDENCE_TEXT)
-  .digest("hex");
 
 export interface IntakeResponse {
   status: number;
@@ -108,6 +106,12 @@ export async function handleRfqIntake(
   }
   if (formData.get("personalDataConsent") !== "accepted") {
     return error(400, "Подтвердите согласие на обработку персональных данных.");
+  }
+  if (!hasCurrentRfqLegalVersions({
+    consentVersion: formData.get("consentVersion"),
+    policyVersion: formData.get("policyVersion"),
+  })) {
+    return error(409, RFQ_LEGAL_VERSION_MISMATCH_MESSAGE);
   }
 
   const company = readField(formData, "company");

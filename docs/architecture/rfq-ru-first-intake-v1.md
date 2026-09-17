@@ -112,9 +112,17 @@ Nginx location keeps access/error logs disabled.
 
 ## Retention, backup and deletion boundaries
 
-`RFQ_RETENTION_DAYS` remains unset until the owner/legal team records an
-approved retention and destruction term. Encrypted backups may be kept only in
-a contractually confirmed Russian location and must follow the same term.
+The owner-approved rule for an RFQ that does not lead to contractual relations
+is no more than 365 calendar days from the last substantive interaction about
+that RFQ. Once an RFQ leads to contractual relations, this RFQ rule is not the
+sole storage basis; applicable contractual, accounting, tax and other lawful
+bases determine further processing and retention.
+
+Automated enforcement is intentionally deferred to `RFQ RETENTION ENFORCEMENT
+v1`. Until that future task is implemented and accepted, setting
+`RFQ_RETENTION_DAYS` alone must not be represented as an active deletion
+control. Encrypted backups may be kept only in a contractually confirmed
+Russian location and must follow the applicable approved term and carve-outs.
 
 Subject deletion must be dry-run capable and auditable without PII. An
 authorized operator resolves exact lead IDs, deletes due primary and backup

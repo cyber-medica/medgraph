@@ -67,7 +67,7 @@ The owner creates `/etc/cybermedica/rfq-intake.env` as root, mode `0600`:
 | `RFQ_DELIVERY_POLL_MS` | Default `5000` unless load testing changes it |
 | `RFQ_DELIVERY_MAX_ATTEMPTS` | Default `12` |
 | `RFQ_DELIVERY_LEASE_SECONDS` | Default `60` |
-| `RFQ_RETENTION_DAYS` | Unset pending approved retention/destruction term |
+| `RFQ_RETENTION_DAYS` | Reserved owner-approved value `365`; enforcement remains disabled until the separate cleanup/backups/mailbox implementation is accepted |
 
 Credentials must not be copied to Git, GitHub, Vercel, Preview, reports or
 command-line arguments. Confirm systemd/journal output does not expose the
