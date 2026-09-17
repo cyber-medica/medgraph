@@ -267,7 +267,8 @@ test("SMTP failure occurs after commit, keeps the lead, and retry has one final 
   assert.equal(delivery.calls.length, 2);
 });
 
-test("arbitrary query PII is stripped from persistence and the SMTP message", async () => {
+test("arbitrary query PII is stripped from persistence and the SMTP message", async (t) => {
+  t.mock.method(Date, "now", () => NOW.getTime());
   const repository = new MemoryRepository();
   const capturedAt = NOW.toISOString();
   const expiresAt = new Date(NOW.getTime() + 86_400_000).toISOString();
