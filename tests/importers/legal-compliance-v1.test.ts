@@ -8,10 +8,12 @@ import {
   RFQ_CONSENT_CANONICAL_TEXT,
   RFQ_CONSENT_DOCUMENT,
   RFQ_CONSENT_VERSION,
+  hasCurrentRfqLegalVersions,
   RFQ_LEGAL_VERSION_MISMATCH_MESSAGE,
   RFQ_POLICY_VERSION,
   RFQ_PRIVACY_POLICY_DOCUMENT,
-  RFQ_RETENTION_OWNER_DECISION,
+  RFQ_RETENTION_DAYS,
+  RFQ_RETENTION_OWNER_DECISION_COMPLETE,
 } from "../../lib/privacy/legal-documents.ts";
 
 const EXPECTED_CHECKBOX_TEXT =
@@ -48,8 +50,16 @@ test("RFQ form submits current consent and policy versions as hidden evidence", 
   assert.match(form, /type="hidden" name="policyVersion" value=\{policyVersion\}/u);
   assert.match(page, /consentVersion=\{RFQ_CONSENT_VERSION\}/u);
   assert.match(page, /policyVersion=\{RFQ_POLICY_VERSION\}/u);
-  assert.equal(RFQ_CONSENT_VERSION, "rfq-consent-2026-09-17-v2");
-  assert.equal(RFQ_POLICY_VERSION, "privacy-policy-2026-09-17-v2");
+  assert.equal(RFQ_CONSENT_VERSION, "rfq-consent-2026-09-17-v3");
+  assert.equal(RFQ_POLICY_VERSION, "privacy-policy-2026-09-17-v3");
+  assert.equal(hasCurrentRfqLegalVersions({
+    consentVersion: "rfq-consent-2026-09-17-v2",
+    policyVersion: "privacy-policy-2026-09-17-v2",
+  }), false);
+  assert.equal(hasCurrentRfqLegalVersions({
+    consentVersion: RFQ_CONSENT_VERSION,
+    policyVersion: RFQ_POLICY_VERSION,
+  }), true);
 });
 
 test("server and rollback route reject stale legal versions fail-closed", async () => {
@@ -152,19 +162,39 @@ test("patient and third-party personal-data warning is present without a second 
   assert.equal(form.match(/type="checkbox"/gu)?.length, 1);
 });
 
-test("retention and RKN owner decisions remain explicit legal-acceptance blockers", async () => {
-  const report = await readFile(
-    "docs/reports/legal-compliance-patch-v1-2026-09-17.md",
-    "utf8",
-  );
+test("retention owner decision is complete while RKN remains a legal-acceptance blocker", async () => {
+  const [report, checklist, futureTask, legalSource] = await Promise.all([
+    readFile("docs/reports/legal-compliance-patch-v1-2026-09-17.md", "utf8"),
+    readFile("docs/compliance/personal-data-owner-checklist.md", "utf8"),
+    readFile("docs/roadmap/rfq-retention-enforcement-v1.md", "utf8"),
+    readFile("lib/privacy/legal-documents.ts", "utf8"),
+  ]);
+  const retiredDecisionMarker = ["OWNER", "RETENTION", "DECISION", "REQUIRED"].join("_");
+  const policyText = RFQ_PRIVACY_POLICY_DOCUMENT.sections
+    .flatMap((section) => section.paragraphs)
+    .join("\n");
 
-  assert.equal(RFQ_RETENTION_OWNER_DECISION, "OWNER_RETENTION_DECISION_REQUIRED");
-  assert.match(RFQ_CONSENT_CANONICAL_TEXT, /OWNER_RETENTION_DECISION_REQUIRED/u);
+  assert.equal(RFQ_RETENTION_DAYS, 365);
+  assert.equal(RFQ_RETENTION_OWNER_DECISION_COMPLETE, true);
+  assert.match(RFQ_CONSENT_CANONICAL_TEXT, /365 календарных дней/u);
+  assert.match(policyText, /365 календарных дней/u);
+  for (const text of [RFQ_CONSENT_CANONICAL_TEXT, policyText]) {
+    assert.match(text, /не перешёл в договорные отношения/u);
+    assert.match(text, /договорными, бухгалтерскими, налоговыми и иными законными основаниями/u);
+    assert.match(text, /удалению или уничтожению/u);
+  }
+  assert.doesNotMatch(
+    [report, checklist, futureTask, legalSource].join("\n"),
+    new RegExp(retiredDecisionMarker, "u"),
+  );
+  assert.match(report, /RETENTION OWNER DECISION COMPLETE = YES/u);
   assert.match(report, /RKN OPERATOR RECORD = UNKNOWN/u);
   assert.match(report, /RKN OWNER CHECK = BLOCKER/u);
   assert.match(report, /LEGAL ACCEPTANCE = BLOCKED/u);
-  assert.match(report, /OPTION A[\s\S]*365 дней/u);
-  assert.match(report, /OPTION B/u);
+  assert.match(checklist, /Последнее содержательное взаимодействие/u);
+  assert.match(futureTask, /PostgreSQL/u);
+  assert.match(futureTask, /резервн/u);
+  assert.match(futureTask, /почт/u);
 });
 
 test("public legal content exposes no infrastructure-sensitive implementation detail", async () => {

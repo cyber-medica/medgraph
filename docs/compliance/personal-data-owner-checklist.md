@@ -25,9 +25,19 @@ not public legal advice and must not be exposed as a storefront route.
 
 ## Retention and destruction
 
-- [ ] Select and approve the final RFQ retention period.
-- [ ] Define when the period starts and how the last substantive interaction is
-  identified.
+- [x] Owner decision recorded: if an RFQ does not lead to contractual
+  relations, retain its personal data for no more than 365 calendar days from
+  the last substantive interaction concerning that RFQ.
+- [x] Define the start point. «Последнее содержательное взаимодействие» means
+  the latest meaningful contact about the specific RFQ: a reply, clarification
+  of the technical specification, delivery of a quotation, discussion of
+  terms, or another substantive action concerning the request.
+- [x] Exclude automated notifications, technical retries, email delivery
+  status, page views and analytics events from substantive interactions.
+- [x] Record the contractual carve-out: once an RFQ leads to contractual
+  relations, the 365-day RFQ rule is not the sole storage basis; applicable
+  contractual, accounting, tax and other lawful bases determine further
+  processing and retention.
 - [ ] Approve deletion and destruction procedures for the primary database,
   corporate mailbox and operational copies.
 - [ ] Define how encrypted backups expire and how subject requests affect them.
@@ -45,10 +55,15 @@ not public legal advice and must not be exposed as a storefront route.
 
 ## Release gate
 
-- [ ] Replace `OWNER_RETENTION_DECISION_REQUIRED` with an owner-approved term.
-- [ ] Assign a new consent/policy version and regenerate the consent SHA-256 if
-  the approved legal text changes materially.
+- [x] Record the owner-approved RFQ retention term and contractual carve-out.
+- [x] Assign consent/policy version v3 and regenerate the canonical consent
+  SHA-256 for the material retention-text change.
 - [ ] Complete the official RKN owner check.
 - [ ] Obtain owner/legal approval for the final public consent and policy.
 - [ ] Verify that Production routing implements the documented RU-first RFQ
   flow before making these documents effective.
+
+`RETENTION OWNER DECISION COMPLETE = YES`
+
+Implementation of automated retention enforcement remains a separate future
+task: `RFQ RETENTION ENFORCEMENT v1`.
