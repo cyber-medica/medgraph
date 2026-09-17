@@ -60,18 +60,22 @@ export function readBrowserAttribution(): AttributionEnvelope | null {
   }
 }
 
-export function trackRfqEvent(
-  event: RfqEventName,
-  parameters: Record<string, unknown> = {},
-) {
-  if (typeof window === "undefined") return;
-  const safeParameters = Object.fromEntries(
+export function sanitizeRfqEventParameters(parameters: Record<string, unknown>) {
+  return Object.fromEntries(
     Object.entries(parameters).flatMap(([key, value]) => {
       if (!EVENT_PARAMETER_NAMES.has(key)) return [];
       if (typeof value !== "string" && typeof value !== "number") return [];
       return [[key, typeof value === "string" ? value.slice(0, 240) : value]];
     }),
   );
+}
+
+export function trackRfqEvent(
+  event: RfqEventName,
+  parameters: Record<string, unknown> = {},
+) {
+  if (typeof window === "undefined") return;
+  const safeParameters = sanitizeRfqEventParameters(parameters);
   window.dispatchEvent(new CustomEvent("cybermedica:analytics", {
     detail: { event, parameters: safeParameters },
   }));
