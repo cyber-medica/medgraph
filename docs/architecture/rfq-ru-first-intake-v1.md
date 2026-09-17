@@ -1,6 +1,6 @@
 # RFQ RU-first intake v1
 
-Status: target design prepared; not deployed. Base: `1058a28d1fe18802f35ea99f09e74f6cd0d84014`.
+Status: target design prepared; not deployed. Base branch: Draft PR #6.
 
 ## Target flow
 
@@ -9,17 +9,17 @@ flowchart LR
   B[Browser] -->|POST /api/request| N[Timeweb Nginx]
   N -->|exact local route| S[RFQ intake on 127.0.0.1]
   S -->|BEGIN / INSERT / COMMIT| P[(Local PostgreSQL)]
-  P -->|committed pending lead| W[Local retry worker]
-  W -->|minimal payload after commit| M[Make webhook]
-  M --> R[Resend / mailbox]
+  P -->|committed pending lead| W[Local transactional delivery worker]
+  W -->|SMTP over TLS| Y[Yandex 360 SMTP]
+  Y --> I[Corporate mailbox]
   N -->|all non-RFQ routes| V[Vercel / Next.js]
 ```
 
-`POST /api/request` never enters the generic Vercel proxy location after the
-Nginx switch. The retained Next.js route is a rollback implementation, not the
-target Production path. The local service resolves Product context from the
-validated published-catalog snapshot; it does not call Vercel or Supabase with
-contact data.
+The exact `POST /api/request` Nginx location terminates on the loopback intake
+service. Its body does not enter the generic Vercel proxy. The retained Next.js
+route is a rollback implementation, not the target Production path. Product
+context is resolved from the checksum-validated published-catalog snapshot; no
+contact data is sent to Vercel, Supabase, analytics or an external webhook.
 
 ## First-write and response contract
 
@@ -27,90 +27,121 @@ contact data.
    the loopback service.
 2. The service validates consent, required fields, contact format, honeypot,
    rate limit and exact published Product ID/slug.
-3. It normalizes `sourcePage` and attribution paths to pathnames and retains
-   only `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`
-   and `yclid`.
+3. It normalizes source and attribution locations to pathnames and retains only
+   `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` and
+   `yclid`.
 4. PostgreSQL performs `BEGIN`, `INSERT`, `COMMIT`.
 5. Only a successful commit returns `{ "ok": true, "requestId": "<uuid>" }`.
-6. The independent worker can see the committed `pending` row and only then
-   sends the minimized payload to Make.
-7. Make success marks the row `delivered`; a transient failure leaves the lead
-   durable as `failed` and schedules an exponential retry.
+6. The independent worker claims only a committed `pending` or retryable
+   `failed` row and sends the locally rendered message via Yandex 360 SMTP.
+7. SMTP success marks the row `delivered`. A failure leaves the lead durable as
+   `failed`, records only a safe error class and schedules an exponential retry.
 
-A database/commit failure yields HTTP 503. It cannot invoke Make and the
-frontend therefore cannot emit `rfq_success`. An email failure does not turn a
-durably accepted lead into a browser error, avoiding user-created duplicates.
+An SMTP failure never changes the already accepted browser response. The user
+must not resubmit a durable RFQ merely because notification delivery is delayed.
 
-The worker provides at-least-once outbound attempts. Each request carries the
-stable UUID in `Idempotency-Key` and `X-CyberMedica-Request-ID`. Before rollout,
-the Make scenario must be proved to deduplicate this ID so an accepted webhook
-followed by a lost HTTP response cannot send two emails.
+## SMTP transport contract
+
+- Library: `nodemailer@10.0.10`, pinned in the lockfile. It supports Node 20+
+  and has no runtime dependencies or telemetry service.
+- Host is fail-closed to `smtp.yandex.ru`.
+- Preferred mode: port 465 with implicit TLS. Port 587 is supported only with
+  STARTTLS (`RFQ_SMTP_SECURE=false` and `requireTLS=true`).
+- TLS minimum is 1.2 and SNI uses `smtp.yandex.ru`.
+- SMTP authentication, sender, recipient and optional reply-to are manual VPS
+  environment values. None belongs in Git, GitHub, Vercel or Preview.
+- Nodemailer debug/logger output is disabled. File and URL content loading are
+  disabled for every message.
+- Header address values are one strict mailbox each and reject CR/LF, display
+  names and lists. The subject is derived only from a validated UUID.
+
+Every attempt for a request uses:
+
+```text
+Message-ID: <rfq-{requestId}@cyber-medica.ru>
+```
+
+The row lease prevents parallel claims and a delivered row cannot be claimed
+again. A retry reuses the same Message-ID. Standard SMTP cannot guarantee an
+unambiguous outcome after every network failure, so the documented semantics
+are **at-least-once with duplicate mitigation**, not exactly-once.
+
+## Locally rendered message
+
+The plain-text and HTML alternatives are generated on the VPS after the commit.
+They may contain organization, contact fields, request text, validated Product
+context, source pathname, allowlisted attribution, request ID and timestamp.
+HTML is escaped. No remote image, pixel, CDN content or attachment is loaded.
+
+System metadata excludes raw IP, User-Agent, full source URLs, query strings and
+arbitrary query parameters. Customer-written message text is preserved as the
+submitted RFQ content; it is never copied into logs or analytics.
 
 ## Exact PII inventory
 
-| Field | Local PostgreSQL | Make/Resend after commit | Logs/analytics |
+| Field | Local PostgreSQL | Yandex 360 email after commit | Logs/analytics |
 | --- | --- | --- | --- |
-| Company | Yes | Yes, operational RFQ | No |
+| Company | Yes | Yes | No |
 | Contact name | Yes | Yes | No |
 | Phone | Nullable | If supplied | No |
 | Email | Nullable | If supplied | No |
 | Message/TZ text | Yes | Yes | No |
-| Product context | ID, slug, title, model, manufacturer | Yes | ID/slug/model/manufacturer only |
+| Product context | ID, slug, title, model, manufacturer | Yes | Existing non-PII Product context only |
 | Source page | Pathname only | Pathname only | Pathname only |
-| Attribution | Six-field allowlist | Same allowlist | Existing non-PII R9 fields |
+| Attribution | Six-field allowlist | Same allowlist | Existing R9 allowlist |
 | Consent evidence | Version, policy version, text SHA-256, timestamp | Not sent | No |
-| Request ID | Yes | Idempotency key | Yes |
+| Request ID | Yes | Message body and deterministic Message-ID | Yes |
 | Raw IP/User-Agent | Never persisted; transient HMAC rate-limit input | No | No |
-| Raw body/full URL/query | No | No | No |
+| Raw body/full URL/query | No metadata copy | No metadata copy | No |
 
-Application logs allow only request ID, HTTP status, latency, delivery status,
-attempt and error class. The exact Nginx location disables access and error
-logs and keeps bodies in memory, so form data and query strings are not written
-by that boundary.
+Application logs allow only request ID, status, latency, delivery state,
+attempt and a sanitized SMTP error class/code. They never include contact data,
+mail body, SMTP envelope, credentials or provider response text. The exact
+Nginx location keeps access/error logs disabled.
 
-## Database isolation
+## Database and queue isolation
 
-- PostgreSQL listens only on loopback; the host firewall has no public 5432.
-- A separate login role can connect only to `cybermedica_rfq`.
+- PostgreSQL listens only on loopback; the firewall exposes no public 5432.
+- A dedicated login can connect only to `cybermedica_rfq`.
 - The application role receives schema `USAGE`, table `SELECT`/`INSERT`, and
-  column-scoped `UPDATE` for delivery-state fields. It receives no DDL or
-  `DELETE` privilege.
+  column-scoped delivery-state `UPDATE`; it receives no DDL or `DELETE`.
 - `PUBLIC` table access is revoked.
-- The service binds only to `127.0.0.1` or `::1`; config validation refuses a
-  remote DB hostname or non-loopback HTTP bind.
+- Claiming uses `FOR UPDATE SKIP LOCKED`, a lease token and attempt limit.
+- PostgreSQL is the sole system of record. Email is downstream notification,
+  not persistence.
 
 ## Retention, backup and deletion boundaries
 
-`RFQ_RETENTION_DAYS` is parsed but remains unset. No automatic deletion is
-enabled until the owner/legal team records the approved period.
+`RFQ_RETENTION_DAYS` remains unset until the owner/legal team records an
+approved retention and destruction term. Encrypted backups may be kept only in
+a contractually confirmed Russian location and must follow the same term.
 
-The rollout should create encrypted daily `pg_dump` backups on a Timeweb volume
-in the same confirmed Russian region, with a second encrypted copy only in a
-provider/location whose Russian data residency is contractually confirmed.
-Backup retention must use the same owner-approved period; it must not be
-invented by engineering. Restore is tested in an isolated local database before
-cutover and periodically afterward.
+Subject deletion must be dry-run capable and auditable without PII. An
+authorized operator resolves exact lead IDs, deletes due primary and backup
+copies, and handles the corresponding corporate mailbox copy under the approved
+procedure.
 
-Subject deletion design: an authorized operator resolves the request to exact
-lead IDs, records a non-PII ticket/reference, deletes the rows and corresponding
-Russian backups when technically due, and separately instructs downstream
-processors/mailbox owners to delete their copies. The future job must be
-transactional, dry-run capable, auditable without PII, and disabled by default.
+## Production evidence gates
 
-## Runtime footprint estimate
-
-For the current 1–2 vCPU / 1–2 GB VPS, the Node intake plus small PostgreSQL
-instance is expected to need roughly 150–300 MB idle memory and less than 1 GB
-initial disk including database/runtime overhead. Actual CPU, RSS, disk growth
-and connection pressure must be measured in a Stage-like VPS check. If current
-VPS free memory cannot preserve at least 25% headroom, resize or isolate the
-database before cutover; this PR does not purchase or provision resources.
+- Yandex 360 account/contract evidence for ООО «КИМ» retained.
+- Current Yandex 360 DPA evidence retained.
+- Timeweb VPS and backup Russian-location evidence retained.
+- SMTP credentials created manually only on the VPS.
+- Roskomnadzor status remains a separate owner/legal gate.
+- TLS connectivity, backup restore and a controlled synthetic RFQ pass before
+  any routing change.
 
 ## Invariants
 
 - Vercel receives RFQ PII in target design: **NO**.
-- Russian DB write happens before Make: **YES**.
-- Primary persistence defined: **YES — local PostgreSQL on Timeweb**.
-- Make/Resend remain downstream processors, not primary storage.
-- No Production, VPS, Nginx, Vercel, Supabase or Product-data change is made by
-  this branch.
+- Make receives RFQ PII in target design: **NO**.
+- Resend receives RFQ PII in target design: **NO**.
+- Yandex 360 SMTP is the only email transport: **YES**.
+- Russian PostgreSQL commit precedes email: **YES**.
+- Primary persistence is local Russian PostgreSQL: **YES**.
+- No Production, VPS, Nginx, DNS, Vercel, Supabase or Product-data change is
+  made by this branch.
+
+Historical note: an earlier, never-deployed Draft design proposed a post-commit
+Make/Resend notification path. This revision replaces that design; the old
+transport is not present or selectable in the target runtime.
