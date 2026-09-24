@@ -245,9 +245,18 @@ test("sitemap derives counts from the visible catalog and includes both P1 route
   assert.equal(urls.some((url) => /stage\.|vercel\.app|endomarket\.ru/iu.test(url)), false);
 });
 
-test("legacy migration stays fail-closed until actual URL inventory exists", async () => {
-  assert.equal(legacyInventory.status, "pending_search_console_and_yandex_webmaster_export");
-  assert.deepEqual(legacyInventory.mappings, []);
+test("legacy migration uses the complete stable-ID inventory and remains fail-closed", async () => {
+  assert.equal(legacyInventory.status, "complete");
+  assert.equal(legacyInventory.mappings.length, 79);
+  assert.equal(legacyInventory.summary.redirectIdentities, 71);
+  assert.equal(legacyInventory.summary.goneIdentities, 0);
+  assert.equal(legacyInventory.summary.reviewIdentities, 8);
+  assert.equal(
+    new Set(legacyInventory.mappings.map(({ stableProductIdentifier }) =>
+      stableProductIdentifier
+    )).size,
+    79,
+  );
   const config = await readFile("next.config.ts", "utf8");
   assert.doesNotMatch(config, /medvist\.ru|tilda(?:\.cc)?|destination:\s*["']\/(?:catalog)?["']/iu);
   assert.match(config, /www\.cyber-medica\.ru/u);
