@@ -1,12 +1,1066 @@
 {
   "version": 3,
-  "status": "pending_search_console_and_yandex_webmaster_export",
+  "inventory": "seo-legacy-url-recovery-v1",
+  "status": "complete",
+  "baseCommit": "39d3bef377b1ffca4a0e489ed0c1c8008297dc41",
   "policy": "data/seo/source/v3/cybermedica_legacy_url_migration_policy_v3.md",
-  "mappings": [],
-  "safetyDecision": "No legacy redirect is deployed without a verified one-to-one equivalent.",
-  "requiredInputs": [
-    "Google Search Console URL export for the previous 16 months",
-    "Yandex Webmaster URL and indexing export",
-    "Historical Tilda tproduct URL inventory with traffic and backlink importance"
+  "sources": {
+    "legacySnapshotCommit": "5ca5fe24c308fd636743eaf78874f4647749dc21",
+    "legacySnapshotDatasetSha256": "13176ac8b5a7ffca86ecae0250a3345dd2ddcdda75ee8e1445e85546ccd3ca8c",
+    "legacySnapshotFormedAt": "2026-07-20T11:19:35.716Z",
+    "currentCatalog": "data/published-catalog-last-known-good.json",
+    "currentCatalogGeneratedAt": "2026-07-31T19:20:12.608Z"
+  },
+  "summary": {
+    "historicalProductIdentities": 79,
+    "supportedLegacyPaths": 158,
+    "redirectIdentities": 71,
+    "redirectPaths": 142,
+    "goneIdentities": 0,
+    "gonePaths": 0,
+    "reviewIdentities": 8,
+    "reviewPaths": 16
+  },
+  "safetyDecision": "Resolve only by the stable 12-digit source identifier. REVIEW entries retain the normal 404 path until exact equivalence or permanent removal is proven.",
+  "manufacturerAudit": {
+    "legacyPath": "/manufacturers/philips",
+    "action": "REVIEW",
+    "currentStatus": "hidden_from_public_discovery_zero_published_products",
+    "replacementPath": null,
+    "handling": "No 410: the manufacturer record and unpublished research candidates still exist, so permanent removal is not proven.",
+    "evidence": [
+      "data/published-catalog-last-known-good.json#manufacturer.id=philips",
+      "docs/reports/final-stage-acceptance-corrective-v2-2026-08-12.md#zero-product-manufacturers",
+      "docs/research/Philips_Wave2_Execution_Report.md#candidate-only"
+    ]
+  },
+  "mappings": [
+    {
+      "legacyPath": "/catalog/tproduct/767632362-116854129531-fetalnii-monitor-comen-star5000c",
+      "alternateLegacyPath": "/catalog/product/767632362-116854129531-fetalnii-monitor-comen-star5000c",
+      "stableProductIdentifier": "116854129531",
+      "currentProductId": "767632362-116854129531-fetalnii-monitor-comen-star5000c",
+      "currentCanonicalPath": "/catalog/767632362-116854129531-fetalnii-monitor-comen-star5000c",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=116854129531",
+        "data/published-catalog-last-known-good.json#product.id=767632362-116854129531-fetalnii-monitor-comen-star5000c"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+      "alternateLegacyPath": "/catalog/product/767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+      "stableProductIdentifier": "122386402842",
+      "currentProductId": "767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+      "currentCanonicalPath": "/catalog/767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=122386402842",
+        "data/published-catalog-last-known-good.json#product.id=767632362-122386402842-apparat-podderzhki-dihaniya-neonatalnii"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-159912360691-portativnii-monitor-patsienta-benevision",
+      "alternateLegacyPath": "/catalog/product/767632362-159912360691-portativnii-monitor-patsienta-benevision",
+      "stableProductIdentifier": "159912360691",
+      "currentProductId": "767632362-159912360691-portativnii-monitor-patsienta-benevision",
+      "currentCanonicalPath": "/catalog/767632362-159912360691-portativnii-monitor-patsienta-benevision",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=159912360691",
+        "data/published-catalog-last-known-good.json#product.id=767632362-159912360691-portativnii-monitor-patsienta-benevision"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-162624200421-portativnii-meditsinskii-otsasivatel-asp",
+      "alternateLegacyPath": "/catalog/product/767632362-162624200421-portativnii-meditsinskii-otsasivatel-asp",
+      "stableProductIdentifier": "162624200421",
+      "currentProductId": "767632362-162624200421-portativnii-meditsinskii-otsasivatel-asp",
+      "currentCanonicalPath": "/catalog/767632362-162624200421-portativnii-meditsinskii-otsasivatel-asp",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=162624200421",
+        "data/published-catalog-last-known-good.json#product.id=767632362-162624200421-portativnii-meditsinskii-otsasivatel-asp"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-163731865692-uzi-apparat-mindray-resona-7",
+      "alternateLegacyPath": "/catalog/product/767632362-163731865692-uzi-apparat-mindray-resona-7",
+      "stableProductIdentifier": "163731865692",
+      "currentProductId": "767632362-163731865692-uzi-apparat-mindray-resona-7",
+      "currentCanonicalPath": "/catalog/767632362-163731865692-uzi-apparat-mindray-resona-7",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=163731865692",
+        "data/published-catalog-last-known-good.json#product.id=767632362-163731865692-uzi-apparat-mindray-resona-7"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+      "alternateLegacyPath": "/catalog/product/767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+      "stableProductIdentifier": "198869594712",
+      "currentProductId": "767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+      "currentCanonicalPath": "/catalog/767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=198869594712",
+        "data/published-catalog-last-known-good.json#product.id=767632362-198869594712-elektrokardiograf-3-6-12-kanalnii-s-regi"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-211207666761-monitor-patsienta-storm-5800",
+      "alternateLegacyPath": "/catalog/product/767632362-211207666761-monitor-patsienta-storm-5800",
+      "stableProductIdentifier": "211207666761",
+      "currentProductId": "767632362-211207666761-monitor-patsienta-storm-5800",
+      "currentCanonicalPath": "/catalog/767632362-211207666761-monitor-patsienta-storm-5800",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=211207666761",
+        "data/published-catalog-last-known-good.json#product.id=767632362-211207666761-monitor-patsienta-storm-5800"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-225844007122-uzi-apparat-ge-vivid-t9",
+      "alternateLegacyPath": "/catalog/product/767632362-225844007122-uzi-apparat-ge-vivid-t9",
+      "stableProductIdentifier": "225844007122",
+      "currentProductId": "767632362-225844007122-uzi-apparat-ge-vivid-t9",
+      "currentCanonicalPath": "/catalog/767632362-225844007122-uzi-apparat-ge-vivid-t9",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=225844007122",
+        "data/published-catalog-last-known-good.json#product.id=767632362-225844007122-uzi-apparat-ge-vivid-t9"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-233964023312-uzi-apparat-mindray-dc-80",
+      "alternateLegacyPath": "/catalog/product/767632362-233964023312-uzi-apparat-mindray-dc-80",
+      "stableProductIdentifier": "233964023312",
+      "currentProductId": "767632362-233964023312-uzi-apparat-mindray-dc-80",
+      "currentCanonicalPath": "/catalog/767632362-233964023312-uzi-apparat-mindray-dc-80",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=233964023312",
+        "data/published-catalog-last-known-good.json#product.id=767632362-233964023312-uzi-apparat-mindray-dc-80"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-241834833046-elektrokardiograf-comen-cm1200b",
+      "alternateLegacyPath": "/catalog/product/767632362-241834833046-elektrokardiograf-comen-cm1200b",
+      "stableProductIdentifier": "241834833046",
+      "currentProductId": "767632362-241834833046-elektrokardiograf-comen-cm1200b",
+      "currentCanonicalPath": "/catalog/767632362-241834833046-elektrokardiograf-comen-cm1200b",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=241834833046",
+        "data/published-catalog-last-known-good.json#product.id=767632362-241834833046-elektrokardiograf-comen-cm1200b"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-256598838332-uzi-apparat-ge-versana-essential",
+      "alternateLegacyPath": "/catalog/product/767632362-256598838332-uzi-apparat-ge-versana-essential",
+      "stableProductIdentifier": "256598838332",
+      "currentProductId": "767632362-256598838332-uzi-apparat-ge-versana-essential",
+      "currentCanonicalPath": "/catalog/767632362-256598838332-uzi-apparat-ge-versana-essential",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=256598838332",
+        "data/published-catalog-last-known-good.json#product.id=767632362-256598838332-uzi-apparat-ge-versana-essential"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-259394139301-elektrokardiograf-comen-cm1200a",
+      "alternateLegacyPath": "/catalog/product/767632362-259394139301-elektrokardiograf-comen-cm1200a",
+      "stableProductIdentifier": "259394139301",
+      "currentProductId": "767632362-259394139301-elektrokardiograf-comen-cm1200a",
+      "currentCanonicalPath": "/catalog/767632362-259394139301-elektrokardiograf-comen-cm1200a",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=259394139301",
+        "data/published-catalog-last-known-good.json#product.id=767632362-259394139301-elektrokardiograf-comen-cm1200a"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-275089738610-videobronhoskop-vme-5b-portativnii",
+      "alternateLegacyPath": "/catalog/product/767632362-275089738610-videobronhoskop-vme-5b-portativnii",
+      "stableProductIdentifier": "275089738610",
+      "currentProductId": "d7506879-32fc-48ae-9ea6-8561f2c5868a",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=275089738610",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=275089738610"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+      "alternateLegacyPath": "/catalog/product/767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+      "stableProductIdentifier": "279448521542",
+      "currentProductId": "767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+      "currentCanonicalPath": "/catalog/767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=279448521542",
+        "data/published-catalog-last-known-good.json#product.id=767632362-279448521542-teleupravlyaemii-rentgenodiagnosticheski"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-299320772912-uzi-apparat-mindray-dc-40",
+      "alternateLegacyPath": "/catalog/product/767632362-299320772912-uzi-apparat-mindray-dc-40",
+      "stableProductIdentifier": "299320772912",
+      "currentProductId": "767632362-299320772912-uzi-apparat-mindray-dc-40",
+      "currentCanonicalPath": "/catalog/767632362-299320772912-uzi-apparat-mindray-dc-40",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=299320772912",
+        "data/published-catalog-last-known-good.json#product.id=767632362-299320772912-uzi-apparat-mindray-dc-40"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+      "alternateLegacyPath": "/catalog/product/767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+      "stableProductIdentifier": "300255468231",
+      "currentProductId": "767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+      "currentCanonicalPath": "/catalog/767632362-300255468231-portativnii-avtomaticheskii-defibrillyat",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=300255468231",
+        "data/published-catalog-last-known-good.json#product.id=767632362-300255468231-portativnii-avtomaticheskii-defibrillyat"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+      "alternateLegacyPath": "/catalog/product/767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+      "stableProductIdentifier": "304432044232",
+      "currentProductId": "767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+      "currentCanonicalPath": "/catalog/767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=304432044232",
+        "data/published-catalog-last-known-good.json#product.id=767632362-304432044232-videoendoskopicheskaya-sistema-olympus-c"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-317877821321-monitor-patsienta-benevision-n17n15n12",
+      "alternateLegacyPath": "/catalog/product/767632362-317877821321-monitor-patsienta-benevision-n17n15n12",
+      "stableProductIdentifier": "317877821321",
+      "currentProductId": "767632362-317877821321-monitor-patsienta-benevision-n17n15n12",
+      "currentCanonicalPath": "/catalog/767632362-317877821321-monitor-patsienta-benevision-n17n15n12",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=317877821321",
+        "data/published-catalog-last-known-good.json#product.id=767632362-317877821321-monitor-patsienta-benevision-n17n15n12"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+      "alternateLegacyPath": "/catalog/product/767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+      "stableProductIdentifier": "322249256482",
+      "currentProductId": "767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+      "currentCanonicalPath": "/catalog/767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=322249256482",
+        "data/published-catalog-last-known-good.json#product.id=767632362-322249256482-rentgen-apparat-tsifrovoi-discovery-rf-1"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-323650602021-fetalnii-monitor-overton-6200",
+      "alternateLegacyPath": "/catalog/product/767632362-323650602021-fetalnii-monitor-overton-6200",
+      "stableProductIdentifier": "323650602021",
+      "currentProductId": "767632362-323650602021-fetalnii-monitor-overton-6200",
+      "currentCanonicalPath": "/catalog/767632362-323650602021-fetalnii-monitor-overton-6200",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=323650602021",
+        "data/published-catalog-last-known-good.json#product.id=767632362-323650602021-fetalnii-monitor-overton-6200"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-330695211247-apparat-ivl-hamilton-t1",
+      "alternateLegacyPath": "/catalog/product/767632362-330695211247-apparat-ivl-hamilton-t1",
+      "stableProductIdentifier": "330695211247",
+      "currentProductId": "767632362-330695211247-apparat-ivl-hamilton-t1",
+      "currentCanonicalPath": "/catalog/767632362-330695211247-apparat-ivl-hamilton-t1",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=330695211247",
+        "data/published-catalog-last-known-good.json#product.id=767632362-330695211247-apparat-ivl-hamilton-t1"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-344327759482-fetalnii-monitor-corometrics-259-cx",
+      "alternateLegacyPath": "/catalog/product/767632362-344327759482-fetalnii-monitor-corometrics-259-cx",
+      "stableProductIdentifier": "344327759482",
+      "currentProductId": "767632362-344327759482-fetalnii-monitor-corometrics-259-cx",
+      "currentCanonicalPath": "/catalog/767632362-344327759482-fetalnii-monitor-corometrics-259-cx",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=344327759482",
+        "data/published-catalog-last-known-good.json#product.id=767632362-344327759482-fetalnii-monitor-corometrics-259-cx"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+      "alternateLegacyPath": "/catalog/product/767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+      "stableProductIdentifier": "358648454622",
+      "currentProductId": "767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+      "currentCanonicalPath": "/catalog/767632362-358648454622-uzi-apparat-ge-versana-premier-black",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=358648454622",
+        "data/published-catalog-last-known-good.json#product.id=767632362-358648454622-uzi-apparat-ge-versana-premier-black"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+      "alternateLegacyPath": "/catalog/product/767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+      "stableProductIdentifier": "363181290312",
+      "currentProductId": "767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+      "currentCanonicalPath": "/catalog/767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=363181290312",
+        "data/published-catalog-last-known-good.json#product.id=767632362-363181290312-inkubator-intensivnoi-terapii-novorozhde"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-365138915501-monitor-patsienta-imec-81012",
+      "alternateLegacyPath": "/catalog/product/767632362-365138915501-monitor-patsienta-imec-81012",
+      "stableProductIdentifier": "365138915501",
+      "currentProductId": "767632362-365138915501-monitor-patsienta-imec-81012",
+      "currentCanonicalPath": "/catalog/767632362-365138915501-monitor-patsienta-imec-81012",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=365138915501",
+        "data/published-catalog-last-known-good.json#product.id=767632362-365138915501-monitor-patsienta-imec-81012"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-385537759549-dvuhshpritsevoi-infuzionnii-nasos-instil",
+      "alternateLegacyPath": "/catalog/product/767632362-385537759549-dvuhshpritsevoi-infuzionnii-nasos-instil",
+      "stableProductIdentifier": "385537759549",
+      "currentProductId": "767632362-385537759549-dvuhshpritsevoi-infuzionnii-nasos-instil",
+      "currentCanonicalPath": "/catalog/767632362-385537759549-dvuhshpritsevoi-infuzionnii-nasos-instil",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=385537759549",
+        "data/published-catalog-last-known-good.json#product.id=767632362-385537759549-dvuhshpritsevoi-infuzionnii-nasos-instil"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-401374530532-apparat-ivl-mindray-sv300",
+      "alternateLegacyPath": "/catalog/product/767632362-401374530532-apparat-ivl-mindray-sv300",
+      "stableProductIdentifier": "401374530532",
+      "currentProductId": "767632362-401374530532-apparat-ivl-mindray-sv300",
+      "currentCanonicalPath": "/catalog/767632362-401374530532-apparat-ivl-mindray-sv300",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=401374530532",
+        "data/published-catalog-last-known-good.json#product.id=767632362-401374530532-apparat-ivl-mindray-sv300"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+      "alternateLegacyPath": "/catalog/product/767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+      "stableProductIdentifier": "403689762041",
+      "currentProductId": "767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+      "currentCanonicalPath": "/catalog/767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=403689762041",
+        "data/published-catalog-last-known-good.json#product.id=767632362-403689762041-videoendoskopicheskaya-sistema-olympus-a"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-412668785772-fetalnii-monitor-unikos-02unikos-03",
+      "alternateLegacyPath": "/catalog/product/767632362-412668785772-fetalnii-monitor-unikos-02unikos-03",
+      "stableProductIdentifier": "412668785772",
+      "currentProductId": "7efe1eb2-6551-4f0b-9310-c898cbcfdf7a",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=412668785772",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=412668785772"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+      "alternateLegacyPath": "/catalog/product/767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+      "stableProductIdentifier": "420215548801",
+      "currentProductId": "767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+      "currentCanonicalPath": "/catalog/767632362-420215548801-bronhofibroskop-pentax-fb-15v",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=420215548801",
+        "data/published-catalog-last-known-good.json#product.id=767632362-420215548801-bronhofibroskop-pentax-fb-15v"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-431878286472-uzi-apparat-mindray-resona-i9",
+      "alternateLegacyPath": "/catalog/product/767632362-431878286472-uzi-apparat-mindray-resona-i9",
+      "stableProductIdentifier": "431878286472",
+      "currentProductId": "767632362-431878286472-uzi-apparat-mindray-resona-i9",
+      "currentCanonicalPath": "/catalog/767632362-431878286472-uzi-apparat-mindray-resona-i9",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=431878286472",
+        "data/published-catalog-last-known-good.json#product.id=767632362-431878286472-uzi-apparat-mindray-resona-i9"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+      "alternateLegacyPath": "/catalog/product/767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+      "stableProductIdentifier": "446510199362",
+      "currentProductId": "767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+      "currentCanonicalPath": "/catalog/767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=446510199362",
+        "data/published-catalog-last-known-good.json#product.id=767632362-446510199362-videoendoskopicheskaya-sistema-pentax-ep"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-472096036091-monitor-patsienta-bionet-bm-3",
+      "alternateLegacyPath": "/catalog/product/767632362-472096036091-monitor-patsienta-bionet-bm-3",
+      "stableProductIdentifier": "472096036091",
+      "currentProductId": "767632362-472096036091-monitor-patsienta-bionet-bm-3",
+      "currentCanonicalPath": "/catalog/767632362-472096036091-monitor-patsienta-bionet-bm-3",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=472096036091",
+        "data/published-catalog-last-known-good.json#product.id=767632362-472096036091-monitor-patsienta-bionet-bm-3"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+      "alternateLegacyPath": "/catalog/product/767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+      "stableProductIdentifier": "480491530831",
+      "currentProductId": "767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+      "currentCanonicalPath": "/catalog/767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=480491530831",
+        "data/published-catalog-last-known-good.json#product.id=767632362-480491530831-transportnii-inkubator-dlya-novorozhdenn"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-485427737755-defibrillyator-monitor-dfr-02",
+      "alternateLegacyPath": "/catalog/product/767632362-485427737755-defibrillyator-monitor-dfr-02",
+      "stableProductIdentifier": "485427737755",
+      "currentProductId": "767632362-485427737755-defibrillyator-monitor-dfr-02",
+      "currentCanonicalPath": "/catalog/767632362-485427737755-defibrillyator-monitor-dfr-02",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=485427737755",
+        "data/published-catalog-last-known-good.json#product.id=767632362-485427737755-defibrillyator-monitor-dfr-02"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-507218946101-elektrokardiograf-bionet-cardiotouch-300",
+      "alternateLegacyPath": "/catalog/product/767632362-507218946101-elektrokardiograf-bionet-cardiotouch-300",
+      "stableProductIdentifier": "507218946101",
+      "currentProductId": "767632362-507218946101-elektrokardiograf-bionet-cardiotouch-300",
+      "currentCanonicalPath": "/catalog/767632362-507218946101-elektrokardiograf-bionet-cardiotouch-300",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=507218946101",
+        "data/published-catalog-last-known-good.json#product.id=767632362-507218946101-elektrokardiograf-bionet-cardiotouch-300"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+      "alternateLegacyPath": "/catalog/product/767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+      "stableProductIdentifier": "513492182572",
+      "currentProductId": "767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+      "currentCanonicalPath": "/catalog/767632362-513492182572-gastrofibroskop-pentax-fg-29v",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=513492182572",
+        "data/published-catalog-last-known-good.json#product.id=767632362-513492182572-gastrofibroskop-pentax-fg-29v"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-529970599662-videoendoskopicheskaya-sistema-pentax-ep",
+      "alternateLegacyPath": "/catalog/product/767632362-529970599662-videoendoskopicheskaya-sistema-pentax-ep",
+      "stableProductIdentifier": "529970599662",
+      "currentProductId": "860306a1-e01e-4f10-b980-93490e446d37",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=529970599662",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=529970599662"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-532456144899-odnoshpritsevoi-modulnii-infuzionnii-nas",
+      "alternateLegacyPath": "/catalog/product/767632362-532456144899-odnoshpritsevoi-modulnii-infuzionnii-nas",
+      "stableProductIdentifier": "532456144899",
+      "currentProductId": "e7a54ec6-986d-422a-aca8-862d4d00a421",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=532456144899",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=532456144899"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-551427991321-aspirator-perenosnoi-vacus-7209-so-vstro",
+      "alternateLegacyPath": "/catalog/product/767632362-551427991321-aspirator-perenosnoi-vacus-7209-so-vstro",
+      "stableProductIdentifier": "551427991321",
+      "currentProductId": "767632362-551427991321-aspirator-perenosnoi-vacus-7209-so-vstro",
+      "currentCanonicalPath": "/catalog/767632362-551427991321-aspirator-perenosnoi-vacus-7209-so-vstro",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=551427991321",
+        "data/published-catalog-last-known-good.json#product.id=767632362-551427991321-aspirator-perenosnoi-vacus-7209-so-vstro"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+      "alternateLegacyPath": "/catalog/product/767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+      "stableProductIdentifier": "571191341342",
+      "currentProductId": "767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+      "currentCanonicalPath": "/catalog/767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=571191341342",
+        "data/published-catalog-last-known-good.json#product.id=767632362-571191341342-rentgenohirurgicheskii-apparat-tipa-s-du"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+      "alternateLegacyPath": "/catalog/product/767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+      "stableProductIdentifier": "574929514601",
+      "currentProductId": "767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+      "currentCanonicalPath": "/catalog/767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=574929514601",
+        "data/published-catalog-last-known-good.json#product.id=767632362-574929514601-inkubator-dlya-nedonoshennih-detei-bebig"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-576228046022-apparat-dlya-plazmafereza-gemos-pf",
+      "alternateLegacyPath": "/catalog/product/767632362-576228046022-apparat-dlya-plazmafereza-gemos-pf",
+      "stableProductIdentifier": "576228046022",
+      "currentProductId": "46340003-dffa-4321-b5c1-cb3f4a5cf317",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=576228046022",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=576228046022"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-582183013252-fetalnii-monitor-sonicaid-team-3-i",
+      "alternateLegacyPath": "/catalog/product/767632362-582183013252-fetalnii-monitor-sonicaid-team-3-i",
+      "stableProductIdentifier": "582183013252",
+      "currentProductId": "767632362-582183013252-fetalnii-monitor-sonicaid-team-3-i",
+      "currentCanonicalPath": "/catalog/767632362-582183013252-fetalnii-monitor-sonicaid-team-3-i",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=582183013252",
+        "data/published-catalog-last-known-good.json#product.id=767632362-582183013252-fetalnii-monitor-sonicaid-team-3-i"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+      "alternateLegacyPath": "/catalog/product/767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+      "stableProductIdentifier": "601909099101",
+      "currentProductId": "767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+      "currentCanonicalPath": "/catalog/767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=601909099101",
+        "data/published-catalog-last-known-good.json#product.id=767632362-601909099101-gemodializnii-apparat-iskusstvennaya-poc"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+      "alternateLegacyPath": "/catalog/product/767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+      "stableProductIdentifier": "608519946332",
+      "currentProductId": "767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+      "currentCanonicalPath": "/catalog/767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=608519946332",
+        "data/published-catalog-last-known-good.json#product.id=767632362-608519946332-kislorodnii-kontsentrator-jay-10-longfia"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-619316683987-elektrokardiograf-bionet-cardiocare-2000",
+      "alternateLegacyPath": "/catalog/product/767632362-619316683987-elektrokardiograf-bionet-cardiocare-2000",
+      "stableProductIdentifier": "619316683987",
+      "currentProductId": "767632362-619316683987-elektrokardiograf-bionet-cardiocare-2000",
+      "currentCanonicalPath": "/catalog/767632362-619316683987-elektrokardiograf-bionet-cardiocare-2000",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=619316683987",
+        "data/published-catalog-last-known-good.json#product.id=767632362-619316683987-elektrokardiograf-bionet-cardiocare-2000"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-632825146024-fibrobronhoskop-huger-fb-53a-portativnii",
+      "alternateLegacyPath": "/catalog/product/767632362-632825146024-fibrobronhoskop-huger-fb-53a-portativnii",
+      "stableProductIdentifier": "632825146024",
+      "currentProductId": "db6da513-24dc-45e3-8e18-c6033825adce",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=632825146024",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=632825146024"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+      "alternateLegacyPath": "/catalog/product/767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+      "stableProductIdentifier": "670271281172",
+      "currentProductId": "767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+      "currentCanonicalPath": "/catalog/767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=670271281172",
+        "data/published-catalog-last-known-good.json#product.id=767632362-670271281172-videoendoskopicheskaya-sistema-epk-3000"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-691798585131-apparat-ivl-hamilton-s1",
+      "alternateLegacyPath": "/catalog/product/767632362-691798585131-apparat-ivl-hamilton-s1",
+      "stableProductIdentifier": "691798585131",
+      "currentProductId": "767632362-691798585131-apparat-ivl-hamilton-s1",
+      "currentCanonicalPath": "/catalog/767632362-691798585131-apparat-ivl-hamilton-s1",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=691798585131",
+        "data/published-catalog-last-known-good.json#product.id=767632362-691798585131-apparat-ivl-hamilton-s1"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-694791065122-fetalnii-monitor-unikos-01",
+      "alternateLegacyPath": "/catalog/product/767632362-694791065122-fetalnii-monitor-unikos-01",
+      "stableProductIdentifier": "694791065122",
+      "currentProductId": "767632362-694791065122-fetalnii-monitor-unikos-01",
+      "currentCanonicalPath": "/catalog/767632362-694791065122-fetalnii-monitor-unikos-01",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=694791065122",
+        "data/published-catalog-last-known-good.json#product.id=767632362-694791065122-fetalnii-monitor-unikos-01"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+      "alternateLegacyPath": "/catalog/product/767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+      "stableProductIdentifier": "697047413241",
+      "currentProductId": "767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+      "currentCanonicalPath": "/catalog/767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=697047413241",
+        "data/published-catalog-last-known-good.json#product.id=767632362-697047413241-videoendoskopicheskaya-sistema-sonoscape"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-709309498991-apparat-ivl-hamilton-s3",
+      "alternateLegacyPath": "/catalog/product/767632362-709309498991-apparat-ivl-hamilton-s3",
+      "stableProductIdentifier": "709309498991",
+      "currentProductId": "767632362-709309498991-apparat-ivl-hamilton-s3",
+      "currentCanonicalPath": "/catalog/767632362-709309498991-apparat-ivl-hamilton-s3",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=709309498991",
+        "data/published-catalog-last-known-good.json#product.id=767632362-709309498991-apparat-ivl-hamilton-s3"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-710502245802-uzi-apparat-mindray-resona-6",
+      "alternateLegacyPath": "/catalog/product/767632362-710502245802-uzi-apparat-mindray-resona-6",
+      "stableProductIdentifier": "710502245802",
+      "currentProductId": "767632362-710502245802-uzi-apparat-mindray-resona-6",
+      "currentCanonicalPath": "/catalog/767632362-710502245802-uzi-apparat-mindray-resona-6",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=710502245802",
+        "data/published-catalog-last-known-good.json#product.id=767632362-710502245802-uzi-apparat-mindray-resona-6"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-722415430452-uzi-apparat-canon-aplio-i800",
+      "alternateLegacyPath": "/catalog/product/767632362-722415430452-uzi-apparat-canon-aplio-i800",
+      "stableProductIdentifier": "722415430452",
+      "currentProductId": "767632362-722415430452-uzi-apparat-canon-aplio-i800",
+      "currentCanonicalPath": "/catalog/767632362-722415430452-uzi-apparat-canon-aplio-i800",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=722415430452",
+        "data/published-catalog-last-known-good.json#product.id=767632362-722415430452-uzi-apparat-canon-aplio-i800"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+      "alternateLegacyPath": "/catalog/product/767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+      "stableProductIdentifier": "724985486041",
+      "currentProductId": "767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+      "currentCanonicalPath": "/catalog/767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=724985486041",
+        "data/published-catalog-last-known-good.json#product.id=767632362-724985486041-odnoshpritsevoi-infuzionnii-nasos-benefu"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-725867191732-defibrillyator-monitor-mnogofunktsionaln",
+      "alternateLegacyPath": "/catalog/product/767632362-725867191732-defibrillyator-monitor-mnogofunktsionaln",
+      "stableProductIdentifier": "725867191732",
+      "currentProductId": "767632362-725867191732-defibrillyator-monitor-mnogofunktsionaln",
+      "currentCanonicalPath": "/catalog/767632362-725867191732-defibrillyator-monitor-mnogofunktsionaln",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=725867191732",
+        "data/published-catalog-last-known-good.json#product.id=767632362-725867191732-defibrillyator-monitor-mnogofunktsionaln"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-730259716752-uzi-apparat-canon-aplio-i700",
+      "alternateLegacyPath": "/catalog/product/767632362-730259716752-uzi-apparat-canon-aplio-i700",
+      "stableProductIdentifier": "730259716752",
+      "currentProductId": "767632362-730259716752-uzi-apparat-canon-aplio-i700",
+      "currentCanonicalPath": "/catalog/767632362-730259716752-uzi-apparat-canon-aplio-i700",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=730259716752",
+        "data/published-catalog-last-known-good.json#product.id=767632362-730259716752-uzi-apparat-canon-aplio-i700"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+      "alternateLegacyPath": "/catalog/product/767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+      "stableProductIdentifier": "740658724462",
+      "currentProductId": "767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+      "currentCanonicalPath": "/catalog/767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=740658724462",
+        "data/published-catalog-last-known-good.json#product.id=767632362-740658724462-videoendoskopicheskaya-sistema-olympus-c"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-743154619762-uzi-apparat-mindray-mx8-portativnii",
+      "alternateLegacyPath": "/catalog/product/767632362-743154619762-uzi-apparat-mindray-mx8-portativnii",
+      "stableProductIdentifier": "743154619762",
+      "currentProductId": "767632362-743154619762-uzi-apparat-mindray-mx8-portativnii",
+      "currentCanonicalPath": "/catalog/767632362-743154619762-uzi-apparat-mindray-mx8-portativnii",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=743154619762",
+        "data/published-catalog-last-known-good.json#product.id=767632362-743154619762-uzi-apparat-mindray-mx8-portativnii"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-754023648801-portativnii-defibrillyator-primedic-defi",
+      "alternateLegacyPath": "/catalog/product/767632362-754023648801-portativnii-defibrillyator-primedic-defi",
+      "stableProductIdentifier": "754023648801",
+      "currentProductId": "5c41e1d8-6311-4a63-bb99-41b8ae17d8a1",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=754023648801",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=754023648801"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-757604699272-apparat-dlya-gemosorbtsii-gemos",
+      "alternateLegacyPath": "/catalog/product/767632362-757604699272-apparat-dlya-gemosorbtsii-gemos",
+      "stableProductIdentifier": "757604699272",
+      "currentProductId": "f3053ed8-d29a-41ff-b9e1-a873dd6b77f1",
+      "currentCanonicalPath": null,
+      "currentStatus": "draft_unpublished",
+      "action": "REVIEW",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=757604699272",
+        "docs/reports/final-nine-special-correctives-2026-08-02.md#sourceUid=757604699272"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-761217382341-monitor-patsienta-bionet-bm-5",
+      "alternateLegacyPath": "/catalog/product/767632362-761217382341-monitor-patsienta-bionet-bm-5",
+      "stableProductIdentifier": "761217382341",
+      "currentProductId": "767632362-761217382341-monitor-patsienta-bionet-bm-5",
+      "currentCanonicalPath": "/catalog/767632362-761217382341-monitor-patsienta-bionet-bm-5",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=761217382341",
+        "data/published-catalog-last-known-good.json#product.id=767632362-761217382341-monitor-patsienta-bionet-bm-5"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-772103317658-uzi-apparat-mindray-m9-portativnii",
+      "alternateLegacyPath": "/catalog/product/767632362-772103317658-uzi-apparat-mindray-m9-portativnii",
+      "stableProductIdentifier": "772103317658",
+      "currentProductId": "767632362-772103317658-uzi-apparat-mindray-m9-portativnii",
+      "currentCanonicalPath": "/catalog/767632362-772103317658-uzi-apparat-mindray-m9-portativnii",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=772103317658",
+        "data/published-catalog-last-known-good.json#product.id=767632362-772103317658-uzi-apparat-mindray-m9-portativnii"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-772750235332-fetalnii-monitor-sonicaid-team-3-a",
+      "alternateLegacyPath": "/catalog/product/767632362-772750235332-fetalnii-monitor-sonicaid-team-3-a",
+      "stableProductIdentifier": "772750235332",
+      "currentProductId": "767632362-772750235332-fetalnii-monitor-sonicaid-team-3-a",
+      "currentCanonicalPath": "/catalog/767632362-772750235332-fetalnii-monitor-sonicaid-team-3-a",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=772750235332",
+        "data/published-catalog-last-known-good.json#product.id=767632362-772750235332-fetalnii-monitor-sonicaid-team-3-a"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+      "alternateLegacyPath": "/catalog/product/767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+      "stableProductIdentifier": "776712772161",
+      "currentProductId": "767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+      "currentCanonicalPath": "/catalog/767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=776712772161",
+        "data/published-catalog-last-known-good.json#product.id=767632362-776712772161-videoendoskopicheskaya-sistema-sonoscape"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-777813572261-fetalnii-monitor-comen-star5000",
+      "alternateLegacyPath": "/catalog/product/767632362-777813572261-fetalnii-monitor-comen-star5000",
+      "stableProductIdentifier": "777813572261",
+      "currentProductId": "767632362-777813572261-fetalnii-monitor-comen-star5000",
+      "currentCanonicalPath": "/catalog/767632362-777813572261-fetalnii-monitor-comen-star5000",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=777813572261",
+        "data/published-catalog-last-known-good.json#product.id=767632362-777813572261-fetalnii-monitor-comen-star5000"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-791348718821-meditsinskii-otsasivatel-aspirator-vacus",
+      "alternateLegacyPath": "/catalog/product/767632362-791348718821-meditsinskii-otsasivatel-aspirator-vacus",
+      "stableProductIdentifier": "791348718821",
+      "currentProductId": "767632362-791348718821-meditsinskii-otsasivatel-aspirator-vacus",
+      "currentCanonicalPath": "/catalog/767632362-791348718821-meditsinskii-otsasivatel-aspirator-vacus",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=791348718821",
+        "data/published-catalog-last-known-good.json#product.id=767632362-791348718821-meditsinskii-otsasivatel-aspirator-vacus"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-816186680362-uzi-apparat-ge-vivid-iq",
+      "alternateLegacyPath": "/catalog/product/767632362-816186680362-uzi-apparat-ge-vivid-iq",
+      "stableProductIdentifier": "816186680362",
+      "currentProductId": "767632362-816186680362-uzi-apparat-ge-vivid-iq",
+      "currentCanonicalPath": "/catalog/767632362-816186680362-uzi-apparat-ge-vivid-iq",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=816186680362",
+        "data/published-catalog-last-known-good.json#product.id=767632362-816186680362-uzi-apparat-ge-vivid-iq"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-836797220702-uzi-apparat-mindray-dc-70",
+      "alternateLegacyPath": "/catalog/product/767632362-836797220702-uzi-apparat-mindray-dc-70",
+      "stableProductIdentifier": "836797220702",
+      "currentProductId": "767632362-836797220702-uzi-apparat-mindray-dc-70",
+      "currentCanonicalPath": "/catalog/767632362-836797220702-uzi-apparat-mindray-dc-70",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=836797220702",
+        "data/published-catalog-last-known-good.json#product.id=767632362-836797220702-uzi-apparat-mindray-dc-70"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+      "alternateLegacyPath": "/catalog/product/767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+      "stableProductIdentifier": "860641516881",
+      "currentProductId": "767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+      "currentCanonicalPath": "/catalog/767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=860641516881",
+        "data/published-catalog-last-known-good.json#product.id=767632362-860641516881-inkubator-dlya-novorozhdennih-idn-02-dan"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-865619140091-shpritsevoi-nasos-fresenius-kabi-agilia",
+      "alternateLegacyPath": "/catalog/product/767632362-865619140091-shpritsevoi-nasos-fresenius-kabi-agilia",
+      "stableProductIdentifier": "865619140091",
+      "currentProductId": "767632362-865619140091-shpritsevoi-nasos-fresenius-kabi-agilia",
+      "currentCanonicalPath": "/catalog/767632362-865619140091-shpritsevoi-nasos-fresenius-kabi-agilia",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=865619140091",
+        "data/published-catalog-last-known-good.json#product.id=767632362-865619140091-shpritsevoi-nasos-fresenius-kabi-agilia"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-868434933208-elektrokardiograf-cardipia-200",
+      "alternateLegacyPath": "/catalog/product/767632362-868434933208-elektrokardiograf-cardipia-200",
+      "stableProductIdentifier": "868434933208",
+      "currentProductId": "767632362-868434933208-elektrokardiograf-cardipia-200",
+      "currentCanonicalPath": "/catalog/767632362-868434933208-elektrokardiograf-cardipia-200",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=868434933208",
+        "data/published-catalog-last-known-good.json#product.id=767632362-868434933208-elektrokardiograf-cardipia-200"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+      "alternateLegacyPath": "/catalog/product/767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+      "stableProductIdentifier": "928472985221",
+      "currentProductId": "767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+      "currentCanonicalPath": "/catalog/767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=928472985221",
+        "data/published-catalog-last-known-good.json#product.id=767632362-928472985221-fetalnii-monitor-materi-i-ploda-overton"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-937994862401-ekspertnii-uzi-apparat-canon-aplio-i900",
+      "alternateLegacyPath": "/catalog/product/767632362-937994862401-ekspertnii-uzi-apparat-canon-aplio-i900",
+      "stableProductIdentifier": "937994862401",
+      "currentProductId": "767632362-937994862401-ekspertnii-uzi-apparat-canon-aplio-i900",
+      "currentCanonicalPath": "/catalog/767632362-937994862401-ekspertnii-uzi-apparat-canon-aplio-i900",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=937994862401",
+        "data/published-catalog-last-known-good.json#product.id=767632362-937994862401-ekspertnii-uzi-apparat-canon-aplio-i900"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+      "alternateLegacyPath": "/catalog/product/767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+      "stableProductIdentifier": "939922758055",
+      "currentProductId": "767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+      "currentCanonicalPath": "/catalog/767632362-939922758055-bronhofibroskop-pentax-fb-18rbs",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=939922758055",
+        "data/published-catalog-last-known-good.json#product.id=767632362-939922758055-bronhofibroskop-pentax-fb-18rbs"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-972412373651-perenosnoi-monitor-patsienta-storm-5900",
+      "alternateLegacyPath": "/catalog/product/767632362-972412373651-perenosnoi-monitor-patsienta-storm-5900",
+      "stableProductIdentifier": "972412373651",
+      "currentProductId": "767632362-972412373651-perenosnoi-monitor-patsienta-storm-5900",
+      "currentCanonicalPath": "/catalog/767632362-972412373651-perenosnoi-monitor-patsienta-storm-5900",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=972412373651",
+        "data/published-catalog-last-known-good.json#product.id=767632362-972412373651-perenosnoi-monitor-patsienta-storm-5900"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-975456539101-ekspertnii-uzi-apparat-logiq-e9-ge",
+      "alternateLegacyPath": "/catalog/product/767632362-975456539101-ekspertnii-uzi-apparat-logiq-e9-ge",
+      "stableProductIdentifier": "975456539101",
+      "currentProductId": "767632362-975456539101-ekspertnii-uzi-apparat-logiq-e9-ge",
+      "currentCanonicalPath": "/catalog/767632362-975456539101-ekspertnii-uzi-apparat-logiq-e9-ge",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=975456539101",
+        "data/published-catalog-last-known-good.json#product.id=767632362-975456539101-ekspertnii-uzi-apparat-logiq-e9-ge"
+      ]
+    },
+    {
+      "legacyPath": "/catalog/tproduct/767632362-989433020341-fetalnii-monitor-bionet-fc-1400",
+      "alternateLegacyPath": "/catalog/product/767632362-989433020341-fetalnii-monitor-bionet-fc-1400",
+      "stableProductIdentifier": "989433020341",
+      "currentProductId": "767632362-989433020341-fetalnii-monitor-bionet-fc-1400",
+      "currentCanonicalPath": "/catalog/767632362-989433020341-fetalnii-monitor-bionet-fc-1400",
+      "currentStatus": "active",
+      "action": "REDIRECT",
+      "evidence": [
+        "git:5ca5fe24c308fd636743eaf78874f4647749dc21:data/legacy/manifest.json#sourceId=989433020341",
+        "data/published-catalog-last-known-good.json#product.id=767632362-989433020341-fetalnii-monitor-bionet-fc-1400"
+      ]
+    }
   ]
 }
