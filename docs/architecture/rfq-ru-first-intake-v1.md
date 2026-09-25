@@ -7,9 +7,9 @@ Status: target design prepared; not deployed. Base branch: Draft PR #6.
 ```mermaid
 flowchart LR
   B[Browser] -->|POST /api/request| N[Timeweb Nginx]
-  N -->|exact local route| S[RFQ intake on 127.0.0.1]
+  N -->|exact local route| S[rfq-intake on 127.0.0.1]
   S -->|BEGIN / INSERT / COMMIT| P[(Local PostgreSQL)]
-  P -->|committed pending lead| W[Local transactional delivery worker]
+  P -->|committed pending lead| W[rfq-worker local outbox process]
   W -->|SMTP over TLS| Y[Yandex 360 SMTP]
   Y --> I[Corporate mailbox]
   N -->|all non-RFQ routes| V[Vercel / Next.js]
@@ -20,6 +20,8 @@ service. Its body does not enter the generic Vercel proxy. The retained Next.js
 route is a rollback implementation, not the target Production path. Product
 context is resolved from the checksum-validated published-catalog snapshot; no
 contact data is sent to Vercel, Supabase, analytics or an external webhook.
+The intake and worker are separate hardened systemd services with separate
+root-owned environment files; SMTP credentials are visible only to the worker.
 
 ## First-write and response contract
 
@@ -101,7 +103,7 @@ Nginx location keeps access/error logs disabled.
 
 ## Database and queue isolation
 
-- PostgreSQL listens only on loopback; the firewall exposes no public 5432.
+- PostgreSQL 17 listens only on loopback; the firewall exposes no public 5432.
 - A dedicated login can connect only to `cybermedica_rfq`.
 - The application role receives schema `USAGE`, table `SELECT`/`INSERT`, and
   column-scoped delivery-state `UPDATE`; it receives no DDL or `DELETE`.

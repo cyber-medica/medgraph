@@ -76,14 +76,17 @@ const RETURNING_COLUMNS = `
 export class PostgresRfqRepository implements RfqRepository {
   private readonly pool: InstanceType<typeof Pool>;
 
-  constructor(databaseUrl: string) {
+  constructor(
+    databaseUrl: string,
+    applicationName = "cybermedica-rfq-intake",
+  ) {
     this.pool = new Pool({
       connectionString: databaseUrl,
       max: 5,
       idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 5_000,
       statement_timeout: 5_000,
-      application_name: "cybermedica-rfq-intake",
+      application_name: applicationName,
       ssl: false,
       allowExitOnIdle: true,
     });

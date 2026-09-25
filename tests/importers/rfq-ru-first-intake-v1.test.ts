@@ -10,7 +10,10 @@ import {
   RFQ_POLICY_VERSION,
 } from "../../lib/privacy/legal-documents.ts";
 import type { RequestProductContext } from "../../lib/request/product-context.ts";
-import { readRfqIntakeConfig } from "../../services/rfq-intake/config.ts";
+import {
+  readRfqIntakeConfig,
+  readRfqWorkerConfig,
+} from "../../services/rfq-intake/config.ts";
 import {
   buildRfqEmail,
   DeliveryError,
@@ -392,23 +395,23 @@ test("SMTP config is Yandex-only and rejects address/header injection", () => {
     RFQ_SMTP_TO: "info@cyber-medica.ru",
     RFQ_RATE_LIMIT_SECRET: "z".repeat(32),
   };
-  assert.equal(readRfqIntakeConfig(base).smtp.host, "smtp.yandex.ru");
-  assert.equal(readRfqIntakeConfig({
+  assert.equal(readRfqWorkerConfig(base).smtp.host, "smtp.yandex.ru");
+  assert.equal(readRfqWorkerConfig({
     ...base,
     RFQ_SMTP_PORT: "587",
     RFQ_SMTP_SECURE: "false",
   }).smtp.secure, false);
-  assert.throws(() => readRfqIntakeConfig({
+  assert.throws(() => readRfqWorkerConfig({
     ...base,
     RFQ_SMTP_HOST: "smtp.foreign.invalid",
   }), /smtp\.yandex\.ru/u);
   for (const name of ["RFQ_SMTP_USER", "RFQ_SMTP_FROM", "RFQ_SMTP_TO"] as const) {
-    assert.throws(() => readRfqIntakeConfig({
+    assert.throws(() => readRfqWorkerConfig({
       ...base,
       [name]: `info@cyber-medica.ru\r\nBcc: attacker@example.org`,
     }), /plain email address/u);
   }
-  assert.throws(() => readRfqIntakeConfig({
+  assert.throws(() => readRfqWorkerConfig({
     ...base,
     RFQ_SMTP_REPLY_TO: `info@cyber-medica.ru\nBcc: attacker@example.org`,
   }), /plain email address/u);
@@ -491,21 +494,27 @@ test("target runtime has no Make, Resend, webhook, or Vercel RFQ delivery transp
     readFile("services/rfq-intake/delivery.ts", "utf8"),
     readFile("services/rfq-intake/config.ts", "utf8"),
     readFile("services/rfq-intake/server.ts", "utf8"),
-    readFile("services/rfq-intake/.env.example", "utf8"),
+    readFile("services/rfq-intake/worker-main.ts", "utf8"),
+    readFile("services/rfq-intake/intake.env.example", "utf8"),
+    readFile("services/rfq-intake/worker.env.example", "utf8"),
   ])).join("\n");
-  assert.doesNotMatch(runtime, /MakeDelivery|buildMakePayload|RFQ_MAKE|Resend|webhook/iu);
+  assert.doesNotMatch(runtime, /MakeDelivery|buildMakePayload|RFQ_MAKE|Resend|webhook|supabase/iu);
   assert.doesNotMatch(runtime, /vercel\.app|api\.resend\.com|hook\.[a-z]/iu);
   assert.match(runtime, /YandexSmtpDeliveryClient/u);
   assert.match(runtime, /smtp\.yandex\.ru/u);
 });
 
-test("SMTP environment contract contains placeholders and no committed credentials", async () => {
-  const environmentExample = await readFile("services/rfq-intake/.env.example", "utf8");
-  assert.match(environmentExample, /RFQ_SMTP_PASSWORD=SET_MANUALLY/u);
-  assert.match(environmentExample, /RFQ_SMTP_USER=SET_MANUALLY/u);
-  assert.match(environmentExample, /RFQ_SMTP_FROM=SET_MANUALLY/u);
-  assert.match(environmentExample, /RFQ_SMTP_TO=SET_MANUALLY/u);
-  assert.doesNotMatch(environmentExample, /RFQ_MAKE|RFQ_RESEND/u);
+test("split environment contracts keep SMTP credentials out of intake", async () => {
+  const [intakeEnvironment, workerEnvironment] = await Promise.all([
+    readFile("services/rfq-intake/intake.env.example", "utf8"),
+    readFile("services/rfq-intake/worker.env.example", "utf8"),
+  ]);
+  assert.doesNotMatch(intakeEnvironment, /RFQ_SMTP_/u);
+  assert.match(workerEnvironment, /RFQ_SMTP_PASSWORD=SET_MANUALLY/u);
+  assert.match(workerEnvironment, /RFQ_SMTP_USER=SET_MANUALLY/u);
+  assert.match(workerEnvironment, /RFQ_SMTP_FROM=SET_MANUALLY/u);
+  assert.match(workerEnvironment, /RFQ_SMTP_TO=SET_MANUALLY/u);
+  assert.doesNotMatch(`${intakeEnvironment}\n${workerEnvironment}`, /RFQ_MAKE|RFQ_RESEND/u);
 });
 
 test("SQL contract is local-primary, status-aware, consent-evidenced and least-privilege", async () => {
@@ -539,6 +548,60 @@ test("runtime config refuses remote database and public service bindings", () =>
     ...base,
     RFQ_INTAKE_HOST: "0.0.0.0",
   }), /loopback/u);
+});
+
+test("intake and worker are separate hardened systemd services", async () => {
+  const [intakeUnit, workerUnit, intakeMain, workerMain] = await Promise.all([
+    readFile("infra/systemd/rfq-intake.service", "utf8"),
+    readFile("infra/systemd/rfq-worker.service", "utf8"),
+    readFile("services/rfq-intake/server.ts", "utf8"),
+    readFile("services/rfq-intake/worker-main.ts", "utf8"),
+  ]);
+  assert.match(intakeUnit, /EnvironmentFile=\/etc\/cybermedica\/rfq-intake\.env/u);
+  assert.match(workerUnit, /EnvironmentFile=\/etc\/cybermedica\/rfq-worker\.env/u);
+  assert.match(intakeUnit, /services\/rfq-intake\/server\.ts/u);
+  assert.match(workerUnit, /services\/rfq-intake\/worker-main\.ts/u);
+  assert.match(`${intakeUnit}\n${workerUnit}`, /NoNewPrivileges=true/u);
+  assert.doesNotMatch(intakeMain, /YandexSmtpDeliveryClient|startDeliveryWorker/u);
+  assert.match(workerMain, /YandexSmtpDeliveryClient/u);
+});
+
+test("runtime SQL role has no delete, DDL, ownership, or broad update grant", async () => {
+  const [grants, applySchema] = await Promise.all([
+    readFile("infra/postgresql/rfq-runtime-grants.sql", "utf8"),
+    readFile("infra/postgresql/apply-rfq-schema.sql", "utf8"),
+  ]);
+  assert.match(grants, /GRANT SELECT, INSERT ON TABLE public\.rfq_leads/u);
+  assert.match(grants, /GRANT UPDATE \([\s\S]*delivery_status[\s\S]*updated_at[\s\S]*\) ON TABLE public\.rfq_leads/u);
+  assert.match(grants, /REVOKE CREATE ON SCHEMA public FROM PUBLIC/u);
+  assert.doesNotMatch(grants, /GRANT\s+(?:ALL|DELETE|CREATE|TRUNCATE)/iu);
+  assert.doesNotMatch(grants, /ALTER\s+(?:DATABASE|SCHEMA|TABLE)[\s\S]*OWNER TO cybermedica_rfq_runtime/iu);
+  assert.match(applySchema, /SET ROLE :"rfq_owner_role"/u);
+  assert.match(applySchema, /rfq-runtime-grants\.sql/u);
+});
+
+test("PostgreSQL 17 target is loopback-only and configured not to log statements or parameters", async () => {
+  const [postgres, hba] = await Promise.all([
+    readFile("infra/postgresql/postgresql-rfq.conf.example", "utf8"),
+    readFile("infra/postgresql/pg-hba-rfq.conf.example", "utf8"),
+  ]);
+  assert.match(postgres, /listen_addresses = '127\.0\.0\.1,::1'/u);
+  assert.match(postgres, /password_encryption = 'scram-sha-256'/u);
+  assert.match(postgres, /log_statement = 'none'/u);
+  assert.match(postgres, /log_parameter_max_length_on_error = 0/u);
+  const activeHba = hba.split("\n").filter((line) => !line.trim().startsWith("#")).join("\n");
+  assert.doesNotMatch(activeHba, /0\.0\.0\.0\/0|::\/0/u);
+  assert.match(hba, /127\.0\.0\.1\/32\s+scram-sha-256/u);
+  assert.match(hba, /::1\/128\s+scram-sha-256/u);
+});
+
+test("SMTP TLS preflight cannot authenticate, submit an envelope, or read credentials", async () => {
+  const preflight = await readFile("scripts/qa/rfq-smtp-tls-preflight.ts", "utf8");
+  assert.match(preflight, /const HOST = "smtp\.yandex\.ru"/u);
+  assert.match(preflight, /const PORT = 465/u);
+  assert.match(preflight, /minVersion: "TLSv1\.2"/u);
+  assert.match(preflight, /applicationDataSent: false/u);
+  assert.doesNotMatch(preflight, /RFQ_SMTP_(?:USER|PASSWORD|FROM|TO)|sendMail|socket\.write|AUTH\s|MAIL FROM|RCPT TO|DATA\r?\n/u);
 });
 
 test("Product context uses the checksum-validated published snapshot", async () => {

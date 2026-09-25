@@ -6,9 +6,14 @@ export interface RfqIntakeConfig {
   databaseUrl: string;
   host: "127.0.0.1" | "::1";
   port: number;
-  smtp: YandexSmtpConfig;
   rateLimitSecret: string;
   catalogSnapshotPath: string;
+  retentionDays: number | null;
+}
+
+export interface RfqWorkerConfig {
+  databaseUrl: string;
+  smtp: YandexSmtpConfig;
   deliveryPollMs: number;
   deliveryMaxAttempts: number;
   deliveryLeaseSeconds: number;
@@ -127,12 +132,21 @@ export function readRfqIntakeConfig(
     databaseUrl: localDatabaseUrl(required(environment, "RFQ_DATABASE_URL")),
     host,
     port: integer(environment, "RFQ_INTAKE_PORT", 8787, 1_024, 65_535),
-    smtp: smtpConfig(environment),
     rateLimitSecret,
     catalogSnapshotPath: resolve(
       environment.RFQ_CATALOG_SNAPSHOT_PATH?.trim()
         || "data/published-catalog-last-known-good.json",
     ),
+    retentionDays: optionalRetentionDays(environment),
+  };
+}
+
+export function readRfqWorkerConfig(
+  environment: Environment = process.env,
+): RfqWorkerConfig {
+  return {
+    databaseUrl: localDatabaseUrl(required(environment, "RFQ_DATABASE_URL")),
+    smtp: smtpConfig(environment),
     deliveryPollMs: integer(environment, "RFQ_DELIVERY_POLL_MS", 5_000, 500, 60_000),
     deliveryMaxAttempts: integer(environment, "RFQ_DELIVERY_MAX_ATTEMPTS", 12, 1, 100),
     deliveryLeaseSeconds: integer(environment, "RFQ_DELIVERY_LEASE_SECONDS", 60, 10, 600),

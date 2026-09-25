@@ -1,13 +1,11 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 
 import { readRfqIntakeConfig } from "./config.ts";
-import { YandexSmtpDeliveryClient } from "./delivery.ts";
 import { handleRfqIntake, type IntakeResponse } from "./intake.ts";
 import { safeLogger } from "./logger.ts";
 import { SnapshotProductContextResolver } from "./product-catalog.ts";
 import { HashedRateLimiter } from "./rate-limit.ts";
 import { PostgresRfqRepository } from "./repository.ts";
-import { startDeliveryWorker } from "./worker.ts";
 
 const MAX_REQUEST_BYTES = 100_000;
 
@@ -74,17 +72,7 @@ async function main() {
     config.catalogSnapshotPath,
   );
   const rateLimiter = new HashedRateLimiter(config.rateLimitSecret);
-  const deliveryClient = new YandexSmtpDeliveryClient(config.smtp);
   await repository.healthCheck();
-
-  const stopWorker = startDeliveryWorker({
-    repository,
-    deliveryClient,
-    logger: safeLogger,
-    maxAttempts: config.deliveryMaxAttempts,
-    leaseSeconds: config.deliveryLeaseSeconds,
-    pollMs: config.deliveryPollMs,
-  });
 
   const server = createServer(async (request, response) => {
     const startedAt = Date.now();
@@ -172,7 +160,6 @@ async function main() {
   const shutdown = async () => {
     if (shuttingDown) return;
     shuttingDown = true;
-    stopWorker();
     await new Promise<void>((resolve, reject) => {
       server.close((error) => error ? reject(error) : resolve());
     });

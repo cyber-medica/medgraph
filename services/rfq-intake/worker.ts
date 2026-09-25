@@ -65,18 +65,18 @@ export function startDeliveryWorker(
 ) {
   let stopped = false;
   let timer: NodeJS.Timeout | null = null;
+  let inFlight: Promise<void> | null = null;
 
-  const schedule = () => {
+  const schedule = (delayMs: number) => {
     if (stopped) return;
-    timer = setTimeout(run, dependencies.pollMs);
-    timer.unref();
+    timer = setTimeout(startRun, delayMs);
   };
   const run = async () => {
     if (stopped) return;
     try {
       const result = await runDeliveryCycle(dependencies);
       if (result !== "idle") {
-        queueMicrotask(() => void run());
+        schedule(0);
         return;
       }
     } catch {
@@ -84,12 +84,21 @@ export function startDeliveryWorker(
         errorClass: "worker_cycle_error",
       });
     }
-    schedule();
+    schedule(dependencies.pollMs);
+  };
+  const startRun = () => {
+    if (stopped || inFlight) return;
+    const current = run();
+    inFlight = current;
+    void current.finally(() => {
+      if (inFlight === current) inFlight = null;
+    });
   };
 
-  void run();
-  return () => {
+  startRun();
+  return async () => {
     stopped = true;
     if (timer) clearTimeout(timer);
+    await inFlight;
   };
 }
