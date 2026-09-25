@@ -53,12 +53,16 @@ test("recognized legacy brand filters normalize and unsupported filters clean to
 });
 
 test("proxy owns legacy redirects as real 301 responses before route existence checks", async () => {
-  const proxy = await readFile("proxy.ts", "utf8");
-  const redirect = proxy.indexOf("resolveLegacyProductionRedirect(request.nextUrl)");
+  const [proxy, response] = await Promise.all([
+    readFile("proxy.ts", "utf8"),
+    readFile("lib/seo/legacy-production-response.ts", "utf8"),
+  ]);
+  const redirect = proxy.indexOf("buildLegacyProductionResponse(request.nextUrl)");
   const manufacturerGuard = proxy.indexOf("const manufacturerSlug =");
   assert.ok(redirect >= 0 && redirect < manufacturerGuard);
-  assert.match(proxy, /NextResponse\.redirect\([\s\S]+?301/u);
+  assert.match(response, /status:\s*301/u);
   assert.match(proxy, /"\/catalog\/tproduct\/:path\*"/u);
+  assert.match(proxy, /"\/catalog\/product\/:path\*"/u);
   assert.match(proxy, /"\/catalog"/u);
   const canonicalCatalogPassThrough = proxy.indexOf(
     'request.nextUrl.pathname === "/catalog"',

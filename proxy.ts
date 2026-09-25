@@ -8,7 +8,7 @@ import {
   createInternalAuthRouteClient,
 } from "@/lib/internal-auth/supabase.server";
 import { SEO_P0_PATHS } from "@/lib/seo/paths";
-import { resolveLegacyProductionRedirect } from "@/lib/seo/legacy-production-redirects";
+import { buildLegacyProductionResponse } from "@/lib/seo/legacy-production-response";
 import { readPublicManufacturerSlugExistence } from "@/lib/storefront/manufacturer-slug-existence.server";
 import { readVisibleProductSlugExistence } from "@/lib/storefront/product-slug-existence.server";
 
@@ -24,13 +24,8 @@ export function manufacturerSlugFromPathname(pathname: string) {
 }
 
 export async function proxy(request: NextRequest) {
-  const legacyDestination = resolveLegacyProductionRedirect(request.nextUrl);
-  if (legacyDestination) {
-    return NextResponse.redirect(
-      new URL(legacyDestination, request.nextUrl.origin),
-      301,
-    );
-  }
+  const legacyResponse = buildLegacyProductionResponse(request.nextUrl);
+  if (legacyResponse) return legacyResponse;
 
   const manufacturerSlug = manufacturerSlugFromPathname(request.nextUrl.pathname);
   if (manufacturerSlug) {
@@ -87,6 +82,7 @@ export const config = {
   matcher: [
     "/catalog",
     "/catalog/tproduct/:path*",
+    "/catalog/product/:path*",
     "/catalog/:slug",
     "/manufacturers/:slug",
     "/internal/review/:path*",
