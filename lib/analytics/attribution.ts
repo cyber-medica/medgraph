@@ -24,6 +24,13 @@ export interface AttributionEnvelope {
   lastTouch: AttributionTouch;
 }
 
+export interface FlattenedAttribution extends Partial<Record<AttributionParameterName, string>> {
+  landingPath?: string;
+  initialReferrer?: string;
+  firstTouch?: AttributionTouch;
+  lastTouch?: AttributionTouch;
+}
+
 const MAX_VALUE_LENGTH = 240;
 
 function normalizeValue(value: unknown, limit = MAX_VALUE_LENGTH) {
@@ -32,10 +39,15 @@ function normalizeValue(value: unknown, limit = MAX_VALUE_LENGTH) {
   return normalized || undefined;
 }
 
-function normalizePath(value: unknown) {
+export function normalizeAttributionPath(value: unknown) {
   const normalized = normalizeValue(value, 500);
-  if (!normalized?.startsWith("/")) return "/";
-  return normalized;
+  if (!normalized?.startsWith("/") || normalized.startsWith("//")) return "/";
+  const queryIndex = normalized.indexOf("?");
+  const fragmentIndex = normalized.indexOf("#");
+  const end = [queryIndex, fragmentIndex]
+    .filter((index) => index >= 0)
+    .reduce((smallest, index) => Math.min(smallest, index), normalized.length);
+  return normalized.slice(0, end) || "/";
 }
 
 function normalizeReferrer(value: unknown) {
@@ -64,7 +76,7 @@ export function buildAttributionTouch(
   const touch: AttributionTouch = {
     capturedAt: capturedAt.toISOString(),
     initialReferrer: normalizeReferrer(referrer),
-    landingPath: `${url.pathname}${url.search}`.slice(0, 500),
+    landingPath: normalizeAttributionPath(url.pathname),
   };
 
   for (const name of ATTRIBUTION_PARAMETER_NAMES) {
@@ -123,7 +135,7 @@ function parseAttributionTouch(value: unknown): AttributionTouch | null {
   const touch: AttributionTouch = {
     capturedAt,
     initialReferrer: normalizeReferrer(candidate.initialReferrer),
-    landingPath: normalizePath(candidate.landingPath),
+    landingPath: normalizeAttributionPath(candidate.landingPath),
   };
   for (const name of ATTRIBUTION_PARAMETER_NAMES) {
     const normalized = normalizeValue(candidate[name]);
@@ -132,7 +144,7 @@ function parseAttributionTouch(value: unknown): AttributionTouch | null {
   return touch;
 }
 
-export function flattenAttribution(envelope: AttributionEnvelope | null) {
+export function flattenAttribution(envelope: AttributionEnvelope | null): FlattenedAttribution {
   if (!envelope) return {};
   const lastTouch = envelope.lastTouch;
   return {

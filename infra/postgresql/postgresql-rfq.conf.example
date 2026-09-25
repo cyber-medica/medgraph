@@ -1,0 +1,11 @@
+# PostgreSQL 17 rollout snippet. Apply only to the dedicated Timeweb VPS after
+# taking a configuration backup. It is not loaded by this repository.
+listen_addresses = '127.0.0.1,::1'
+port = 5432
+password_encryption = 'scram-sha-256'
+ssl_min_protocol_version = 'TLSv1.2'
+log_connections = off
+log_disconnections = off
+log_statement = 'none'
+log_min_error_statement = panic
+log_parameter_max_length_on_error = 0

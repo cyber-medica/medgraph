@@ -6,6 +6,13 @@ import {
   flattenAttribution,
   parseAttributionEnvelope,
 } from "@/lib/analytics/attribution";
+import {
+  RFQ_CONSENT_VERSION,
+  RFQ_LEGAL_VERSION_MISMATCH_MESSAGE,
+  RFQ_POLICY_VERSION,
+  hasCurrentRfqLegalVersions,
+} from "@/lib/privacy/legal-documents";
+import { RFQ_CONSENT_TEXT_SHA256 } from "@/lib/privacy/legal-document-hash";
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -175,6 +182,16 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!hasCurrentRfqLegalVersions({
+    consentVersion: formData.get("consentVersion"),
+    policyVersion: formData.get("policyVersion"),
+  })) {
+    return NextResponse.json(
+      { ok: false, error: RFQ_LEGAL_VERSION_MISMATCH_MESSAGE },
+      { status: 409 },
+    );
+  }
+
   const createdAt = new Date().toISOString();
   const lead = {
     id: crypto.randomUUID(),
@@ -183,6 +200,10 @@ export async function POST(request: Request) {
     phone: readField(formData, "phone"),
     email: readField(formData, "email"),
     message: readField(formData, "message"),
+    consentVersion: RFQ_CONSENT_VERSION,
+    consentTextSha256: RFQ_CONSENT_TEXT_SHA256,
+    policyVersion: RFQ_POLICY_VERSION,
+    consentAt: createdAt,
     createdAt,
     receivedAt: createdAt,
   };

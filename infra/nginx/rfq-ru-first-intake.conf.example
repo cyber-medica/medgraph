@@ -1,0 +1,41 @@
+# Add this exact-match block before the existing generic Vercel proxy location.
+# It is a rollout artifact only: this PR does not apply it to Production.
+location = /api/request {
+    # The browser body is passed through unchanged to a loopback-only service.
+    # Nginx keeps the body in memory; the service enforces the exact 100,000-byte
+    # JSON error boundary. The small margin lets that response stay compatible.
+    client_max_body_size 110k;
+    client_body_buffer_size 128k;
+
+    access_log off;
+    # Nginx cannot reliably redact query strings from error records. The local
+    # application health/log stream is the observability boundary for this route.
+    error_log /dev/null emerg;
+    proxy_intercept_errors off;
+    proxy_request_buffering on;
+    proxy_buffering off;
+    proxy_cache off;
+
+    proxy_pass http://127.0.0.1:8787;
+    proxy_http_version 1.1;
+    proxy_set_header Host 127.0.0.1:8787;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header Content-Type $content_type;
+    proxy_set_header Content-Length $content_length;
+
+    proxy_connect_timeout 2s;
+    proxy_send_timeout 15s;
+    proxy_read_timeout 15s;
+}
+
+# All other routes remain on the existing Vercel upstream, unchanged. For example:
+# location / {
+#     proxy_pass https://medgraph-three.vercel.app;
+#     proxy_ssl_server_name on;
+#     proxy_ssl_name medgraph-three.vercel.app;
+#     proxy_set_header Host medgraph-three.vercel.app;
+#     proxy_set_header X-Forwarded-Host $host;
+# }
