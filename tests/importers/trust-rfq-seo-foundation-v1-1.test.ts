@@ -133,14 +133,16 @@ test("non-commercial query variants are noindex candidates while UTM and yclid s
 });
 
 test("legal pages are real linked documents and contain no placeholder data", async () => {
-  const [privacy, consent] = await Promise.all([
+  const [privacy, consent, legalSource] = await Promise.all([
     readFile("app/privacy/page.tsx", "utf8"),
     readFile("app/personal-data-consent/page.tsx", "utf8"),
+    readFile("lib/privacy/legal-documents.ts", "utf8"),
   ]);
   for (const source of [privacy, consent]) {
-    assert.match(source, /PUBLIC_COMPANY\.legalName/u);
-    assert.match(source, /PUBLIC_COMPANY\.inn/u);
+    assert.match(source, /LegalDocumentView/u);
     assert.match(source, /noindexFollow:\s*true/u);
     assert.doesNotMatch(source, /TODO|PLACEHOLDER|уточняется|example\.com/iu);
   }
+  assert.match(legalSource, /PUBLIC_COMPANY\.legalName/u);
+  assert.match(legalSource, /PUBLIC_COMPANY\.inn/u);
 });

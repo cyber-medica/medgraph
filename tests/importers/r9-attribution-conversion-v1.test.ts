@@ -52,8 +52,10 @@ test("R9 stores first and last touch for 30 days without referrer query leakage"
   const merged = mergeAttribution(initial, second, secondTime);
 
   assert.equal(merged.firstTouch.utm_source, "yandex-direct");
+  assert.equal(merged.firstTouch.landingPath, "/catalog");
   assert.equal(merged.firstTouch.initialReferrer, "https://yandex.ru/search/");
   assert.equal(merged.lastTouch.utm_campaign, "42_endoscopy");
+  assert.equal(merged.lastTouch.landingPath, "/catalog/model");
   assert.equal(merged.lastTouch.initialReferrer, "https://example.org/path");
   assert.equal(
     Date.parse(merged.expiresAt) - secondTime.getTime(),

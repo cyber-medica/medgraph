@@ -1,0 +1,6 @@
+# Keep local administrator access first. Runtime TCP access is loopback-only and
+# uses SCRAM. Do not add 0.0.0.0/0, ::/0, LAN or public-host rules.
+local   all               postgres                         peer
+local   cybermedica_rfq   cybermedica_rfq_owner            peer
+host    cybermedica_rfq   cybermedica_rfq_runtime  127.0.0.1/32  scram-sha-256
+host    cybermedica_rfq   cybermedica_rfq_runtime  ::1/128       scram-sha-256

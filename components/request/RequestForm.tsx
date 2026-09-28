@@ -9,11 +9,15 @@ import { readBrowserAttribution, trackRfqEvent } from "@/lib/analytics/events";
 interface RequestFormProps {
   initialMessage?: string;
   productContext?: RequestProductContext;
+  consentVersion: string;
+  policyVersion: string;
 }
 
 export default function RequestForm({
   initialMessage = "",
   productContext,
+  consentVersion,
+  policyVersion,
 }: RequestFormProps) {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -221,7 +225,13 @@ export default function RequestForm({
           rows={6}
           className={fieldClassName}
         />
+        <span className="mt-2 block text-[11px] leading-5 text-cm-dim">
+          Не указывайте в запросе персональные данные пациентов и других третьих лиц.
+        </span>
       </label>
+
+      <input type="hidden" name="consentVersion" value={consentVersion} />
+      <input type="hidden" name="policyVersion" value={policyVersion} />
 
       <input
         name="website"
@@ -240,9 +250,13 @@ export default function RequestForm({
           className="mt-1 size-4 shrink-0 accent-[var(--cm-teal)]"
         />
         <span>
-          Я даю <Link className="font-semibold text-cm-teal underline" href="/personal-data-consent" target="_blank" rel="noreferrer">согласие на обработку персональных данных</Link> и подтверждаю, что ознакомлен(а) с <Link className="font-semibold text-cm-teal underline" href="/privacy" target="_blank" rel="noreferrer">политикой конфиденциальности</Link>.
+          Я даю согласие на обработку персональных данных на условиях <Link className="font-semibold text-cm-teal underline" href="/personal-data-consent" target="_blank" rel="noreferrer">Согласия</Link>.
         </span>
       </label>
+
+      <p className="text-[11px] leading-5 text-cm-dim">
+        Обработка персональных данных осуществляется в соответствии с <Link className="font-semibold text-cm-teal underline" href="/privacy" target="_blank" rel="noreferrer">Политикой обработки персональных данных</Link>.
+      </p>
 
       {error && (
         <div

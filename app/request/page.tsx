@@ -6,6 +6,10 @@ import { resolveRequestProductContext } from "@/lib/request/product-context";
 import { catalogRepository, productService } from "@/lib/storefront";
 import { buildStorefrontMetadata } from "@/lib/storefront/seo";
 import { hasNonAttributionQueryParameter } from "@/lib/seo/query-indexing-hygiene";
+import {
+  RFQ_CONSENT_VERSION,
+  RFQ_POLICY_VERSION,
+} from "@/lib/privacy/legal-documents";
 
 const requestDescription =
   "Пришлите техническое задание на медицинское оборудование: подготовим подбор, проверку соответствия и коммерческое предложение.";
@@ -94,6 +98,8 @@ export default async function RequestPage({
           <RequestForm
             initialMessage={initialMessage}
             productContext={productContext ?? undefined}
+            consentVersion={RFQ_CONSENT_VERSION}
+            policyVersion={RFQ_POLICY_VERSION}
           />
         </div>
       </section>
