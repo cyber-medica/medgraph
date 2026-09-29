@@ -4,10 +4,6 @@ import { readFile } from "node:fs/promises";
 
 import nextConfig from "../../next.config.ts";
 import {
-  preCorrectiveStylesheetBridges,
-  previousCanonicalAssetOrigin,
-} from "../../next.config.ts";
-import {
   EXPECTED_PRODUCTION_FRONT_DOOR,
   assertCanonicalProductionDelivery,
   assertNoLegacyPageShell,
@@ -78,20 +74,11 @@ test("routing header values reject unsafe or missing environment input", () => {
   assert.equal(safeRoutingHeaderValue(undefined, "untracked"), "untracked");
 });
 
-test("stale pre-corrective assets have a narrow previous-deployment fallback", async () => {
-  const rewrites = await nextConfig.rewrites?.();
-  assert.ok(rewrites && !Array.isArray(rewrites));
-  assert.deepEqual(rewrites.beforeFiles, [
-    {
-      source: "/_next/static/chunks/2oenka20_-bmt.css",
-      destination: `${previousCanonicalAssetOrigin}/_next/static/chunks/2oenka20_-bmt.css`,
-    },
-  ]);
-  assert.deepEqual(rewrites.beforeFiles, preCorrectiveStylesheetBridges);
-  assert.deepEqual(rewrites.afterFiles, []);
-  assert.deepEqual(rewrites.fallback, []);
-  assert.ok(rewrites.beforeFiles.every(({ source }) => source.endsWith(".css")));
-  assert.ok(rewrites.beforeFiles.every(({ source }) => !source.includes(":path")));
+test("production assets have no external stylesheet rewrite", async () => {
+  const source = await readFile("next.config.ts", "utf8");
+  assert.equal(nextConfig.rewrites, undefined);
+  assert.doesNotMatch(source, /medgraph-qwz6kflq8-medgraph\.vercel\.app/u);
+  assert.doesNotMatch(source, /2oenka20_-bmt\.css/u);
 });
 
 test("stylesheet gate rejects missing, wrong-MIME and HTML responses", () => {
