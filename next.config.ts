@@ -170,6 +170,7 @@ const nextConfig: NextConfig = {
         "/auth/callback",
         "/internal/login",
         "/internal/review/hamilton-t1",
+        "/internal/auth/local/:path*",
       ].map((source) => ({ source, headers: [...internalAuthHeaders] })),
       // Keep QA/debug parameters available to the requested route while
       // preventing those URL variants from becoming separate search results.
