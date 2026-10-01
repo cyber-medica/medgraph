@@ -1,8 +1,13 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import type { PublishedCatalogProjection } from "../../lib/published-catalog/contracts.ts";
 import { CloudPublishedCatalogRepositoryError } from "../../lib/storefront/cloud-published-response.ts";
+import {
+  PublishedCatalogReleaseGateError,
+  runPublishedCatalogReleaseGate,
+} from "../../lib/storefront/published-catalog-release-gate.ts";
 import {
   BUNDLED_PUBLISHED_CATALOG_SNAPSHOT,
   calculateProjectionDocumentChecksum,
@@ -15,6 +20,7 @@ import {
   PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS,
   PublishedCatalogRequestPathRefresh,
   readPublishedCatalogHealth,
+  type PublishedCatalogHealth,
 } from "../../lib/storefront/published-catalog-resilience.ts";
 
 function liveProjection(): PublishedCatalogProjection {
@@ -394,4 +400,226 @@ test("request path fails closed when no trustworthy snapshot exists", () => {
     CloudPublishedCatalogRepositoryError,
   );
   assert.equal(refreshCalls, 0);
+});
+
+test("release gate passes only after a valid authoritative refresh", async () => {
+  const now = Date.parse(BUNDLED_PUBLISHED_CATALOG_SNAPSHOT.capturedAt) + 1_000;
+  let authoritativeCalls = 0;
+  const health = await runPublishedCatalogReleaseGate({
+    runAuthoritativeCheck: async () => {
+      await loadResilientPublishedCatalogProjection({
+        request: async () => {
+          authoritativeCalls += 1;
+          return response(liveProjection());
+        },
+        rethrowFrameworkError: noFrameworkError,
+        now: () => now,
+      });
+      return { authoritativeCheckCompleted: true };
+    },
+    readHealth: () => readPublishedCatalogHealth(now),
+  });
+
+  assert.equal(authoritativeCalls, 1);
+  assert.equal(health.liveTransport, "healthy");
+  assert.equal(health.fallbackActive, false);
+  assert.equal(health.snapshotStale, false);
+  assert.equal(health.lastSuccessfulRefresh, new Date(now).toISOString());
+  assert.equal(isPublishedCatalogOperationallyCurrent(health), true);
+});
+
+test("release gate rejects fresh and stale fallbacks while public LKG stays serveable", async () => {
+  const snapshot = BUNDLED_PUBLISHED_CATALOG_SNAPSHOT;
+  const capturedAt = Date.parse(snapshot.capturedAt);
+  const cases = [
+    {
+      name: "fresh",
+      now: capturedAt + PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS - 1_000,
+      stale: false,
+    },
+    {
+      name: "stale",
+      now: capturedAt + PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS + 1_000,
+      stale: true,
+    },
+  ] as const;
+
+  for (const item of cases) {
+    Reflect.deleteProperty(globalThis, runtimeStateKey);
+    let publicProjection: PublishedCatalogProjection | undefined;
+    await assert.rejects(
+      runPublishedCatalogReleaseGate({
+        runAuthoritativeCheck: async () => {
+          publicProjection = await loadResilientPublishedCatalogProjection({
+            request: async () => response({}, 503),
+            rethrowFrameworkError: noFrameworkError,
+            delay: async () => undefined,
+            now: () => item.now,
+          });
+          return { authoritativeCheckCompleted: true };
+        },
+        readHealth: () => readPublishedCatalogHealth(item.now),
+      }),
+      PublishedCatalogReleaseGateError,
+      `${item.name} fallback must fail the release gate`,
+    );
+    assert.deepEqual(publicProjection, snapshot.projection);
+    const health = readPublishedCatalogHealth(item.now);
+    assert.equal(health.fallbackActive, true);
+    assert.equal(health.snapshotStale, item.stale);
+    assert.equal(health.lastSuccessfulRefresh, null);
+    assert.equal(isPublishedCatalogOperationallyCurrent(health), false);
+  }
+});
+
+test("invalid, partial and regressed projections fail the gate without replacing LKG", async () => {
+  const snapshot = BUNDLED_PUBLISHED_CATALOG_SNAPSHOT;
+  const invalid = { invalid: true };
+  const partial = liveProjection();
+  partial.products = [];
+  partial.summary.productCount = 0;
+  const regressed = liveProjection();
+  regressed.generatedAt = new Date(
+    Date.parse(snapshot.projection.generatedAt) - 1_000,
+  ).toISOString();
+
+  for (const value of [invalid, partial, regressed]) {
+    Reflect.deleteProperty(globalThis, runtimeStateKey);
+    let served: PublishedCatalogProjection | undefined;
+    await assert.rejects(
+      runPublishedCatalogReleaseGate({
+        runAuthoritativeCheck: async () => {
+          served = await loadResilientPublishedCatalogProjection({
+            request: async () => response(value),
+            rethrowFrameworkError: noFrameworkError,
+            delay: async () => undefined,
+          });
+          return { authoritativeCheckCompleted: true };
+        },
+        readHealth: readPublishedCatalogHealth,
+      }),
+      PublishedCatalogReleaseGateError,
+    );
+    assert.deepEqual(served, snapshot.projection);
+    assert.equal(
+      calculateProjectionDocumentChecksum(served!),
+      snapshot.projectionDocumentChecksum,
+    );
+    assert.equal(readPublishedCatalogHealth().fallbackActive, true);
+  }
+});
+
+test("release gate fails closed without a trustworthy snapshot or an executed check", async () => {
+  let authoritativeCalls = 0;
+  await assert.rejects(
+    runPublishedCatalogReleaseGate({
+      runAuthoritativeCheck: async () => {
+        await loadResilientPublishedCatalogProjection({
+          request: async () => {
+            authoritativeCalls += 1;
+            return response({}, 503);
+          },
+          rethrowFrameworkError: noFrameworkError,
+          delay: async () => undefined,
+          snapshot: null,
+        });
+        return { authoritativeCheckCompleted: true };
+      },
+      readHealth: readPublishedCatalogHealth,
+    }),
+    PublishedCatalogReleaseGateError,
+  );
+  assert.equal(authoritativeCalls, PUBLISHED_CATALOG_ATTEMPTS);
+
+  const apparentlyCurrent: PublishedCatalogHealth = {
+    liveTransport: "healthy",
+    source: "live",
+    projectionVersion: 1,
+    projectionChecksumPrefix: "0".repeat(12),
+    lastKnownGoodAgeSeconds: 0,
+    snapshotProductCount: 114,
+    fallbackActive: false,
+    snapshotStale: false,
+    lastSuccessfulRefresh: new Date().toISOString(),
+    retryCount: 0,
+  };
+  await assert.rejects(
+    runPublishedCatalogReleaseGate({
+      runAuthoritativeCheck: async () => ({ authoritativeCheckCompleted: false }),
+      readHealth: () => apparentlyCurrent,
+    }),
+    PublishedCatalogReleaseGateError,
+  );
+});
+
+test("authoritative recovery records a real refresh and clears the release gate", async () => {
+  const snapshot = BUNDLED_PUBLISHED_CATALOG_SNAPSHOT;
+  const outageAt = Date.parse(snapshot.capturedAt) + PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS + 1_000;
+  await assert.rejects(
+    runPublishedCatalogReleaseGate({
+      runAuthoritativeCheck: async () => {
+        await loadResilientPublishedCatalogProjection({
+          request: async () => response({}, 503),
+          rethrowFrameworkError: noFrameworkError,
+          delay: async () => undefined,
+          now: () => outageAt,
+        });
+        return { authoritativeCheckCompleted: true };
+      },
+      readHealth: () => readPublishedCatalogHealth(outageAt),
+    }),
+    PublishedCatalogReleaseGateError,
+  );
+  const failedHealth = readPublishedCatalogHealth(outageAt);
+  assert.equal(failedHealth.lastSuccessfulRefresh, null);
+  assert.equal(failedHealth.snapshotStale, true);
+
+  const recovered = liveProjection();
+  recovered.generatedAt = new Date(
+    Date.parse(snapshot.projection.generatedAt) + 1_000,
+  ).toISOString();
+  recovered.products[0].title = `${recovered.products[0].title} release recovery`;
+  const recoveryAt = outageAt + 1_000;
+  const recoveredHealth = await runPublishedCatalogReleaseGate({
+    runAuthoritativeCheck: async () => {
+      await loadResilientPublishedCatalogProjection({
+        request: async () => response(recovered),
+        rethrowFrameworkError: noFrameworkError,
+        now: () => recoveryAt,
+      });
+      return { authoritativeCheckCompleted: true };
+    },
+    readHealth: () => readPublishedCatalogHealth(recoveryAt),
+  });
+
+  assert.equal(recoveredHealth.lastSuccessfulRefresh, new Date(recoveryAt).toISOString());
+  assert.equal(recoveredHealth.fallbackActive, false);
+  assert.equal(recoveredHealth.snapshotStale, false);
+  assert.equal(isPublishedCatalogOperationallyCurrent(recoveredHealth), true);
+  assert.notEqual(recoveredHealth.lastSuccessfulRefresh, snapshot.capturedAt);
+});
+
+test("canonical release verification runs an uncached authoritative check before health evaluation", async () => {
+  const [repository, route, canonicalGate] = await Promise.all([
+    readFile("lib/storefront/cloud-published-catalog-repository.ts", "utf8"),
+    readFile("app/internal/health/catalog/route.ts", "utf8"),
+    readFile("scripts/qa/canonical-routing-gate.ts", "utf8"),
+  ]);
+
+  assert.match(
+    repository,
+    /loadCloudPublishedCatalogFresh = requestCloudPublishedCatalogUncached/u,
+  );
+  assert.match(route, /runAuthoritativeCheck: async \(\) => \{/u);
+  assert.ok(
+    route.indexOf("await runPublishedCatalogReleaseGate")
+      < route.indexOf("const health = readPublishedCatalogHealth"),
+  );
+  for (const field of [
+    "liveTransport",
+    "fallbackActive",
+    "snapshotStale",
+    "operationallyCurrent",
+    "lastSuccessfulRefresh",
+  ]) assert.match(canonicalGate, new RegExp(`healthValue\\.${field}`, "u"));
 });

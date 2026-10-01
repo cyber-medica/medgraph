@@ -99,10 +99,28 @@ for (const path of sitemapPaths) assert.ok(catalogPaths.has(path), `${path} is a
 if (expectedCount > 0) assert.equal(sitemapPaths.size, expectedCount, "published Product count drifted");
 
 const healthValue = JSON.parse(health.text) as {
+  fallbackActive?: unknown;
+  lastSuccessfulRefresh?: unknown;
+  liveTransport?: unknown;
+  operationallyCurrent?: unknown;
   snapshotProductCount?: unknown;
+  snapshotStale?: unknown;
   status?: unknown;
 };
-assert.ok(healthValue.status === "healthy" || healthValue.status === "degraded");
+assert.equal(healthValue.status, "healthy", "published catalog health is not healthy");
+assert.equal(healthValue.liveTransport, "healthy", "authoritative catalog transport is not healthy");
+assert.equal(healthValue.fallbackActive, false, "published catalog fallback is active");
+assert.equal(healthValue.snapshotStale, false, "published catalog snapshot is stale");
+assert.equal(
+  healthValue.operationallyCurrent,
+  true,
+  "published catalog authoritative release check did not pass",
+);
+assert.equal(
+  typeof healthValue.lastSuccessfulRefresh,
+  "string",
+  "published catalog authoritative refresh timestamp is missing",
+);
 assert.equal(healthValue.snapshotProductCount, sitemapPaths.size);
 
 const stableDetailPath = [...sitemapPaths].sort()[0];

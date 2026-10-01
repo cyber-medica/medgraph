@@ -139,9 +139,7 @@ export const loadCloudPublishedCatalog = cache(requestCloudPublishedCatalog);
  * Health diagnostics intentionally bypass the shared read cache so a cached
  * live projection can never be reported as proof of current transport health.
  */
-export const loadCloudPublishedCatalogFresh = cache(
-  requestCloudPublishedCatalogUncached,
-);
+export const loadCloudPublishedCatalogFresh = requestCloudPublishedCatalogUncached;
 
 export class CloudPublishedCatalogRepository implements CatalogRepository {
   private readonly loadCatalog: CatalogLoader;
