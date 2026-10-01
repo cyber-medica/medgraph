@@ -14,6 +14,7 @@ import {
 export const PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS = [8_000, 2_500] as const;
 export const PUBLISHED_CATALOG_ATTEMPTS = PUBLISHED_CATALOG_ATTEMPT_TIMEOUTS_MS.length;
 export const PUBLISHED_CATALOG_BACKOFF_MS = [250] as const;
+export const PUBLISHED_CATALOG_REFRESH_INTERVAL_MS = 60_000;
 export const PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1_000;
 
 type SnapshotEnvelope = Readonly<{
@@ -34,6 +35,7 @@ export type PublishedCatalogHealth = Readonly<{
   lastKnownGoodAgeSeconds: number;
   snapshotProductCount: number;
   fallbackActive: boolean;
+  snapshotStale: boolean;
   lastSuccessfulRefresh: string | null;
   retryCount: number;
 }>;
@@ -45,6 +47,72 @@ type RuntimeState = {
 
 const checksumPattern = /^[a-f0-9]{64}$/u;
 const runtimeStateKey = Symbol.for("cybermedica.publishedCatalogResilience.v1");
+const requestPathRefreshKey = Symbol.for(
+  "cybermedica.publishedCatalogRequestPathRefresh.v1",
+);
+
+/**
+ * Coordinates process-local stale-while-revalidate reads without coupling the
+ * policy to a particular framework cache. A public request always receives an
+ * already validated snapshot synchronously; at most one remote refresh runs in
+ * the background during each refresh interval.
+ */
+export class PublishedCatalogRequestPathRefresh {
+  private refreshInFlight: Promise<void> | null = null;
+  private nextRefreshAt = 0;
+  private readonly now: () => number;
+  private readonly refreshIntervalMs: number;
+
+  constructor(
+    now: () => number = Date.now,
+    refreshIntervalMs = PUBLISHED_CATALOG_REFRESH_INTERVAL_MS,
+  ) {
+    if (!Number.isSafeInteger(refreshIntervalMs) || refreshIntervalMs < 1) {
+      throw new CloudPublishedCatalogRepositoryError("configuration");
+    }
+    this.now = now;
+    this.refreshIntervalMs = refreshIntervalMs;
+  }
+
+  serve(
+    snapshot: PublishedCatalogProjection | null,
+    refresh: () => Promise<PublishedCatalogProjection>,
+  ): PublishedCatalogProjection {
+    if (!snapshot) {
+      throw new CloudPublishedCatalogRepositoryError("configuration");
+    }
+
+    const now = this.now();
+    if (!this.refreshInFlight && now >= this.nextRefreshAt) {
+      this.nextRefreshAt = now + this.refreshIntervalMs;
+      const pending = Promise.resolve()
+        .then(refresh)
+        .then(() => undefined)
+        // The current validated snapshot remains authoritative on refresh
+        // setup failures. Transport and validation failures are classified and
+        // logged inside loadResilientPublishedCatalogProjection.
+        .catch(() => undefined)
+        .finally(() => {
+          if (this.refreshInFlight === pending) this.refreshInFlight = null;
+        });
+      this.refreshInFlight = pending;
+    }
+
+    return snapshot;
+  }
+
+  async waitForRefresh(): Promise<void> {
+    await this.refreshInFlight;
+  }
+}
+
+function requestPathRefresh(): PublishedCatalogRequestPathRefresh {
+  const globalState = globalThis as typeof globalThis & {
+    [requestPathRefreshKey]?: PublishedCatalogRequestPathRefresh;
+  };
+  globalState[requestPathRefreshKey] ??= new PublishedCatalogRequestPathRefresh();
+  return globalState[requestPathRefreshKey];
+}
 
 function parseSnapshot(value: unknown): SnapshotEnvelope {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -87,6 +155,7 @@ function initialHealth(snapshot: SnapshotEnvelope): PublishedCatalogHealth {
     lastKnownGoodAgeSeconds: snapshotAgeSeconds(snapshot),
     snapshotProductCount: snapshot.projection.products.length,
     fallbackActive: true,
+    snapshotStale: snapshotIsStale(snapshot),
     lastSuccessfulRefresh: null,
     retryCount: 0,
   };
@@ -103,6 +172,11 @@ function state(): RuntimeState {
 
 function snapshotAgeSeconds(snapshot: SnapshotEnvelope, now = Date.now()) {
   return Math.max(0, Math.floor((now - Date.parse(snapshot.capturedAt)) / 1_000));
+}
+
+function snapshotIsStale(snapshot: SnapshotEnvelope, now = Date.now()) {
+  return snapshotAgeSeconds(snapshot, now)
+    > PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS / 1_000;
 }
 
 function logCatalogRead(input: Readonly<{
@@ -217,6 +291,7 @@ export async function loadResilientPublishedCatalogProjection(input: Readonly<{
         lastKnownGoodAgeSeconds: 0,
         snapshotProductCount: projection.products.length,
         fallbackActive: false,
+        snapshotStale: false,
         lastSuccessfulRefresh: runtime.snapshot.capturedAt,
         retryCount: attempt,
       };
@@ -250,6 +325,7 @@ export async function loadResilientPublishedCatalogProjection(input: Readonly<{
     lastKnownGoodAgeSeconds: snapshotAgeSeconds(snapshot, (input.now ?? Date.now)()),
     snapshotProductCount: snapshot.projection.products.length,
     fallbackActive: true,
+    snapshotStale: snapshotIsStale(snapshot, (input.now ?? Date.now)()),
     lastSuccessfulRefresh: runtime.health.lastSuccessfulRefresh,
     retryCount: shouldRetry(finalError) ? PUBLISHED_CATALOG_ATTEMPTS - 1 : 0,
   };
@@ -266,16 +342,51 @@ export async function loadResilientPublishedCatalogProjection(input: Readonly<{
   return snapshot.projection;
 }
 
-export function readPublishedCatalogHealth(): PublishedCatalogHealth {
+/**
+ * Public request path: return the current checksum-validated snapshot without
+ * waiting for remote transport. The existing 60-second freshness target is
+ * enforced by a single-flight background refresh. Failed or partial refreshes
+ * never replace runtime state; absence of any trustworthy snapshot fails
+ * closed. A stale but fully validated snapshot remains publicly serveable for
+ * availability, but health marks it stale and therefore not operationally
+ * current while refresh attempts continue at the bounded cadence.
+ */
+export function loadPublishedCatalogProjectionForRequest(input: Readonly<{
+  request: (attempt: number, timeoutMs: number) => Promise<Response>;
+  rethrowFrameworkError: (error: unknown) => void;
+  delay?: (milliseconds: number) => Promise<void>;
+  random?: () => number;
+  now?: () => number;
+}>): PublishedCatalogProjection {
+  const runtime = state();
+  return requestPathRefresh().serve(runtime.snapshot?.projection ?? null, async () => (
+    loadResilientPublishedCatalogProjection(input)
+  ));
+}
+
+export function readPublishedCatalogHealth(now = Date.now()): PublishedCatalogHealth {
   const runtime = state();
   return {
     ...runtime.health,
-    lastKnownGoodAgeSeconds: snapshotAgeSeconds(runtime.snapshot),
+    lastKnownGoodAgeSeconds: snapshotAgeSeconds(runtime.snapshot, now),
     snapshotProductCount: runtime.snapshot.projection.products.length,
+    snapshotStale: snapshotIsStale(runtime.snapshot, now),
   };
 }
 
-export function isPublishedCatalogSnapshotStale() {
-  return readPublishedCatalogHealth().lastKnownGoodAgeSeconds
-    > PUBLISHED_CATALOG_SNAPSHOT_MAX_AGE_MS / 1_000;
+export function isPublishedCatalogSnapshotStale(now = Date.now()) {
+  return readPublishedCatalogHealth(now).snapshotStale;
+}
+
+/**
+ * Operational gates require current authoritative data. Public availability is
+ * intentionally a separate concern: a validated stale fallback may still be
+ * served while this predicate remains false.
+ */
+export function isPublishedCatalogOperationallyCurrent(
+  health: PublishedCatalogHealth = readPublishedCatalogHealth(),
+) {
+  return health.liveTransport === "healthy"
+    && health.fallbackActive === false
+    && health.snapshotStale === false;
 }

@@ -16,7 +16,10 @@ import { applyFinalStageAcceptanceCorrectiveV2 } from "./final-stage-acceptance-
 import {
   CloudPublishedCatalogRepositoryError,
 } from "./cloud-published-response.ts";
-import { loadResilientPublishedCatalogProjection } from "./published-catalog-resilience.ts";
+import {
+  loadPublishedCatalogProjectionForRequest,
+  loadResilientPublishedCatalogProjection,
+} from "./published-catalog-resilience.ts";
 import { filterProductsForSearch } from "./search-service.ts";
 import type { StorefrontCatalog } from "./types.ts";
 import type { PublishedCatalogProjection } from "../published-catalog/contracts.ts";
@@ -54,7 +57,10 @@ function developmentFaultResponse(): Response | null {
   return null;
 }
 
-async function requestCloudPublishedCatalogUncached(): Promise<StorefrontCatalog> {
+function requestCloudPublishedCatalogResponse(
+  _attempt: number,
+  timeoutMs: number,
+) {
   let client;
   try {
     const allowLocalDevelopment = process.env[LOCAL_SUPABASE_ORIGIN_OPT_IN] === "1"
@@ -68,23 +74,21 @@ async function requestCloudPublishedCatalogUncached(): Promise<StorefrontCatalog
     throw new CloudPublishedCatalogRepositoryError("configuration");
   }
 
-  const projection = await loadResilientPublishedCatalogProjection({
-    request: (_attempt, timeoutMs) => {
-      const injected = developmentFaultResponse();
-      if (injected) return Promise.resolve(injected);
-      return client.request("/rest/v1/rpc/cloud_published_storefront_catalog_v1", {
-        method: "POST",
-        headers: {
-          "Accept-Profile": "cloud_api",
-          "Content-Profile": "cloud_api",
-          "Content-Type": "application/json",
-        },
-        body: "{}",
-        signal: AbortSignal.timeout(timeoutMs),
-      });
+  const injected = developmentFaultResponse();
+  if (injected) return Promise.resolve(injected);
+  return client.request("/rest/v1/rpc/cloud_published_storefront_catalog_v1", {
+    method: "POST",
+    headers: {
+      "Accept-Profile": "cloud_api",
+      "Content-Profile": "cloud_api",
+      "Content-Type": "application/json",
     },
-    rethrowFrameworkError: unstable_rethrow,
+    body: "{}",
+    signal: AbortSignal.timeout(timeoutMs),
   });
+}
+
+function storefrontCatalogFromProjection(projection: PublishedCatalogProjection) {
   const liveCatalog = mapCloudPublishedCatalogProjection(projection);
   const canonicalCatalog = mapCloudPublishedCatalogProjection(
     publishedCatalogSnapshotJson.projection as unknown as PublishedCatalogProjection,
@@ -92,14 +96,35 @@ async function requestCloudPublishedCatalogUncached(): Promise<StorefrontCatalog
   return applyFinalStageAcceptanceCorrectiveV2(liveCatalog, canonicalCatalog);
 }
 
+function publishedCatalogLoaderInput() {
+  return {
+    request: requestCloudPublishedCatalogResponse,
+    rethrowFrameworkError: unstable_rethrow,
+  };
+}
+
+async function requestCloudPublishedCatalogUncached(): Promise<StorefrontCatalog> {
+  const projection = await loadResilientPublishedCatalogProjection(
+    publishedCatalogLoaderInput(),
+  );
+  return storefrontCatalogFromProjection(projection);
+}
+
+async function readCloudPublishedCatalogForRequest(): Promise<StorefrontCatalog> {
+  const projection = loadPublishedCatalogProjectionForRequest(
+    publishedCatalogLoaderInput(),
+  );
+  return storefrontCatalogFromProjection(projection);
+}
+
 /**
- * Public pages reuse one validated projection across anonymous requests for at
- * most 60 seconds. The cached value has already passed the complete projection
- * and last-known-good validation boundary above; invalid or partial upstream
- * payloads can never become a new cache entry.
+ * Static public pages reuse one validated projection for at most 60 seconds.
+ * A force-dynamic route may bypass this framework cache, but the callback is a
+ * non-blocking process-snapshot read and its single-flight remote refresh is
+ * independently bounded by the same 60-second cadence.
  */
 const requestCloudPublishedCatalog = unstable_cache(
-  requestCloudPublishedCatalogUncached,
+  readCloudPublishedCatalogForRequest,
   ["cloud-published-storefront-catalog-v1"],
   {
     revalidate: PUBLISHED_CATALOG_CACHE_REVALIDATE_SECONDS,
