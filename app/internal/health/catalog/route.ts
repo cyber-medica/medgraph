@@ -1,18 +1,36 @@
 import { NextResponse } from "next/server";
 
 import {
-  isPublishedCatalogSnapshotStale,
   readPublishedCatalogHealth,
 } from "@/lib/storefront/published-catalog-resilience";
-import { loadCloudPublishedCatalogFresh } from "@/lib/storefront/cloud-published-catalog-repository";
+import {
+  loadCloudPublishedCatalogFresh,
+} from "@/lib/storefront/cloud-published-catalog-repository";
+import {
+  runPublishedCatalogReleaseGate,
+} from "@/lib/storefront/published-catalog-release-gate";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  // A health invocation can run in a fresh server isolate. Exercise the same
-  // resilient loader as public routes before reporting its sanitized state.
-  await loadCloudPublishedCatalogFresh().catch(() => undefined);
+  // A release probe must actively exercise uncached authoritative transport.
+  // Public serving may keep using a validated LKG, but that state fails this
+  // stricter operational-current gate.
+  let operationallyCurrent = false;
+  try {
+    await runPublishedCatalogReleaseGate({
+      runAuthoritativeCheck: async () => {
+        await loadCloudPublishedCatalogFresh();
+        return { authoritativeCheckCompleted: true };
+      },
+      readHealth: readPublishedCatalogHealth,
+    });
+    operationallyCurrent = true;
+  } catch {
+    // The sanitized health body below carries only bounded state, never the
+    // upstream error or credentials.
+  }
   const health = readPublishedCatalogHealth();
   const status = health.liveTransport === "healthy"
     ? "healthy"
@@ -27,8 +45,9 @@ export async function GET() {
     lastKnownGoodAgeSeconds: health.lastKnownGoodAgeSeconds,
     snapshotProductCount: health.snapshotProductCount,
     fallbackActive: health.fallbackActive,
-    snapshotStale: isPublishedCatalogSnapshotStale(),
+    snapshotStale: health.snapshotStale,
     lastSuccessfulRefresh: health.lastSuccessfulRefresh,
+    operationallyCurrent,
   }, {
     status: status === "unavailable" ? 503 : 200,
     headers: {
