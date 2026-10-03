@@ -1,6 +1,5 @@
 import {
   AGILIA_REVIEW_PATH,
-  APPROVED_REVIEWER,
   GENERIC_REVIEW_QUEUE_PATH,
   HAMILTON_REVIEW_PATH,
   MINDRAY_REVIEW_PATH,
@@ -24,18 +23,23 @@ export function normalizeEmail(value: string) {
   return value.trim().toLowerCase();
 }
 
-export function isApprovedReviewer(user: {
+export function isConfirmedInternalUser(user: {
   id: string;
   email?: string | null;
   email_confirmed_at?: string | null;
 }) {
-  return user.id === APPROVED_REVIEWER.userId
-    && normalizeEmail(user.email ?? "") === APPROVED_REVIEWER.email
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(user.id)
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(normalizeEmail(user.email ?? ""))
     && Boolean(user.email_confirmed_at);
 }
 
-export function isApprovedLoginEmail(value: string) {
-  return normalizeEmail(value) === APPROVED_REVIEWER.email;
+export function isApprovedLoginEmail(
+  value: string,
+  environment: Readonly<Record<string, string | undefined>> = process.env,
+) {
+  const configured = normalizeEmail(environment["CYBERMEDICA_INTERNAL_LOGIN_EMAIL"] ?? "");
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(configured)
+    && normalizeEmail(value) === configured;
 }
 
 export interface InternalAccessDecision {
@@ -46,14 +50,20 @@ export interface InternalAccessDecision {
 }
 
 export function isApprovedInternalAccess(
-  user: Parameters<typeof isApprovedReviewer>[0],
+  user: Parameters<typeof isConfirmedInternalUser>[0],
   decision: InternalAccessDecision | null | undefined,
 ) {
-  return isApprovedReviewer(user)
+  return isConfirmedInternalUser(user)
     && decision?.allowed === true
     && decision.userId === user.id
-    && decision.userId === APPROVED_REVIEWER.userId
-    && decision.role === APPROVED_REVIEWER.role;
+    && (decision.role === "admin" || decision.role === "reviewer");
+}
+
+export function isApprovedInternalAdminAccess(
+  user: Parameters<typeof isConfirmedInternalUser>[0],
+  decision: InternalAccessDecision | null | undefined,
+) {
+  return isApprovedInternalAccess(user, decision) && decision?.role === "admin";
 }
 
 export function resolveInternalAuthOrigin(

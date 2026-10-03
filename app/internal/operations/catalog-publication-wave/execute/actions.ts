@@ -1,12 +1,10 @@
 "use server";
 
-import { requireTrustedReviewer } from "@/lib/internal-auth/session";
+import { getTrustedAdmin } from "@/lib/internal-auth/session";
 import {
   CatalogWave1RunnerError,
   executeProductionCatalogWave1,
 } from "@/lib/operations/catalog-wave-1-runner";
-
-const EXPECTED_ADMIN_ID = "7e90a993-8b30-4e0d-aff4-a257d5a4a179";
 
 export type CatalogWave1ActionState = {
   status: "idle" | "completed" | "already_completed" | "blocked";
@@ -29,8 +27,8 @@ export async function executeCatalogWave1Action(): Promise<CatalogWave1ActionSta
   if (process.env.VERCEL_ENV !== "production") {
     return { status: "blocked", message: "Operation is Production-only." };
   }
-  const user = await requireTrustedReviewer();
-  if (user.id !== EXPECTED_ADMIN_ID || !productionEnvironmentPresent()) {
+  const user = await getTrustedAdmin();
+  if (!user || !productionEnvironmentPresent()) {
     return { status: "blocked", message: "Operation authorization failed closed." };
   }
 

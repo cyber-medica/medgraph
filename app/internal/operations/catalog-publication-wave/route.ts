@@ -19,8 +19,6 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-const EXPECTED_ADMIN_ID = "7e90a993-8b30-4e0d-aff4-a257d5a4a179";
-
 function safeJson(
   body: Readonly<Record<string, unknown>>,
   status: number,
@@ -75,7 +73,7 @@ export async function POST(request: NextRequest) {
   if (!productionEnvironmentPresent()) {
     return safeJson({ status: "blocked", code: "service_configuration_missing" }, 503, auth);
   }
-  if (active.user.id !== EXPECTED_ADMIN_ID) {
+  if (active.access.role !== "admin") {
     return safeJson({ status: "blocked", code: "admin_required" }, 403, auth);
   }
 

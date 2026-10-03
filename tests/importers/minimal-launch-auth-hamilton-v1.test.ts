@@ -5,7 +5,6 @@ import test from "node:test";
 import {
   AGILIA_REVIEW,
   AGILIA_REVIEW_PATH,
-  APPROVED_REVIEWER,
   GENERIC_REVIEW_QUEUE_PATH,
   HAMILTON_REVIEW,
   MINDRAY_REVIEW_PATH,
@@ -13,8 +12,9 @@ import {
 import {
   approvedCallbackUrl,
   isApprovedInternalAccess,
+  isApprovedInternalAdminAccess,
   isApprovedLoginEmail,
-  isApprovedReviewer,
+  isConfirmedInternalUser,
   isSafeCallbackRequest,
   redactAuthText,
   resolveInternalAuthOrigin,
@@ -24,6 +24,11 @@ import {
 const productionEnvironment = Object.freeze({
   CYBERMEDICA_INTERNAL_AUTH_ORIGIN: "https://medgraph-medgraph.vercel.app",
   VERCEL_ENV: "production",
+});
+const syntheticUserId = "71000000-0000-4000-8000-000000000001";
+const syntheticEmail = "reviewer@example.test";
+const internalLoginEnvironment = Object.freeze({
+  CYBERMEDICA_INTERNAL_LOGIN_EMAIL: syntheticEmail,
 });
 
 test("launch auth accepts only the approved Production origin and fixed destination", () => {
@@ -90,31 +95,39 @@ test("callback accepts one authorization code and rejects token or redirect inpu
   );
 });
 
-test("only the exact confirmed Production reviewer identity is accepted", () => {
+test("confirmed users require live RBAC access and login email stays runtime-only", () => {
   const approved = {
-    id: APPROVED_REVIEWER.userId,
-    email: APPROVED_REVIEWER.email,
+    id: syntheticUserId,
+    email: syntheticEmail,
     email_confirmed_at: "2026-07-29T00:00:00.000Z",
   };
-  assert.equal(isApprovedReviewer(approved), true);
-  assert.equal(isApprovedLoginEmail(`  ${APPROVED_REVIEWER.email.toUpperCase()} `), true);
-  assert.equal(isApprovedLoginEmail("armansmarkosyan@gmail.com"), false);
-  assert.equal(isApprovedReviewer({ ...approved, id: crypto.randomUUID() }), false);
-  assert.equal(isApprovedReviewer({ ...approved, email: "other@example.com" }), false);
-  assert.equal(isApprovedReviewer({ ...approved, email_confirmed_at: null }), false);
+  assert.equal(isConfirmedInternalUser(approved), true);
+  assert.equal(
+    isApprovedLoginEmail(`  ${syntheticEmail.toUpperCase()} `, internalLoginEnvironment),
+    true,
+  );
+  assert.equal(isApprovedLoginEmail("other@example.test", internalLoginEnvironment), false);
+  assert.equal(isApprovedLoginEmail(syntheticEmail, {}), false);
+  assert.equal(isConfirmedInternalUser({ ...approved, id: "not-a-uuid" }), false);
+  assert.equal(isConfirmedInternalUser({ ...approved, email: "not-an-email" }), false);
+  assert.equal(isConfirmedInternalUser({ ...approved, email_confirmed_at: null }), false);
 
-  assert.equal(isApprovedInternalAccess(approved, {
+  const adminAccess = {
     userId: approved.id,
     role: "admin",
     displayName: "CyberMedica",
     allowed: true,
-  }), true);
-  assert.equal(isApprovedInternalAccess(approved, {
+  } as const;
+  assert.equal(isApprovedInternalAccess(approved, adminAccess), true);
+  assert.equal(isApprovedInternalAdminAccess(approved, adminAccess), true);
+  const reviewerAccess = {
     userId: approved.id,
     role: "reviewer",
     displayName: "CyberMedica",
     allowed: true,
-  }), false);
+  } as const;
+  assert.equal(isApprovedInternalAccess(approved, reviewerAccess), true);
+  assert.equal(isApprovedInternalAdminAccess(approved, reviewerAccess), false);
   assert.equal(isApprovedInternalAccess(approved, {
     userId: approved.id,
     role: "editor",

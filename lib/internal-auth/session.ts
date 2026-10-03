@@ -4,7 +4,11 @@ import { redirect } from "next/navigation";
 
 import { AUTH_ERROR_CODES, INTERNAL_LOGIN_PATH } from "./constants.ts";
 import { isApprovedCorporateSessionClaims } from "./claims.ts";
-import { isApprovedInternalAccess } from "./policy.ts";
+import {
+  isApprovedInternalAccess,
+  isApprovedInternalAdminAccess,
+  normalizeEmail,
+} from "./policy.ts";
 import { createInternalAuthServerClient } from "./supabase.server.ts";
 
 export async function readCurrentInternalAccess(
@@ -26,10 +30,15 @@ export async function readActiveTrustedReviewer(
   }
 
   const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user || data.user.id !== claimsData.claims.sub) return null;
+  if (
+    error
+    || !data.user
+    || data.user.id !== claimsData.claims.sub
+    || normalizeEmail(data.user.email ?? "") !== normalizeEmail(claimsData.claims.email)
+  ) return null;
   const access = await readCurrentInternalAccess(supabase);
   if (!isApprovedInternalAccess(data.user, access)) return null;
-  return { user: data.user, sessionId: claimsData.claims.session_id as string };
+  return { user: data.user, sessionId: claimsData.claims.session_id, access };
 }
 
 export async function getTrustedReviewer() {
@@ -44,4 +53,12 @@ export async function requireTrustedReviewer() {
     redirect(`${INTERNAL_LOGIN_PATH}?error=${AUTH_ERROR_CODES.sessionRequired}`);
   }
   return user;
+}
+
+export async function getTrustedAdmin() {
+  const supabase = await createInternalAuthServerClient();
+  const active = await readActiveTrustedReviewer(supabase);
+  return active && isApprovedInternalAdminAccess(active.user, active.access)
+    ? active.user
+    : null;
 }

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { APPROVED_REVIEWER } from "@/lib/internal-auth/constants";
 import { resolveInternalAuthOrigin } from "@/lib/internal-auth/policy";
 import { readActiveTrustedReviewer } from "@/lib/internal-auth/session";
 import {
@@ -78,10 +77,7 @@ export async function POST(request: NextRequest) {
   if (!active) {
     return safeJson({ status: "blocked", code: "authentication_required" }, 401, auth);
   }
-  if (
-    active.user.id !== APPROVED_REVIEWER.userId
-    || active.user.email?.trim().toLowerCase() !== APPROVED_REVIEWER.email
-  ) {
+  if (active.access.role !== "admin") {
     return safeJson({ status: "blocked", code: "corporate_admin_required" }, 403, auth);
   }
   if (!productionEnvironmentPresent()) {

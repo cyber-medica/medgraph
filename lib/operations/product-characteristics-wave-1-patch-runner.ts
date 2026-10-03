@@ -15,7 +15,6 @@ import {
   type ProductCharacteristicsWave1PatchEntry,
 } from "./product-characteristics-wave-1-patch-manifest";
 
-const CORPORATE_ACTOR_ID = "7e90a993-8b30-4e0d-aff4-a257d5a4a179";
 const CLOUD_API_HEADERS = {
   "Accept-Profile": "cloud_api",
   "Content-Profile": "cloud_api",
@@ -214,6 +213,7 @@ async function applyPatch(
   client: SupabaseServerClient,
   entry: ProductCharacteristicsWave1PatchEntry,
   expectedUpdatedAt: string,
+  actorId: string,
 ) {
   const result = await callCloudApi<PatchRpcResult>(
     client,
@@ -225,7 +225,7 @@ async function applyPatch(
       p_product_patch: entry.productPatch,
       p_description_patch: entry.descriptionPatch,
       p_characteristics: entry.characteristics,
-      p_actor_id: CORPORATE_ACTOR_ID,
+      p_actor_id: actorId,
       p_request_id: entry.requestId,
     },
   );
@@ -248,9 +248,14 @@ async function applyPatch(
   } satisfies ProductCharacteristicsWave1PatchEvidence;
 }
 
-export async function executeProductionProductCharacteristicsWave1Patches(): Promise<
+export async function executeProductionProductCharacteristicsWave1Patches(
+  actorId: string,
+): Promise<
   ProductCharacteristicsWave1PatchResult
 > {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(actorId)) {
+    fail("actor_identity_invalid");
+  }
   assertManifest();
   const manifest = PRODUCT_CHARACTERISTICS_WAVE_1_PATCH_MANIFEST;
   const client = createProjectBoundSupabaseServerClient();
@@ -274,12 +279,12 @@ export async function executeProductionProductCharacteristicsWave1Patches(): Pro
   const beforeProductHashes = productsBefore.map(sha256);
   const projectionHashBefore = sha256(projectionBefore);
   const firstResults = await mapWithConcurrency(manifest.entries, 2, (entry, index) =>
-    applyPatch(client, entry, productsBefore[index]?.updatedAt as string));
+    applyPatch(client, entry, productsBefore[index]?.updatedAt as string, actorId));
   const applied = firstResults.filter(({ status }) => status === "applied").length;
   const alreadyApplied = firstResults.length - applied;
 
   const replayResults = await mapWithConcurrency(manifest.entries, 2, (entry, index) =>
-    applyPatch(client, entry, productsBefore[index]?.updatedAt as string));
+    applyPatch(client, entry, productsBefore[index]?.updatedAt as string, actorId));
   if (replayResults.some(({ status }) => status !== "already_applied")) {
     fail("patch_replay_failed");
   }

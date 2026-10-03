@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { APPROVED_REVIEWER } from "../../lib/internal-auth/constants.ts";
 import {
   decodeInternalSessionClaims,
   isApprovedCorporateSessionClaims,
@@ -12,11 +11,14 @@ import {
   type CorporateLogoutClient,
 } from "../../lib/internal-auth/logout-all.ts";
 
+const syntheticUserId = "71000000-0000-4000-8000-000000000001";
+const syntheticEmail = "reviewer@example.test";
+
 function jwtFor(overrides: Record<string, unknown> = {}) {
   const encode = (value: unknown) => Buffer.from(JSON.stringify(value)).toString("base64url");
   return `${encode({ alg: "RS256", typ: "JWT" })}.${encode({
-    sub: APPROVED_REVIEWER.userId,
-    email: APPROVED_REVIEWER.email,
+    sub: syntheticUserId,
+    email: syntheticEmail,
     session_id: "11111111-1111-4111-8111-111111111111",
     exp: 2_000_000_000,
     ...overrides,
@@ -33,8 +35,8 @@ function logoutClient(options: {
   const session = options.session === false ? null : {
     access_token: options.jwt ?? jwtFor(),
     user: {
-      id: APPROVED_REVIEWER.userId,
-      email: APPROVED_REVIEWER.email,
+      id: syntheticUserId,
+      email: syntheticEmail,
       email_confirmed_at: "2026-08-01T10:26:43.000Z",
     },
   };
@@ -56,7 +58,7 @@ function logoutClient(options: {
           calls.push(`rpc:${rpcName}`);
           return {
             data: options.access === false ? null : {
-              userId: APPROVED_REVIEWER.userId,
+              userId: syntheticUserId,
               role: "admin",
               allowed: true,
             },
@@ -69,22 +71,25 @@ function logoutClient(options: {
   return { client, calls };
 }
 
-test("corporate session claims require exact UUID, email and session_id", () => {
+test("corporate session claims require valid unexpired UUID, email and session_id", () => {
   const claims = decodeInternalSessionClaims(jwtFor());
   assert.equal(isApprovedCorporateSessionClaims(claims), true);
   assert.equal(isApprovedCorporateSessionClaims(decodeInternalSessionClaims(jwtFor({
     sub: crypto.randomUUID(),
-  }))), false);
+  }))), true);
   assert.equal(isApprovedCorporateSessionClaims(decodeInternalSessionClaims(jwtFor({
-    email: "armansmarkosyan@gmail.com",
+    email: "not-an-email",
   }))), false);
   assert.equal(isApprovedCorporateSessionClaims(decodeInternalSessionClaims(jwtFor({
     session_id: null,
   }))), false);
+  assert.equal(isApprovedCorporateSessionClaims(decodeInternalSessionClaims(jwtFor({
+    exp: 1,
+  }))), false);
   assert.equal(decodeInternalSessionClaims("not-a-jwt"), null);
 });
 
-test("logout-all invokes global Auth logout only for exact corporate admin", async () => {
+test("logout-all invokes global Auth logout only for a live RBAC-approved session", async () => {
   const { client, calls } = logoutClient();
   assert.deepEqual(await performCorporateGlobalLogout(client), { status: "signed_out_all" });
   assert.deepEqual(calls, [
@@ -144,7 +149,7 @@ test("runtime route clears only project Auth cookies and never logs credentials"
   assert.match(proxy, /readActiveTrustedReviewer/u);
   assert.match(proxy, /\/internal\/operations\/:path\*/u);
   assert.match(reviewAction, /requireTrustedReviewer/u);
-  assert.match(waveAction, /requireTrustedReviewer/u);
+  assert.match(waveAction, /getTrustedAdmin/u);
   assert.doesNotMatch(
     `${action}\n${session}\n${cookies}\n${proxy}`,
     /console\.(?:log|info|warn|error)|SUPABASE_SERVICE_ROLE_KEY|service_role/u,

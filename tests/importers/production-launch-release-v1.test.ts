@@ -86,8 +86,8 @@ test("server operation surface accepts no browser Product scope", async () => {
   assert.doesNotMatch(runner, /p_product_id|productIds:/u);
   assert.match(route, /process\.env\.VERCEL_ENV !== "production"/u);
   assert.match(route, /readActiveTrustedReviewer/u);
-  assert.match(route, /APPROVED_REVIEWER\.userId/u);
-  assert.match(route, /APPROVED_REVIEWER\.email/u);
+  assert.match(route, /active\.access\.role !== "admin"/u);
+  assert.doesNotMatch(route, /APPROVED_REVIEWER|EXPECTED_ADMIN_ID/u);
   assert.match(route, /same_origin_required/u);
   assert.match(route, /validateProductionLaunchOperationRequest/u);
   assert.match(component, /operationKey: OPERATION_KEY/u);

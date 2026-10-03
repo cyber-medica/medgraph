@@ -107,8 +107,8 @@ test("Group C Batch 3 operation surface re-authorizes corporate admin", async ()
   );
   assert.match(route, /process\.env\.VERCEL_ENV !== "production"/u);
   assert.match(route, /readActiveTrustedReviewer/u);
-  assert.match(route, /APPROVED_REVIEWER\.userId/u);
-  assert.match(route, /APPROVED_REVIEWER\.email/u);
+  assert.match(route, /active\.access\.role !== "admin"/u);
+  assert.doesNotMatch(route, /APPROVED_REVIEWER|EXPECTED_ADMIN_ID/u);
   assert.match(route, /same_origin_required/u);
   assert.match(route, /validateGroupCBatch3PublicationOperationRequest/u);
   assert.match(page, /requireTrustedReviewer/u);

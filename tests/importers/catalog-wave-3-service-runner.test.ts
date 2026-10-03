@@ -100,8 +100,9 @@ test("Wave 3 execution surface re-authorizes Production admin", async () => {
   );
   assert.match(action, /^"use server";/u);
   assert.match(action, /process\.env\.VERCEL_ENV !== "production"/u);
-  assert.match(action, /requireTrustedReviewer\(\)/u);
-  assert.match(action, /user\.id !== EXPECTED_ADMIN_ID/u);
+  assert.match(action, /getTrustedAdmin/u);
+  assert.match(action, /if \(!user \|\| !productionEnvironmentPresent\(\)\)/u);
+  assert.doesNotMatch(action, /EXPECTED_ADMIN_ID|APPROVED_REVIEWER/u);
   assert.match(action, /executeProductionCatalogWave3\(\)/u);
   assert.match(component, /useActionState/u);
   assert.match(component, /executeCatalogWave3Action/u);

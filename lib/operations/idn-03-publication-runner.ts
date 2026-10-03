@@ -101,7 +101,6 @@ function assertManifest() {
     || entry.productId !== "24ac72fc-5c64-4f4e-9f92-cd4eca58e426"
     || entry.revisionId !== "5801cde4-9341-4fe9-9e35-da47627754f9"
     || entry.reviewItemId !== "a0654fd4-d65f-450d-b8ed-2270408fdcbe"
-    || entry.reviewerId !== "7e90a993-8b30-4e0d-aff4-a257d5a4a179"
     || !checksum.test(entry.candidatePayloadChecksum)
     || !checksum.test(entry.payloadChecksum)
     || !checksum.test(entry.productIdentityChecksum)
@@ -124,7 +123,16 @@ function assertProduct(product: CatalogAdminProduct | null, published: boolean) 
   return product as CatalogAdminProduct & { slug: string };
 }
 
-export async function executeProductionIdn03Publication(): Promise<Idn03PublicationResult> {
+export async function executeProductionIdn03Publication(
+  actorId: string,
+  environment: Readonly<Record<string, string | undefined>> = process.env,
+): Promise<Idn03PublicationResult> {
+  const configuredReviewerId = environment["CYBERMEDICA_IDN03_REVIEWER_ID"]?.trim();
+  if (
+    !configuredReviewerId
+    || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(configuredReviewerId)
+    || actorId !== configuredReviewerId
+  ) fail("actor_identity_invalid");
   assertManifest();
   const [entry] = IDN_03_PUBLICATION_MANIFEST.entries;
   const client = createProjectBoundSupabaseServerClient();

@@ -129,8 +129,8 @@ test("route requires corporate same-origin Production session and exact request"
     "Preview must fail closed before constructing an Auth client",
   );
   assert.match(route, /readActiveTrustedReviewer/u);
-  assert.match(route, /APPROVED_REVIEWER\.userId/u);
-  assert.match(route, /APPROVED_REVIEWER\.email/u);
+  assert.match(route, /active\.access\.role !== "admin"/u);
+  assert.doesNotMatch(route, /APPROVED_REVIEWER|EXPECTED_ADMIN_ID/u);
   assert.match(route, /sec-fetch-site/u);
   assert.match(route, /validateGroupCBatch1RevisionOperationRequest/u);
   assert.match(route, /executeProductionGroupCBatch1RevisionCreation/u);

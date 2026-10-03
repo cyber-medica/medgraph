@@ -5,7 +5,7 @@ import test from "node:test";
 import ts from "typescript";
 import vm from "node:vm";
 
-const manifestSha = "a6952b62ee09192f3d0935af9e9a769b70bc88c067442602c4f22edab80c3b1e";
+const manifestSha = "ddac576c6a5b5d9322e15d9f109d91120ca5bf3145de1b6a6a4afd4d8a20e4c2";
 
 test("IDN-03 publication manifest is exact and immutable", async () => {
   const source = await readFile("lib/operations/idn-03-publication-manifest.ts", "utf8");
@@ -47,6 +47,10 @@ test("IDN-03 runner is narrow, replay-safe and service-only", async () => {
   assert.match(runner, /approval_replay_failed/u);
   assert.match(runner, /publication_replay_failed/u);
   assert.match(runner, /afterProjection\.products\.length !== 71/u);
+  assert.match(runner, /environment\["CYBERMEDICA_IDN03_REVIEWER_ID"\]/u);
+  assert.match(runner, /actorId !== configuredReviewerId/u);
+  assert.match(runner, /actor_identity_invalid/u);
+  assert.doesNotMatch(runner, /reviewerId:/u);
   assert.doesNotMatch(runner, /insert into|update cloud\.|delete from/iu);
   assert.doesNotMatch(runner, /SUPABASE_SERVICE_ROLE_KEY|Authorization|Bearer/u);
 });
@@ -63,8 +67,9 @@ test("IDN-03 operation route re-authorizes corporate admin and exact body", asyn
   );
   assert.match(route, /process\.env\.VERCEL_ENV !== "production"/u);
   assert.match(route, /readActiveTrustedReviewer/u);
-  assert.match(route, /APPROVED_REVIEWER\.userId/u);
-  assert.match(route, /APPROVED_REVIEWER\.email/u);
+  assert.match(route, /active\.access\.role !== "admin"/u);
+  assert.match(route, /executeProductionIdn03Publication\(active\.user\.id\)/u);
+  assert.doesNotMatch(route, /APPROVED_REVIEWER|EXPECTED_ADMIN_ID/u);
   assert.match(route, /same_origin_required/u);
   assert.match(route, /validateIdn03PublicationOperationRequest/u);
   assert.match(page, /requireTrustedReviewer/u);

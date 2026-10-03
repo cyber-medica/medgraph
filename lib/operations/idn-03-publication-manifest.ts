@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 export const IDN_03_PUBLICATION_OPERATION_KEY = "idn-03-publication-v1";
 export const IDN_03_APPROVAL_IDEMPOTENCY_KEY = "idn-03-approval-v1";
 export const IDN_03_PUBLICATION_MANIFEST_SHA256 =
-  "a6952b62ee09192f3d0935af9e9a769b70bc88c067442602c4f22edab80c3b1e";
+  "ddac576c6a5b5d9322e15d9f109d91120ca5bf3145de1b6a6a4afd4d8a20e4c2";
 
 export const IDN_03_PUBLICATION_MANIFEST = Object.freeze({
   version: "idn-03-publication-v1",
@@ -20,7 +20,6 @@ export const IDN_03_PUBLICATION_MANIFEST = Object.freeze({
     revisionId: "5801cde4-9341-4fe9-9e35-da47627754f9",
     reviewItemId: "a0654fd4-d65f-450d-b8ed-2270408fdcbe",
     decisionId: "9b06ac1b-2108-40fa-96ac-ed7a8fc64fdb",
-    reviewerId: "7e90a993-8b30-4e0d-aff4-a257d5a4a179",
     candidatePayloadChecksum:
       "85dda33600089199c2075edf08cd75f77b474e9bcee424de254f3431b3347540",
     payloadChecksum:
