@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const OPERATION_KEY = "idn-03-publication-v1";
 const MANIFEST_SHA256 =
-  "a6952b62ee09192f3d0935af9e9a769b70bc88c067442602c4f22edab80c3b1e";
+  "ddac576c6a5b5d9322e15d9f109d91120ca5bf3145de1b6a6a4afd4d8a20e4c2";
 
 type OperationState = {
   status: "idle" | "pending" | "completed" | "already_complete" | "blocked";

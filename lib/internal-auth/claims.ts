@@ -1,12 +1,18 @@
-import { APPROVED_REVIEWER } from "./constants.ts";
-import { normalizeEmail } from "./policy.ts";
-
 export interface InternalSessionClaims {
   sub?: unknown;
   email?: unknown;
   session_id?: unknown;
   exp?: unknown;
 }
+
+export interface TrustedInternalSessionClaims extends InternalSessionClaims {
+  sub: string;
+  email: string;
+  session_id: string;
+  exp: number;
+}
+
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu;
 
 function decodeBase64Url(value: string) {
   const normalized = value.replace(/-/gu, "+").replace(/_/gu, "/");
@@ -27,12 +33,15 @@ export function decodeInternalSessionClaims(jwt: string): InternalSessionClaims 
 
 export function isApprovedCorporateSessionClaims(
   claims: InternalSessionClaims | null | undefined,
-) {
-  return claims?.sub === APPROVED_REVIEWER.userId
+  nowEpochSeconds = Math.floor(Date.now() / 1000),
+): claims is TrustedInternalSessionClaims {
+  return typeof claims?.sub === "string"
+    && uuidPattern.test(claims.sub)
     && typeof claims.email === "string"
-    && normalizeEmail(claims.email) === APPROVED_REVIEWER.email
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(claims.email.trim())
     && typeof claims.session_id === "string"
-    && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(
-      claims.session_id,
-    );
+    && uuidPattern.test(claims.session_id)
+    && typeof claims.exp === "number"
+    && Number.isSafeInteger(claims.exp)
+    && claims.exp > nowEpochSeconds;
 }

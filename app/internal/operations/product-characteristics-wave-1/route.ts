@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { APPROVED_REVIEWER } from "@/lib/internal-auth/constants";
 import { resolveInternalAuthOrigin } from "@/lib/internal-auth/policy";
 import { readActiveTrustedReviewer } from "@/lib/internal-auth/session";
 import {
@@ -69,11 +68,7 @@ export async function POST(request: NextRequest) {
   if (!active) {
     return safeJson({ status: "blocked", code: "authentication_required" }, 401, auth);
   }
-  if (
-    active.user.id !== APPROVED_REVIEWER.userId
-    || active.user.email?.trim().toLowerCase() !== APPROVED_REVIEWER.email
-    || APPROVED_REVIEWER.role !== "admin"
-  ) {
+  if (active.access.role !== "admin") {
     return safeJson({ status: "blocked", code: "corporate_admin_required" }, 403, auth);
   }
   if (!productionEnvironmentPresent()) {
@@ -95,7 +90,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const result = await executeProductionProductCharacteristicsWave1Patches();
+    const result = await executeProductionProductCharacteristicsWave1Patches(active.user.id);
     return safeJson({
       status: result.status,
       operationKey: result.operationKey,

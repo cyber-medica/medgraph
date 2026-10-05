@@ -46,18 +46,17 @@ test("internal access owner and grants remain inside the approved Supabase bound
   assert.doesNotMatch(migration, /create policy[\s\S]+to authenticated/u);
 });
 
-test("internal routes require both corporate identity and live profile access", async () => {
+test("internal routes require verified session claims and live profile access", async () => {
   const [session, callback, constants] = await Promise.all([
     readFile("lib/internal-auth/session.ts", "utf8"),
     readFile("app/auth/callback/route.ts", "utf8"),
     readFile("lib/internal-auth/constants.ts", "utf8"),
   ]);
 
-  assert.match(constants, /7e90a993-8b30-4e0d-aff4-a257d5a4a179/u);
-  assert.match(constants, /cybermedicaooo@gmail\.com/u);
-  assert.doesNotMatch(constants, /armansmarkosyan@gmail\.com/u);
+  assert.doesNotMatch(constants, /APPROVED_REVIEWER|gmail\.com/iu);
   assert.match(session, /current_internal_access_v1/u);
   assert.match(session, /isApprovedInternalAccess/u);
+  assert.match(session, /access/u);
   assert.match(session, /getClaims\(\)/u);
   assert.match(session, /session_id/u);
   assert.match(callback, /readActiveTrustedReviewer/u);

@@ -101,8 +101,9 @@ test("Group B six execution surface re-authorizes Production admin", async () =>
   );
   assert.match(action, /^"use server";/u);
   assert.match(action, /process\.env\.VERCEL_ENV !== "production"/u);
-  assert.match(action, /requireTrustedReviewer\(\)/u);
-  assert.match(action, /user\.id !== EXPECTED_ADMIN_ID/u);
+  assert.match(action, /getTrustedAdmin/u);
+  assert.match(action, /if \(!user \|\| !productionEnvironmentPresent\(\)\)/u);
+  assert.doesNotMatch(action, /EXPECTED_ADMIN_ID|APPROVED_REVIEWER/u);
   assert.match(action, /executeProductionGroupBSixPublication\(\)/u);
   assert.match(component, /useActionState/u);
   assert.match(component, /executeGroupBSixPublicationAction/u);

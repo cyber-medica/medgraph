@@ -91,7 +91,8 @@ test("POST route re-authorizes exact admin and never exposes a generic publicati
   assert.match(route, /sec-fetch-site/u);
   assert.match(route, /same-origin/u);
   assert.match(route, /readActiveTrustedReviewer\(auth\.client\)/u);
-  assert.match(route, /active\.user\.id !== EXPECTED_ADMIN_ID/u);
+  assert.match(route, /active\.access\.role !== "admin"/u);
+  assert.doesNotMatch(route, /EXPECTED_ADMIN_ID|APPROVED_REVIEWER/u);
   assert.match(route, /validateCatalogWave1OperationRequest/u);
   assert.match(route, /service_configuration_missing/u);
   assert.match(route, /rawBody\.length > 512/u);
@@ -121,8 +122,9 @@ test("execution Server Action re-authorizes the exact Production admin", async (
   );
   assert.match(action, /^"use server";/u);
   assert.match(action, /process\.env\.VERCEL_ENV !== "production"/u);
-  assert.match(action, /requireTrustedReviewer\(\)/u);
-  assert.match(action, /user\.id !== EXPECTED_ADMIN_ID/u);
+  assert.match(action, /getTrustedAdmin/u);
+  assert.match(action, /if \(!user \|\| !productionEnvironmentPresent\(\)\)/u);
+  assert.doesNotMatch(action, /EXPECTED_ADMIN_ID|APPROVED_REVIEWER/u);
   assert.match(action, /executeProductionCatalogWave1\(\)/u);
   assert.match(component, /useActionState/u);
   assert.match(component, /executeCatalogWave1Action/u);

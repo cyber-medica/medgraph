@@ -75,6 +75,9 @@ test("runner uses only the closed RPC and preserves published projection", async
   assert.match(source, /projectionHashAfter !== projectionHashBefore/u);
   assert.match(source, /canonical_source_row_changed/u);
   assert.match(source, /patch_replay_failed/u);
+  assert.match(source, /p_actor_id: actorId/u);
+  assert.match(source, /actor_identity_invalid/u);
+  assert.doesNotMatch(source, /CORPORATE_ACTOR_ID/u);
   assert.doesNotMatch(source, /createProductPublicationRevision|approveProductPublication|publishProduct/u);
   assert.doesNotMatch(source, /product_publication_(revisions|approvals|batches)/u);
 });
@@ -86,9 +89,9 @@ test("Production route requires exact corporate session and immutable request", 
   );
   assert.match(source, /process\.env\.VERCEL_ENV !== "production"/u);
   assert.match(source, /readActiveTrustedReviewer/u);
-  assert.match(source, /APPROVED_REVIEWER\.userId/u);
-  assert.match(source, /APPROVED_REVIEWER\.email/u);
-  assert.match(source, /APPROVED_REVIEWER\.role !== "admin"/u);
+  assert.match(source, /active\.access\.role !== "admin"/u);
+  assert.match(source, /executeProductionProductCharacteristicsWave1Patches\(active\.user\.id\)/u);
+  assert.doesNotMatch(source, /APPROVED_REVIEWER|EXPECTED_ADMIN_ID/u);
   assert.match(source, /same_origin_required/u);
   assert.match(source, /validateProductCharacteristicsWave1PatchOperationRequest/u);
   assert.match(source, /SUPABASE_SERVICE_ROLE_KEY/u);

@@ -83,8 +83,8 @@ test("IDN-03 route requires a corporate same-origin Production session", async (
   assert.match(route, /process\.env\.VERCEL_ENV !== "production"/u);
   assert.ok(route.indexOf('process.env.VERCEL_ENV !== "production"') < route.indexOf("createInternalAuthRouteClient(request)"));
   assert.match(route, /readActiveTrustedReviewer/u);
-  assert.match(route, /APPROVED_REVIEWER\.userId/u);
-  assert.match(route, /APPROVED_REVIEWER\.email/u);
+  assert.match(route, /active\.access\.role !== "admin"/u);
+  assert.doesNotMatch(route, /APPROVED_REVIEWER|EXPECTED_ADMIN_ID/u);
   assert.match(route, /sec-fetch-site/u);
   assert.match(route, /validateIdn03RevisionOperationRequest/u);
   assert.match(route, /executeProductionIdn03RevisionCreation/u);

@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { APPROVED_REVIEWER } from "@/lib/internal-auth/constants";
 import { resolveInternalAuthOrigin } from "@/lib/internal-auth/policy";
 import { readActiveTrustedReviewer } from "@/lib/internal-auth/session";
 import {
@@ -54,12 +53,9 @@ export async function POST(request: NextRequest) {
   ) return safeJson({ status: "blocked", code: "same_origin_required" }, 403, auth);
 
   const active = await readActiveTrustedReviewer(auth.client);
-  if (
-    !active
-    || active.user.id !== APPROVED_REVIEWER.userId
-    || active.user.email?.trim().toLowerCase() !== APPROVED_REVIEWER.email
-    || APPROVED_REVIEWER.role !== "admin"
-  ) return safeJson({ status: "blocked", code: "corporate_admin_required" }, 403, auth);
+  if (!active || active.access.role !== "admin") {
+    return safeJson({ status: "blocked", code: "corporate_admin_required" }, 403, auth);
+  }
   if (!process.env.CYBERMEDICA_SUPABASE_URL?.trim()
       || !process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
     return safeJson({ status: "blocked", code: "service_configuration_missing" }, 503, auth);
@@ -76,7 +72,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const result = await executeProductionIdn03Publication();
+    const result = await executeProductionIdn03Publication(active.user.id);
     return safeJson({
       ...result,
       operationKey: IDN_03_PUBLICATION_MANIFEST.operationKey,

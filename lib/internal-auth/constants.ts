@@ -5,12 +5,6 @@ export const MINDRAY_REVIEW_PATH = "/internal/review/mindray-sv300";
 export const AGILIA_REVIEW_PATH = "/internal/review/agilia-sp-mc";
 export const INTERNAL_LOGIN_PATH = "/internal/login";
 
-export const APPROVED_REVIEWER = Object.freeze({
-  userId: "7e90a993-8b30-4e0d-aff4-a257d5a4a179",
-  email: "cybermedicaooo@gmail.com",
-  role: "admin",
-});
-
 export const HAMILTON_REVIEW = Object.freeze({
   productId: "e66a1165-030b-4aa4-a400-959f1ac70fe3",
   productName: "Hamilton-T1",
