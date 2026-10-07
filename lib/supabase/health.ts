@@ -21,7 +21,7 @@ export async function checkSupabaseConnection(options: {
     cache: "no-store",
     headers: {
       Accept: "application/json",
-      apikey: environment.anonKey,
+      apikey: environment.publicCredential.key,
     },
     signal: AbortSignal.timeout(options.timeoutMs ?? 10_000),
   });

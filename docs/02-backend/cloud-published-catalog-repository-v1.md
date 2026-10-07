@@ -50,15 +50,17 @@ fallback внутри request.
 | `CATALOG_DATA_SOURCE=cloud_published` | да | server configuration | explicit source selection |
 | `CYBERMEDICA_SUPABASE_URL` | да, только runtime | строго server-only | exact Supabase project origin для Published transport |
 | `CYBERMEDICA_SUPABASE_PROJECT_REF` | да, только runtime | строго server-only | explicit approved 20-character project identity |
-| `SUPABASE_SERVICE_ROLE_KEY` | да, только runtime | строго server-only | execute approved service-only read RPC после binding validation |
+| `SUPABASE_SECRET_KEY` | да, только runtime | строго server-only | preferred `sb_secret_*` key; sent only as `apikey` after binding validation |
+| `SUPABASE_SERVICE_ROLE_KEY` | только на переходный период | строго server-only | legacy service-role JWT compatibility; mutually exclusive with `SUPABASE_SECRET_KEY` |
 | `NEXT_PUBLIC_SUPABASE_URL` | нет | browser-safe/public path | используется другими явно выбранными Supabase paths; Published adapter игнорирует |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | нет | browser-safe public credential | Published adapter игнорирует |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | нет | browser-safe public credential | preferred public key; Published adapter игнорирует |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | нет | browser-safe public credential | temporary legacy anon JWT compatibility; Published adapter игнорирует |
 | `VERCEL_ENV` | да в Vercel; `production`, `preview` или local `development` | server configuration | выбирает один compiled approved project ref; неизвестное/отсутствующее Vercel-значение отклоняется |
 | `CYBERMEDICA_ALLOW_LOCAL_SUPABASE_ORIGIN=1` | только synthetic local QA с `NODE_ENV=test` | server-only test flag | разрешает fixed HTTP loopback ref строго вне Vercel |
 
 Выбран **Option A — runtime-only server configuration**. Build не требует и не
-читает три server-only Published variables. Runtime получает URL, project ref
-и service key из `process.env`; `NEXT_PUBLIC_SUPABASE_URL` не является
+читает server-only Published credential values. Runtime получает URL, project ref
+и privileged key из `process.env`; `NEXT_PUBLIC_SUPABASE_URL` не является
 authoritative origin и может относиться к другому browser-safe path. Build
 artifact не связывается с build-time project origin.
 

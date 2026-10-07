@@ -29,7 +29,7 @@ function secureCookieOptions(options: CookieOptions): CookieOptions {
 export async function createInternalAuthServerClient() {
   const cookieStore = await cookies();
   const environment = getInternalAuthEnvironment();
-  return createServerClient(environment.url, environment.anonKey, {
+  return createServerClient(environment.url, environment.publicKey, {
     cookieOptions: internalAuthCookieOptions,
     cookies: {
       getAll: () => cookieStore.getAll(),
@@ -58,7 +58,7 @@ export function createInternalAuthRouteClient(request: NextRequest) {
   const environment = getInternalAuthEnvironment();
   const pendingCookies: CookieToSet[] = [];
   const pendingHeaders = new Headers();
-  const client = createServerClient(environment.url, environment.anonKey, {
+  const client = createServerClient(environment.url, environment.publicKey, {
     cookieOptions: internalAuthCookieOptions,
     cookies: {
       getAll: () => request.cookies.getAll(),

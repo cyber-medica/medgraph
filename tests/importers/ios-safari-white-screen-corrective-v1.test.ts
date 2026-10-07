@@ -55,8 +55,9 @@ test("public shell does not access browser-only APIs during SSR", async () => {
 });
 
 test("WebKit smoke covers the public shell and prevents a stuck streaming fallback", async () => {
-  const [smoke, packageJson, globalStyles] = await Promise.all([
+  const [smoke, workflow, packageJson, globalStyles] = await Promise.all([
     source("scripts/qa/ios-webkit-smoke.ts"),
+    source(".github/workflows/catalog-reliability-gate.yml"),
     source("package.json"),
     source("app/globals.css"),
   ]);
@@ -68,7 +69,27 @@ test("WebKit smoke covers the public shell and prevents a stuck streaming fallba
   assert.match(smoke, /CriOS/u);
   assert.match(smoke, /\/internal\/login/u);
   assert.match(smoke, /aria-label="Загрузка страницы"/u);
-  assert.match(smoke, /runtimeErrors/u);
+  assert.match(smoke, /runtimeFailures/u);
+  assert.match(smoke, /WEBKIT_SMOKE_REMOTE_MEDIA_MODE/u);
+  assert.match(smoke, /Deterministic remote media interception is allowed only for loopback smoke/u);
+  assert.match(smoke, /isApprovedPublicMediaUrl/u);
+  assert.match(smoke, /route\.fulfill\(\{ status: 200, contentType: "image\/png"/u);
+  assert.match(smoke, /page\.on\("requestfailed"/u);
+  assert.match(smoke, /page\.on\("response"/u);
+  assert.match(smoke, /page\.on\("pageerror"/u);
+  assert.match(smoke, /page\.on\("console"/u);
+  assert.match(smoke, /NEXT_IMAGE/u);
+  assert.match(smoke, /REMOTE_MEDIA/u);
+  assert.match(smoke, /SUPABASE/u);
+  assert.match(smoke, /YANDEX/u);
+  assert.match(smoke, /LOCAL_APP/u);
+  assert.match(smoke, /OTHER/u);
+  assert.doesNotMatch(smoke, /console\.error\([^)]*message\.text/u);
+  assert.match(workflow, /WEBKIT_SMOKE_REMOTE_MEDIA_MODE=fixture/u);
+  assert.match(workflow, /WEBKIT_SMOKE_REQUIRE_REMOTE_MEDIA_INTERCEPTION=1/u);
+  assert.match(workflow, /WEBKIT_SMOKE_ASSERT_NO_SUPABASE=1/u);
+  assert.match(workflow, /WEBKIT_SMOKE_MODE=next-image/u);
+  assert.match(workflow, /WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000/u);
   assert.match(packageJson, /"qa:ios-webkit-smoke"/u);
   assert.doesNotMatch(globalStyles, /fonts\.googleapis\.com/u);
 });

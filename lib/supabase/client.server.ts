@@ -4,7 +4,8 @@ import {
   getProjectBoundSupabaseServiceEnvironment,
   getSupabasePublicEnvironment,
   getSupabaseServiceEnvironment,
-  type SupabasePublicEnvironment,
+  type SupabaseApiCredential,
+  type SupabaseCredentialMode,
 } from "./env.ts";
 
 export type SupabaseServerAccess = "anon" | "service_role";
@@ -21,6 +22,7 @@ export class SupabaseConnectionError extends Error {
 
 export interface SupabaseServerClient {
   readonly access: SupabaseServerAccess;
+  readonly credentialMode: SupabaseCredentialMode;
   readonly url: string;
   request(pathname: string, init?: RequestInit): Promise<Response>;
 }
@@ -40,13 +42,13 @@ export interface CreateProjectBoundSupabaseServerClientOptions {
 function resolveCredentials(
   access: SupabaseServerAccess,
   environment: Readonly<Record<string, string | undefined>>,
-): SupabasePublicEnvironment & { key: string } {
+): { url: string; credential: SupabaseApiCredential } {
   if (access === "service_role") {
     const values = getSupabaseServiceEnvironment(environment);
-    return { url: values.url, anonKey: values.anonKey, key: values.serviceRoleKey };
+    return { url: values.url, credential: values.privilegedCredential };
   }
   const values = getSupabasePublicEnvironment(environment);
-  return { ...values, key: values.anonKey };
+  return { url: values.url, credential: values.publicCredential };
 }
 
 export function createSupabaseServerClient(
@@ -56,7 +58,7 @@ export function createSupabaseServerClient(
   const credentials = resolveCredentials(access, options.environment ?? process.env);
   const fetchImplementation = options.fetchImplementation ?? fetch;
 
-  return createClient(access, credentials.url, credentials.key, fetchImplementation);
+  return createClient(access, credentials.url, credentials.credential, fetchImplementation);
 }
 
 export function createProjectBoundSupabaseServerClient(
@@ -69,7 +71,7 @@ export function createProjectBoundSupabaseServerClient(
   return createClient(
     "service_role",
     credentials.url,
-    credentials.serviceRoleKey,
+    credentials.privilegedCredential,
     options.fetchImplementation ?? fetch,
   );
 }
@@ -77,11 +79,12 @@ export function createProjectBoundSupabaseServerClient(
 function createClient(
   access: SupabaseServerAccess,
   url: string,
-  key: string,
+  credential: SupabaseApiCredential,
   fetchImplementation: typeof fetch,
 ): SupabaseServerClient {
   return {
     access,
+    credentialMode: credential.mode,
     url,
     async request(pathname, init = {}) {
       const requestUrl = new URL(pathname, `${url}/`);
@@ -90,16 +93,20 @@ function createClient(
           "Supabase request target must use the configured origin.",
         );
       }
+      const headers = new Headers();
+      new Headers(init.headers).forEach((value, name) => {
+        if (name !== "authorization" && name !== "apikey") headers.append(name, value);
+      });
+      if (!headers.has("Accept")) headers.set("Accept", "application/json");
+      headers.set("apikey", credential.key);
+      if (credential.sendAsBearer) {
+        headers.set("Authorization", `Bearer ${credential.key}`);
+      }
       const response = await fetchImplementation(requestUrl, {
         ...init,
         cache: "no-store",
         redirect: "error",
-        headers: {
-          Accept: "application/json",
-          apikey: key,
-          Authorization: `Bearer ${key}`,
-          ...init.headers,
-        },
+        headers,
       });
       if (!response.ok) {
         throw new SupabaseConnectionError(

@@ -14,7 +14,11 @@ import {
 } from "../../lib/supabase/env.ts";
 
 const thirdProjectRef = "abcdefghijklmnopqrst";
-const serviceRoleKey = "synthetic-corrective-v3-key";
+const serviceRoleKey = [
+  Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url"),
+  Buffer.from(JSON.stringify({ role: "service_role" })).toString("base64url"),
+  "synthetic_signature",
+].join(".");
 
 function cloudUrl(projectRef: string) {
   return `https://${projectRef}.supabase.co`;
