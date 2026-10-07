@@ -1,5 +1,7 @@
 "use server";
 
+import { hasSupabasePrivilegedCredentialConfiguration } from "@/lib/supabase/env";
+
 import { getTrustedAdmin } from "@/lib/internal-auth/session";
 import {
   CatalogWave2RunnerError,
@@ -19,7 +21,7 @@ function productionEnvironmentPresent() {
   return Boolean(
     process.env.CYBERMEDICA_SUPABASE_URL?.trim()
     && process.env.CYBERMEDICA_SUPABASE_PROJECT_REF?.trim()
-    && process.env.SUPABASE_SERVICE_ROLE_KEY?.trim(),
+    && hasSupabasePrivilegedCredentialConfiguration(process.env),
   );
 }
 

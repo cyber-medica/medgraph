@@ -27,7 +27,8 @@ CYBERMEDICA_ENABLE_WAVE2_DASHBOARD=
 
 Rules:
 
-- `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are used only for read access to `public_api`.
+- `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are used only for browser-safe read access to `public_api`.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` is temporary legacy JWT compatibility and must not be set together with the publishable key.
 - Never use a Supabase `service_role` key in the Portal.
 - Leave `CYBERMEDICA_ENABLE_ADMIN` empty for external preview. `/admin` must remain hidden in production unless explicitly enabled for a controlled internal environment.
 - Leave `CYBERMEDICA_ENABLE_INTERNAL_REVIEW`, `CYBERMEDICA_ENABLE_IMPORT_CENTER`, and `CYBERMEDICA_ENABLE_WAVE2_DASHBOARD` empty for external preview. Their `/internal/*` routes must remain hidden unless explicitly enabled for a controlled internal environment.

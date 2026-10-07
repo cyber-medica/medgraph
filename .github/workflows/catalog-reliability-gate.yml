@@ -26,7 +26,7 @@ jobs:
           CATALOG_DATA_SOURCE=cloud_published \
           CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk \
           CYBERMEDICA_SUPABASE_URL=https://gjlpkqdhlzbfnzzoxlsk.supabase.co \
-          SUPABASE_SERVICE_ROLE_KEY=fault-injection-only \
+          SUPABASE_SECRET_KEY=sb_secret_fault_injection_only_000000000000 \
           VERCEL=1 \
           VERCEL_ENV=preview \
           CYBERMEDICA_CATALOG_FAULT_INJECTION=all npm start &

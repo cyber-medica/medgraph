@@ -1,5 +1,7 @@
 import "server-only";
 
+import { getSupabasePublicEnvironment } from "@/lib/supabase/env";
+
 import type { PublicProductPageRow } from "./types.ts";
 
 const PUBLIC_SCHEMA = "public_api";
@@ -7,7 +9,7 @@ const PUBLIC_SCHEMA = "public_api";
 export class SupabaseConfigurationError extends Error {
   constructor() {
     super(
-      "Supabase не настроен. Добавьте NEXT_PUBLIC_SUPABASE_URL и NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+      "Supabase public configuration is missing or ambiguous.",
     );
     this.name = "SupabaseConfigurationError";
   }
@@ -25,18 +27,15 @@ interface ServerSupabaseClient {
 }
 
 function getEnvironment() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !anonKey) {
+  try {
+    return getSupabasePublicEnvironment(process.env);
+  } catch {
     throw new SupabaseConfigurationError();
   }
-
-  return { url, anonKey };
 }
 
 export function createServerSupabaseClient(): ServerSupabaseClient {
-  const { url, anonKey } = getEnvironment();
+  const { url, publicCredential } = getEnvironment();
 
   return {
     async getProductPage(slug) {
@@ -49,14 +48,17 @@ export function createServerSupabaseClient(): ServerSupabaseClient {
       endpoint.searchParams.set("locale", "eq.ru-RU");
       endpoint.searchParams.set("limit", "1");
 
+      const headers = new Headers({
+        Accept: "application/json",
+        "Accept-Profile": PUBLIC_SCHEMA,
+        apikey: publicCredential.key,
+      });
+      if (publicCredential.sendAsBearer) {
+        headers.set("Authorization", `Bearer ${publicCredential.key}`);
+      }
       const response = await fetch(endpoint, {
         cache: "no-store",
-        headers: {
-          Accept: "application/json",
-          "Accept-Profile": PUBLIC_SCHEMA,
-          apikey: anonKey,
-          Authorization: `Bearer ${anonKey}`,
-        },
+        headers,
       });
 
       if (!response.ok) {

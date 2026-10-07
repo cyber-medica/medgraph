@@ -16,6 +16,11 @@ const stagingRef = "gjlpkqdhlzbfnzzoxlsk";
 const productionRef = "clbzibuusyuajsylcbvl";
 const stagingUrl = `https://${stagingRef}.supabase.co`;
 const productionUrl = `https://${productionRef}.supabase.co`;
+const legacyServiceRoleKey = [
+  Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url"),
+  Buffer.from(JSON.stringify({ role: "service_role" })).toString("base64url"),
+  "synthetic_signature",
+].join(".");
 
 function boundEnvironment(
   overrides: Readonly<Record<string, string | undefined>> = {},
@@ -24,7 +29,7 @@ function boundEnvironment(
     NODE_ENV: "test",
     [PROJECT_BOUND_SUPABASE_URL_ENV]: stagingUrl,
     [PROJECT_BOUND_SUPABASE_REF_ENV]: stagingRef,
-    SUPABASE_SERVICE_ROLE_KEY: "synthetic-service-role-key",
+    SUPABASE_SERVICE_ROLE_KEY: legacyServiceRoleKey,
     ...overrides,
   };
 }
@@ -64,7 +69,7 @@ test("published service binding accepts only the exact configured Supabase proje
       () => validateSupabaseProjectBinding(url, projectRef, options),
       (error: unknown) => error instanceof SupabaseEnvironmentError
         && !error.message.includes(url)
-        && !error.message.includes("synthetic-service-role-key"),
+        && !error.message.includes(legacyServiceRoleKey),
     );
   });
 });
@@ -77,7 +82,11 @@ test("project-bound environment is server-only, complete and independent from NE
   assert.deepEqual(values, {
     url: stagingUrl,
     projectRef: stagingRef,
-    serviceRoleKey: "synthetic-service-role-key",
+    privilegedCredential: {
+      key: legacyServiceRoleKey,
+      mode: "legacy_service_role",
+      sendAsBearer: true,
+    },
   });
 
   for (const missing of [
@@ -90,7 +99,7 @@ test("project-bound environment is server-only, complete and independent from NE
       (error: unknown) => error instanceof SupabaseEnvironmentError
         && !error.message.includes(stagingUrl)
         && !error.message.includes(stagingRef)
-        && !error.message.includes("synthetic-service-role-key"),
+        && !error.message.includes(legacyServiceRoleKey),
     );
   }
 });
@@ -152,7 +161,7 @@ test("project mismatch creates zero requests and matching binding owns the crede
     const base = {
       NODE_ENV: "test",
       CYBERMEDICA_SUPABASE_PROJECT_REF: "${stagingRef}",
-      SUPABASE_SERVICE_ROLE_KEY: "synthetic-bound-key",
+      SUPABASE_SERVICE_ROLE_KEY: ${JSON.stringify(legacyServiceRoleKey)},
     };
     let mismatchCode = "none";
     try {
@@ -174,8 +183,8 @@ test("project mismatch creates zero requests and matching binding owns the crede
         requests += 1;
         target = new URL(request).origin;
         const headers = new Headers(init?.headers);
-        authorised = headers.get("authorization") === "Bearer synthetic-bound-key"
-          && headers.get("apikey") === "synthetic-bound-key";
+        authorised = headers.get("authorization") === ${JSON.stringify(`Bearer ${legacyServiceRoleKey}`)}
+          && headers.get("apikey") === ${JSON.stringify(legacyServiceRoleKey)};
         return new Response("{}");
       },
     });

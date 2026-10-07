@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 
 import { parsePublishedCatalogProjection } from "../../lib/published-catalog/contracts.ts";
+import { getSupabasePrivilegedCredential } from "../../lib/supabase/env.ts";
 
 const outputPath = new URL(
   "../../data/published-catalog-last-known-good.json",
@@ -70,8 +71,8 @@ async function validateExistingSnapshot(production = false) {
 
 async function captureProductionSnapshot() {
   const origin = process.env.CYBERMEDICA_SUPABASE_URL?.trim();
-  const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-  if (!origin || !serviceRole) throw new Error("Production snapshot configuration is missing.");
+  if (!origin) throw new Error("Production snapshot configuration is missing.");
+  const credential = getSupabasePrivilegedCredential(process.env);
   const url = new URL(origin);
   if (
     url.protocol !== "https:"
@@ -81,18 +82,21 @@ async function captureProductionSnapshot() {
 
   let response: Response;
   try {
+    const headers = new Headers({
+      apikey: credential.key,
+      "Accept-Profile": "cloud_api",
+      "Content-Profile": "cloud_api",
+      "Content-Type": "application/json",
+    });
+    if (credential.sendAsBearer) {
+      headers.set("Authorization", `Bearer ${credential.key}`);
+    }
     response = await fetch(
       new URL("/rest/v1/rpc/cloud_published_storefront_catalog_v1", url),
       {
         method: "POST",
         redirect: "error",
-        headers: {
-          apikey: serviceRole,
-          Authorization: `Bearer ${serviceRole}`,
-          "Accept-Profile": "cloud_api",
-          "Content-Profile": "cloud_api",
-          "Content-Type": "application/json",
-        },
+        headers,
         body: "{}",
         signal: AbortSignal.timeout(10_000),
       },

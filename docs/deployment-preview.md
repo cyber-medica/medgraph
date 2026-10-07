@@ -94,10 +94,12 @@ Values are configured only in Vercel and are never committed.
 | `CYBERMEDICA_REVIEWER_ID` | Required only for enabled reviewer writes |
 | `CYBERMEDICA_ENABLE_REVIEW_FIXTURES` | Development/test only; leave unset |
 | `NEXT_PUBLIC_SUPABASE_URL` | Browser-safe URL only where the approved Preview path requires it |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Browser-safe anon key only where the approved Preview path requires it |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Preferred browser-safe publishable key where the approved Preview path requires it |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Temporary legacy anon JWT compatibility; mutually exclusive with the publishable key |
 | `CYBERMEDICA_SUPABASE_URL` | Server-only; exact Stage origin for cloud Preview paths |
 | `CYBERMEDICA_SUPABASE_PROJECT_REF` | Server-only; exact Stage ref for cloud Preview paths |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only; only for an explicitly approved protected Preview boundary |
+| `SUPABASE_SECRET_KEY` | Preferred runtime-only `sb_secret_*` key for an approved protected Preview boundary |
+| `SUPABASE_SERVICE_ROLE_KEY` | Temporary legacy service-role JWT compatibility; mutually exclusive with the secret key |
 | `CATALOG_DATA_SOURCE` | Exact approved Preview source; verify branch-scoped binding before QA |
 
 Import-only variables (`CATALOG_RESEARCH_PROVIDER`, `CHROME_PATH`,

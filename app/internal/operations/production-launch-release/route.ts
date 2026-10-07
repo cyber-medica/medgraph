@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { hasSupabasePrivilegedCredentialConfiguration } from "@/lib/supabase/env";
+
 import { resolveInternalAuthOrigin } from "@/lib/internal-auth/policy";
 import { readActiveTrustedReviewer } from "@/lib/internal-auth/session";
 import {
@@ -38,7 +40,7 @@ function productionEnvironmentPresent() {
   return Boolean(
     process.env.CYBERMEDICA_SUPABASE_URL?.trim()
     && process.env.CYBERMEDICA_SUPABASE_PROJECT_REF?.trim()
-    && process.env.SUPABASE_SERVICE_ROLE_KEY?.trim(),
+    && hasSupabasePrivilegedCredentialConfiguration(process.env),
   );
 }
 

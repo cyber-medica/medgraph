@@ -1,5 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+import { hasSupabasePrivilegedCredentialConfiguration } from "@/lib/supabase/env";
+
 import { resolveInternalAuthOrigin } from "@/lib/internal-auth/policy";
 import { readActiveTrustedReviewer } from "@/lib/internal-auth/session";
 import {
@@ -57,7 +59,7 @@ export async function POST(request: NextRequest) {
     return safeJson({ status: "blocked", code: "corporate_admin_required" }, 403, auth);
   }
   if (!process.env.CYBERMEDICA_SUPABASE_URL?.trim()
-      || !process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
+      || !hasSupabasePrivilegedCredentialConfiguration(process.env)) {
     return safeJson({ status: "blocked", code: "service_configuration_missing" }, 503, auth);
   }
 

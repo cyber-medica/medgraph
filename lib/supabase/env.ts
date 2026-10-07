@@ -5,30 +5,50 @@ export class SupabaseEnvironmentError extends Error {
   }
 }
 
-export interface SupabasePublicEnvironment {
-  url: string;
-  anonKey: string;
+export type SupabaseCredentialMode =
+  | "publishable"
+  | "legacy_anon"
+  | "secret"
+  | "legacy_service_role";
+
+export interface SupabaseApiCredential {
+  key: string;
+  mode: SupabaseCredentialMode;
+  sendAsBearer: boolean;
 }
 
-export interface SupabaseServiceEnvironment extends SupabasePublicEnvironment {
-  serviceRoleKey: string;
+export interface SupabasePublicEnvironment {
+  url: string;
+  publicCredential: SupabaseApiCredential;
+}
+
+export interface SupabaseServiceEnvironment {
+  url: string;
+  privilegedCredential: SupabaseApiCredential;
 }
 
 export interface SupabaseProjectBoundServiceEnvironment {
   url: string;
   projectRef: string;
-  serviceRoleKey: string;
+  privilegedCredential: SupabaseApiCredential;
 }
 
 export const LOCAL_SUPABASE_ORIGIN_OPT_IN = "CYBERMEDICA_ALLOW_LOCAL_SUPABASE_ORIGIN";
 export const PROJECT_BOUND_SUPABASE_URL_ENV = "CYBERMEDICA_SUPABASE_URL";
 export const PROJECT_BOUND_SUPABASE_REF_ENV = "CYBERMEDICA_SUPABASE_PROJECT_REF";
+export const SUPABASE_PUBLISHABLE_KEY_ENV = "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY";
+export const LEGACY_SUPABASE_ANON_KEY_ENV = "NEXT_PUBLIC_SUPABASE_ANON_KEY";
+export const SUPABASE_SECRET_KEY_ENV = "SUPABASE_SECRET_KEY";
+export const LEGACY_SUPABASE_SERVICE_ROLE_KEY_ENV = "SUPABASE_SERVICE_ROLE_KEY";
 export const STAGING_SUPABASE_PROJECT_REF = "gjlpkqdhlzbfnzzoxlsk";
 export const PRODUCTION_SUPABASE_PROJECT_REF = "clbzibuusyuajsylcbvl";
 export const LOCAL_SUPABASE_PROJECT_REF = "localdevelopment0001";
 
 const supabaseProjectHostname = /^[a-z0-9]{20}\.supabase\.co$/u;
 const supabaseProjectRef = /^[a-z0-9]{20}$/u;
+const publishableKeyPattern = /^sb_publishable_[A-Za-z0-9_-]{16,}$/u;
+const secretKeyPattern = /^sb_secret_[A-Za-z0-9_-]{16,}$/u;
+const jwtSegmentPattern = /^[A-Za-z0-9_-]+$/u;
 const localSupabaseHostnames = new Set(["localhost", "127.0.0.1", "[::1]"]);
 
 export type SupabaseDeploymentEnvironment = "production" | "preview" | "local";
@@ -81,6 +101,100 @@ function requireValue(
   const value = environment[name]?.trim();
   if (!value) throw new SupabaseEnvironmentError(`${name} is required.`);
   return value;
+}
+
+function optionalCredentialValue(
+  environment: Readonly<Record<string, string | undefined>>,
+  name: string,
+): string | null {
+  const rawValue = environment[name];
+  if (rawValue === undefined || rawValue === "") return null;
+  const value = rawValue.trim();
+  if (!value || value !== rawValue) {
+    throw new SupabaseEnvironmentError(`${name} is malformed.`);
+  }
+  return value;
+}
+
+function legacyJwtRole(value: string): string | null {
+  const segments = value.split(".");
+  if (segments.length !== 3 || segments.some((segment) => !jwtSegmentPattern.test(segment))) {
+    return null;
+  }
+  try {
+    const payload = JSON.parse(
+      Buffer.from(segments[1], "base64url").toString("utf8"),
+    ) as { role?: unknown };
+    return typeof payload.role === "string" ? payload.role : null;
+  } catch {
+    return null;
+  }
+}
+
+function resolvePublicCredential(
+  environment: Readonly<Record<string, string | undefined>>,
+): SupabaseApiCredential {
+  const publishableKey = optionalCredentialValue(environment, SUPABASE_PUBLISHABLE_KEY_ENV);
+  const legacyAnonKey = optionalCredentialValue(environment, LEGACY_SUPABASE_ANON_KEY_ENV);
+  if (publishableKey && legacyAnonKey) {
+    throw new SupabaseEnvironmentError("Supabase public credential configuration is ambiguous.");
+  }
+  if (publishableKey) {
+    if (!publishableKeyPattern.test(publishableKey)) {
+      throw new SupabaseEnvironmentError(`${SUPABASE_PUBLISHABLE_KEY_ENV} is malformed.`);
+    }
+    return { key: publishableKey, mode: "publishable", sendAsBearer: false };
+  }
+  if (legacyAnonKey) {
+    if (legacyJwtRole(legacyAnonKey) !== "anon") {
+      throw new SupabaseEnvironmentError(`${LEGACY_SUPABASE_ANON_KEY_ENV} is malformed.`);
+    }
+    return { key: legacyAnonKey, mode: "legacy_anon", sendAsBearer: true };
+  }
+  throw new SupabaseEnvironmentError("Supabase public credential is required.");
+}
+
+export function getSupabasePrivilegedCredential(
+  environment: Readonly<Record<string, string | undefined>> = process.env,
+): SupabaseApiCredential {
+  const secretKey = optionalCredentialValue(environment, SUPABASE_SECRET_KEY_ENV);
+  const legacyServiceRoleKey = optionalCredentialValue(
+    environment,
+    LEGACY_SUPABASE_SERVICE_ROLE_KEY_ENV,
+  );
+  if (secretKey && legacyServiceRoleKey) {
+    throw new SupabaseEnvironmentError("Supabase privileged credential configuration is ambiguous.");
+  }
+  if (secretKey) {
+    if (!secretKeyPattern.test(secretKey)) {
+      throw new SupabaseEnvironmentError(`${SUPABASE_SECRET_KEY_ENV} is malformed.`);
+    }
+    return { key: secretKey, mode: "secret", sendAsBearer: false };
+  }
+  if (legacyServiceRoleKey) {
+    if (legacyJwtRole(legacyServiceRoleKey) !== "service_role") {
+      throw new SupabaseEnvironmentError(
+        `${LEGACY_SUPABASE_SERVICE_ROLE_KEY_ENV} is malformed.`,
+      );
+    }
+    return {
+      key: legacyServiceRoleKey,
+      mode: "legacy_service_role",
+      sendAsBearer: true,
+    };
+  }
+  throw new SupabaseEnvironmentError("Supabase privileged credential is required.");
+}
+
+export function hasSupabasePrivilegedCredentialConfiguration(
+  environment: Readonly<Record<string, string | undefined>> = process.env,
+): boolean {
+  try {
+    getSupabasePrivilegedCredential(environment);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function validateUrl(value: string): string {
@@ -197,7 +311,7 @@ export function getSupabasePublicEnvironment(
 ): SupabasePublicEnvironment {
   return {
     url: validateUrl(requireValue(environment, "NEXT_PUBLIC_SUPABASE_URL")),
-    anonKey: requireValue(environment, "NEXT_PUBLIC_SUPABASE_ANON_KEY"),
+    publicCredential: resolvePublicCredential(environment),
   };
 }
 
@@ -205,8 +319,8 @@ export function getSupabaseServiceEnvironment(
   environment: Readonly<Record<string, string | undefined>> = process.env,
 ): SupabaseServiceEnvironment {
   return {
-    ...getSupabasePublicEnvironment(environment),
-    serviceRoleKey: requireValue(environment, "SUPABASE_SERVICE_ROLE_KEY"),
+    url: validateUrl(requireValue(environment, "NEXT_PUBLIC_SUPABASE_URL")),
+    privilegedCredential: getSupabasePrivilegedCredential(environment),
   };
 }
 
@@ -230,6 +344,6 @@ export function getProjectBoundSupabaseServiceEnvironment(
       },
     ),
     projectRef,
-    serviceRoleKey: requireValue(environment, "SUPABASE_SERVICE_ROLE_KEY"),
+    privilegedCredential: getSupabasePrivilegedCredential(environment),
   };
 }

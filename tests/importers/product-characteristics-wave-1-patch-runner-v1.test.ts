@@ -94,5 +94,5 @@ test("Production route requires exact corporate session and immutable request", 
   assert.doesNotMatch(source, /APPROVED_REVIEWER|EXPECTED_ADMIN_ID/u);
   assert.match(source, /same_origin_required/u);
   assert.match(source, /validateProductCharacteristicsWave1PatchOperationRequest/u);
-  assert.match(source, /SUPABASE_SERVICE_ROLE_KEY/u);
+  assert.match(source, /hasSupabasePrivilegedCredentialConfiguration\(process\.env\)/u);
 });
