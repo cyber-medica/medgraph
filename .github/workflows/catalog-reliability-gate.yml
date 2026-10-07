@@ -23,6 +23,7 @@ jobs:
       - run: npm run qa:catalog-reliability-gate
       - run: npm run build
       - run: |
+          set -euo pipefail
           CATALOG_DATA_SOURCE=cloud_published \
           CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk \
           CYBERMEDICA_SUPABASE_URL=https://gjlpkqdhlzbfnzzoxlsk.supabase.co \
@@ -31,15 +32,24 @@ jobs:
           VERCEL_ENV=preview \
           CYBERMEDICA_CATALOG_FAULT_INJECTION=all npm start &
           server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:3000/catalog >/dev/null; then
-              WEBKIT_SMOKE_PRODUCT_PATH=/catalog/767632362-330695211247-apparat-ivl-hamilton-t1 npm run qa:ios-webkit-smoke
-              kill "$server_pid"
+              WEBKIT_SMOKE_PRODUCT_PATH=/catalog/767632362-330695211247-apparat-ivl-hamilton-t1 \
+              WEBKIT_SMOKE_REMOTE_MEDIA_MODE=fixture \
+              WEBKIT_SMOKE_REQUIRE_REMOTE_MEDIA_INTERCEPTION=1 \
+              WEBKIT_SMOKE_ASSERT_NO_SUPABASE=1 \
+              npm run qa:ios-webkit-smoke
+              WEBKIT_SMOKE_MODE=next-image \
+              WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000 \
+              npm run qa:ios-webkit-smoke
               exit 0
             fi
             sleep 1
           done
-          kill "$server_pid" || true
           exit 1
   canonical-route-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/production'
