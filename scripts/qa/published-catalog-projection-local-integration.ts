@@ -140,6 +140,48 @@ done`,
     JSON.parse(emptyProjectionResult.stdout.trim()),
   );
 
+  const wrapperEquivalenceResult = run("docker", [
+    "exec", CONTAINER, "psql", "-U", "supabase_admin", "-d", DATABASE,
+    "-v", "ON_ERROR_STOP=1", "-qAtc",
+    `set role service_role;
+    with claims as materialized (
+      select set_config('request.jwt.claim.role', 'service_role', false)
+    ), projections as materialized (
+      select
+        public_api.cloud_published_storefront_catalog_v1() as public_api_payload,
+        cloud_api.cloud_published_storefront_catalog_v1() as cloud_api_payload
+      from claims
+    )
+    select jsonb_build_object(
+      'jsonbEqual', public_api_payload = cloud_api_payload,
+      'productCount', public_api_payload #> '{summary,productCount}'
+    )
+    from projections`,
+  ], { quiet: true });
+  const wrapperEquivalenceAudit = JSON.parse(wrapperEquivalenceResult.stdout.trim()) as {
+    jsonbEqual: boolean;
+    productCount: number;
+  };
+  if (!wrapperEquivalenceAudit.jsonbEqual) {
+    throw new Error(
+      `Plan B wrapper JSONB equivalence failed: ${JSON.stringify(wrapperEquivalenceAudit)}`,
+    );
+  }
+
+  const anonWrapperAttempt = run("docker", [
+    "exec", CONTAINER, "psql", "-U", "supabase_admin", "-d", DATABASE,
+    "-v", "ON_ERROR_STOP=1", "-qAtc",
+    "set role anon; select public_api.cloud_published_storefront_catalog_v1()",
+  ], { allowFailure: true, quiet: true });
+  const authenticatedWrapperAttempt = run("docker", [
+    "exec", CONTAINER, "psql", "-U", "supabase_admin", "-d", DATABASE,
+    "-v", "ON_ERROR_STOP=1", "-qAtc",
+    "set role authenticated; select public_api.cloud_published_storefront_catalog_v1()",
+  ], { allowFailure: true, quiet: true });
+  if (anonWrapperAttempt.status === 0 || authenticatedWrapperAttempt.status === 0) {
+    throw new Error("Plan B wrapper must reject anon and authenticated database roles.");
+  }
+
   const initializationFirstResult = run("docker", [
     "exec", CONTAINER, "psql", "-U", "supabase_admin", "-d", DATABASE, "-Atc",
     `select cloud.initialize_published_catalog_projection_v4(
@@ -290,6 +332,46 @@ test "$(psql -U supabase_admin -d ${DATABASE} -Atc 'select count(*) from cloud.p
       'serviceExecute', has_function_privilege(
         'service_role', 'cloud_api.cloud_published_storefront_catalog_v1()', 'EXECUTE'
       ),
+      'servicePublicApiSchemaUsage', has_schema_privilege(
+        'service_role', 'public_api', 'USAGE'
+      ),
+      'serviceWrapperExecute', has_function_privilege(
+        'service_role', 'public_api.cloud_published_storefront_catalog_v1()', 'EXECUTE'
+      ),
+      'anonWrapperExecute', has_function_privilege(
+        'anon', 'public_api.cloud_published_storefront_catalog_v1()', 'EXECUTE'
+      ),
+      'authenticatedWrapperExecute', has_function_privilege(
+        'authenticated', 'public_api.cloud_published_storefront_catalog_v1()', 'EXECUTE'
+      ),
+      'publicWrapperExecute', exists (
+        select 1
+        from pg_proc wrapper
+        cross join lateral aclexplode(
+          coalesce(wrapper.proacl, acldefault('f', wrapper.proowner))
+        ) privilege
+        where wrapper.oid =
+          'public_api.cloud_published_storefront_catalog_v1()'::regprocedure
+          and privilege.grantee = 0
+          and privilege.privilege_type = 'EXECUTE'
+      ),
+      'wrapperOwner', (select pg_get_userbyid(proowner) from pg_proc
+        where oid = 'public_api.cloud_published_storefront_catalog_v1()'::regprocedure),
+      'wrapperLanguage', (select language.lanname
+        from pg_proc wrapper
+        join pg_language language on language.oid = wrapper.prolang
+        where wrapper.oid =
+          'public_api.cloud_published_storefront_catalog_v1()'::regprocedure),
+      'wrapperReturnType', (select prorettype::regtype::text from pg_proc
+        where oid = 'public_api.cloud_published_storefront_catalog_v1()'::regprocedure),
+      'wrapperArgCount', (select pronargs from pg_proc
+        where oid = 'public_api.cloud_published_storefront_catalog_v1()'::regprocedure),
+      'wrapperVolatility', (select provolatile from pg_proc
+        where oid = 'public_api.cloud_published_storefront_catalog_v1()'::regprocedure),
+      'wrapperSecurityDefiner', (select prosecdef from pg_proc
+        where oid = 'public_api.cloud_published_storefront_catalog_v1()'::regprocedure),
+      'wrapperConfig', (select to_jsonb(proconfig) from pg_proc
+        where oid = 'public_api.cloud_published_storefront_catalog_v1()'::regprocedure),
       'serviceInternalExecute', has_function_privilege(
         'service_role', 'cloud.capture_published_catalog_projection_v2()', 'EXECUTE'
       ),
@@ -354,6 +436,18 @@ test "$(psql -U supabase_admin -d ${DATABASE} -Atc 'select count(*) from cloud.p
     anonExecute: boolean;
     authenticatedExecute: boolean;
     serviceExecute: boolean;
+    servicePublicApiSchemaUsage: boolean;
+    serviceWrapperExecute: boolean;
+    anonWrapperExecute: boolean;
+    authenticatedWrapperExecute: boolean;
+    publicWrapperExecute: boolean;
+    wrapperOwner: string;
+    wrapperLanguage: string;
+    wrapperReturnType: string;
+    wrapperArgCount: number;
+    wrapperVolatility: string;
+    wrapperSecurityDefiner: boolean;
+    wrapperConfig: string[];
     serviceInternalExecute: boolean;
     serviceEnqueueExecute: boolean;
     serviceFinalizeExecute: boolean;
@@ -379,6 +473,18 @@ test "$(psql -U supabase_admin -d ${DATABASE} -Atc 'select count(*) from cloud.p
   if (privilegeAudit.anonExecute
       || privilegeAudit.authenticatedExecute
       || !privilegeAudit.serviceExecute
+      || !privilegeAudit.servicePublicApiSchemaUsage
+      || !privilegeAudit.serviceWrapperExecute
+      || privilegeAudit.anonWrapperExecute
+      || privilegeAudit.authenticatedWrapperExecute
+      || privilegeAudit.publicWrapperExecute
+      || privilegeAudit.wrapperOwner !== "postgres"
+      || privilegeAudit.wrapperLanguage !== "sql"
+      || privilegeAudit.wrapperReturnType !== "jsonb"
+      || privilegeAudit.wrapperArgCount !== 0
+      || privilegeAudit.wrapperVolatility !== "s"
+      || privilegeAudit.wrapperSecurityDefiner
+      || JSON.stringify(privilegeAudit.wrapperConfig) !== JSON.stringify(["search_path=pg_catalog"])
       || privilegeAudit.serviceInternalExecute
       || privilegeAudit.serviceEnqueueExecute
       || privilegeAudit.serviceFinalizeExecute
@@ -600,6 +706,8 @@ wait "$second_pid" || { cat /tmp/identical-second.out; exit 1; }`,
       "exact-visible-structured-field-clock",
       "one-hundred-call-determinism",
       "service-only-read-only-grants",
+      "public-api-wrapper-jsonb-equivalence",
+      "public-api-wrapper-service-only-acl",
       "empty-projection-schema-validation",
     ],
     testBaseline: {
@@ -609,6 +717,7 @@ wait "$second_pid" || { cat /tmp/identical-second.out; exit 1; }`,
       applicationAreas: 1,
     },
     emptyProjection,
+    wrapperEquivalenceAudit,
     initializationAudit,
     concurrentInitializationAudit,
     bootstrapAudit,
