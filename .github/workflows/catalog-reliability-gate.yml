@@ -24,13 +24,15 @@ jobs:
       - run: npm run build
       - run: |
           set -euo pipefail
+          server_log="${RUNNER_TEMP}/catalog-reliability-next.log"
+          : > "$server_log"
           CATALOG_DATA_SOURCE=cloud_published \
           CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk \
           CYBERMEDICA_SUPABASE_URL=https://gjlpkqdhlzbfnzzoxlsk.supabase.co \
           SUPABASE_SECRET_KEY=sb_secret_fault_injection_only_000000000000 \
           VERCEL=1 \
           VERCEL_ENV=preview \
-          CYBERMEDICA_CATALOG_FAULT_INJECTION=all npm start &
+          CYBERMEDICA_CATALOG_FAULT_INJECTION=all npm start >"$server_log" 2>&1 &
           server_pid=$!
           cleanup() {
             kill "$server_pid" 2>/dev/null || true
@@ -45,6 +47,7 @@ jobs:
               npm run qa:ios-webkit-smoke
               WEBKIT_SMOKE_MODE=next-image \
               WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000 \
+              WEBKIT_SMOKE_SERVER_LOG="$server_log" \
               npm run qa:ios-webkit-smoke
               exit 0
             fi

@@ -106,10 +106,9 @@ test("footer exposes company, contacts and legal navigation without personal ema
 });
 
 test("homepage and Product cards expose factual RFQ conversion elements", async () => {
-  const [homeTrust, card, detail] = await Promise.all([
+  const [homeTrust, card] = await Promise.all([
     readFile("components/home/WhyCyberMedica.tsx", "utf8"),
     readFile("components/storefront/ProductCard.tsx", "utf8"),
-    readFile("app/catalog/[slug]/page.tsx", "utf8"),
   ]);
 
   assert.match(homeTrust, /Что получает заказчик/u);
@@ -120,7 +119,18 @@ test("homepage and Product cards expose factual RFQ conversion elements", async 
     assert.match(card, new RegExp(value, "u"));
   }
   assert.match(card, /hasRegistrationEvidence[\s\S]*РУ предоставляется по запросу/u);
-  assert.match(detail, /Запросить КП[\s\S]*Отправить ТЗ/u);
+});
+
+test("Product Detail exposes one canonical RFQ CTA without the duplicate technical-specification CTA", async () => {
+  const detail = await readFile("app/catalog/[slug]/page.tsx", "utf8");
+
+  assert.match(
+    detail,
+    /href=\{buildProductRequestHref\(product\)\}[\s\S]*?>[\s\S]*?Запросить КП[\s\S]*?<\/Link>/u,
+  );
+  assert.equal(detail.match(/buildProductRequestHref\(product\)/gu)?.length, 1);
+  assert.doesNotMatch(detail, /Отправить ТЗ/u);
+  assert.doesNotMatch(detail, /Техническое задание/u);
 });
 
 test("non-commercial query variants are noindex candidates while UTM and yclid stay attributable", () => {

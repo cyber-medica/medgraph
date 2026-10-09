@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile, stat } from "node:fs/promises";
 
 import { webkit } from "playwright-core";
 import type { Request } from "playwright-core";
@@ -7,6 +8,10 @@ import {
   APPROVED_PUBLIC_MEDIA_HOSTS,
   isApprovedPublicMediaUrl,
 } from "../../lib/public-media-policy.ts";
+import {
+  classifyNextImageIntegration,
+  nextImageTransportClass,
+} from "./next-image-integration-policy.ts";
 
 const defaultProductPath = process.env.WEBKIT_SMOKE_PRODUCT_PATH
   ?? "/catalog/767632362-330695211247-apparat-ivl-hamilton-t1";
@@ -148,13 +153,34 @@ function shouldInterceptRemoteMedia(request: Request): URL | undefined {
 async function checkNextImageIntegration(): Promise<void> {
   const source = process.env.WEBKIT_SMOKE_NEXT_IMAGE_SOURCE
     ?? "https://static.tildacdn.com/stor6162-6231-4365-b633-626361316364/47915533.png";
-  assert.ok(isApprovedPublicMediaUrl(source), "Next image integration source must be approved public media.");
+  let sourceUrl: URL;
+  try {
+    sourceUrl = new URL(source);
+  } catch {
+    throw new Error("NEXT_IMAGE integration failed class=LOCAL_OPTIMIZER_OR_CONFIG_FAILURE reason=UNSUPPORTED_MEDIA_HOST");
+  }
+  const approvedSourceHost = isApprovedPublicMediaUrl(source);
+  if (!approvedSourceHost) {
+    throw new Error(
+      `NEXT_IMAGE integration failed class=LOCAL_OPTIMIZER_OR_CONFIG_FAILURE`
+        + ` reason=UNSUPPORTED_MEDIA_HOST host=${sourceUrl.hostname}`,
+    );
+  }
   const optimizerUrl = new URL("/_next/image", parsedOrigin);
   optimizerUrl.searchParams.set("url", source);
   optimizerUrl.searchParams.set("w", "64");
   optimizerUrl.searchParams.set("q", "75");
   const timeout = Number(process.env.WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS ?? "8000");
   assert.ok(Number.isSafeInteger(timeout) && timeout > 0 && timeout <= 15_000, "Invalid optimizer timeout.");
+  const serverLogPath = process.env.WEBKIT_SMOKE_SERVER_LOG;
+  let serverLogOffset = 0;
+  if (serverLogPath) {
+    try {
+      serverLogOffset = (await stat(serverLogPath)).size;
+    } catch {
+      serverLogOffset = 0;
+    }
+  }
 
   let response: Response;
   try {
@@ -163,21 +189,44 @@ async function checkNextImageIntegration(): Promise<void> {
     const detail = error instanceof Error ? messageClass(error.message) : "ERROR";
     throw new Error(`NEXT_IMAGE LOCAL_APP request failed detail=${detail}`);
   }
-  if (response.status === 200) {
-    assert.match(
-      response.headers.get("content-type") ?? "",
-      /^image\//u,
-      "NEXT_IMAGE optimizer must return image content.",
-    );
-    console.log("NEXT_IMAGE integration passed for approved REMOTE_MEDIA source.");
-    return;
+  let serverEvidence = "";
+  if (serverLogPath) {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      try {
+        const log = await readFile(serverLogPath);
+        serverEvidence = log.subarray(serverLogOffset).toString("utf8");
+      } catch {
+        serverEvidence = "";
+      }
+      if (nextImageTransportClass(serverEvidence) || attempt === 2) break;
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
   }
 
-  const body = (await response.text()).slice(0, 500);
-  const upstreamFailure = response.status >= 500
-    && /upstream|fetch|network|timeout|response failed/iu.test(body);
-  const failureClass = upstreamFailure ? "REMOTE_MEDIA_UPSTREAM" : "LOCAL_APP_OR_CONFIG";
-  throw new Error(`NEXT_IMAGE integration failed class=${failureClass} status=${response.status}`);
+  const decision = classifyNextImageIntegration({
+    approvedSourceHost,
+    routeResponded: true,
+    status: response.status,
+    contentType: response.headers.get("content-type"),
+    serverEvidence,
+  });
+  const safeEvidence = `host=${sourceUrl.hostname} status=${response.status}`
+    + (decision.transportClass ? ` transport=${decision.transportClass}` : "");
+
+  if (decision.outcome === "PASS") {
+    console.log(`NEXT_IMAGE_INTEGRATION=PASS ${safeEvidence}`);
+    return;
+  }
+  if (decision.outcome === "DEGRADED_EXTERNAL_UPSTREAM") {
+    console.warn(
+      `NEXT_IMAGE_INTEGRATION=DEGRADED_EXTERNAL_UPSTREAM ${safeEvidence}`,
+    );
+    return;
+  }
+  throw new Error(
+    `NEXT_IMAGE integration failed class=${decision.failureClass}`
+      + ` reason=${decision.reason} ${safeEvidence}`,
+  );
 }
 
 if (process.env.WEBKIT_SMOKE_MODE === "next-image") {
