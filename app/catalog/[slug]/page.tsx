@@ -246,12 +246,6 @@ export default async function StorefrontProductPage({
                   >
                     Запросить КП
                   </Link>
-                  <Link
-                    href={`${buildProductRequestHref(product)}&query=${encodeURIComponent("Техническое задание")}`}
-                    className="cm-button-secondary"
-                  >
-                    Отправить ТЗ
-                  </Link>
                   {presentation.canCompare && storefrontDataSource !== "cloud_preview" ? (
                   <Link
                     href="/compare"
