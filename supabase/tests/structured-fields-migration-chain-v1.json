@@ -32,6 +32,7 @@
     { "version": "202608010001", "file": "202608010001_internal_rbac_read_contract_v1.sql", "sha256": "4ab00d483c3c4f81d5a1ac4311fa10f97d3ab53920bcdcfad257b5804569fe36" },
     { "version": "202608030001", "file": "202608030001_catalog_admin_characteristics_patch_v1.sql", "sha256": "e59e6c45b17f07612ee0029d61dcea9501f84b370d65f34e169fbebce3397479" },
     { "version": "202608030002", "file": "202608030002_catalog_admin_characteristics_projection_isolation_v1.sql", "sha256": "e2cd8ea0b9bf7a09dbf6f15d67feff2e0073a986f30dace34376845a7dc42e72" },
-    { "version": "202608110001", "file": "202608110001_production_launch_release_v1.sql", "sha256": "6143e71c390dff3b8f9c33fa2ffed74300433810cc5a52e67e0d20f0312534e5" }
+    { "version": "202608110001", "file": "202608110001_production_launch_release_v1.sql", "sha256": "6143e71c390dff3b8f9c33fa2ffed74300433810cc5a52e67e0d20f0312534e5" },
+    { "version": "202610080001", "file": "202610080001_public_api_published_catalog_wrapper_plan_b.sql", "sha256": "a364b437394b2cae21afd6a5f6dedc53d6554813f638e411c22602546eff4c69" }
   ]
 }

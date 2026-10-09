@@ -79,8 +79,8 @@ function requestCloudPublishedCatalogResponse(
   return client.request("/rest/v1/rpc/cloud_published_storefront_catalog_v1", {
     method: "POST",
     headers: {
-      "Accept-Profile": "cloud_api",
-      "Content-Profile": "cloud_api",
+      "Accept-Profile": "public_api",
+      "Content-Profile": "public_api",
       "Content-Type": "application/json",
     },
     body: "{}",
