@@ -55,8 +55,9 @@ test("public shell does not access browser-only APIs during SSR", async () => {
 });
 
 test("WebKit smoke covers the public shell and prevents a stuck streaming fallback", async () => {
-  const [smoke, workflow, packageJson, globalStyles] = await Promise.all([
+  const [smoke, policy, workflow, packageJson, globalStyles] = await Promise.all([
     source("scripts/qa/ios-webkit-smoke.ts"),
+    source("scripts/qa/next-image-integration-policy.ts"),
     source(".github/workflows/catalog-reliability-gate.yml"),
     source("package.json"),
     source("app/globals.css"),
@@ -79,17 +80,24 @@ test("WebKit smoke covers the public shell and prevents a stuck streaming fallba
   assert.match(smoke, /page\.on\("pageerror"/u);
   assert.match(smoke, /page\.on\("console"/u);
   assert.match(smoke, /NEXT_IMAGE/u);
+  assert.match(smoke, /WEBKIT_SMOKE_SERVER_LOG/u);
+  assert.match(smoke, /DEGRADED_EXTERNAL_UPSTREAM/u);
   assert.match(smoke, /REMOTE_MEDIA/u);
   assert.match(smoke, /SUPABASE/u);
   assert.match(smoke, /YANDEX/u);
   assert.match(smoke, /LOCAL_APP/u);
   assert.match(smoke, /OTHER/u);
   assert.doesNotMatch(smoke, /console\.error\([^)]*message\.text/u);
+  assert.match(policy, /LOCAL_OPTIMIZER_OR_CONFIG_FAILURE/u);
+  assert.match(policy, /REMOTE_MEDIA_UPSTREAM_FAILURE/u);
+  assert.match(policy, /\bETIMEDOUT\b/u);
+  assert.match(policy, /\bENOTFOUND\b/u);
   assert.match(workflow, /WEBKIT_SMOKE_REMOTE_MEDIA_MODE=fixture/u);
   assert.match(workflow, /WEBKIT_SMOKE_REQUIRE_REMOTE_MEDIA_INTERCEPTION=1/u);
   assert.match(workflow, /WEBKIT_SMOKE_ASSERT_NO_SUPABASE=1/u);
   assert.match(workflow, /WEBKIT_SMOKE_MODE=next-image/u);
   assert.match(workflow, /WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000/u);
+  assert.match(workflow, /WEBKIT_SMOKE_SERVER_LOG/u);
   assert.match(packageJson, /"qa:ios-webkit-smoke"/u);
   assert.doesNotMatch(globalStyles, /fonts\.googleapis\.com/u);
 });
