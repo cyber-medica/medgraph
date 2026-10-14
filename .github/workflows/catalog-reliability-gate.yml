@@ -73,6 +73,14 @@ jobs:
               WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000 \
               WEBKIT_SMOKE_SERVER_LOG="$server_log" \
               npm run qa:ios-webkit-smoke
+              if grep -q 'ENOENT' "$server_log"; then
+                echo "Unexpected ENOENT in first startup server log." >&2
+                exit 1
+              fi
+              echo "CACHE_HANDLER_INIT=PASS"
+              echo "ENOENT=0"
+              echo "CATALOG_HTTP=200"
+              echo "FIRST_STARTUP_SMOKE=PASS"
               exit 0
             fi
             sleep 1
@@ -193,6 +201,16 @@ jobs:
           echo "SERVICE_USER_CAN_WRITE_RUNTIME_STATE=YES"
           echo "SERVICE_USER_CANNOT_WRITE_IMMUTABLE_RELEASE=YES"
 
+          build_id="$(tr -d '\r\n' < "$release_root/.next/BUILD_ID")"
+          build_state="${state_root}/${build_id}"
+          fetch_cache_root="${build_state}/cache/fetch-cache"
+          fetch_files_before=0
+          if [[ -d "$fetch_cache_root" ]]; then
+            fetch_files_before="$(sudo find "$fetch_cache_root" -type f -print | wc -l | tr -d ' ')"
+          fi
+          test "$fetch_files_before" = "0"
+          echo "FETCH_CACHE_FILES_BEFORE=0"
+
           : > "$server_log"
           sudo -u "$service_user" env \
             "PATH=$PATH" \
@@ -219,6 +237,28 @@ jobs:
           pgrep -u "$service_user" -f 'next' >/dev/null
           echo "NEXT_START_AS_CYBERMEDICA_WEB=PASS"
 
+          fetch_created="NO"
+          fetch_files=()
+          for attempt in $(seq 1 30); do
+            if [[ -d "$fetch_cache_root" ]]; then
+              mapfile -t fetch_files < <(sudo find "$fetch_cache_root" -type f -print | sort)
+            fi
+            if [[ "${#fetch_files[@]}" -gt 0 ]]; then
+              fetch_created="YES"
+              break
+            fi
+            sleep 1
+          done
+          test "$fetch_created" = "YES"
+          fetch_entry="${fetch_files[0]}"
+          fetch_entry_relative="${fetch_entry#${build_state}/}"
+          fetch_digest_before="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
+          fetch_mtime_before="$(sudo stat -c '%Y' "$fetch_entry")"
+          echo "FETCH_CACHE_CREATED=YES"
+          echo "FETCH_CACHE_ENTRY=${fetch_entry_relative}"
+          echo "FETCH_CACHE_DIGEST_BEFORE=${fetch_digest_before}"
+          echo "FETCH_CACHE_WRITE=PASS"
+
           home_http="$(curl --silent --output /dev/null --write-out '%{http_code}' "http://127.0.0.1:${port}/")"
           catalog_http="$(curl --silent --output /dev/null --write-out '%{http_code}' "http://127.0.0.1:${port}/catalog")"
           hamilton_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
@@ -238,27 +278,44 @@ jobs:
             "http://127.0.0.1:${port}/_next/image")"
           test "$image_status" = "200"
 
+          mapfile -t image_metadata < <(sudo find "$build_state/images-v1" -type f -name metadata.json -print | sort)
+          mapfile -t image_payloads < <(sudo find "$build_state/images-v1" -type f -name payload.bin -print | sort)
+          test "${#image_metadata[@]}" -gt 0
+          test "${#image_payloads[@]}" -gt 0
+          for metadata_path in "${image_metadata[@]}"; do
+            sudo test -f "$(dirname "$metadata_path")/payload.bin"
+          done
+          echo "IMAGE_CACHE_METADATA_CREATED=YES"
+          echo "IMAGE_CACHE_PAYLOAD_CREATED=YES"
+          echo "IMAGE_CACHE_WRITE=PASS"
+
+          fetch_digest_before="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
+          fetch_mtime_before="$(sudo stat -c '%Y' "$fetch_entry")"
+          echo "FETCH_CACHE_DIGEST_BEFORE_REVALIDATION=${fetch_digest_before}"
+          echo "FETCH_CACHE_MTIME_BEFORE_REVALIDATION=${fetch_mtime_before}"
           sleep 65
-          curl --fail --silent "http://127.0.0.1:${port}/" >/dev/null
-          build_id="$(tr -d '\r\n' < "$release_root/.next/BUILD_ID")"
-          build_state="${state_root}/${build_id}"
-          runtime_writes="NO"
+          revalidation_path="/catalog/767632362-330695211247-apparat-ivl-hamilton-t1"
+          revalidation_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            "http://127.0.0.1:${port}${revalidation_path}")"
+          test "$revalidation_http" = "200"
+          fetch_revalidated="NO"
+          fetch_digest_after="$fetch_digest_before"
+          fetch_mtime_after="$fetch_mtime_before"
           for attempt in $(seq 1 30); do
-            if sudo find "$build_state/cache/fetch-cache" -type f -print -quit | grep -q . \
-              && sudo find "$build_state/images-v1" -type f -name payload.bin -print -quit | grep -q . \
-              && sudo find "$build_state/server/app" -type f -name '*.html' -print -quit | grep -q . \
-              && sudo find "$build_state/server/app" -type f -name '*.rsc' -print -quit | grep -q . \
-              && sudo find "$build_state/server/app" -type f -name '*.meta' -print -quit | grep -q . \
-              && sudo find "$build_state/server/app" -type f -name '*.segment.rsc' -print -quit | grep -q .; then
-              runtime_writes="YES"
+            fetch_digest_after="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
+            fetch_mtime_after="$(sudo stat -c '%Y' "$fetch_entry")"
+            if [[ "$fetch_mtime_after" != "$fetch_mtime_before" \
+              || "$fetch_digest_after" != "$fetch_digest_before" ]]; then
+              fetch_revalidated="YES"
               break
             fi
             sleep 1
           done
-          test "$runtime_writes" = "YES"
-          echo "FETCH_CACHE_WRITE=PASS"
-          echo "IMAGE_CACHE_WRITE=PASS"
-          echo "ISR_RUNTIME_WRITE=PASS"
+          test "$fetch_revalidated" = "YES"
+          echo "FETCH_CACHE_REVALIDATED=YES"
+          echo "FETCH_CACHE_DIGEST_AFTER=${fetch_digest_after}"
+          echo "FETCH_CACHE_MTIME_AFTER=${fetch_mtime_after}"
+          echo "FETCH_CACHE_REVALIDATION=PASS"
 
           sudo pkill -TERM -u "$service_user" 2>/dev/null || true
           sudo kill "$server_pid" 2>/dev/null || true
@@ -270,6 +327,82 @@ jobs:
             exit 1
           fi
           echo "EACCES=0"
+          if grep -q 'MODULE_NOT_FOUND' "$server_log"; then
+            echo "Unexpected MODULE_NOT_FOUND in named-user server log." >&2
+            exit 1
+          fi
+          echo "MODULE_NOT_FOUND=0"
+
+          sudo -u "$service_user" env \
+            "PATH=$PATH" \
+            NEXT_PHASE=phase-production-server \
+            CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT="$state_root" \
+            RELEASE_ROOT="$release_root" \
+            BUILD_STATE="$build_state" \
+            "$node_bin" --input-type=commonjs --eval '
+              const { access, readFile } = require("node:fs/promises");
+              const { join } = require("node:path");
+              const RuntimeCacheHandler = require(join(
+                process.env.RELEASE_ROOT,
+                "lib/runtime/next-runtime-cache-handler.cjs",
+              ));
+              const required = (condition, message) => {
+                if (!condition) throw new Error(message);
+              };
+              (async () => {
+                const handler = new RuntimeCacheHandler({
+                  flushToDisk: true,
+                  serverDistDir: join(process.env.RELEASE_ROOT, ".next/server"),
+                  maxMemoryCacheSize: 0,
+                  revalidatedTags: [],
+                  _requestHeaders: {},
+                });
+                const key = "/__ci-app-page-probe";
+                const context = { kind: "APP_PAGE", isFallback: false, isRoutePPREnabled: false };
+                await handler.set(key, {
+                  kind: "APP_PAGE",
+                  html: "<main>external app page</main>\n",
+                  rscData: Buffer.from("external-rsc\n"),
+                  headers: {},
+                  postponed: undefined,
+                  status: 200,
+                  segmentData: new Map([["/_tree", Buffer.from("external-segment\n")]]),
+                }, context);
+                const stored = await handler.get(key, context);
+                required(stored?.value?.html === "<main>external app page</main>\n", "APP_PAGE HTML read-back failed.");
+                required(stored?.value?.rscData?.toString("utf8") === "external-rsc\n", "APP_PAGE RSC read-back failed.");
+                required(
+                  stored?.value?.segmentData?.get("/_tree")?.toString("utf8") === "external-segment\n",
+                  "APP_PAGE segment read-back failed.",
+                );
+                const externalRoot = join(process.env.BUILD_STATE, "server/app");
+                const html = await readFile(join(externalRoot, "__ci-app-page-probe.html"), "utf8");
+                const rsc = await readFile(join(externalRoot, "__ci-app-page-probe.rsc"), "utf8");
+                const meta = JSON.parse(await readFile(join(externalRoot, "__ci-app-page-probe.meta"), "utf8"));
+                const segment = await readFile(
+                  join(externalRoot, "__ci-app-page-probe.segments/_tree.segment.rsc"),
+                  "utf8",
+                );
+                required(html === "<main>external app page</main>\n", "External APP_PAGE HTML mismatch.");
+                required(rsc === "external-rsc\n", "External APP_PAGE RSC mismatch.");
+                required(meta.segmentPaths?.includes("/_tree"), "External APP_PAGE metadata missing segment path.");
+                required(segment === "external-segment\n", "External APP_PAGE segment mismatch.");
+                let immutableProbeExists = true;
+                try {
+                  await access(join(process.env.RELEASE_ROOT, ".next/server/app/__ci-app-page-probe.html"));
+                } catch {
+                  immutableProbeExists = false;
+                }
+                required(!immutableProbeExists, "Synthetic APP_PAGE write reached immutable release.");
+                console.log("APP_PAGE_HANDLER_HTML=PASS");
+                console.log("APP_PAGE_HANDLER_RSC=PASS");
+                console.log("APP_PAGE_HANDLER_META=PASS");
+                console.log("APP_PAGE_HANDLER_SEGMENTS=PASS");
+              })().catch((error) => {
+                console.error(error instanceof Error ? error.message : String(error));
+                process.exit(1);
+              });
+            '
 
           sudo env "PATH=$PATH" "$node_bin" \
             "$runtime_helper" \
@@ -304,6 +437,7 @@ jobs:
           echo "WORLD_WRITABLE_ENTRIES=0"
           echo "WORLD_WRITABLE_PATHS=0"
           echo "NAMED_USER_RUNTIME_GATE=PASS"
+          echo "NAMED_USER_GATE=PASS"
   canonical-route-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/production'
     needs: fault-injection

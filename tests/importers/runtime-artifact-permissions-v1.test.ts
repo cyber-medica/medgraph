@@ -194,16 +194,14 @@ test("external runtime state is build-scoped and the immutable release remains n
   assert.deepEqual(report.unexpectedWritablePaths, []);
 });
 
-test("custom handler reads immutable seed and writes ISR state only outside the release", async (t) => {
+test("custom handler reads immutable seed and writes APP_PAGE state only outside the release", async (t) => {
   const root = await fixture();
   const stateRoot = await mkdtemp(join(tmpdir(), "cybermedica-next-cache-handler-"));
   t.after(() => rm(root, { recursive: true, force: true }));
   t.after(() => rm(stateRoot, { recursive: true, force: true }));
   await normalizeRuntimePermissions(root);
-  await prepareRuntimeState(root, stateRoot);
-  const immutableBefore = createHash("sha256")
-    .update(await readFile(join(root, ".next/server/app/index.html")))
-    .digest("hex");
+  const state = await prepareRuntimeState(root, stateRoot);
+  const immutableBefore = await createRuntimeInventory(root);
   const previousStateRoot = process.env.CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT;
   const previousPhase = process.env.NEXT_PHASE;
   process.env.CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT = stateRoot;
@@ -242,14 +240,25 @@ test("custom handler reads immutable seed and writes ISR state only outside the 
     headers: {},
     postponed: undefined,
     status: 200,
-    segmentData: undefined,
+    segmentData: new Map([
+      ["/_tree", Buffer.from("runtime-tree-segment\n")],
+    ]),
   }, context);
   const runtime = await handler.get("/index", context);
   assert.match(String(runtime?.value?.html), /runtime/u);
+  assert.equal(runtime?.value?.rscData?.toString("utf8"), "runtime-rsc\n");
+  assert.equal(runtime?.value?.segmentData?.get("/_tree")?.toString("utf8"), "runtime-tree-segment\n");
+
+  const externalAppRoot = join(state.path, "server/app");
+  assert.equal(await readFile(join(externalAppRoot, "index.html"), "utf8"), "<main>runtime</main>\n");
+  assert.equal(await readFile(join(externalAppRoot, "index.rsc"), "utf8"), "runtime-rsc\n");
+  const metadata = JSON.parse(await readFile(join(externalAppRoot, "index.meta"), "utf8"));
+  assert.deepEqual(metadata.segmentPaths, ["/_tree"]);
   assert.equal(
-    createHash("sha256").update(await readFile(join(root, ".next/server/app/index.html"))).digest("hex"),
-    immutableBefore,
+    await readFile(join(externalAppRoot, "index.segments/_tree.segment.rsc"), "utf8"),
+    "runtime-tree-segment\n",
   );
+  assert.equal((await verifyRuntimeInventory(root, immutableBefore)).pass, true);
 });
 
 test("custom handler stores optimized images in external state with no in-release cache", async (t) => {
@@ -258,7 +267,8 @@ test("custom handler stores optimized images in external state with no in-releas
   t.after(() => rm(root, { recursive: true, force: true }));
   t.after(() => rm(stateRoot, { recursive: true, force: true }));
   await normalizeRuntimePermissions(root);
-  await prepareRuntimeState(root, stateRoot);
+  const state = await prepareRuntimeState(root, stateRoot);
+  const immutableBefore = await createRuntimeInventory(root);
   const previousStateRoot = process.env.CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT;
   const previousPhase = process.env.NEXT_PHASE;
   process.env.CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT = stateRoot;
@@ -295,7 +305,13 @@ test("custom handler stores optimized images in external state with no in-releas
   }, { kind: "IMAGE" });
   const entry = await handler.get("image-key", { kind: "IMAGE" });
   assert.equal(entry?.value?.buffer.toString("utf8"), "image-bytes");
+  const imageDigest = createHash("sha256").update("image-key").digest("hex");
+  const imageRoot = join(state.path, "images-v1", imageDigest);
+  const metadata = JSON.parse(await readFile(join(imageRoot, "metadata.json"), "utf8"));
+  assert.equal(metadata.kind, "IMAGE");
+  assert.equal(await readFile(join(imageRoot, "payload.bin"), "utf8"), "image-bytes");
   await assert.rejects(() => lstat(join(root, ".next/cache/images")), /ENOENT/u);
+  assert.equal((await verifyRuntimeInventory(root, immutableBefore)).pass, true);
 });
 
 test("custom handler is a no-op for middleware contexts without a Node server directory", async () => {
@@ -320,12 +336,38 @@ test("CI blocks release regressions with the real cybermedica-web principal", as
   assert.match(workflow, /HOME_HTTP=\$\{home_http\}/u);
   assert.match(workflow, /CATALOG_HTTP=\$\{catalog_http\}/u);
   assert.match(workflow, /HAMILTON_HTTP=\$\{hamilton_http\}/u);
+  assert.match(workflow, /FIRST_STARTUP_SMOKE=PASS/u);
+  assert.match(workflow, /CACHE_HANDLER_INIT=PASS/u);
+  assert.match(workflow, /ENOENT=0/u);
+  assert.match(workflow, /FETCH_CACHE_FILES_BEFORE=0/u);
+  assert.match(workflow, /FETCH_CACHE_CREATED=YES/u);
+  assert.match(workflow, /FETCH_CACHE_REVALIDATED=YES/u);
   assert.match(workflow, /FETCH_CACHE_WRITE=PASS/u);
+  assert.match(workflow, /FETCH_CACHE_REVALIDATION=PASS/u);
+  assert.match(workflow, /IMAGE_CACHE_METADATA_CREATED=YES/u);
+  assert.match(workflow, /IMAGE_CACHE_PAYLOAD_CREATED=YES/u);
   assert.match(workflow, /IMAGE_CACHE_WRITE=PASS/u);
-  assert.match(workflow, /ISR_RUNTIME_WRITE=PASS/u);
+  assert.match(workflow, /APP_PAGE_HANDLER_HTML=PASS/u);
+  assert.match(workflow, /APP_PAGE_HANDLER_RSC=PASS/u);
+  assert.match(workflow, /APP_PAGE_HANDLER_META=PASS/u);
+  assert.match(workflow, /APP_PAGE_HANDLER_SEGMENTS=PASS/u);
+  assert.match(
+    workflow,
+    /revalidation_path="\/catalog\/767632362-330695211247-apparat-ivl-hamilton-t1"/u,
+  );
+  assert.doesNotMatch(workflow, /runtime_writes=/u);
+  assert.doesNotMatch(workflow, /ISR_RUNTIME_WRITE=PASS/u);
+  assert.doesNotMatch(workflow, /sudo find "\$build_state\/server\/app"/u);
+  assert.doesNotMatch(
+    workflow,
+    /sleep 65\s+curl --fail --silent "http:\/\/127\.0\.0\.1:\$\{port\}\/"/u,
+  );
   assert.match(workflow, /Unexpected EACCES in named-user server log/u);
+  assert.match(workflow, /Unexpected MODULE_NOT_FOUND in named-user server log/u);
+  assert.match(workflow, /MODULE_NOT_FOUND=0/u);
   assert.match(workflow, /verifyRuntimeInventory/u);
   assert.match(workflow, /IMMUTABLE_FILES_CHANGED=0/u);
   assert.match(workflow, /WORLD_WRITABLE_PATHS=0/u);
   assert.match(workflow, /NAMED_USER_RUNTIME_GATE=PASS/u);
+  assert.match(workflow, /NAMED_USER_GATE=PASS/u);
 });
