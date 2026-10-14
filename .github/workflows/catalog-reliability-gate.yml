@@ -21,6 +21,7 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npx --no-install playwright-core install --with-deps webkit
       - run: npm run qa:catalog-reliability-gate
+      - run: npm run qa:runtime-artifact-permissions
       - run: npm run build
       - run: |
           set -euo pipefail
