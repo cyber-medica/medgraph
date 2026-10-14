@@ -106,6 +106,7 @@ jobs:
 
           service_user="cybermedica-web"
           release_root="/opt/cybermedica-ci-release"
+          runtime_helper="${release_root}/scripts/release/runtime-artifact-permissions.mjs"
           state_root="/var/lib/cybermedica-web/next-runtime"
           inventory_before="${RUNNER_TEMP}/cybermedica-runtime-inventory.json"
           server_log="${RUNNER_TEMP}/cybermedica-web-next.log"
@@ -148,10 +149,22 @@ jobs:
             --exclude='.next/diagnostics/' \
             --exclude='node_modules/next/dist/docs/' \
             "${GITHUB_WORKSPACE}/" "$release_root/"
+          test -r "$runtime_helper"
           sudo env "PATH=$PATH" "$node_bin" \
-            scripts/release/runtime-artifact-permissions.mjs \
+            "$runtime_helper" \
             normalize --root "$release_root"
           sudo chown -R root:root "$release_root"
+          sudo -u "$service_user" test -r "$runtime_helper"
+          sudo -u "$service_user" test -x "$release_root"
+          if sudo -u "$service_user" test -w "$release_root"; then
+            echo "Prepared release tree is unexpectedly writable by ${service_user}." >&2
+            exit 1
+          fi
+          echo "HELPER_PATH_INSIDE_RELEASE=${runtime_helper}"
+          echo "HELPER_PRESENT_IN_RELEASE=YES"
+          echo "HELPER_RESOLUTION_FROM_RELEASE=PASS"
+
+          cd "$release_root"
 
           sudo env "PATH=$PATH" RUNTIME_ROOT="$release_root" INVENTORY_PATH="$inventory_before" \
             "$node_bin" --input-type=module --eval '
@@ -162,14 +175,14 @@ jobs:
             '
 
           sudo env "PATH=$PATH" "$node_bin" \
-            scripts/release/runtime-artifact-permissions.mjs \
+            "$runtime_helper" \
             prepare-state \
             --root "$release_root" \
             --state-root "$state_root" \
             --user "$service_user" \
             --group "$service_user"
           sudo env "PATH=$PATH" "$node_bin" \
-            scripts/release/runtime-artifact-permissions.mjs \
+            "$runtime_helper" \
             service-audit \
             --root "$release_root" \
             --state-root "$state_root" \
@@ -181,7 +194,6 @@ jobs:
           echo "SERVICE_USER_CANNOT_WRITE_IMMUTABLE_RELEASE=YES"
 
           : > "$server_log"
-          cd "$release_root"
           sudo -u "$service_user" env \
             "PATH=$PATH" \
             HOME=/nonexistent \
@@ -260,7 +272,7 @@ jobs:
           echo "EACCES=0"
 
           sudo env "PATH=$PATH" "$node_bin" \
-            scripts/release/runtime-artifact-permissions.mjs \
+            "$runtime_helper" \
             service-audit \
             --root "$release_root" \
             --state-root "$state_root" \
