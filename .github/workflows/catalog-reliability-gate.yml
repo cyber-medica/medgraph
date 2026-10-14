@@ -26,6 +26,25 @@ jobs:
       - run: |
           set -euo pipefail
           server_log="${RUNNER_TEMP}/catalog-reliability-next.log"
+          state_root="${RUNNER_TEMP}/cybermedica-next-runtime"
+          build_id="$(tr -d '\r\n' < "${GITHUB_WORKSPACE}/.next/BUILD_ID")"
+          node_bin="$(command -v node)"
+          runner_user="$(id -un)"
+          runner_group="$(id -gn)"
+          sudo env "PATH=$PATH" "$node_bin" \
+            scripts/release/runtime-artifact-permissions.mjs \
+            prepare-state \
+            --root "$GITHUB_WORKSPACE" \
+            --state-root "$state_root" \
+            --user "$runner_user" \
+            --group "$runner_group"
+          test -d "${state_root}/${build_id}"
+          test -r "${state_root}/${build_id}"
+          test -w "${state_root}/${build_id}"
+          test -x "${state_root}/${build_id}"
+          echo "FIRST_SMOKE_BUILD_ID=${build_id}"
+          echo "FIRST_SMOKE_STATE_ROOT=${state_root}"
+          echo "FIRST_SMOKE_STATE_PREPARED=YES"
           : > "$server_log"
           CATALOG_DATA_SOURCE=cloud_published \
           CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk \
@@ -33,14 +52,18 @@ jobs:
           SUPABASE_SECRET_KEY=sb_secret_fault_injection_only_000000000000 \
           VERCEL=1 \
           VERCEL_ENV=preview \
+          CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT="$state_root" \
           CYBERMEDICA_CATALOG_FAULT_INJECTION=all npm start >"$server_log" 2>&1 &
           server_pid=$!
           cleanup() {
             kill "$server_pid" 2>/dev/null || true
+            sudo rm -rf "$state_root"
           }
           trap cleanup EXIT
+          echo "PROCESS_CREATED=YES"
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:3000/catalog >/dev/null; then
+              echo "LISTENER_CREATED=YES"
               WEBKIT_SMOKE_PRODUCT_PATH=/catalog/767632362-330695211247-apparat-ivl-hamilton-t1 \
               WEBKIT_SMOKE_REMOTE_MEDIA_MODE=fixture \
               WEBKIT_SMOKE_REQUIRE_REMOTE_MEDIA_INTERCEPTION=1 \
@@ -54,6 +77,27 @@ jobs:
             fi
             sleep 1
           done
+          catalog_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            http://127.0.0.1:3000/catalog || true)"
+          echo "SERVER_LOG"
+          cat "$server_log"
+          echo "HTTP_STATUS=${catalog_http:-000}"
+          if kill -0 "$server_pid" 2>/dev/null; then
+            echo "PROCESS_STATE=RUNNING"
+            ps -p "$server_pid" -o pid=,ppid=,user=,stat=,command= || true
+          else
+            echo "PROCESS_STATE=EXITED"
+          fi
+          echo "LISTENER_STATE"
+          sudo ss -ltnp 'sport = :3000' || true
+          echo "BUILD_ID=${build_id}"
+          if [[ -d "${state_root}/${build_id}" ]]; then
+            echo "RUNTIME_STATE_ROOT=EXISTS"
+            stat -c 'RUNTIME_STATE_MODE=%a RUNTIME_STATE_OWNER=%U:%G' \
+              "${state_root}/${build_id}" || true
+          else
+            echo "RUNTIME_STATE_ROOT=MISSING"
+          fi
           exit 1
       - name: Verify immutable runtime as cybermedica-web
         shell: bash
