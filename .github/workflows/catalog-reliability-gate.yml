@@ -69,12 +69,85 @@ jobs:
               WEBKIT_SMOKE_REQUIRE_REMOTE_MEDIA_INTERCEPTION=1 \
               WEBKIT_SMOKE_ASSERT_NO_SUPABASE=1 \
               npm run qa:ios-webkit-smoke
-              WEBKIT_SMOKE_MODE=next-image \
-              WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000 \
+              image_cache_root="${state_root}/${build_id}/images-v1"
+              rm -rf "$image_cache_root"
+              immutable_image_state_before="$(
+                find "$GITHUB_WORKSPACE/.next" -type f -printf '%P\t%s\t%m\n' \
+                  | LC_ALL=C sort \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              WEBKIT_SMOKE_MODE=next-image-local \
+              WEBKIT_SMOKE_LOCAL_NEXT_IMAGE_TIMEOUT_MS=4000 \
               WEBKIT_SMOKE_SERVER_LOG="$server_log" \
               npm run qa:ios-webkit-smoke
-              if grep -q 'ENOENT' "$server_log"; then
-                echo "Unexpected ENOENT in first startup server log." >&2
+
+              mapfile -t local_image_metadata < <(
+                find "$image_cache_root" -type f -name metadata.json -print | sort
+              )
+              mapfile -t local_image_payloads < <(
+                find "$image_cache_root" -type f -name payload.bin -print | sort
+              )
+              test "${#local_image_metadata[@]}" = "1"
+              test "${#local_image_payloads[@]}" = "1"
+              local_image_entry="$(dirname "${local_image_metadata[0]}")"
+              test "${local_image_payloads[0]}" = "${local_image_entry}/payload.bin"
+              [[ "$(basename "$local_image_entry")" =~ ^[0-9a-f]{64}$ ]]
+              METADATA="${local_image_metadata[0]}" \
+              PAYLOAD="${local_image_payloads[0]}" \
+              node --input-type=module --eval '
+                import { readFile } from "node:fs/promises";
+                const metadata = JSON.parse(await readFile(process.env.METADATA, "utf8"));
+                if (metadata?.schemaVersion !== 1 || metadata?.kind !== "IMAGE") process.exit(1);
+                const payload = await readFile(process.env.PAYLOAD);
+                if (payload.length === 0) process.exit(1);
+              '
+              local_cache_inventory_before="$(
+                find "$image_cache_root" -type f -print0 \
+                  | LC_ALL=C sort -z \
+                  | xargs -0 sha256sum \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              echo "COLD_REQUEST=PASS"
+              echo "CACHE_ENTRY_CREATED=YES"
+              echo "LOCAL_IMAGE_CACHE_WRITE=PASS"
+
+              WEBKIT_SMOKE_MODE=next-image-local \
+              WEBKIT_SMOKE_LOCAL_NEXT_IMAGE_TIMEOUT_MS=4000 \
+              WEBKIT_SMOKE_SERVER_LOG="$server_log" \
+              npm run qa:ios-webkit-smoke
+              local_cache_inventory_after="$(
+                find "$image_cache_root" -type f -print0 \
+                  | LC_ALL=C sort -z \
+                  | xargs -0 sha256sum \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              test "$local_cache_inventory_after" = "$local_cache_inventory_before"
+              immutable_image_state_after="$(
+                find "$GITHUB_WORKSPACE/.next" -type f -printf '%P\t%s\t%m\n' \
+                  | LC_ALL=C sort \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              test "$immutable_image_state_after" = "$immutable_image_state_before"
+              echo "WARM_REQUEST=PASS"
+              echo "CACHE_ENTRY_REUSED=YES"
+              echo "LOCAL_IMAGE_CACHE_REUSE=PASS"
+              echo "LOCAL_NEXT_IMAGE_IMMUTABLE_WRITES=0"
+
+              WEBKIT_SMOKE_MODE=next-image-classification \
+              npm run qa:ios-webkit-smoke
+              WEBKIT_SMOKE_MODE=next-image-live \
+              WEBKIT_SMOKE_LIVE_NEXT_IMAGE_TIMEOUT_MS=8000 \
+              WEBKIT_SMOKE_LIVE_UPSTREAM_TIMEOUT_MS=5000 \
+              WEBKIT_SMOKE_SERVER_LOG="$server_log" \
+              WEBKIT_SMOKE_SERVER_PID="$server_pid" \
+              WEBKIT_SMOKE_IMAGE_CACHE_ROOT="$image_cache_root" \
+              npm run qa:ios-webkit-smoke
+              if grep -Eq 'EACCES|ENOENT|MODULE_NOT_FOUND' "$server_log"; then
+                echo "Unexpected local runtime error in first startup server log." >&2
                 exit 1
               fi
               echo "CACHE_HANDLER_INIT=PASS"

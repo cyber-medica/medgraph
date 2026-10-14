@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
+import { promisify } from "node:util";
 import test from "node:test";
+
+const execFileAsync = promisify(execFile);
 
 async function source(path: string) {
   return readFile(path, "utf8");
@@ -82,6 +86,20 @@ test("WebKit smoke covers the public shell and prevents a stuck streaming fallba
   assert.match(smoke, /NEXT_IMAGE/u);
   assert.match(smoke, /WEBKIT_SMOKE_SERVER_LOG/u);
   assert.match(smoke, /DEGRADED_EXTERNAL_UPSTREAM/u);
+  assert.match(smoke, /localNextImageSource = "\/brand\/cybermedica-logo\.png"/u);
+  assert.match(smoke, /WEBKIT_SMOKE_MODE === "next-image-local"/u);
+  assert.match(smoke, /WEBKIT_SMOKE_MODE === "next-image-live"/u);
+  assert.match(smoke, /WEBKIT_SMOKE_MODE === "next-image-classification"/u);
+  assert.match(smoke, /LOCAL_NEXT_IMAGE_HTTP=200/u);
+  assert.match(smoke, /LOCAL_NEXT_IMAGE_CONTENT_TYPE=/u);
+  assert.match(smoke, /DETERMINISTIC_NEXT_IMAGE=PASS/u);
+  assert.match(smoke, /LIVE_TILDA_EXTERNAL_UNAVAILABLE/u);
+  assert.match(smoke, /LIVE_TILDA_LOCAL_FAILURE/u);
+  assert.match(smoke, /UNCLASSIFIED_FAILURE/u);
+  assert.match(smoke, /explicitExternalEvidence/u);
+  assert.match(smoke, /EACCES\|ENOENT\|MODULE_NOT_FOUND/u);
+  assert.match(smoke, /LIVE_TILDA_SERVER_LOG_TAIL=/u);
+  assert.match(smoke, /LIVE_TILDA_CACHE_STATE=/u);
   assert.match(smoke, /REMOTE_MEDIA/u);
   assert.match(smoke, /SUPABASE/u);
   assert.match(smoke, /YANDEX/u);
@@ -95,9 +113,38 @@ test("WebKit smoke covers the public shell and prevents a stuck streaming fallba
   assert.match(workflow, /WEBKIT_SMOKE_REMOTE_MEDIA_MODE=fixture/u);
   assert.match(workflow, /WEBKIT_SMOKE_REQUIRE_REMOTE_MEDIA_INTERCEPTION=1/u);
   assert.match(workflow, /WEBKIT_SMOKE_ASSERT_NO_SUPABASE=1/u);
-  assert.match(workflow, /WEBKIT_SMOKE_MODE=next-image/u);
-  assert.match(workflow, /WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000/u);
+  assert.match(workflow, /WEBKIT_SMOKE_MODE=next-image-local/u);
+  assert.match(workflow, /WEBKIT_SMOKE_LOCAL_NEXT_IMAGE_TIMEOUT_MS=4000/u);
+  assert.match(workflow, /WEBKIT_SMOKE_MODE=next-image-live/u);
+  assert.match(workflow, /WEBKIT_SMOKE_LIVE_NEXT_IMAGE_TIMEOUT_MS=8000/u);
+  assert.match(workflow, /WEBKIT_SMOKE_LIVE_UPSTREAM_TIMEOUT_MS=5000/u);
+  assert.match(workflow, /rm -rf "\$image_cache_root"/u);
+  assert.match(workflow, /metadata\.json/u);
+  assert.match(workflow, /payload\.bin/u);
+  assert.match(workflow, /\^\[0-9a-f\]\{64\}\$/u);
+  assert.match(workflow, /COLD_REQUEST=PASS/u);
+  assert.match(workflow, /CACHE_ENTRY_CREATED=YES/u);
+  assert.match(workflow, /WARM_REQUEST=PASS/u);
+  assert.match(workflow, /CACHE_ENTRY_REUSED=YES/u);
+  assert.match(workflow, /LOCAL_IMAGE_CACHE_WRITE=PASS/u);
+  assert.match(workflow, /LOCAL_IMAGE_CACHE_REUSE=PASS/u);
+  assert.match(workflow, /LOCAL_NEXT_IMAGE_IMMUTABLE_WRITES=0/u);
   assert.match(workflow, /WEBKIT_SMOKE_SERVER_LOG/u);
   assert.match(packageJson, /"qa:ios-webkit-smoke"/u);
   assert.doesNotMatch(globalStyles, /fonts\.googleapis\.com/u);
+});
+
+test("NEXT_IMAGE split keeps local and unclassified failures blocking", async () => {
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    ["scripts/qa/ios-webkit-smoke.ts"],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, WEBKIT_SMOKE_MODE: "next-image-classification" },
+    },
+  );
+
+  assert.match(stdout, /LOCAL_OPTIMIZER_FAILURE=BLOCKING PASS/u);
+  assert.match(stdout, /PROVEN_EXTERNAL_FAILURE=NONBLOCKING PASS/u);
+  assert.match(stdout, /UNCLASSIFIED_TIMEOUT=BLOCKING PASS/u);
 });

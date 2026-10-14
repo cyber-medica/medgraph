@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile, stat } from "node:fs/promises";
+import { lookup } from "node:dns/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
+import { join } from "node:path";
 
 import { webkit } from "playwright-core";
 import type { Request } from "playwright-core";
@@ -121,6 +123,341 @@ function messageClass(message: string): string {
   return "ERROR";
 }
 
+const localNextImageSource = "/brand/cybermedica-logo.png";
+const liveTildaSource =
+  "https://static.tildacdn.com/stor6162-6231-4365-b633-626361316364/47915533.png";
+
+type ImageProbe = {
+  status: number | null;
+  contentType: string | null;
+  elapsedMs: number;
+  timedOut: boolean;
+  errorClass: string | null;
+  payloadValid: boolean;
+};
+
+type LiveTildaResult =
+  | "LIVE_TILDA_PASS"
+  | "LIVE_TILDA_EXTERNAL_UNAVAILABLE"
+  | "LIVE_TILDA_LOCAL_FAILURE"
+  | "UNCLASSIFIED_FAILURE";
+
+type LiveTildaEvidence = {
+  optimizer: ImageProbe;
+  upstream: ImageProbe;
+  dns: "PASS" | "FAIL" | "TIMEOUT";
+  serverProcess: "RUNNING" | "EXITED" | "UNKNOWN";
+  serverEvidence: string;
+};
+
+function positiveBoundedTimeout(name: string, fallback: number, maximum: number): number {
+  const value = Number(process.env[name] ?? String(fallback));
+  assert.ok(
+    Number.isSafeInteger(value) && value > 0 && value <= maximum,
+    `${name} must be a positive integer no greater than ${maximum}.`,
+  );
+  return value;
+}
+
+function errorDiagnostic(error: unknown): { timedOut: boolean; errorClass: string } {
+  const record = error && typeof error === "object" ? error as Record<string, unknown> : {};
+  const cause = record.cause && typeof record.cause === "object"
+    ? record.cause as Record<string, unknown>
+    : {};
+  const code = typeof record.code === "string"
+    ? record.code
+    : typeof cause.code === "string"
+      ? cause.code
+      : "";
+  const name = error instanceof Error ? error.name : "";
+  const message = error instanceof Error ? error.message : String(error);
+  const timedOut = name === "TimeoutError" || /abort|timed?\s*out|timeout/iu.test(message);
+  const errorClass = code || (timedOut ? "TIMEOUT" : messageClass(message));
+  return { timedOut, errorClass: errorClass.replace(/[^A-Z0-9_-]/giu, "_").slice(0, 80) };
+}
+
+function validImagePayload(contentType: string | null, payload: Uint8Array): boolean {
+  if (!contentType?.startsWith("image/") || payload.length < 4) return false;
+  if (contentType.startsWith("image/png")) {
+    return payload.length >= 8
+      && Buffer.from(payload.subarray(0, 8)).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  }
+  if (contentType.startsWith("image/jpeg")) return payload[0] === 0xff && payload[1] === 0xd8;
+  if (contentType.startsWith("image/gif")) {
+    return Buffer.from(payload.subarray(0, 4)).toString("ascii") === "GIF8";
+  }
+  if (contentType.startsWith("image/webp")) {
+    return payload.length >= 12
+      && Buffer.from(payload.subarray(0, 4)).toString("ascii") === "RIFF"
+      && Buffer.from(payload.subarray(8, 12)).toString("ascii") === "WEBP";
+  }
+  if (contentType.startsWith("image/avif")) {
+    return payload.length >= 12 && Buffer.from(payload.subarray(4, 12)).toString("ascii").includes("ftyp");
+  }
+  return payload.length > 0;
+}
+
+async function probeImage(url: URL, timeoutMs: number): Promise<ImageProbe> {
+  const startedAt = performance.now();
+  try {
+    const response = await fetch(url, {
+      headers: { accept: "image/webp,image/png,image/*;q=0.8" },
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    const payload = new Uint8Array(await response.arrayBuffer());
+    const contentType = response.headers.get("content-type");
+    return {
+      status: response.status,
+      contentType,
+      elapsedMs: Math.round(performance.now() - startedAt),
+      timedOut: false,
+      errorClass: null,
+      payloadValid: validImagePayload(contentType, payload),
+    };
+  } catch (error) {
+    const diagnostic = errorDiagnostic(error);
+    return {
+      status: null,
+      contentType: null,
+      elapsedMs: Math.round(performance.now() - startedAt),
+      timedOut: diagnostic.timedOut,
+      errorClass: diagnostic.errorClass,
+      payloadValid: false,
+    };
+  }
+}
+
+async function readServerEvidence(path: string | undefined, offset: number): Promise<string> {
+  if (!path) return "";
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    try {
+      const log = await readFile(path);
+      const evidence = log.subarray(offset).toString("utf8");
+      if (evidence || attempt === 3) return evidence;
+    } catch {
+      if (attempt === 3) return "";
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  return "";
+}
+
+function serverLogSummary(evidence: string): string {
+  const classes = [
+    "EACCES",
+    "ENOENT",
+    "MODULE_NOT_FOUND",
+    "ETIMEDOUT",
+    "ENOTFOUND",
+    "EAI_AGAIN",
+    "ECONNRESET",
+    "ECONNREFUSED",
+    "UND_ERR_CONNECT_TIMEOUT",
+    "UND_ERR_SOCKET",
+  ].filter((entry) => evidence.includes(entry));
+  if (/fetch failed/iu.test(evidence)) classes.push("FETCH_FAILED");
+  if (/image.*(?:error|fail)|optimizer.*(?:error|fail)/iu.test(evidence)) classes.push("IMAGE_ERROR");
+  return classes.length ? [...new Set(classes)].join(",") : evidence ? "OTHER" : "EMPTY";
+}
+
+function serverProcessState(): LiveTildaEvidence["serverProcess"] {
+  const value = process.env.WEBKIT_SMOKE_SERVER_PID;
+  if (!value || !/^\d+$/u.test(value)) return "UNKNOWN";
+  try {
+    process.kill(Number(value), 0);
+    return "RUNNING";
+  } catch {
+    return "EXITED";
+  }
+}
+
+async function imageCacheState(root: string | undefined): Promise<string> {
+  if (!root) return "NOT_CONFIGURED";
+  const files: string[] = [];
+  async function walk(directory: string, prefix = ""): Promise<void> {
+    let entries;
+    try {
+      entries = await readdir(directory, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) await walk(join(directory, entry.name), relative);
+      else if (entry.isFile()) files.push(relative);
+    }
+  }
+  await walk(root);
+  const metadata = files.filter((file) => file.endsWith("/metadata.json")).length;
+  const payloads = files.filter((file) => file.endsWith("/payload.bin")).length;
+  return `metadata:${metadata},payload:${payloads},files:${files.length}`;
+}
+
+function classifyLiveTilda(evidence: LiveTildaEvidence): LiveTildaResult {
+  const localServerFailure = evidence.serverProcess === "EXITED"
+    || /\b(?:EACCES|ENOENT|MODULE_NOT_FOUND)\b/u.test(evidence.serverEvidence);
+  if (localServerFailure) return "LIVE_TILDA_LOCAL_FAILURE";
+
+  if (
+    evidence.optimizer.status === 200
+    && /^image\//u.test(evidence.optimizer.contentType ?? "")
+    && evidence.optimizer.payloadValid
+  ) return "LIVE_TILDA_PASS";
+
+  if (
+    evidence.optimizer.status === 200
+    || (evidence.optimizer.status !== null && evidence.optimizer.status < 500)
+    || (evidence.optimizer.errorClass !== null && !evidence.optimizer.timedOut)
+  ) return "LIVE_TILDA_LOCAL_FAILURE";
+
+  const upstreamNonSuccess = evidence.upstream.status !== null
+    && (evidence.upstream.status < 200 || evidence.upstream.status >= 400);
+  const explicitExternalEvidence = evidence.dns !== "PASS"
+    || evidence.upstream.timedOut
+    || evidence.upstream.errorClass !== null
+    || upstreamNonSuccess
+    || (
+      evidence.optimizer.status !== null
+      && evidence.optimizer.status >= 500
+      && nextImageTransportClass(evidence.serverEvidence) !== null
+    );
+  if (explicitExternalEvidence) return "LIVE_TILDA_EXTERNAL_UNAVAILABLE";
+
+  if (evidence.optimizer.status !== null && evidence.optimizer.status >= 500) {
+    return "LIVE_TILDA_LOCAL_FAILURE";
+  }
+  return "UNCLASSIFIED_FAILURE";
+}
+
+async function checkLocalNextImageIntegration(): Promise<void> {
+  const optimizerUrl = new URL("/_next/image", parsedOrigin);
+  optimizerUrl.searchParams.set("url", localNextImageSource);
+  optimizerUrl.searchParams.set("w", "64");
+  optimizerUrl.searchParams.set("q", "75");
+  const timeout = positiveBoundedTimeout("WEBKIT_SMOKE_LOCAL_NEXT_IMAGE_TIMEOUT_MS", 4_000, 8_000);
+  const probe = await probeImage(optimizerUrl, timeout);
+
+  assert.equal(probe.status, 200, `Local NEXT_IMAGE returned ${probe.status ?? probe.errorClass}.`);
+  assert.match(probe.contentType ?? "", /^image\//u, "Local NEXT_IMAGE returned a non-image Content-Type.");
+  assert.ok(probe.payloadValid, "Local NEXT_IMAGE returned a malformed image payload.");
+  console.log(`DETERMINISTIC_NEXT_IMAGE_SOURCE=${localNextImageSource}`);
+  console.log("LOCAL_NEXT_IMAGE_HTTP=200");
+  console.log(`LOCAL_NEXT_IMAGE_CONTENT_TYPE=${probe.contentType}`);
+  console.log(`LOCAL_NEXT_IMAGE_ELAPSED_MS=${probe.elapsedMs}`);
+  console.log("DETERMINISTIC_NEXT_IMAGE=PASS");
+}
+
+async function checkLiveTildaIntegration(): Promise<void> {
+  const sourceUrl = new URL(liveTildaSource);
+  assert.ok(isApprovedPublicMediaUrl(sourceUrl.toString()), "Live Tilda source must remain approved.");
+  const optimizerUrl = new URL("/_next/image", parsedOrigin);
+  optimizerUrl.searchParams.set("url", sourceUrl.toString());
+  optimizerUrl.searchParams.set("w", "64");
+  optimizerUrl.searchParams.set("q", "75");
+  const optimizerTimeout = positiveBoundedTimeout("WEBKIT_SMOKE_LIVE_NEXT_IMAGE_TIMEOUT_MS", 8_000, 15_000);
+  const upstreamTimeout = positiveBoundedTimeout("WEBKIT_SMOKE_LIVE_UPSTREAM_TIMEOUT_MS", 5_000, 10_000);
+  const serverLogPath = process.env.WEBKIT_SMOKE_SERVER_LOG;
+  let serverLogOffset = 0;
+  if (serverLogPath) {
+    try {
+      serverLogOffset = (await stat(serverLogPath)).size;
+    } catch {
+      serverLogOffset = 0;
+    }
+  }
+
+  let dns: LiveTildaEvidence["dns"] = "PASS";
+  let dnsRecords = 0;
+  try {
+    const records = await Promise.race([
+      lookup(sourceUrl.hostname, { all: true }),
+      new Promise<never>((_resolve, reject) => {
+        setTimeout(() => reject(new Error("DNS_TIMEOUT")), 3_000);
+      }),
+    ]);
+    dnsRecords = records.length;
+    if (dnsRecords === 0) dns = "FAIL";
+  } catch (error) {
+    dns = error instanceof Error && error.message === "DNS_TIMEOUT" ? "TIMEOUT" : "FAIL";
+  }
+
+  const optimizer = await probeImage(optimizerUrl, optimizerTimeout);
+  const serverEvidence = await readServerEvidence(serverLogPath, serverLogOffset);
+  const upstream = await probeImage(sourceUrl, upstreamTimeout);
+  const processState = serverProcessState();
+  const cacheState = await imageCacheState(process.env.WEBKIT_SMOKE_IMAGE_CACHE_ROOT);
+  const result = classifyLiveTilda({ optimizer, upstream, dns, serverProcess: processState, serverEvidence });
+
+  console.log(`LIVE_TILDA_DNS=${dns} records=${dnsRecords}`);
+  console.log(`LIVE_TILDA_UPSTREAM_STATUS=${upstream.status ?? "UNAVAILABLE"}`);
+  console.log(`LIVE_TILDA_UPSTREAM_ELAPSED_MS=${upstream.elapsedMs}`);
+  console.log(`LIVE_TILDA_UPSTREAM_TIMEOUT=${upstream.timedOut ? "YES" : "NO"}`);
+  console.log(`LIVE_TILDA_LOCAL_STATUS=${optimizer.status ?? "UNAVAILABLE"}`);
+  console.log(`LIVE_TILDA_LOCAL_ELAPSED_MS=${optimizer.elapsedMs}`);
+  console.log(`LIVE_TILDA_LOCAL_TIMEOUT=${optimizer.timedOut ? "YES" : "NO"}`);
+  console.log(`LIVE_TILDA_SERVER_PROCESS=${processState}`);
+  console.log(`LIVE_TILDA_SERVER_LOG_TAIL=${serverLogSummary(serverEvidence)}`);
+  console.log(`LIVE_TILDA_SERVER_ERROR=${serverLogSummary(serverEvidence)}`);
+  console.log(`LIVE_TILDA_CACHE_STATE=${cacheState}`);
+  console.log(`LIVE_TILDA_RESULT=${result}`);
+
+  if (result === "LIVE_TILDA_PASS") {
+    console.log("LIVE_TILDA_CLASSIFICATION=PASS");
+    return;
+  }
+  if (result === "LIVE_TILDA_EXTERNAL_UNAVAILABLE") {
+    console.warn("LIVE_TILDA_CLASSIFICATION=PROVEN_EXTERNAL_UNAVAILABLE");
+    return;
+  }
+  const classification = result === "LIVE_TILDA_LOCAL_FAILURE"
+    ? "BLOCKING_LOCAL_FAILURE"
+    : "BLOCKING_UNCLASSIFIED";
+  throw new Error(`LIVE_TILDA_CLASSIFICATION=${classification}`);
+}
+
+function checkNextImageClassificationContract(): void {
+  const baseProbe: ImageProbe = {
+    status: null,
+    contentType: null,
+    elapsedMs: 8_000,
+    timedOut: true,
+    errorClass: "TIMEOUT",
+    payloadValid: false,
+  };
+  const healthyUpstream: ImageProbe = {
+    status: 200,
+    contentType: "image/png",
+    elapsedMs: 50,
+    timedOut: false,
+    errorClass: null,
+    payloadValid: true,
+  };
+  assert.equal(classifyLiveTilda({
+    optimizer: { ...baseProbe, timedOut: false, errorClass: "EACCES" },
+    upstream: healthyUpstream,
+    dns: "PASS",
+    serverProcess: "RUNNING",
+    serverEvidence: "EACCES",
+  }), "LIVE_TILDA_LOCAL_FAILURE");
+  assert.equal(classifyLiveTilda({
+    optimizer: baseProbe,
+    upstream: { ...baseProbe, elapsedMs: 5_000 },
+    dns: "PASS",
+    serverProcess: "RUNNING",
+    serverEvidence: "",
+  }), "LIVE_TILDA_EXTERNAL_UNAVAILABLE");
+  assert.equal(classifyLiveTilda({
+    optimizer: baseProbe,
+    upstream: healthyUpstream,
+    dns: "PASS",
+    serverProcess: "RUNNING",
+    serverEvidence: "",
+  }), "UNCLASSIFIED_FAILURE");
+  console.log("LOCAL_OPTIMIZER_FAILURE=BLOCKING PASS");
+  console.log("PROVEN_EXTERNAL_FAILURE=NONBLOCKING PASS");
+  console.log("UNCLASSIFIED_TIMEOUT=BLOCKING PASS");
+}
+
 function requestDiagnostic(event: string, request: Request, detail: string): string {
   const url = new URL(request.url());
   const detailClass = /^HTTP_[45]\d\d$/u.test(detail) ? detail : messageClass(detail);
@@ -152,7 +489,7 @@ function shouldInterceptRemoteMedia(request: Request): URL | undefined {
 
 async function checkNextImageIntegration(): Promise<void> {
   const source = process.env.WEBKIT_SMOKE_NEXT_IMAGE_SOURCE
-    ?? "https://static.tildacdn.com/stor6162-6231-4365-b633-626361316364/47915533.png";
+    ?? liveTildaSource;
   let sourceUrl: URL;
   try {
     sourceUrl = new URL(source);
@@ -227,6 +564,21 @@ async function checkNextImageIntegration(): Promise<void> {
     `NEXT_IMAGE integration failed class=${decision.failureClass}`
       + ` reason=${decision.reason} ${safeEvidence}`,
   );
+}
+
+if (process.env.WEBKIT_SMOKE_MODE === "next-image-local") {
+  await checkLocalNextImageIntegration();
+  process.exit(0);
+}
+
+if (process.env.WEBKIT_SMOKE_MODE === "next-image-live") {
+  await checkLiveTildaIntegration();
+  process.exit(0);
+}
+
+if (process.env.WEBKIT_SMOKE_MODE === "next-image-classification") {
+  checkNextImageClassificationContract();
+  process.exit(0);
 }
 
 if (process.env.WEBKIT_SMOKE_MODE === "next-image") {
