@@ -195,14 +195,118 @@ jobs:
           node_bin="$(command -v node)"
           npm_bin="$(command -v npm)"
           server_pid=""
+          build_id=""
+          build_state=""
+          fetch_cache_root=""
+
+          sanitized_server_log_tail() {
+            if [[ ! -f "$server_log" ]]; then
+              echo "SERVER_LOG_STATUS=MISSING"
+              return
+            fi
+            grep -Eai 'cache|fetch|get|set|revalidat|error|EACCES|ENOENT|MODULE_NOT_FOUND' "$server_log" \
+              | tail -n 200 \
+              | sed -E \
+                -e 's/sb_secret_[A-Za-z0-9_-]+/[REDACTED_SECRET_KEY]/g' \
+                -e 's/([Bb][Ee][Aa][Rr][Ee][Rr][[:space:]]+)[A-Za-z0-9._~-]+/\1[REDACTED]/g' \
+                -e 's/([Aa][Pp][Ii][Kk][Ee][Yy][^A-Za-z0-9]{0,3})[^[:space:],"]+/\1[REDACTED]/g' \
+                -e 's/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/[REDACTED_JWT]/g' \
+                -e 's/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/[REDACTED_EMAIL]/g' \
+                -e 's/[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}/[REDACTED_UUID]/g' \
+              || true
+          }
+
+          count_log_evidence() {
+            local pattern="$1"
+            if [[ ! -f "$server_log" ]]; then
+              echo "0"
+              return
+            fi
+            grep -Eic "$pattern" "$server_log" || true
+          }
+
+          print_runtime_state_inventory() {
+            local isr_app_root
+            if [[ -z "$build_state" || ! -d "$build_state" ]]; then
+              echo "RUNTIME_STATE_ROOT=MISSING"
+              echo "FAILURE_STATE_INVENTORY_PRESERVED=NO"
+              return
+            fi
+
+            isr_app_root="${build_state}/server/app"
+            echo "RUNTIME_STATE_ROOT=${build_state}"
+            echo "RUNTIME_STATE_INVENTORY_COLUMNS=relative_path,type,mode,owner_group,size,mtime"
+            sudo find "$build_state" \
+              -printf '%P\t%y\t0%m\t%u:%g\t%s\t%TY-%Tm-%TdT%TH:%TM:%TS\n' \
+              | LC_ALL=C sort \
+              | sed 's/^/RUNTIME_STATE_ENTRY\t/'
+            echo "FETCH_CACHE_FILES_AT_FAILURE=$(sudo find "$build_state/cache/fetch-cache" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            echo "IMAGE_FILES_AT_FAILURE=$(sudo find "$build_state/images-v1" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            echo "ISR_APP_FILES_AT_FAILURE=$(sudo find "$isr_app_root" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            echo "FAILURE_STATE_INVENTORY_PRESERVED=YES"
+          }
+
+          collect_failure_diagnostics() {
+            local fetch_get_evidence
+            local fetch_set_evidence
+            local fetch_error_evidence
+            local permission_error_evidence
+
+            fetch_get_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(get|GET)')"
+            fetch_set_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(set|SET)')"
+            fetch_error_evidence="$(count_log_evidence '(cache|fetch).*(error|failed|failure)|(error|failed|failure).*(cache|fetch)')"
+            permission_error_evidence="$(count_log_evidence 'EACCES|EPERM|permission denied')"
+
+            echo "NAMED_USER_FAILURE_DIAGNOSTICS_BEGIN"
+            echo "DIAGNOSTICS_BEFORE_CLEANUP=YES"
+            echo "CACHE_DEBUG_ENABLED=YES"
+            echo "FETCH_HANDLER_GET_EVIDENCE=${fetch_get_evidence}"
+            echo "FETCH_HANDLER_SET_EVIDENCE=${fetch_set_evidence}"
+            echo "FETCH_HANDLER_ERROR_EVIDENCE=${fetch_error_evidence}"
+            echo "PERMISSION_ERROR_EVIDENCE=${permission_error_evidence}"
+            if [[ -n "$fetch_cache_root" && -d "$fetch_cache_root" ]]; then
+              echo "FETCH_CACHE_DIRECTORY_PRESENT=YES"
+              echo "FETCH_CACHE_FILES_AT_DIAGNOSTIC=$(sudo find "$fetch_cache_root" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            else
+              echo "FETCH_CACHE_DIRECTORY_PRESENT=NO"
+              echo "FETCH_CACHE_FILES_AT_DIAGNOSTIC=0"
+            fi
+            if [[ -n "$server_pid" ]] && sudo kill -0 "$server_pid" 2>/dev/null; then
+              echo "SERVER_PROCESS_STATE=RUNNING"
+              sudo ps -p "$server_pid" -o pid=,ppid=,user=,stat=,comm= || true
+            else
+              echo "SERVER_PROCESS_STATE=NOT_RUNNING"
+            fi
+            echo "SERVER_LISTENER_STATE_BEGIN"
+            sudo ss -ltn "sport = :${port}" || true
+            echo "SERVER_LISTENER_STATE_END"
+            print_runtime_state_inventory
+            echo "FAILURE_SERVER_LOG_PATH=${server_log}"
+            echo "FAILURE_SERVER_LOG_TAIL_BEGIN"
+            sanitized_server_log_tail
+            echo "FAILURE_SERVER_LOG_TAIL_END"
+            if [[ -f "$server_log" ]]; then
+              echo "FAILURE_SERVER_LOG_PRESERVED=YES"
+            else
+              echo "FAILURE_SERVER_LOG_PRESERVED=NO"
+            fi
+            echo "NAMED_USER_FAILURE_DIAGNOSTICS_END"
+          }
 
           cleanup() {
+            local status=$?
+            trap - EXIT
+            if [[ "$status" -ne 0 ]]; then
+              set +e
+              collect_failure_diagnostics
+            fi
             if [[ -n "$server_pid" ]]; then
               sudo kill "$server_pid" 2>/dev/null || true
             fi
             sudo pkill -TERM -u "$service_user" 2>/dev/null || true
             sudo rm -rf "$release_root" "$state_root"
             sudo userdel "$service_user" 2>/dev/null || true
+            exit "$status"
           }
           trap cleanup EXIT
 
@@ -295,20 +399,32 @@ jobs:
             SUPABASE_SECRET_KEY=sb_secret_fault_injection_only_000000000000 \
             CYBERMEDICA_CATALOG_FAULT_INJECTION=all \
             CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT="$state_root" \
+            NEXT_PRIVATE_DEBUG_CACHE=1 \
             "$npm_bin" start -- --hostname 127.0.0.1 --port "$port" >"$server_log" 2>&1 &
           server_pid=$!
+          echo "CACHE_DEBUG_ENABLED=YES"
 
           ready="NO"
+          liveness_http="000"
           for attempt in $(seq 1 45); do
-            if curl --fail --silent "http://127.0.0.1:${port}/catalog" >/dev/null; then
+            liveness_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              "http://127.0.0.1:${port}/about" || true)"
+            if [[ "$liveness_http" = "200" ]]; then
               ready="YES"
               break
             fi
             sleep 1
           done
+          echo "SERVER_READY=${ready}"
+          echo "LIVENESS_HTTP=${liveness_http}"
           test "$ready" = "YES"
           pgrep -u "$service_user" -f 'next' >/dev/null
           echo "NEXT_START_AS_CYBERMEDICA_WEB=PASS"
+
+          catalog_trigger_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            "http://127.0.0.1:${port}/catalog" || true)"
+          echo "CATALOG_TRIGGER_HTTP=${catalog_trigger_http}"
+          test "$catalog_trigger_http" = "200"
 
           fetch_created="NO"
           fetch_files=()
@@ -322,14 +438,24 @@ jobs:
             fi
             sleep 1
           done
+          echo "FETCH_CACHE_FILE_FOUND=${fetch_created}"
           test "$fetch_created" = "YES"
           fetch_entry="${fetch_files[0]}"
           fetch_entry_relative="${fetch_entry#${build_state}/}"
           fetch_digest_before="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
           fetch_mtime_before="$(sudo stat -c '%Y' "$fetch_entry")"
+          fetch_entry_size="$(sudo stat -c '%s' "$fetch_entry")"
+          fetch_entry_mtime="$(sudo stat -c '%y' "$fetch_entry")"
+          fetch_handler_get_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(get|GET)')"
+          fetch_handler_set_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(set|SET)')"
           echo "FETCH_CACHE_CREATED=YES"
           echo "FETCH_CACHE_ENTRY=${fetch_entry_relative}"
+          echo "FETCH_CACHE_FILE_PATH=${fetch_entry_relative}"
+          echo "FETCH_CACHE_FILE_SIZE=${fetch_entry_size}"
+          echo "FETCH_CACHE_FILE_MTIME=${fetch_entry_mtime}"
           echo "FETCH_CACHE_DIGEST_BEFORE=${fetch_digest_before}"
+          echo "FETCH_HANDLER_GET_EVIDENCE=${fetch_handler_get_evidence}"
+          echo "FETCH_HANDLER_SET_EVIDENCE=${fetch_handler_set_evidence}"
           echo "FETCH_CACHE_WRITE=PASS"
 
           home_http="$(curl --silent --output /dev/null --write-out '%{http_code}' "http://127.0.0.1:${port}/")"
