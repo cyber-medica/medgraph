@@ -198,6 +198,18 @@ jobs:
           build_id=""
           build_state=""
           fetch_cache_root=""
+          fetch_write_watchdog_seconds="60"
+          fetch_set_started="NO"
+          fetch_set_completed="NO"
+          fetch_set_failed="NO"
+          fetch_watchdog_expired="NO"
+          fetch_set_key=""
+          fetch_entry=""
+          fetch_entry_size="0"
+          fetch_entry_mode="UNKNOWN"
+          fetch_entry_owner="UNKNOWN"
+          fetch_entry_digest=""
+          fetch_entry_mtime_epoch=""
 
           sanitized_server_log_tail() {
             if [[ ! -f "$server_log" ]]; then
@@ -225,6 +237,132 @@ jobs:
             grep -Eic "$pattern" "$server_log" || true
           }
 
+          latest_fetch_set_key() {
+            if [[ ! -f "$server_log" ]]; then
+              return
+            fi
+            grep -Eo 'FileSystemCache: set [0-9a-f]{64}' "$server_log" \
+              | tail -n 1 \
+              | awk '{print $3}' \
+              || true
+          }
+
+          fetch_completion_evidence_count() {
+            local route="$1"
+            if [[ ! -f "$server_log" ]]; then
+              echo "0"
+              return
+            fi
+            grep -Ec "pending revalidates promise finished for:[[:space:]]+(https?://[^/[:space:]]+)?${route}([?][^[:space:]]*)?$" \
+              "$server_log" \
+              || true
+          }
+
+          fetch_failure_evidence_count() {
+            if [[ ! -f "$server_log" ]]; then
+              echo "0"
+              return
+            fi
+            grep -Eic \
+              '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(error|failed|failure)|(error|failed|failure).*(FileSystemCache|IncrementalCache|cache[-_ ]?handler)|EACCES|ENOENT|MODULE_NOT_FOUND' \
+              "$server_log" \
+              || true
+          }
+
+          wait_for_fetch_cache_write_completion() {
+            local route="$1"
+            local baseline_set_count="$2"
+            local baseline_completion_count="$3"
+            local operation="$4"
+            local previous_digest="$5"
+            local previous_mtime="$6"
+            local watchdog_seconds="$7"
+            local deadline=$((SECONDS + watchdog_seconds))
+            local current_set_count
+            local current_completion_count
+            local expected_entry
+            local resolved_entry
+            local current_digest
+            local current_mtime
+
+            fetch_set_started="NO"
+            fetch_set_completed="NO"
+            fetch_set_failed="NO"
+            fetch_watchdog_expired="NO"
+            fetch_set_key=""
+            fetch_entry=""
+
+            while (( SECONDS < deadline )); do
+              if [[ -z "$server_pid" ]] || ! sudo kill -0 "$server_pid" 2>/dev/null; then
+                echo "Fetch-cache writer process exited before completion." >&2
+                fetch_set_failed="YES"
+                return 1
+              fi
+
+              if [[ "$(fetch_failure_evidence_count)" -gt 0 ]]; then
+                echo "Fetch-cache handler or runtime failure evidence appeared before completion." >&2
+                fetch_set_failed="YES"
+                return 1
+              fi
+
+              current_set_count="$(count_log_evidence 'FileSystemCache: set [0-9a-f]{64}')"
+              current_completion_count="$(fetch_completion_evidence_count "$route")"
+              if [[ "$current_set_count" -gt "$baseline_set_count" ]]; then
+                fetch_set_started="YES"
+                fetch_set_key="$(latest_fetch_set_key)"
+              fi
+              if [[ "$current_completion_count" -gt "$baseline_completion_count" ]]; then
+                fetch_set_completed="YES"
+              fi
+
+              if [[ "$fetch_set_started" = "YES" \
+                && "$fetch_set_completed" = "YES" \
+                && "$fetch_set_key" =~ ^[0-9a-f]{64}$ ]]; then
+                expected_entry="${fetch_cache_root}/${fetch_set_key}"
+                if sudo test -f "$expected_entry"; then
+                  resolved_entry="$(sudo realpath "$expected_entry")"
+                  if [[ "$resolved_entry" != "${fetch_cache_root}/${fetch_set_key}" ]]; then
+                    echo "Fetch-cache entry resolved outside the expected build-scoped root." >&2
+                    fetch_set_failed="YES"
+                    return 1
+                  fi
+                  fetch_entry_size="$(sudo stat -c '%s' "$resolved_entry")"
+                  fetch_entry_mode="$(sudo stat -c '0%a' "$resolved_entry")"
+                  fetch_entry_owner="$(sudo stat -c '%U:%G' "$resolved_entry")"
+                  current_digest="$(sudo sha256sum "$resolved_entry" | awk '{print $1}')"
+                  current_mtime="$(sudo stat -c '%Y' "$resolved_entry")"
+                  if [[ "$fetch_entry_size" -le 0 \
+                    || "$fetch_entry_mode" != "0640" \
+                    || "$fetch_entry_owner" != "${service_user}:${service_user}" ]]; then
+                    echo "Fetch-cache entry failed size, mode, or owner validation." >&2
+                    fetch_set_failed="YES"
+                    return 1
+                  fi
+                  if ! sudo -u "$service_user" "$node_bin" --eval \
+                    'JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8"));' \
+                    "$resolved_entry"; then
+                    echo "Fetch-cache entry is not readable valid JSON." >&2
+                    fetch_set_failed="YES"
+                    return 1
+                  fi
+                  if [[ "$operation" = "create" \
+                    || "$current_digest" != "$previous_digest" \
+                    || "$current_mtime" != "$previous_mtime" ]]; then
+                    fetch_entry="$resolved_entry"
+                    fetch_entry_digest="$current_digest"
+                    fetch_entry_mtime_epoch="$current_mtime"
+                    return 0
+                  fi
+                fi
+              fi
+              sleep 1
+            done
+
+            fetch_watchdog_expired="YES"
+            echo "Fetch-cache semantic completion watchdog expired after ${watchdog_seconds}s." >&2
+            return 1
+          }
+
           print_runtime_state_inventory() {
             local isr_app_root
             if [[ -z "$build_state" || ! -d "$build_state" ]]; then
@@ -249,11 +387,15 @@ jobs:
           collect_failure_diagnostics() {
             local fetch_get_evidence
             local fetch_set_evidence
+            local fetch_set_completion_evidence
+            local fetch_set_failed_evidence
             local fetch_error_evidence
             local permission_error_evidence
 
             fetch_get_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(get|GET)')"
             fetch_set_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(set|SET)')"
+            fetch_set_completion_evidence="$(count_log_evidence 'pending revalidates promise finished for:')"
+            fetch_set_failed_evidence="$(fetch_failure_evidence_count)"
             fetch_error_evidence="$(count_log_evidence '(cache|fetch).*(error|failed|failure)|(error|failed|failure).*(cache|fetch)')"
             permission_error_evidence="$(count_log_evidence 'EACCES|EPERM|permission denied')"
 
@@ -262,8 +404,15 @@ jobs:
             echo "CACHE_DEBUG_ENABLED=YES"
             echo "FETCH_HANDLER_GET_EVIDENCE=${fetch_get_evidence}"
             echo "FETCH_HANDLER_SET_EVIDENCE=${fetch_set_evidence}"
+            echo "SET_STARTED_EVIDENCE=${fetch_set_evidence}"
+            echo "SET_COMPLETED_EVIDENCE=${fetch_set_completion_evidence}"
+            echo "SET_FAILED_EVIDENCE=${fetch_set_failed_evidence}"
             echo "FETCH_HANDLER_ERROR_EVIDENCE=${fetch_error_evidence}"
             echo "PERMISSION_ERROR_EVIDENCE=${permission_error_evidence}"
+            echo "FETCH_WRITE_WATCHDOG_SECONDS=${fetch_write_watchdog_seconds}"
+            echo "FETCH_WRITE_WATCHDOG_EXPIRED=${fetch_watchdog_expired:-UNKNOWN}"
+            echo "EXACT_BUILD_ID=${build_id:-UNKNOWN}"
+            echo "EXACT_STATE_ROOT=${build_state:-UNKNOWN}"
             if [[ -n "$fetch_cache_root" && -d "$fetch_cache_root" ]]; then
               echo "FETCH_CACHE_DIRECTORY_PRESENT=YES"
               echo "FETCH_CACHE_FILES_AT_DIAGNOSTIC=$(sudo find "$fetch_cache_root" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
@@ -381,6 +530,10 @@ jobs:
           build_id="$(tr -d '\r\n' < "$release_root/.next/BUILD_ID")"
           build_state="${state_root}/${build_id}"
           fetch_cache_root="${build_state}/cache/fetch-cache"
+          test "$(sudo realpath "$build_state")" = "$build_state"
+          echo "EXACT_BUILD_ID=${build_id}"
+          echo "EXACT_STATE_ROOT=${build_state}"
+          echo "OVERALL_WATCHDOG_SECONDS=${fetch_write_watchdog_seconds}"
           fetch_files_before=0
           if [[ -d "$fetch_cache_root" ]]; then
             fetch_files_before="$(sudo find "$fetch_cache_root" -type f -print | wc -l | tr -d ' ')"
@@ -421,30 +574,30 @@ jobs:
           pgrep -u "$service_user" -f 'next' >/dev/null
           echo "NEXT_START_AS_CYBERMEDICA_WEB=PASS"
 
+          fetch_set_count_before_trigger="$(count_log_evidence 'FileSystemCache: set [0-9a-f]{64}')"
+          fetch_completion_count_before_trigger="$(fetch_completion_evidence_count '/catalog')"
           catalog_trigger_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
             "http://127.0.0.1:${port}/catalog" || true)"
           echo "CATALOG_TRIGGER_HTTP=${catalog_trigger_http}"
           test "$catalog_trigger_http" = "200"
 
-          fetch_created="NO"
-          fetch_files=()
-          for attempt in $(seq 1 30); do
-            if [[ -d "$fetch_cache_root" ]]; then
-              mapfile -t fetch_files < <(sudo find "$fetch_cache_root" -type f -print | sort)
-            fi
-            if [[ "${#fetch_files[@]}" -gt 0 ]]; then
-              fetch_created="YES"
-              break
-            fi
-            sleep 1
-          done
-          echo "FETCH_CACHE_FILE_FOUND=${fetch_created}"
-          test "$fetch_created" = "YES"
-          fetch_entry="${fetch_files[0]}"
+          wait_for_fetch_cache_write_completion \
+            "/catalog" \
+            "$fetch_set_count_before_trigger" \
+            "$fetch_completion_count_before_trigger" \
+            "create" \
+            "" \
+            "" \
+            "$fetch_write_watchdog_seconds"
+          echo "SET_STARTED_EVIDENCE=FileSystemCache: set ${fetch_set_key}"
+          echo "SET_COMPLETED_EVIDENCE=pending revalidates promise finished for: /catalog"
+          echo "SET_FAILED_EVIDENCE=0"
+          echo "FETCH_HANDLER_SET=PASS"
+          echo "FETCH_HANDLER_SET_COMPLETION=PASS"
+          echo "FETCH_CACHE_FILE_FOUND=YES"
           fetch_entry_relative="${fetch_entry#${build_state}/}"
-          fetch_digest_before="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
-          fetch_mtime_before="$(sudo stat -c '%Y' "$fetch_entry")"
-          fetch_entry_size="$(sudo stat -c '%s' "$fetch_entry")"
+          fetch_digest_before="$fetch_entry_digest"
+          fetch_mtime_before="$fetch_entry_mtime_epoch"
           fetch_entry_mtime="$(sudo stat -c '%y' "$fetch_entry")"
           fetch_handler_get_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(get|GET)')"
           fetch_handler_set_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(set|SET)')"
@@ -452,6 +605,8 @@ jobs:
           echo "FETCH_CACHE_ENTRY=${fetch_entry_relative}"
           echo "FETCH_CACHE_FILE_PATH=${fetch_entry_relative}"
           echo "FETCH_CACHE_FILE_SIZE=${fetch_entry_size}"
+          echo "FETCH_CACHE_FILE_MODE=${fetch_entry_mode}"
+          echo "FETCH_CACHE_FILE_OWNER=${fetch_entry_owner}"
           echo "FETCH_CACHE_FILE_MTIME=${fetch_entry_mtime}"
           echo "FETCH_CACHE_DIGEST_BEFORE=${fetch_digest_before}"
           echo "FETCH_HANDLER_GET_EVIDENCE=${fetch_handler_get_evidence}"
@@ -490,27 +645,27 @@ jobs:
 
           fetch_digest_before="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
           fetch_mtime_before="$(sudo stat -c '%Y' "$fetch_entry")"
+          fetch_key_before_revalidation="$fetch_set_key"
           echo "FETCH_CACHE_DIGEST_BEFORE_REVALIDATION=${fetch_digest_before}"
           echo "FETCH_CACHE_MTIME_BEFORE_REVALIDATION=${fetch_mtime_before}"
           sleep 65
           revalidation_path="/catalog/767632362-330695211247-apparat-ivl-hamilton-t1"
+          fetch_set_count_before_revalidation="$(count_log_evidence 'FileSystemCache: set [0-9a-f]{64}')"
+          fetch_completion_count_before_revalidation="$(fetch_completion_evidence_count "$revalidation_path")"
           revalidation_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
             "http://127.0.0.1:${port}${revalidation_path}")"
           test "$revalidation_http" = "200"
-          fetch_revalidated="NO"
-          fetch_digest_after="$fetch_digest_before"
-          fetch_mtime_after="$fetch_mtime_before"
-          for attempt in $(seq 1 30); do
-            fetch_digest_after="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
-            fetch_mtime_after="$(sudo stat -c '%Y' "$fetch_entry")"
-            if [[ "$fetch_mtime_after" != "$fetch_mtime_before" \
-              || "$fetch_digest_after" != "$fetch_digest_before" ]]; then
-              fetch_revalidated="YES"
-              break
-            fi
-            sleep 1
-          done
-          test "$fetch_revalidated" = "YES"
+          wait_for_fetch_cache_write_completion \
+            "$revalidation_path" \
+            "$fetch_set_count_before_revalidation" \
+            "$fetch_completion_count_before_revalidation" \
+            "update" \
+            "$fetch_digest_before" \
+            "$fetch_mtime_before" \
+            "$fetch_write_watchdog_seconds"
+          test "$fetch_set_key" = "$fetch_key_before_revalidation"
+          fetch_digest_after="$fetch_entry_digest"
+          fetch_mtime_after="$fetch_entry_mtime_epoch"
           echo "FETCH_CACHE_REVALIDATED=YES"
           echo "FETCH_CACHE_DIGEST_AFTER=${fetch_digest_after}"
           echo "FETCH_CACHE_MTIME_AFTER=${fetch_mtime_after}"
