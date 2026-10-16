@@ -70,6 +70,29 @@ async function freezeFixture(root: string) {
   await freeze(root);
 }
 
+async function findWorldWritableRealEntries(root: string) {
+  const matches: Array<{ path: string; type: string; mode: number }> = [];
+
+  async function inspect(path: string, relativePath: string) {
+    const details = await lstat(path);
+    if (details.isSymbolicLink()) return;
+    if ((details.mode & 0o002) !== 0) {
+      matches.push({
+        path: relativePath,
+        type: details.isFile() ? "file" : details.isDirectory() ? "directory" : "other",
+        mode: details.mode & 0o777,
+      });
+    }
+    if (!details.isDirectory()) return;
+    for (const child of await readdir(path)) {
+      await inspect(join(path, child), relativePath === "." ? child : join(relativePath, child));
+    }
+  }
+
+  await inspect(root, ".");
+  return matches;
+}
+
 test("restrictive build umask is rejected before immutable packaging", async (t) => {
   const root = await fixture();
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -322,6 +345,48 @@ test("custom handler is a no-op for middleware contexts without a Node server di
   handler.resetRequestCache();
 });
 
+test("world-writable mode gate ignores safe symlink metadata", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "cybermedica-world-writable-symlink-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await writeFile(join(root, "target"), "safe\n", { mode: 0o644 });
+  await symlink("target", join(root, "safe-link"));
+  assert.deepEqual(await findWorldWritableRealEntries(root), []);
+});
+
+test("world-writable mode gate blocks a regular file", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "cybermedica-world-writable-file-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const path = join(root, "unsafe.txt");
+  await writeFile(path, "unsafe\n", { mode: 0o644 });
+  await chmod(path, 0o646);
+  assert.deepEqual(await findWorldWritableRealEntries(root), [
+    { path: "unsafe.txt", type: "file", mode: 0o646 },
+  ]);
+});
+
+test("world-writable mode gate blocks a directory", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "cybermedica-world-writable-directory-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const path = join(root, "unsafe-directory");
+  await mkdir(path, { mode: 0o755 });
+  await chmod(path, 0o757);
+  assert.deepEqual(await findWorldWritableRealEntries(root), [
+    { path: "unsafe-directory", type: "directory", mode: 0o757 },
+  ]);
+});
+
+test("service-audit permission contract still rejects an escaping symlink", async (t) => {
+  const root = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await normalizeRuntimePermissions(root);
+  await symlink("../../../outside-runtime", join(root, "node_modules/.bin/escape"));
+  const report = await auditRuntimePermissions(root);
+  assert.equal(report.pass, false);
+  assert.deepEqual(report.invalidSymlinks, [
+    { path: "node_modules/.bin/escape", target: "../../../outside-runtime" },
+  ]);
+});
+
 test("CI blocks release regressions with the real cybermedica-web principal", async () => {
   const workflow = await readFile(
     join(process.cwd(), ".github/workflows/catalog-reliability-gate.yml"),
@@ -367,6 +432,18 @@ test("CI blocks release regressions with the real cybermedica-web principal", as
   assert.match(workflow, /MODULE_NOT_FOUND=0/u);
   assert.match(workflow, /verifyRuntimeInventory/u);
   assert.match(workflow, /IMMUTABLE_FILES_CHANGED=0/u);
+  assert.match(
+    workflow,
+    /find "\$release_root" "\$build_state"[\s\\]*! -type l[\s\\]*-perm -0002/u,
+  );
+  assert.match(
+    workflow,
+    /WORLD_WRITABLE_ENTRY\\tpath=%p\\ttype=%y\\tmode=0%m\\towner=%u:%g/u,
+  );
+  assert.doesNotMatch(
+    workflow,
+    /find "\$release_root" "\$build_state" -perm -0002 -print -quit/u,
+  );
   assert.match(workflow, /WORLD_WRITABLE_PATHS=0/u);
   assert.match(workflow, /NAMED_USER_RUNTIME_GATE=PASS/u);
   assert.match(workflow, /NAMED_USER_GATE=PASS/u);

@@ -780,8 +780,17 @@ jobs:
               }
             '
 
-          if sudo find "$release_root" "$build_state" -perm -0002 -print -quit | grep -q .; then
-            echo "World-writable runtime entry detected." >&2
+          # Linux reports symlink mode as 0777. Symlink containment is enforced by
+          # service-audit above; this raw mode gate covers real filesystem objects.
+          world_writable_report="${RUNNER_TEMP}/cybermedica-world-writable-entries.txt"
+          sudo find "$release_root" "$build_state" \
+            ! -type l \
+            -perm -0002 \
+            -printf 'WORLD_WRITABLE_ENTRY\tpath=%p\ttype=%y\tmode=0%m\towner=%u:%g\n' \
+            | LC_ALL=C sort > "$world_writable_report"
+          if [[ -s "$world_writable_report" ]]; then
+            echo "World-writable runtime entries detected." >&2
+            cat "$world_writable_report" >&2
             exit 1
           fi
           if sudo find "$release_root" \( ! -user root -o ! -group root \) -print -quit | grep -q .; then
