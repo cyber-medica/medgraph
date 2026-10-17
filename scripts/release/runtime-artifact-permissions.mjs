@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import {
   constants as fsConstants,
   access,
+  chown,
   chmod,
   lstat,
   mkdir,
@@ -22,6 +23,9 @@ import { fileURLToPath } from "node:url";
 export const RUNTIME_DIRECTORY_MODE = 0o755;
 export const RUNTIME_FILE_MODE = 0o644;
 export const RUNTIME_EXECUTABLE_MODE = 0o755;
+export const RUNTIME_STATE_DIRECTORY_MODE = 0o750;
+export const RUNTIME_STATE_FILE_MODE = 0o640;
+export const DEFAULT_RUNTIME_STATE_ROOT = "/var/lib/cybermedica-web/next-runtime";
 
 export const REQUIRED_RUNTIME_PATHS = Object.freeze([
   { path: ".next", type: "directory" },
@@ -32,6 +36,7 @@ export const REQUIRED_RUNTIME_PATHS = Object.freeze([
   { path: "package.json", type: "file" },
   { path: "package-lock.json", type: "file" },
   { path: "next.config.ts", type: "file" },
+  { path: "lib/runtime/next-runtime-cache-handler.cjs", type: "file" },
   { path: "node_modules/next/dist/bin/next", type: "file" },
 ]);
 
@@ -61,6 +66,98 @@ function modeOf(stats) {
 function isInside(root, target) {
   const relation = relative(root, target);
   return relation === "" || (!relation.startsWith(`..${sep}`) && relation !== ".." && !isAbsolute(relation));
+}
+
+function validatedBuildId(value) {
+  const buildId = value.trim();
+  if (!/^[A-Za-z0-9_-]{1,128}$/u.test(buildId)) throw new Error("Runtime BUILD_ID is invalid.");
+  return buildId;
+}
+
+export async function runtimeStatePath(root, stateRoot = DEFAULT_RUNTIME_STATE_ROOT) {
+  const absoluteStateRoot = resolve(stateRoot);
+  if (!isAbsolute(stateRoot)) throw new Error("Runtime state root must be absolute.");
+  const absoluteReleaseRoot = resolve(root);
+  if (isInside(absoluteReleaseRoot, absoluteStateRoot) || isInside(absoluteStateRoot, absoluteReleaseRoot)) {
+    throw new Error("Runtime state root must be outside the immutable release tree.");
+  }
+  const buildId = validatedBuildId(await readFile(join(absoluteReleaseRoot, ".next/BUILD_ID"), "utf8"));
+  return { buildId, path: join(absoluteStateRoot, buildId), stateRoot: absoluteStateRoot };
+}
+
+export async function prepareRuntimeState(root, stateRoot = DEFAULT_RUNTIME_STATE_ROOT, owner = {}) {
+  const state = await runtimeStatePath(root, stateRoot);
+  await mkdir(state.stateRoot, { recursive: true, mode: RUNTIME_DIRECTORY_MODE });
+  await chmod(state.stateRoot, RUNTIME_DIRECTORY_MODE);
+  await mkdir(state.path, { recursive: true, mode: RUNTIME_STATE_DIRECTORY_MODE });
+  await chmod(state.path, RUNTIME_STATE_DIRECTORY_MODE);
+  if (Number.isInteger(owner.uid) && Number.isInteger(owner.gid)) {
+    await chown(state.path, owner.uid, owner.gid);
+  }
+  return state;
+}
+
+export async function auditRuntimeState(root, stateRoot = DEFAULT_RUNTIME_STATE_ROOT, options = {}) {
+  const { checkCurrentPrincipal = false } = options;
+  const state = await runtimeStatePath(root, stateRoot);
+  const report = {
+    pass: false,
+    requiredWritablePathsExist: false,
+    serviceUserCanWriteRequiredPaths: false,
+    serviceUserCannotWriteImmutablePaths: false,
+    worldWritablePaths: /** @type {string[]} */ ([]),
+    unexpectedWritablePaths: /** @type {string[]} */ ([]),
+    statePath: state.path,
+  };
+  try {
+    const details = await lstat(state.path);
+    report.requiredWritablePathsExist = details.isDirectory()
+      && !details.isSymbolicLink()
+      && modeOf(details) === RUNTIME_STATE_DIRECTORY_MODE;
+  } catch {
+    return report;
+  }
+
+  const { entries } = await walk(state.path);
+  for (const entry of entries) {
+    const mode = modeOf(entry.details);
+    if ((mode & 0o002) !== 0) report.worldWritablePaths.push(portablePath(entry.path));
+    if ((mode & 0o020) !== 0) report.unexpectedWritablePaths.push(`state:${portablePath(entry.path)}`);
+  }
+
+  if (checkCurrentPrincipal) {
+    try {
+      await access(state.path, fsConstants.R_OK | fsConstants.W_OK | fsConstants.X_OK);
+      const probe = join(state.path, `.release-gate-write-probe-${process.pid}`);
+      await writeFile(probe, "runtime-state-write-probe\n", { mode: RUNTIME_STATE_FILE_MODE });
+      await rm(probe, { force: true });
+      report.serviceUserCanWriteRequiredPaths = true;
+    } catch {
+      report.serviceUserCanWriteRequiredPaths = false;
+    }
+
+    const immutable = await walk(root);
+    const results = await Promise.all(immutable.entries.map(async (entry) => {
+      if (entry.type === "symlink") return true;
+      try {
+        await access(entry.absolutePath, fsConstants.W_OK);
+        report.unexpectedWritablePaths.push(`release:${portablePath(entry.path)}`);
+        return false;
+      } catch {
+        return true;
+      }
+    }));
+    report.serviceUserCannotWriteImmutablePaths = results.every(Boolean);
+  }
+
+  report.pass = report.requiredWritablePathsExist
+    && (!checkCurrentPrincipal || (
+      report.serviceUserCanWriteRequiredPaths
+      && report.serviceUserCannotWriteImmutablePaths
+    ))
+    && report.worldWritablePaths.length === 0
+    && report.unexpectedWritablePaths.length === 0;
+  return report;
 }
 
 async function walk(root) {
@@ -346,7 +443,7 @@ function assertPass(report, label) {
   if (!report.pass) throw new Error(`${label} failed: ${JSON.stringify(report)}`);
 }
 
-async function serviceAudit(root, user) {
+async function serviceAudit(root, stateRoot, user) {
   if (typeof process.getuid !== "function" || process.getuid() !== 0) {
     throw new Error("Service-user audit must be launched as root on the Linux build host.");
   }
@@ -358,7 +455,10 @@ async function serviceAudit(root, user) {
   };
   const result = spawnSync(
     "runuser",
-    ["--user", user, "--", process.execPath, scriptPath, "principal-audit", "--root", resolve(root)],
+    [
+      "--user", user, "--", process.execPath, scriptPath, "principal-audit",
+      "--root", resolve(root), "--state-root", resolve(stateRoot),
+    ],
     { encoding: "utf8", env: serviceEnvironment },
   );
   if (result.status !== 0) {
@@ -393,6 +493,18 @@ async function serviceAudit(root, user) {
   return report;
 }
 
+function resolvePrincipal(name, flag) {
+  const result = flag === "-u"
+    ? spawnSync("id", ["-u", name], { encoding: "utf8" })
+    : spawnSync("getent", ["group", name], { encoding: "utf8" });
+  const rawValue = flag === "-u" ? result.stdout.trim() : result.stdout.split(":")[2];
+  const value = Number.parseInt(rawValue, 10);
+  if (result.status !== 0 || !Number.isInteger(value) || value < 0) {
+    throw new Error(`Unable to resolve ${flag === "-u" ? "user" : "group"} ${name}.`);
+  }
+  return value;
+}
+
 async function packageArtifact(named) {
   const root = resolve(requireArgument(named, "root"));
   const archivePath = resolve(requireArgument(named, "archive"));
@@ -411,7 +523,7 @@ async function packageArtifact(named) {
   const permissionAudit = await auditRuntimePermissions(root);
   assertPass(permissionAudit, "Pre-archive runtime permission gate");
   const inventory = await createRuntimeInventory(root);
-  const buildId = (await readFile(join(root, ".next/BUILD_ID"), "utf8")).trim();
+  const buildId = validatedBuildId(await readFile(join(root, ".next/BUILD_ID"), "utf8"));
   const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   const lkg = JSON.parse(await readFile(join(root, "data/published-catalog-last-known-good.json"), "utf8"));
 
@@ -460,6 +572,14 @@ async function packageArtifact(named) {
       regularFiles: "0644",
       executables: "0755-only-if-source-executable",
       archiveOwner: "0:0",
+      immutableReleaseWrites: "forbidden",
+      externalRuntimeState: {
+        defaultRoot: DEFAULT_RUNTIME_STATE_ROOT,
+        buildScopedDirectory: "<BUILD_ID>",
+        owner: "cybermedica-web:cybermedica-web",
+        directoryMode: "0750",
+        fileMode: "0640",
+      },
     },
     permissionAudit,
     inventory,
@@ -514,24 +634,50 @@ async function main() {
     return;
   }
   if (command === "audit" || command === "principal-audit") {
-    const report = await auditRuntimePermissions(requireArgument(named, "root"), {
+    const root = requireArgument(named, "root");
+    const report = await auditRuntimePermissions(root, {
       checkCurrentPrincipal: command === "principal-audit",
     });
+    if (named.has("state-root")) {
+      report.runtimeState = await auditRuntimeState(
+        root,
+        requireArgument(named, "state-root"),
+        { checkCurrentPrincipal: command === "principal-audit" },
+      );
+      report.pass = report.pass && report.runtimeState.pass;
+    }
     console.log(JSON.stringify(report));
     if (!report.pass) process.exitCode = 1;
     return;
   }
   if (command === "service-audit") {
-    const report = await serviceAudit(requireArgument(named, "root"), requireArgument(named, "user"));
+    const report = await serviceAudit(
+      requireArgument(named, "root"),
+      requireArgument(named, "state-root"),
+      requireArgument(named, "user"),
+    );
     console.log(JSON.stringify(report));
     if (!report.pass) process.exitCode = 1;
+    return;
+  }
+  if (command === "prepare-state") {
+    if (typeof process.getuid !== "function" || process.getuid() !== 0) {
+      throw new Error("Runtime state preparation must be launched as root.");
+    }
+    const user = requireArgument(named, "user");
+    const group = requireArgument(named, "group");
+    console.log(JSON.stringify(await prepareRuntimeState(
+      requireArgument(named, "root"),
+      requireArgument(named, "state-root"),
+      { uid: resolvePrincipal(user, "-u"), gid: resolvePrincipal(group, "-g") },
+    )));
     return;
   }
   if (command === "package") {
     console.log(JSON.stringify(await packageArtifact(named)));
     return;
   }
-  throw new Error("Usage: runtime-artifact-permissions.mjs <normalize|audit|principal-audit|service-audit|package> --root <path> [...]");
+  throw new Error("Usage: runtime-artifact-permissions.mjs <normalize|audit|principal-audit|prepare-state|service-audit|package> --root <path> [...]");
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

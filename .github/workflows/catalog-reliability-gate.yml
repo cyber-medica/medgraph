@@ -11,7 +11,7 @@ permissions:
 jobs:
   fault-injection:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,6 +26,25 @@ jobs:
       - run: |
           set -euo pipefail
           server_log="${RUNNER_TEMP}/catalog-reliability-next.log"
+          state_root="${RUNNER_TEMP}/cybermedica-next-runtime"
+          build_id="$(tr -d '\r\n' < "${GITHUB_WORKSPACE}/.next/BUILD_ID")"
+          node_bin="$(command -v node)"
+          runner_user="$(id -un)"
+          runner_group="$(id -gn)"
+          sudo env "PATH=$PATH" "$node_bin" \
+            scripts/release/runtime-artifact-permissions.mjs \
+            prepare-state \
+            --root "$GITHUB_WORKSPACE" \
+            --state-root "$state_root" \
+            --user "$runner_user" \
+            --group "$runner_group"
+          test -d "${state_root}/${build_id}"
+          test -r "${state_root}/${build_id}"
+          test -w "${state_root}/${build_id}"
+          test -x "${state_root}/${build_id}"
+          echo "FIRST_SMOKE_BUILD_ID=${build_id}"
+          echo "FIRST_SMOKE_STATE_ROOT=${state_root}"
+          echo "FIRST_SMOKE_STATE_PREPARED=YES"
           : > "$server_log"
           CATALOG_DATA_SOURCE=cloud_published \
           CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk \
@@ -33,28 +52,755 @@ jobs:
           SUPABASE_SECRET_KEY=sb_secret_fault_injection_only_000000000000 \
           VERCEL=1 \
           VERCEL_ENV=preview \
+          CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT="$state_root" \
           CYBERMEDICA_CATALOG_FAULT_INJECTION=all npm start >"$server_log" 2>&1 &
           server_pid=$!
           cleanup() {
             kill "$server_pid" 2>/dev/null || true
+            sudo rm -rf "$state_root"
           }
           trap cleanup EXIT
+          echo "PROCESS_CREATED=YES"
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:3000/catalog >/dev/null; then
+              echo "LISTENER_CREATED=YES"
               WEBKIT_SMOKE_PRODUCT_PATH=/catalog/767632362-330695211247-apparat-ivl-hamilton-t1 \
               WEBKIT_SMOKE_REMOTE_MEDIA_MODE=fixture \
               WEBKIT_SMOKE_REQUIRE_REMOTE_MEDIA_INTERCEPTION=1 \
               WEBKIT_SMOKE_ASSERT_NO_SUPABASE=1 \
               npm run qa:ios-webkit-smoke
-              WEBKIT_SMOKE_MODE=next-image \
-              WEBKIT_SMOKE_NEXT_IMAGE_TIMEOUT_MS=8000 \
+              image_cache_root="${state_root}/${build_id}/images-v1"
+              rm -rf "$image_cache_root"
+              immutable_image_state_before="$(
+                find "$GITHUB_WORKSPACE/.next" -type f -printf '%P\t%s\t%m\n' \
+                  | LC_ALL=C sort \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              WEBKIT_SMOKE_MODE=next-image-local \
+              WEBKIT_SMOKE_LOCAL_NEXT_IMAGE_TIMEOUT_MS=4000 \
               WEBKIT_SMOKE_SERVER_LOG="$server_log" \
               npm run qa:ios-webkit-smoke
+
+              mapfile -t local_image_metadata < <(
+                find "$image_cache_root" -type f -name metadata.json -print | sort
+              )
+              mapfile -t local_image_payloads < <(
+                find "$image_cache_root" -type f -name payload.bin -print | sort
+              )
+              test "${#local_image_metadata[@]}" = "1"
+              test "${#local_image_payloads[@]}" = "1"
+              local_image_entry="$(dirname "${local_image_metadata[0]}")"
+              test "${local_image_payloads[0]}" = "${local_image_entry}/payload.bin"
+              [[ "$(basename "$local_image_entry")" =~ ^[0-9a-f]{64}$ ]]
+              METADATA="${local_image_metadata[0]}" \
+              PAYLOAD="${local_image_payloads[0]}" \
+              node --input-type=module --eval '
+                import { readFile } from "node:fs/promises";
+                const metadata = JSON.parse(await readFile(process.env.METADATA, "utf8"));
+                if (metadata?.schemaVersion !== 1 || metadata?.kind !== "IMAGE") process.exit(1);
+                const payload = await readFile(process.env.PAYLOAD);
+                if (payload.length === 0) process.exit(1);
+              '
+              local_cache_inventory_before="$(
+                find "$image_cache_root" -type f -print0 \
+                  | LC_ALL=C sort -z \
+                  | xargs -0 sha256sum \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              echo "COLD_REQUEST=PASS"
+              echo "CACHE_ENTRY_CREATED=YES"
+              echo "LOCAL_IMAGE_CACHE_WRITE=PASS"
+
+              WEBKIT_SMOKE_MODE=next-image-local \
+              WEBKIT_SMOKE_LOCAL_NEXT_IMAGE_TIMEOUT_MS=4000 \
+              WEBKIT_SMOKE_SERVER_LOG="$server_log" \
+              npm run qa:ios-webkit-smoke
+              local_cache_inventory_after="$(
+                find "$image_cache_root" -type f -print0 \
+                  | LC_ALL=C sort -z \
+                  | xargs -0 sha256sum \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              test "$local_cache_inventory_after" = "$local_cache_inventory_before"
+              immutable_image_state_after="$(
+                find "$GITHUB_WORKSPACE/.next" -type f -printf '%P\t%s\t%m\n' \
+                  | LC_ALL=C sort \
+                  | sha256sum \
+                  | awk '{print $1}'
+              )"
+              test "$immutable_image_state_after" = "$immutable_image_state_before"
+              echo "WARM_REQUEST=PASS"
+              echo "CACHE_ENTRY_REUSED=YES"
+              echo "LOCAL_IMAGE_CACHE_REUSE=PASS"
+              echo "LOCAL_NEXT_IMAGE_IMMUTABLE_WRITES=0"
+
+              WEBKIT_SMOKE_MODE=next-image-classification \
+              npm run qa:ios-webkit-smoke
+              WEBKIT_SMOKE_MODE=next-image-live \
+              WEBKIT_SMOKE_LIVE_NEXT_IMAGE_TIMEOUT_MS=8000 \
+              WEBKIT_SMOKE_LIVE_UPSTREAM_TIMEOUT_MS=5000 \
+              WEBKIT_SMOKE_SERVER_LOG="$server_log" \
+              WEBKIT_SMOKE_SERVER_PID="$server_pid" \
+              WEBKIT_SMOKE_IMAGE_CACHE_ROOT="$image_cache_root" \
+              npm run qa:ios-webkit-smoke
+              if grep -Eq 'EACCES|ENOENT|MODULE_NOT_FOUND' "$server_log"; then
+                echo "Unexpected local runtime error in first startup server log." >&2
+                exit 1
+              fi
+              echo "CACHE_HANDLER_INIT=PASS"
+              echo "ENOENT=0"
+              echo "CATALOG_HTTP=200"
+              echo "FIRST_STARTUP_SMOKE=PASS"
               exit 0
             fi
             sleep 1
           done
+          catalog_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            http://127.0.0.1:3000/catalog || true)"
+          echo "SERVER_LOG"
+          cat "$server_log"
+          echo "HTTP_STATUS=${catalog_http:-000}"
+          if kill -0 "$server_pid" 2>/dev/null; then
+            echo "PROCESS_STATE=RUNNING"
+            ps -p "$server_pid" -o pid=,ppid=,user=,stat=,command= || true
+          else
+            echo "PROCESS_STATE=EXITED"
+          fi
+          echo "LISTENER_STATE"
+          sudo ss -ltnp 'sport = :3000' || true
+          echo "BUILD_ID=${build_id}"
+          if [[ -d "${state_root}/${build_id}" ]]; then
+            echo "RUNTIME_STATE_ROOT=EXISTS"
+            stat -c 'RUNTIME_STATE_MODE=%a RUNTIME_STATE_OWNER=%U:%G' \
+              "${state_root}/${build_id}" || true
+          else
+            echo "RUNTIME_STATE_ROOT=MISSING"
+          fi
           exit 1
+      - name: Verify immutable runtime as cybermedica-web
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          service_user="cybermedica-web"
+          release_root="/opt/cybermedica-ci-release"
+          runtime_helper="${release_root}/scripts/release/runtime-artifact-permissions.mjs"
+          state_root="/var/lib/cybermedica-web/next-runtime"
+          inventory_before="${RUNNER_TEMP}/cybermedica-runtime-inventory.json"
+          server_log="${RUNNER_TEMP}/cybermedica-web-next.log"
+          port="3011"
+          node_bin="$(command -v node)"
+          npm_bin="$(command -v npm)"
+          server_pid=""
+          build_id=""
+          build_state=""
+          fetch_cache_root=""
+          fetch_write_watchdog_seconds="60"
+          fetch_set_started="NO"
+          fetch_set_completed="NO"
+          fetch_set_failed="NO"
+          fetch_watchdog_expired="NO"
+          fetch_set_key=""
+          fetch_entry=""
+          fetch_entry_size="0"
+          fetch_entry_mode="UNKNOWN"
+          fetch_entry_owner="UNKNOWN"
+          fetch_entry_digest=""
+          fetch_entry_mtime_epoch=""
+
+          sanitized_server_log_tail() {
+            if [[ ! -f "$server_log" ]]; then
+              echo "SERVER_LOG_STATUS=MISSING"
+              return
+            fi
+            grep -Eai 'cache|fetch|get|set|revalidat|error|EACCES|ENOENT|MODULE_NOT_FOUND' "$server_log" \
+              | tail -n 200 \
+              | sed -E \
+                -e 's/sb_secret_[A-Za-z0-9_-]+/[REDACTED_SECRET_KEY]/g' \
+                -e 's/([Bb][Ee][Aa][Rr][Ee][Rr][[:space:]]+)[A-Za-z0-9._~-]+/\1[REDACTED]/g' \
+                -e 's/([Aa][Pp][Ii][Kk][Ee][Yy][^A-Za-z0-9]{0,3})[^[:space:],"]+/\1[REDACTED]/g' \
+                -e 's/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/[REDACTED_JWT]/g' \
+                -e 's/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/[REDACTED_EMAIL]/g' \
+                -e 's/[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}/[REDACTED_UUID]/g' \
+              || true
+          }
+
+          count_log_evidence() {
+            local pattern="$1"
+            if [[ ! -f "$server_log" ]]; then
+              echo "0"
+              return
+            fi
+            grep -Eic "$pattern" "$server_log" || true
+          }
+
+          latest_fetch_set_key() {
+            if [[ ! -f "$server_log" ]]; then
+              return
+            fi
+            grep -Eo 'FileSystemCache: set [0-9a-f]{64}' "$server_log" \
+              | tail -n 1 \
+              | awk '{print $3}' \
+              || true
+          }
+
+          fetch_completion_evidence_count() {
+            local route="$1"
+            if [[ ! -f "$server_log" ]]; then
+              echo "0"
+              return
+            fi
+            grep -Ec "pending revalidates promise finished for:[[:space:]]+(https?://[^/[:space:]]+)?${route}([?][^[:space:]]*)?$" \
+              "$server_log" \
+              || true
+          }
+
+          fetch_failure_evidence_count() {
+            if [[ ! -f "$server_log" ]]; then
+              echo "0"
+              return
+            fi
+            grep -Eic \
+              '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(error|failed|failure)|(error|failed|failure).*(FileSystemCache|IncrementalCache|cache[-_ ]?handler)|EACCES|ENOENT|MODULE_NOT_FOUND' \
+              "$server_log" \
+              || true
+          }
+
+          wait_for_fetch_cache_write_completion() {
+            local route="$1"
+            local baseline_set_count="$2"
+            local baseline_completion_count="$3"
+            local operation="$4"
+            local previous_digest="$5"
+            local previous_mtime="$6"
+            local watchdog_seconds="$7"
+            local deadline=$((SECONDS + watchdog_seconds))
+            local current_set_count
+            local current_completion_count
+            local expected_entry
+            local resolved_entry
+            local current_digest
+            local current_mtime
+
+            fetch_set_started="NO"
+            fetch_set_completed="NO"
+            fetch_set_failed="NO"
+            fetch_watchdog_expired="NO"
+            fetch_set_key=""
+            fetch_entry=""
+
+            while (( SECONDS < deadline )); do
+              if [[ -z "$server_pid" ]] || ! sudo kill -0 "$server_pid" 2>/dev/null; then
+                echo "Fetch-cache writer process exited before completion." >&2
+                fetch_set_failed="YES"
+                return 1
+              fi
+
+              if [[ "$(fetch_failure_evidence_count)" -gt 0 ]]; then
+                echo "Fetch-cache handler or runtime failure evidence appeared before completion." >&2
+                fetch_set_failed="YES"
+                return 1
+              fi
+
+              current_set_count="$(count_log_evidence 'FileSystemCache: set [0-9a-f]{64}')"
+              current_completion_count="$(fetch_completion_evidence_count "$route")"
+              if [[ "$current_set_count" -gt "$baseline_set_count" ]]; then
+                fetch_set_started="YES"
+                fetch_set_key="$(latest_fetch_set_key)"
+              fi
+              if [[ "$current_completion_count" -gt "$baseline_completion_count" ]]; then
+                fetch_set_completed="YES"
+              fi
+
+              if [[ "$fetch_set_started" = "YES" \
+                && "$fetch_set_completed" = "YES" \
+                && "$fetch_set_key" =~ ^[0-9a-f]{64}$ ]]; then
+                expected_entry="${fetch_cache_root}/${fetch_set_key}"
+                if sudo test -f "$expected_entry"; then
+                  resolved_entry="$(sudo realpath "$expected_entry")"
+                  if [[ "$resolved_entry" != "${fetch_cache_root}/${fetch_set_key}" ]]; then
+                    echo "Fetch-cache entry resolved outside the expected build-scoped root." >&2
+                    fetch_set_failed="YES"
+                    return 1
+                  fi
+                  fetch_entry_size="$(sudo stat -c '%s' "$resolved_entry")"
+                  fetch_entry_mode="$(sudo stat -c '0%a' "$resolved_entry")"
+                  fetch_entry_owner="$(sudo stat -c '%U:%G' "$resolved_entry")"
+                  current_digest="$(sudo sha256sum "$resolved_entry" | awk '{print $1}')"
+                  current_mtime="$(sudo stat -c '%Y' "$resolved_entry")"
+                  if [[ "$fetch_entry_size" -le 0 \
+                    || "$fetch_entry_mode" != "0640" \
+                    || "$fetch_entry_owner" != "${service_user}:${service_user}" ]]; then
+                    echo "Fetch-cache entry failed size, mode, or owner validation." >&2
+                    fetch_set_failed="YES"
+                    return 1
+                  fi
+                  if ! sudo -u "$service_user" "$node_bin" --eval \
+                    'JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8"));' \
+                    "$resolved_entry"; then
+                    echo "Fetch-cache entry is not readable valid JSON." >&2
+                    fetch_set_failed="YES"
+                    return 1
+                  fi
+                  if [[ "$operation" = "create" \
+                    || "$current_digest" != "$previous_digest" \
+                    || "$current_mtime" != "$previous_mtime" ]]; then
+                    fetch_entry="$resolved_entry"
+                    fetch_entry_digest="$current_digest"
+                    fetch_entry_mtime_epoch="$current_mtime"
+                    return 0
+                  fi
+                fi
+              fi
+              sleep 1
+            done
+
+            fetch_watchdog_expired="YES"
+            echo "Fetch-cache semantic completion watchdog expired after ${watchdog_seconds}s." >&2
+            return 1
+          }
+
+          print_runtime_state_inventory() {
+            local isr_app_root
+            if [[ -z "$build_state" || ! -d "$build_state" ]]; then
+              echo "RUNTIME_STATE_ROOT=MISSING"
+              echo "FAILURE_STATE_INVENTORY_PRESERVED=NO"
+              return
+            fi
+
+            isr_app_root="${build_state}/server/app"
+            echo "RUNTIME_STATE_ROOT=${build_state}"
+            echo "RUNTIME_STATE_INVENTORY_COLUMNS=relative_path,type,mode,owner_group,size,mtime"
+            sudo find "$build_state" \
+              -printf '%P\t%y\t0%m\t%u:%g\t%s\t%TY-%Tm-%TdT%TH:%TM:%TS\n' \
+              | LC_ALL=C sort \
+              | sed 's/^/RUNTIME_STATE_ENTRY\t/'
+            echo "FETCH_CACHE_FILES_AT_FAILURE=$(sudo find "$build_state/cache/fetch-cache" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            echo "IMAGE_FILES_AT_FAILURE=$(sudo find "$build_state/images-v1" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            echo "ISR_APP_FILES_AT_FAILURE=$(sudo find "$isr_app_root" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            echo "FAILURE_STATE_INVENTORY_PRESERVED=YES"
+          }
+
+          collect_failure_diagnostics() {
+            local fetch_get_evidence
+            local fetch_set_evidence
+            local fetch_set_completion_evidence
+            local fetch_set_failed_evidence
+            local fetch_error_evidence
+            local permission_error_evidence
+
+            fetch_get_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(get|GET)')"
+            fetch_set_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(set|SET)')"
+            fetch_set_completion_evidence="$(count_log_evidence 'pending revalidates promise finished for:')"
+            fetch_set_failed_evidence="$(fetch_failure_evidence_count)"
+            fetch_error_evidence="$(count_log_evidence '(cache|fetch).*(error|failed|failure)|(error|failed|failure).*(cache|fetch)')"
+            permission_error_evidence="$(count_log_evidence 'EACCES|EPERM|permission denied')"
+
+            echo "NAMED_USER_FAILURE_DIAGNOSTICS_BEGIN"
+            echo "DIAGNOSTICS_BEFORE_CLEANUP=YES"
+            echo "CACHE_DEBUG_ENABLED=YES"
+            echo "FETCH_HANDLER_GET_EVIDENCE=${fetch_get_evidence}"
+            echo "FETCH_HANDLER_SET_EVIDENCE=${fetch_set_evidence}"
+            echo "SET_STARTED_EVIDENCE=${fetch_set_evidence}"
+            echo "SET_COMPLETED_EVIDENCE=${fetch_set_completion_evidence}"
+            echo "SET_FAILED_EVIDENCE=${fetch_set_failed_evidence}"
+            echo "FETCH_HANDLER_ERROR_EVIDENCE=${fetch_error_evidence}"
+            echo "PERMISSION_ERROR_EVIDENCE=${permission_error_evidence}"
+            echo "FETCH_WRITE_WATCHDOG_SECONDS=${fetch_write_watchdog_seconds}"
+            echo "FETCH_WRITE_WATCHDOG_EXPIRED=${fetch_watchdog_expired:-UNKNOWN}"
+            echo "EXACT_BUILD_ID=${build_id:-UNKNOWN}"
+            echo "EXACT_STATE_ROOT=${build_state:-UNKNOWN}"
+            if [[ -n "$fetch_cache_root" && -d "$fetch_cache_root" ]]; then
+              echo "FETCH_CACHE_DIRECTORY_PRESENT=YES"
+              echo "FETCH_CACHE_FILES_AT_DIAGNOSTIC=$(sudo find "$fetch_cache_root" -type f -print 2>/dev/null | wc -l | tr -d ' ')"
+            else
+              echo "FETCH_CACHE_DIRECTORY_PRESENT=NO"
+              echo "FETCH_CACHE_FILES_AT_DIAGNOSTIC=0"
+            fi
+            if [[ -n "$server_pid" ]] && sudo kill -0 "$server_pid" 2>/dev/null; then
+              echo "SERVER_PROCESS_STATE=RUNNING"
+              sudo ps -p "$server_pid" -o pid=,ppid=,user=,stat=,comm= || true
+            else
+              echo "SERVER_PROCESS_STATE=NOT_RUNNING"
+            fi
+            echo "SERVER_LISTENER_STATE_BEGIN"
+            sudo ss -ltn "sport = :${port}" || true
+            echo "SERVER_LISTENER_STATE_END"
+            print_runtime_state_inventory
+            echo "FAILURE_SERVER_LOG_PATH=${server_log}"
+            echo "FAILURE_SERVER_LOG_TAIL_BEGIN"
+            sanitized_server_log_tail
+            echo "FAILURE_SERVER_LOG_TAIL_END"
+            if [[ -f "$server_log" ]]; then
+              echo "FAILURE_SERVER_LOG_PRESERVED=YES"
+            else
+              echo "FAILURE_SERVER_LOG_PRESERVED=NO"
+            fi
+            echo "NAMED_USER_FAILURE_DIAGNOSTICS_END"
+          }
+
+          cleanup() {
+            local status=$?
+            trap - EXIT
+            if [[ "$status" -ne 0 ]]; then
+              set +e
+              collect_failure_diagnostics
+            fi
+            if [[ -n "$server_pid" ]]; then
+              sudo kill "$server_pid" 2>/dev/null || true
+            fi
+            sudo pkill -TERM -u "$service_user" 2>/dev/null || true
+            sudo rm -rf "$release_root" "$state_root"
+            sudo userdel "$service_user" 2>/dev/null || true
+            exit "$status"
+          }
+          trap cleanup EXIT
+
+          if id "$service_user" >/dev/null 2>&1; then
+            echo "Refusing to reuse a pre-existing ${service_user} account." >&2
+            exit 1
+          fi
+          sudo useradd \
+            --system \
+            --no-create-home \
+            --home-dir /nonexistent \
+            --shell /usr/sbin/nologin \
+            "$service_user"
+          test "$(id -un "$(id -u "$service_user")")" = "$service_user"
+          echo "USER_EXISTS=${service_user}"
+
+          sudo mkdir -p "$release_root"
+          sudo rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.env*' \
+            --exclude='tests/' \
+            --exclude='docs/' \
+            --exclude='.next/cache/' \
+            --exclude='.next/diagnostics/' \
+            --exclude='node_modules/next/dist/docs/' \
+            "${GITHUB_WORKSPACE}/" "$release_root/"
+          test -r "$runtime_helper"
+          sudo env "PATH=$PATH" "$node_bin" \
+            "$runtime_helper" \
+            normalize --root "$release_root"
+          sudo chown -R root:root "$release_root"
+          sudo -u "$service_user" test -r "$runtime_helper"
+          sudo -u "$service_user" test -x "$release_root"
+          if sudo -u "$service_user" test -w "$release_root"; then
+            echo "Prepared release tree is unexpectedly writable by ${service_user}." >&2
+            exit 1
+          fi
+          echo "HELPER_PATH_INSIDE_RELEASE=${runtime_helper}"
+          echo "HELPER_PRESENT_IN_RELEASE=YES"
+          echo "HELPER_RESOLUTION_FROM_RELEASE=PASS"
+
+          cd "$release_root"
+
+          sudo env "PATH=$PATH" RUNTIME_ROOT="$release_root" INVENTORY_PATH="$inventory_before" \
+            "$node_bin" --input-type=module --eval '
+              import { writeFile } from "node:fs/promises";
+              import { createRuntimeInventory } from "./scripts/release/runtime-artifact-permissions.mjs";
+              const inventory = await createRuntimeInventory(process.env.RUNTIME_ROOT);
+              await writeFile(process.env.INVENTORY_PATH, `${JSON.stringify(inventory)}\n`, { mode: 0o600 });
+            '
+
+          sudo env "PATH=$PATH" "$node_bin" \
+            "$runtime_helper" \
+            prepare-state \
+            --root "$release_root" \
+            --state-root "$state_root" \
+            --user "$service_user" \
+            --group "$service_user"
+          sudo env "PATH=$PATH" "$node_bin" \
+            "$runtime_helper" \
+            service-audit \
+            --root "$release_root" \
+            --state-root "$state_root" \
+            --user "$service_user" \
+            --group "$service_user"
+          echo "SERVICE_USER_CAN_READ_RELEASE=YES"
+          echo "SERVICE_USER_CAN_TRAVERSE_RELEASE=YES"
+          echo "SERVICE_USER_CAN_WRITE_RUNTIME_STATE=YES"
+          echo "SERVICE_USER_CANNOT_WRITE_IMMUTABLE_RELEASE=YES"
+
+          build_id="$(tr -d '\r\n' < "$release_root/.next/BUILD_ID")"
+          build_state="${state_root}/${build_id}"
+          fetch_cache_root="${build_state}/cache/fetch-cache"
+          test "$(sudo realpath "$build_state")" = "$build_state"
+          echo "EXACT_BUILD_ID=${build_id}"
+          echo "EXACT_STATE_ROOT=${build_state}"
+          echo "OVERALL_WATCHDOG_SECONDS=${fetch_write_watchdog_seconds}"
+          fetch_files_before=0
+          if [[ -d "$fetch_cache_root" ]]; then
+            fetch_files_before="$(sudo find "$fetch_cache_root" -type f -print | wc -l | tr -d ' ')"
+          fi
+          test "$fetch_files_before" = "0"
+          echo "FETCH_CACHE_FILES_BEFORE=0"
+
+          : > "$server_log"
+          sudo -u "$service_user" env \
+            "PATH=$PATH" \
+            HOME=/nonexistent \
+            NODE_ENV=production \
+            CATALOG_DATA_SOURCE=cloud_published \
+            CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk \
+            CYBERMEDICA_SUPABASE_URL=https://gjlpkqdhlzbfnzzoxlsk.supabase.co \
+            SUPABASE_SECRET_KEY=sb_secret_fault_injection_only_000000000000 \
+            CYBERMEDICA_CATALOG_FAULT_INJECTION=all \
+            CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT="$state_root" \
+            NEXT_PRIVATE_DEBUG_CACHE=1 \
+            "$npm_bin" start -- --hostname 127.0.0.1 --port "$port" >"$server_log" 2>&1 &
+          server_pid=$!
+          echo "CACHE_DEBUG_ENABLED=YES"
+
+          ready="NO"
+          liveness_http="000"
+          for attempt in $(seq 1 45); do
+            liveness_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              "http://127.0.0.1:${port}/about" || true)"
+            if [[ "$liveness_http" = "200" ]]; then
+              ready="YES"
+              break
+            fi
+            sleep 1
+          done
+          echo "SERVER_READY=${ready}"
+          echo "LIVENESS_HTTP=${liveness_http}"
+          test "$ready" = "YES"
+          pgrep -u "$service_user" -f 'next' >/dev/null
+          echo "NEXT_START_AS_CYBERMEDICA_WEB=PASS"
+
+          fetch_set_count_before_trigger="$(count_log_evidence 'FileSystemCache: set [0-9a-f]{64}')"
+          fetch_completion_count_before_trigger="$(fetch_completion_evidence_count '/catalog')"
+          catalog_trigger_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            "http://127.0.0.1:${port}/catalog" || true)"
+          echo "CATALOG_TRIGGER_HTTP=${catalog_trigger_http}"
+          test "$catalog_trigger_http" = "200"
+
+          wait_for_fetch_cache_write_completion \
+            "/catalog" \
+            "$fetch_set_count_before_trigger" \
+            "$fetch_completion_count_before_trigger" \
+            "create" \
+            "" \
+            "" \
+            "$fetch_write_watchdog_seconds"
+          echo "SET_STARTED_EVIDENCE=FileSystemCache: set ${fetch_set_key}"
+          echo "SET_COMPLETED_EVIDENCE=pending revalidates promise finished for: /catalog"
+          echo "SET_FAILED_EVIDENCE=0"
+          echo "FETCH_HANDLER_SET=PASS"
+          echo "FETCH_HANDLER_SET_COMPLETION=PASS"
+          echo "FETCH_CACHE_FILE_FOUND=YES"
+          fetch_entry_relative="${fetch_entry#${build_state}/}"
+          fetch_digest_before="$fetch_entry_digest"
+          fetch_mtime_before="$fetch_entry_mtime_epoch"
+          fetch_entry_mtime="$(sudo stat -c '%y' "$fetch_entry")"
+          fetch_handler_get_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(get|GET)')"
+          fetch_handler_set_evidence="$(count_log_evidence '(FileSystemCache|IncrementalCache|cache[-_ ]?handler).*(set|SET)')"
+          echo "FETCH_CACHE_CREATED=YES"
+          echo "FETCH_CACHE_ENTRY=${fetch_entry_relative}"
+          echo "FETCH_CACHE_FILE_PATH=${fetch_entry_relative}"
+          echo "FETCH_CACHE_FILE_SIZE=${fetch_entry_size}"
+          echo "FETCH_CACHE_FILE_MODE=${fetch_entry_mode}"
+          echo "FETCH_CACHE_FILE_OWNER=${fetch_entry_owner}"
+          echo "FETCH_CACHE_FILE_MTIME=${fetch_entry_mtime}"
+          echo "FETCH_CACHE_DIGEST_BEFORE=${fetch_digest_before}"
+          echo "FETCH_HANDLER_GET_EVIDENCE=${fetch_handler_get_evidence}"
+          echo "FETCH_HANDLER_SET_EVIDENCE=${fetch_handler_set_evidence}"
+          echo "FETCH_CACHE_WRITE=PASS"
+
+          home_http="$(curl --silent --output /dev/null --write-out '%{http_code}' "http://127.0.0.1:${port}/")"
+          catalog_http="$(curl --silent --output /dev/null --write-out '%{http_code}' "http://127.0.0.1:${port}/catalog")"
+          hamilton_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            "http://127.0.0.1:${port}/catalog/767632362-330695211247-apparat-ivl-hamilton-t1")"
+          test "$home_http" = "200"
+          test "$catalog_http" = "200"
+          test "$hamilton_http" = "200"
+          echo "HOME_HTTP=${home_http}"
+          echo "CATALOG_HTTP=${catalog_http}"
+          echo "HAMILTON_HTTP=${hamilton_http}"
+
+          image_status="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            --get \
+            --data-urlencode 'url=/brand/cybermedica-logo.png' \
+            --data 'w=64' \
+            --data 'q=75' \
+            "http://127.0.0.1:${port}/_next/image")"
+          test "$image_status" = "200"
+
+          mapfile -t image_metadata < <(sudo find "$build_state/images-v1" -type f -name metadata.json -print | sort)
+          mapfile -t image_payloads < <(sudo find "$build_state/images-v1" -type f -name payload.bin -print | sort)
+          test "${#image_metadata[@]}" -gt 0
+          test "${#image_payloads[@]}" -gt 0
+          for metadata_path in "${image_metadata[@]}"; do
+            sudo test -f "$(dirname "$metadata_path")/payload.bin"
+          done
+          echo "IMAGE_CACHE_METADATA_CREATED=YES"
+          echo "IMAGE_CACHE_PAYLOAD_CREATED=YES"
+          echo "IMAGE_CACHE_WRITE=PASS"
+
+          fetch_digest_before="$(sudo sha256sum "$fetch_entry" | awk '{print $1}')"
+          fetch_mtime_before="$(sudo stat -c '%Y' "$fetch_entry")"
+          fetch_key_before_revalidation="$fetch_set_key"
+          echo "FETCH_CACHE_DIGEST_BEFORE_REVALIDATION=${fetch_digest_before}"
+          echo "FETCH_CACHE_MTIME_BEFORE_REVALIDATION=${fetch_mtime_before}"
+          sleep 65
+          revalidation_path="/catalog/767632362-330695211247-apparat-ivl-hamilton-t1"
+          fetch_set_count_before_revalidation="$(count_log_evidence 'FileSystemCache: set [0-9a-f]{64}')"
+          fetch_completion_count_before_revalidation="$(fetch_completion_evidence_count "$revalidation_path")"
+          revalidation_http="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            "http://127.0.0.1:${port}${revalidation_path}")"
+          test "$revalidation_http" = "200"
+          wait_for_fetch_cache_write_completion \
+            "$revalidation_path" \
+            "$fetch_set_count_before_revalidation" \
+            "$fetch_completion_count_before_revalidation" \
+            "update" \
+            "$fetch_digest_before" \
+            "$fetch_mtime_before" \
+            "$fetch_write_watchdog_seconds"
+          test "$fetch_set_key" = "$fetch_key_before_revalidation"
+          fetch_digest_after="$fetch_entry_digest"
+          fetch_mtime_after="$fetch_entry_mtime_epoch"
+          echo "FETCH_CACHE_REVALIDATED=YES"
+          echo "FETCH_CACHE_DIGEST_AFTER=${fetch_digest_after}"
+          echo "FETCH_CACHE_MTIME_AFTER=${fetch_mtime_after}"
+          echo "FETCH_CACHE_REVALIDATION=PASS"
+
+          sudo pkill -TERM -u "$service_user" 2>/dev/null || true
+          sudo kill "$server_pid" 2>/dev/null || true
+          wait "$server_pid" 2>/dev/null || true
+          server_pid=""
+
+          if grep -q 'EACCES' "$server_log"; then
+            echo "Unexpected EACCES in named-user server log." >&2
+            exit 1
+          fi
+          echo "EACCES=0"
+          if grep -q 'MODULE_NOT_FOUND' "$server_log"; then
+            echo "Unexpected MODULE_NOT_FOUND in named-user server log." >&2
+            exit 1
+          fi
+          echo "MODULE_NOT_FOUND=0"
+
+          sudo -u "$service_user" env \
+            "PATH=$PATH" \
+            NEXT_PHASE=phase-production-server \
+            CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT="$state_root" \
+            RELEASE_ROOT="$release_root" \
+            BUILD_STATE="$build_state" \
+            "$node_bin" --input-type=commonjs --eval '
+              const { access, readFile } = require("node:fs/promises");
+              const { join } = require("node:path");
+              const RuntimeCacheHandler = require(join(
+                process.env.RELEASE_ROOT,
+                "lib/runtime/next-runtime-cache-handler.cjs",
+              ));
+              const required = (condition, message) => {
+                if (!condition) throw new Error(message);
+              };
+              (async () => {
+                const handler = new RuntimeCacheHandler({
+                  flushToDisk: true,
+                  serverDistDir: join(process.env.RELEASE_ROOT, ".next/server"),
+                  maxMemoryCacheSize: 0,
+                  revalidatedTags: [],
+                  _requestHeaders: {},
+                });
+                const key = "/__ci-app-page-probe";
+                const context = { kind: "APP_PAGE", isFallback: false, isRoutePPREnabled: false };
+                await handler.set(key, {
+                  kind: "APP_PAGE",
+                  html: "<main>external app page</main>\n",
+                  rscData: Buffer.from("external-rsc\n"),
+                  headers: {},
+                  postponed: undefined,
+                  status: 200,
+                  segmentData: new Map([["/_tree", Buffer.from("external-segment\n")]]),
+                }, context);
+                const stored = await handler.get(key, context);
+                required(stored?.value?.html === "<main>external app page</main>\n", "APP_PAGE HTML read-back failed.");
+                required(stored?.value?.rscData?.toString("utf8") === "external-rsc\n", "APP_PAGE RSC read-back failed.");
+                required(
+                  stored?.value?.segmentData?.get("/_tree")?.toString("utf8") === "external-segment\n",
+                  "APP_PAGE segment read-back failed.",
+                );
+                const externalRoot = join(process.env.BUILD_STATE, "server/app");
+                const html = await readFile(join(externalRoot, "__ci-app-page-probe.html"), "utf8");
+                const rsc = await readFile(join(externalRoot, "__ci-app-page-probe.rsc"), "utf8");
+                const meta = JSON.parse(await readFile(join(externalRoot, "__ci-app-page-probe.meta"), "utf8"));
+                const segment = await readFile(
+                  join(externalRoot, "__ci-app-page-probe.segments/_tree.segment.rsc"),
+                  "utf8",
+                );
+                required(html === "<main>external app page</main>\n", "External APP_PAGE HTML mismatch.");
+                required(rsc === "external-rsc\n", "External APP_PAGE RSC mismatch.");
+                required(meta.segmentPaths?.includes("/_tree"), "External APP_PAGE metadata missing segment path.");
+                required(segment === "external-segment\n", "External APP_PAGE segment mismatch.");
+                let immutableProbeExists = true;
+                try {
+                  await access(join(process.env.RELEASE_ROOT, ".next/server/app/__ci-app-page-probe.html"));
+                } catch {
+                  immutableProbeExists = false;
+                }
+                required(!immutableProbeExists, "Synthetic APP_PAGE write reached immutable release.");
+                console.log("APP_PAGE_HANDLER_HTML=PASS");
+                console.log("APP_PAGE_HANDLER_RSC=PASS");
+                console.log("APP_PAGE_HANDLER_META=PASS");
+                console.log("APP_PAGE_HANDLER_SEGMENTS=PASS");
+              })().catch((error) => {
+                console.error(error instanceof Error ? error.message : String(error));
+                process.exit(1);
+              });
+            '
+
+          sudo env "PATH=$PATH" "$node_bin" \
+            "$runtime_helper" \
+            service-audit \
+            --root "$release_root" \
+            --state-root "$state_root" \
+            --user "$service_user" \
+            --group "$service_user"
+
+          sudo env "PATH=$PATH" RUNTIME_ROOT="$release_root" INVENTORY_PATH="$inventory_before" \
+            "$node_bin" --input-type=module --eval '
+              import { readFile } from "node:fs/promises";
+              import { verifyRuntimeInventory } from "./scripts/release/runtime-artifact-permissions.mjs";
+              const inventory = JSON.parse(await readFile(process.env.INVENTORY_PATH, "utf8"));
+              const report = await verifyRuntimeInventory(process.env.RUNTIME_ROOT, inventory);
+              console.log(`IMMUTABLE_RUNTIME_INVENTORY=${report.pass ? "PASS" : "FAIL"}`);
+              if (report.pass) console.log("IMMUTABLE_FILES_CHANGED=0");
+              if (!report.pass) {
+                console.error(JSON.stringify(report));
+                process.exit(1);
+              }
+            '
+
+          # Linux reports symlink mode as 0777. Symlink containment is enforced by
+          # service-audit above; this raw mode gate covers real filesystem objects.
+          world_writable_report="${RUNNER_TEMP}/cybermedica-world-writable-entries.txt"
+          sudo find "$release_root" "$build_state" \
+            ! -type l \
+            -perm -0002 \
+            -printf 'WORLD_WRITABLE_ENTRY\tpath=%p\ttype=%y\tmode=0%m\towner=%u:%g\n' \
+            | LC_ALL=C sort > "$world_writable_report"
+          if [[ -s "$world_writable_report" ]]; then
+            echo "World-writable runtime entries detected." >&2
+            cat "$world_writable_report" >&2
+            exit 1
+          fi
+          if sudo find "$release_root" \( ! -user root -o ! -group root \) -print -quit | grep -q .; then
+            echo "Immutable release ownership drift detected." >&2
+            exit 1
+          fi
+          echo "WORLD_WRITABLE_ENTRIES=0"
+          echo "WORLD_WRITABLE_PATHS=0"
+          echo "NAMED_USER_RUNTIME_GATE=PASS"
+          echo "NAMED_USER_GATE=PASS"
   canonical-route-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/production'
     needs: fault-injection

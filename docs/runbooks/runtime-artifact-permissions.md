@@ -22,6 +22,11 @@ modes.
   `service_role` JWT values: forbidden.
 - Archive ownership is normalized to numeric `0:0`; runtime access relies on
   explicit modes, not owner identity.
+- The release tree is immutable at runtime. Next.js server cache and optimized
+  images live outside it in `/var/lib/cybermedica-web/next-runtime/<BUILD_ID>`.
+- The build-scoped runtime-state directory is owned by
+  `cybermedica-web:cybermedica-web`, mode `0750`; files created by the cache
+  handler are `0640`. World-writable and group-writable state is forbidden.
 
 The normalization is deliberately limited to a prepared runtime staging tree.
 It must never be pointed at `/etc`, a live release, or the source checkout.
@@ -35,9 +40,11 @@ It must never be pointed at `/etc`, a live release, or the source checkout.
    `.next/diagnostics`, rejects secret residue, normalizes modes, audits the
    complete tree, creates the archive with GNU tar, extracts it, and verifies
    every inventory hash and mode before writing the detached manifest sidecar.
-4. Run `service-audit` against the extracted tree as `cybermedica-web`, or as a
+4. Prepare exactly one external build-scoped runtime-state directory. This is
+   the only deploy-time ownership change; never chown the release tree.
+5. Run `service-audit` against the extracted tree as `cybermedica-web`, or as a
    dedicated equivalent unprivileged account on an isolated build host.
-5. Start `next start` from that extracted tree as the same account and verify
+6. Start `next start` from that extracted tree as the same account and verify
    the required loopback routes. Stop the process after the smoke test.
 
 ```sh
@@ -52,8 +59,37 @@ node scripts/release/runtime-artifact-permissions.mjs package \
 
 node scripts/release/runtime-artifact-permissions.mjs service-audit \
   --root "$EXTRACTED_ROOT" \
+  --state-root /var/lib/cybermedica-web/next-runtime \
   --user cybermedica-web
 ```
+
+Run this root-only preparation command before the service-user audit:
+
+```sh
+node scripts/release/runtime-artifact-permissions.mjs prepare-state \
+  --root "$EXTRACTED_ROOT" \
+  --state-root /var/lib/cybermedica-web/next-runtime \
+  --user cybermedica-web \
+  --group cybermedica-web
+```
+
+`next.config.ts` uses the stable Next.js `cacheHandler` contract for ISR,
+route/fetch cache and, with `images.customCacheHandler`, optimized images. The
+handler reads pre-rendered seed entries from the immutable release but sends
+every runtime write to the external build-scoped directory. A non-default
+absolute root may be supplied through the server-only
+`CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT` setting for isolated QA. It is not a
+Next.js built-in variable and must never point inside the release.
+
+## RCA: why `.next/cache` alone is insufficient
+
+Next.js 16.3.6 writes fetch cache under `.next/cache/fetch-cache`, optimized
+images under `.next/cache/images`, and ISR/app-page payloads directly beside
+server code under `.next/server/app` (`.html`, `.rsc`, `.meta` and segment
+files). Making only `.next/cache` writable leaves ISR broken. Making all of
+`.next/server/app` writable would also make executable server bundles writable.
+The external cache handler is therefore the narrowest supported separation of
+immutable application content and mutable runtime state.
 
 Both commands are fail-closed. Do not replace them with `chmod -R 777`, do not
 add runtime environment files to the archive, and do not repair permissions on

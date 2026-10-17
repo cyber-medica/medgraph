@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { fileURLToPath } from "node:url";
 
 import { APPROVED_PUBLIC_MEDIA_HOSTS } from "./lib/public-media-policy.ts";
 import {
@@ -94,6 +95,9 @@ export const internalAuthHeaders = [
 ] as const;
 
 const nextConfig: NextConfig = {
+  cacheHandler: fileURLToPath(
+    new URL("./lib/runtime/next-runtime-cache-handler.cjs", import.meta.url),
+  ),
   poweredByHeader: false,
   async redirects() {
     return [
@@ -130,6 +134,7 @@ const nextConfig: NextConfig = {
       protocol: "https" as const,
       hostname,
     })),
+    customCacheHandler: true,
     imageSizes: [32, 48, 64, 96, 128, 160, 192, 256, 320, 384],
   },
   async headers() {
