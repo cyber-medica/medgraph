@@ -34,7 +34,11 @@ It must never be pointed at `/etc`, a live release, or the source checkout.
 ## Required order
 
 1. Build the exact accepted source SHA with the approved build-time-only
-   environment.
+   environment. Export both `TARGET_SHA` and `CYBERMEDICA_RELEASE_SHA` as the
+   same exact 40-character lowercase commit SHA before `npm run build`. The
+   prebuild gate verifies both values against `git rev-parse HEAD`; the
+   postbuild gate verifies the baked `X-CyberMedica-Release` value in
+   `.next/routes-manifest.json`.
 2. Copy only the accepted runtime allowlist into a new staging directory.
 3. Run the package command below. It removes build-only `.next/cache` and
    `.next/diagnostics`, rejects secret residue, normalizes modes, audits the
@@ -48,6 +52,10 @@ It must never be pointed at `/etc`, a live release, or the source checkout.
    the required loopback routes. Stop the process after the smoke test.
 
 ```sh
+export TARGET_SHA="$(git rev-parse HEAD)"
+export CYBERMEDICA_RELEASE_SHA="$TARGET_SHA"
+npm run build -- --webpack
+
 node scripts/release/runtime-artifact-permissions.mjs package \
   --root "$RUNTIME_STAGING_ROOT" \
   --archive "$ARCHIVE_PATH" \
