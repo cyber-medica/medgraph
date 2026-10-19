@@ -20,6 +20,8 @@ import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "nod
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { verifyBuiltReleaseHeader } from "./release-provenance.mjs";
+
 export const RUNTIME_DIRECTORY_MODE = 0o755;
 export const RUNTIME_FILE_MODE = 0o644;
 export const RUNTIME_EXECUTABLE_MODE = 0o755;
@@ -517,6 +519,8 @@ async function packageArtifact(named) {
     throw new Error("Target and tree SHA values must be exact 40-character lowercase hex values.");
   }
   if (!Number.isFinite(Date.parse(buildTimestamp))) throw new Error("Build timestamp must be ISO-8601.");
+
+  await verifyBuiltReleaseHeader(root, targetSha);
 
   for (const path of buildOnlyPaths) await rm(join(root, path), { recursive: true, force: true });
   await normalizeRuntimePermissions(root);

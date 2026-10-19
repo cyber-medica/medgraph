@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prebuild": "node scripts/qa/generate-published-catalog-snapshot.ts && npm run qa:catalog-reliability-gate",
+    "prebuild": "node scripts/release/release-provenance.mjs verify-source && node scripts/qa/generate-published-catalog-snapshot.ts && npm run qa:catalog-reliability-gate",
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/release/release-provenance.mjs verify-manifest",
     "start": "next start",
     "start:rfq-intake": "node services/rfq-intake/server.ts",
     "start:rfq-worker": "node services/rfq-intake/worker-main.ts",

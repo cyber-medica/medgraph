@@ -20,6 +20,7 @@ import {
 const execFileAsync = promisify(execFile);
 const require = createRequire(import.meta.url);
 const RuntimeCacheHandler = require("../../lib/runtime/next-runtime-cache-handler.cjs");
+const fixtureReleaseSha = "a".repeat(40);
 
 async function fixture() {
   const root = await mkdtemp(join(tmpdir(), "cybermedica-runtime-permissions-"));
@@ -35,6 +36,7 @@ async function fixture() {
   for (const path of directories) await mkdir(join(root, path), { recursive: true, mode: 0o700 });
   const files = new Map([
     [".next/BUILD_ID", "build-id\n"],
+    [".next/routes-manifest.json", `${JSON.stringify({ headers: [{ source: "/(.*)", headers: [{ key: "X-CyberMedica-Release", value: fixtureReleaseSha }] }] })}\n`],
     [".next/server/app/page.js", "export default {};\n"],
     [".next/server/app/index.html", "<main>seed</main>\n"],
     [".next/server/app/index.meta", "{\"headers\":{},\"status\":200}\n"],

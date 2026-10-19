@@ -8,6 +8,7 @@ import {
 } from "./lib/canonical-routing-gate.ts";
 import { getStorefrontDataSource } from "./lib/storefront/data-source.ts";
 import { buildSyntheticDebugQueryHeaderRules } from "./lib/seo/query-indexing-hygiene.ts";
+import { releaseHeaderValue } from "./scripts/release/release-provenance.mjs";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 const isCloudPreview = getStorefrontDataSource(process.env) === "cloud_preview";
@@ -28,10 +29,7 @@ const canonicalRoutingHeaders = [
   },
   {
     key: "X-CyberMedica-Release",
-    value: safeRoutingHeaderValue(
-      process.env.CYBERMEDICA_RELEASE_SHA ?? process.env.VERCEL_GIT_COMMIT_SHA,
-      "untracked",
-    ),
+    value: releaseHeaderValue(process.env),
   },
 ] as const;
 

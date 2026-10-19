@@ -22,7 +22,11 @@ jobs:
       - run: npx --no-install playwright-core install --with-deps webkit
       - run: npm run qa:catalog-reliability-gate
       - run: npm run qa:runtime-artifact-permissions
-      - run: npm run build
+      - name: Build with exact release provenance
+        env:
+          TARGET_SHA: ${{ github.sha }}
+          CYBERMEDICA_RELEASE_SHA: ${{ github.sha }}
+        run: npm run build
       - run: |
           set -euo pipefail
           server_log="${RUNNER_TEMP}/catalog-reliability-next.log"
