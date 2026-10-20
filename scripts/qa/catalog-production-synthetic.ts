@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 
 import { extractSitemapProductPaths } from "../../lib/canonical-routing-gate.ts";
 
-const owner = "cybermedicaooo@gmail.com";
+const owner = "cybermedica-ci";
 const origin = new URL(process.env.CATALOG_SYNTHETIC_ORIGIN ?? "https://cyber-medica.ru");
 const expectedProductCount = Number(process.env.EXPECTED_PUBLISHED_PRODUCT_COUNT ?? "0");
 const routeResponseBudgetMs = 30_000;

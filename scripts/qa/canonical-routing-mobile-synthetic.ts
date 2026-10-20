@@ -79,4 +79,4 @@ try {
   await browser.close();
 }
 
-console.info(JSON.stringify({ owner: "cybermedicaooo@gmail.com", productUrls: sitemapPaths.size, status: "pass" }));
+console.info(JSON.stringify({ owner: "cybermedica-ci", productUrls: sitemapPaths.size, status: "pass" }));
