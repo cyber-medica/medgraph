@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { createReadStream, existsSync } from "node:fs";
-import { readdir } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
 
@@ -65,6 +65,24 @@ test("build-reachable application source contains no compiled reviewer identity"
   const files = (await Promise.all(roots.map(filesUnder))).flat();
   files.push("proxy.ts", "next.config.ts");
   assert.deepEqual(await scanFiles(files, { rejectAnyGmail: true }), []);
+});
+
+test("deployable QA reporting metadata contains no person-linked identity", async () => {
+  const [canonicalMobile, catalogProduction] = await Promise.all([
+    readFile("scripts/qa/canonical-routing-mobile-synthetic.ts", "utf8"),
+    readFile("scripts/qa/catalog-production-synthetic.ts", "utf8"),
+  ]);
+
+  assert.match(canonicalMobile, /owner:\s*"cybermedica-ci"/u);
+  assert.match(catalogProduction, /const owner = "cybermedica-ci";/u);
+
+  for (const source of [canonicalMobile, catalogProduction]) {
+    assert.doesNotMatch(source, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/iu);
+    assert.doesNotMatch(
+      source,
+      /CYBERMEDICA_INTERNAL_LOGIN_EMAIL|APPROVED_REVIEWER|SUPABASE_SECRET_KEY|SUPABASE_SERVICE_ROLE_KEY/u,
+    );
+  }
 });
 
 test("recursive Next build and deployable artifacts contain no person-linked identity", {
