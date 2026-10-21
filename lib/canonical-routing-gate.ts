@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 
 export const CANONICAL_HOST = "cyber-medica.ru";
 export const CANONICAL_ORIGIN_FAMILY = "medgraph";
-export const EXPECTED_PRODUCTION_FRONT_DOOR = "ru-vps-production-candidate";
+export const CANDIDATE_FRONT_DOOR = "ru-vps-production-candidate";
+export const PRODUCTION_FRONT_DOOR = "ru-vps-production";
 export const APPROVED_LEGACY_MEDIA_HOST = "static.tildacdn.com";
 export const CANONICAL_CATALOG_CONTENT_PATHS = new Set([
   "/catalog/anesteziologiya/narkozno-dykhatelnye-apparaty",
@@ -17,6 +18,22 @@ export type CanonicalRouteFingerprint = {
   origin: string;
   release: string;
 };
+
+export type CanonicalDeliveryMarker =
+  | typeof CANDIDATE_FRONT_DOOR
+  | typeof PRODUCTION_FRONT_DOOR;
+
+export function readExpectedCanonicalDeliveryMarker(
+  environment: Readonly<Record<string, string | undefined>>,
+): CanonicalDeliveryMarker {
+  const marker = environment.CYBERMEDICA_EXPECTED_DELIVERY_MARKER?.trim();
+  assert.ok(marker, "CYBERMEDICA_EXPECTED_DELIVERY_MARKER is required");
+  assert.ok(
+    marker === CANDIDATE_FRONT_DOOR || marker === PRODUCTION_FRONT_DOOR,
+    `unsupported canonical delivery marker: ${marker}`,
+  );
+  return marker;
+}
 
 export function safeRoutingHeaderValue(value: string | undefined, fallback: string) {
   const normalized = value?.trim();
@@ -52,17 +69,39 @@ export function readCanonicalRouteFingerprint(headers: Headers): CanonicalRouteF
   return fingerprint;
 }
 
-export function assertCanonicalProductionDelivery(headers: Headers, route: string) {
+export function assertCanonicalProductionDelivery(
+  headers: Headers,
+  route: string,
+  expectedMarker: string | undefined,
+  expectedRelease?: string,
+) {
+  assert.ok(expectedMarker, "expected canonical delivery marker is required");
+  assert.ok(
+    expectedMarker === CANDIDATE_FRONT_DOOR || expectedMarker === PRODUCTION_FRONT_DOOR,
+    `unsupported canonical delivery marker: ${expectedMarker}`,
+  );
   assert.equal(
     headers.get("x-cybermedica-front-door"),
-    EXPECTED_PRODUCTION_FRONT_DOOR,
+    expectedMarker,
     `${route} is missing the canonical production front-door marker`,
   );
-  assert.ok(
-    headers.get("x-vercel-id"),
-    `${route} is missing the Vercel upstream request fingerprint`,
+  assert.match(
+    headers.get("server") ?? "",
+    /^nginx(?:\/|$)/iu,
+    `${route} is missing the Nginx front-door fingerprint`,
   );
-  return readCanonicalRouteFingerprint(headers);
+  if (expectedMarker === CANDIDATE_FRONT_DOOR) {
+    assert.ok(
+      headers.get("x-vercel-id"),
+      `${route} is missing the candidate Vercel upstream request fingerprint`,
+    );
+  }
+  const fingerprint = readCanonicalRouteFingerprint(headers);
+  if (expectedRelease !== undefined) {
+    assert.match(expectedRelease, /^[0-9a-f]{40}$/u, "expected release SHA is invalid");
+    assert.equal(fingerprint.release, expectedRelease, "canonical release SHA is not ready");
+  }
+  return fingerprint;
 }
 
 export function assertSameCanonicalFingerprint(

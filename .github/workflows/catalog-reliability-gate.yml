@@ -861,6 +861,7 @@ jobs:
           fi
       - name: Wait for the exact canonical Git release
         env:
+          CYBERMEDICA_EXPECTED_DELIVERY_MARKER: ru-vps-production
           EXPECTED_RELEASE_SHA: ${{ steps.runtime-release.outputs.sha }}
           EXPECTED_PUBLISHED_PRODUCT_COUNT: "114"
         run: |

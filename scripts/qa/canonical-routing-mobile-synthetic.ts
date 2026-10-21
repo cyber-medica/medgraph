@@ -8,11 +8,14 @@ import {
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
   extractSitemapProductPaths,
+  readExpectedCanonicalDeliveryMarker,
   type CanonicalRouteFingerprint,
 } from "../../lib/canonical-routing-gate.ts";
 
 const origin = new URL(process.env.CANONICAL_ROUTING_ORIGIN ?? `https://${CANONICAL_HOST}`);
 assert.equal(origin.hostname, CANONICAL_HOST);
+const expectedDeliveryMarker = readExpectedCanonicalDeliveryMarker(process.env);
+const expectedRelease = process.env.EXPECTED_RELEASE_SHA?.trim();
 
 const sitemapResponse = await fetch(new URL(`/sitemap.xml?mobile_synthetic=${Date.now()}`, origin), {
   cache: "no-store",
@@ -59,7 +62,12 @@ try {
     });
     assert.equal(response?.status(), 200, `${route} must return HTTP 200`);
     assert.ok(response, `${route} returned no navigation response`);
-    const fingerprint = assertCanonicalProductionDelivery(new Headers(response.headers()), route);
+    const fingerprint = assertCanonicalProductionDelivery(
+      new Headers(response.headers()),
+      route,
+      expectedDeliveryMarker,
+      expectedRelease,
+    );
     if (canonicalFingerprint) assertSameCanonicalFingerprint(canonicalFingerprint, fingerprint, route);
     else canonicalFingerprint = fingerprint;
     await page.waitForFunction(
@@ -79,4 +87,9 @@ try {
   await browser.close();
 }
 
-console.info(JSON.stringify({ owner: "cybermedica-ci", productUrls: sitemapPaths.size, status: "pass" }));
+console.info(JSON.stringify({
+  deliveryMarker: expectedDeliveryMarker,
+  owner: "cybermedica-ci",
+  productUrls: sitemapPaths.size,
+  status: "pass",
+}));

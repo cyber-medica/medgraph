@@ -1,9 +1,11 @@
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { EXPECTED_PRODUCTION_FRONT_DOOR } from "../../lib/canonical-routing-gate.ts";
-
-export { EXPECTED_PRODUCTION_FRONT_DOOR } from "../../lib/canonical-routing-gate.ts";
+import {
+  assertCanonicalProductionDelivery,
+  readExpectedCanonicalDeliveryMarker,
+  type CanonicalDeliveryMarker,
+} from "../../lib/canonical-routing-gate.ts";
 
 export const PRODUCTION_AVAILABILITY_ROUTES = [
   "/",
@@ -51,6 +53,7 @@ type ProductionAvailabilityOptions = Readonly<{
   delay?: (milliseconds: number) => Promise<void>;
   now?: () => number;
   log?: (value: string) => void;
+  expectedDeliveryMarker?: CanonicalDeliveryMarker;
 }>;
 
 function normalizeOrigin(value: string) {
@@ -84,6 +87,7 @@ async function probe(
   timeoutMs: number,
   fetchImpl: typeof fetch,
   now: () => number,
+  expectedDeliveryMarker: CanonicalDeliveryMarker,
 ): Promise<ProductionAvailabilityResult> {
   const startedAt = now();
   const url = new URL(path, origin);
@@ -106,13 +110,21 @@ async function probe(
     const vercelId = response.headers.get("x-vercel-id");
     const release = response.headers.get("x-cybermedica-release");
     const deployment = response.headers.get("x-cybermedica-deployment");
+    let canonicalDelivery = false;
+    try {
+      assertCanonicalProductionDelivery(
+        response.headers,
+        path,
+        expectedDeliveryMarker,
+      );
+      canonicalDelivery = true;
+    } catch {}
     return {
       attempt,
       path,
       passed: response.status === 200
         && body.byteLength > 0
-        && frontDoor === EXPECTED_PRODUCTION_FRONT_DOOR
-        && Boolean(vercelId)
+        && canonicalDelivery
         && Boolean(release)
         && Boolean(deployment),
       status: response.status,
@@ -172,12 +184,14 @@ export async function runProductionAvailability(
   const delay = options.delay ?? defaultDelay;
   const now = options.now ?? Date.now;
   const log = options.log ?? console.info;
+  const expectedDeliveryMarker = options.expectedDeliveryMarker
+    ?? readExpectedCanonicalDeliveryMarker(process.env);
   const results: ProductionAvailabilityResult[] = [];
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const round = await Promise.all(
       PRODUCTION_AVAILABILITY_ROUTES.map((path) =>
-        probe(origin, path, attempt, timeoutMs, fetchImpl, now)),
+        probe(origin, path, attempt, timeoutMs, fetchImpl, now, expectedDeliveryMarker)),
     );
     for (const result of round) {
       results.push(result);

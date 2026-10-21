@@ -3,10 +3,10 @@ import test from "node:test";
 
 import {
   DEFAULT_PRODUCTION_AVAILABILITY_ATTEMPTS,
-  EXPECTED_PRODUCTION_FRONT_DOOR,
   PRODUCTION_AVAILABILITY_ROUTES,
   runProductionAvailability,
 } from "../../scripts/qa/production-availability.ts";
+import { PRODUCTION_FRONT_DOOR } from "../../lib/canonical-routing-gate.ts";
 
 function productionResponse(
   path: string,
@@ -17,11 +17,10 @@ function productionResponse(
     status,
     headers: {
       server: "nginx/1.24.0 (Ubuntu)",
-      "x-cybermedica-front-door": EXPECTED_PRODUCTION_FRONT_DOOR,
+      "x-cybermedica-front-door": PRODUCTION_FRONT_DOOR,
       "x-cybermedica-deployment": "dpl_test",
+      "x-cybermedica-origin": "medgraph",
       "x-cybermedica-release": "a".repeat(40),
-      "x-vercel-cache": "MISS",
-      "x-vercel-id": "fra1::test",
       ...headers,
     },
   });
@@ -41,6 +40,7 @@ test("full GET availability covers every launch-critical route three times", asy
     delay: async () => undefined,
     now: () => { clock += 5; return clock; },
     log: (value) => logs.push(value),
+    expectedDeliveryMarker: PRODUCTION_FRONT_DOOR,
   });
 
   assert.equal(result.passed, true);
@@ -52,11 +52,10 @@ test("full GET availability covers every launch-critical route three times", asy
   }
   assert.equal(result.results.every(({ bytes, ttfbMs, totalMs }) =>
     bytes > 0 && ttfbMs !== null && totalMs >= ttfbMs), true);
-  assert.equal(result.results.every(({ frontDoor, deployment, release, vercelId }) =>
-    frontDoor === EXPECTED_PRODUCTION_FRONT_DOOR
+  assert.equal(result.results.every(({ frontDoor, deployment, release }) =>
+    frontDoor === PRODUCTION_FRONT_DOOR
     && Boolean(deployment)
-    && Boolean(release)
-    && Boolean(vercelId)), true);
+    && Boolean(release)), true);
   assert.equal(logs.some((line) => line.includes("production_availability_summary")), true);
 });
 
@@ -73,6 +72,7 @@ test("one recovered transient remains a failed unstable gate", async () => {
     },
     now: Date.now,
     log: () => undefined,
+    expectedDeliveryMarker: PRODUCTION_FRONT_DOOR,
   });
 
   assert.equal(result.passed, false);
@@ -87,10 +87,10 @@ test("non-200, empty and direct origins without the front-door marker fail close
       status: 200,
       headers: {
         server: "nginx/1.24.0 (Ubuntu)",
-        "x-cybermedica-front-door": EXPECTED_PRODUCTION_FRONT_DOOR,
+        "x-cybermedica-front-door": PRODUCTION_FRONT_DOOR,
         "x-cybermedica-deployment": "dpl_test",
+        "x-cybermedica-origin": "medgraph",
         "x-cybermedica-release": "a".repeat(40),
-        "x-vercel-id": "fra1::test",
       },
     }),
     new Response("ok", {
@@ -98,6 +98,7 @@ test("non-200, empty and direct origins without the front-door marker fail close
       headers: {
         server: "Vercel",
         "x-cybermedica-deployment": "dpl_test",
+        "x-cybermedica-origin": "medgraph",
         "x-cybermedica-release": "a".repeat(40),
         "x-vercel-id": "fra1::direct",
       },
@@ -109,17 +110,18 @@ test("non-200, empty and direct origins without the front-door marker fail close
     backoffMs: 0,
     fetchImpl: async (input) => responses[index++] ?? productionResponse(new URL(input.toString()).pathname),
     log: () => undefined,
+    expectedDeliveryMarker: PRODUCTION_FRONT_DOOR,
   });
 
   assert.equal(result.passed, false);
   assert.equal(result.results.filter(({ passed }) => !passed).length, 3);
 });
 
-test("missing release, deployment or Vercel upstream fingerprint fails closed", async () => {
+test("missing release, deployment or Nginx front-door fingerprint fails closed", async () => {
   const missingHeaders: Array<Record<string, string>> = [
     { "x-cybermedica-release": "" },
     { "x-cybermedica-deployment": "" },
-    { "x-vercel-id": "" },
+    { server: "" },
   ];
   let index = 0;
   const result = await runProductionAvailability({
@@ -131,6 +133,7 @@ test("missing release, deployment or Vercel upstream fingerprint fails closed", 
       missingHeaders[index++] ?? {},
     ),
     log: () => undefined,
+    expectedDeliveryMarker: PRODUCTION_FRONT_DOOR,
   });
 
   assert.equal(result.passed, false);
@@ -160,6 +163,7 @@ test("timeout and truncated response bodies fail closed", async () => {
       return productionResponse(new URL(input.toString()).pathname);
     },
     log: () => undefined,
+    expectedDeliveryMarker: PRODUCTION_FRONT_DOOR,
   });
 
   assert.equal(result.passed, false);

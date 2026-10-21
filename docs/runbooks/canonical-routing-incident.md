@@ -5,8 +5,12 @@
 2. Capture DNS, redirect chain, headers, body hash, and legacy markers for `/`,
    `/catalog`, `/request`, `/sitemap.xml`, Product Detail, and internal login.
 3. Compare authoritative REG.RU answers with at least four public resolvers.
-4. Confirm `server: Vercel`, `x-vercel-id`, final apex host, and one matching
-   CyberMedica deployment/release fingerprint on every route.
+4. Select the expected delivery profile explicitly. Candidate checks require
+   `CYBERMEDICA_EXPECTED_DELIVERY_MARKER=ru-vps-production-candidate` plus the
+   Vercel upstream fingerprint. Post-cutover public Production checks require
+   `CYBERMEDICA_EXPECTED_DELIVERY_MARKER=ru-vps-production` plus the Nginx
+   front-door fingerprint. Both profiles require one matching CyberMedica
+   deployment/release fingerprint on every route.
 5. Treat `static.tildacdn.com` only as published media provenance. It does not
    prove that a Tilda page served the navigation response.
 6. Inspect Vercel Domains, Production deployment provenance, Next.js redirects,
