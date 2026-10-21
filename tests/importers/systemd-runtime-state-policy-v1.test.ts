@@ -79,20 +79,24 @@ test("CI runs the real Linux systemd namespace gate", async () => {
     join(process.cwd(), "scripts/release/systemd-runtime-state-sandbox.sh"),
     "utf8",
   );
+  const probe = await readFile(
+    join(process.cwd(), "scripts/release/systemd-runtime-state-probe.mjs"),
+    "utf8",
+  );
   assert.match(workflow, /systemd-runtime-state-sandbox\.sh/u);
   assert.match(workflow, /SYSTEMD_SANDBOX_GATE=PASS/u);
   assert.match(sandbox, /ProtectSystem=strict/u);
   assert.match(sandbox, /ReadOnlyPaths=\/opt\/cybermedica-web/u);
   assert.match(sandbox, /ReadWritePaths=\$\{state_root\}/u);
-  assert.match(sandbox, /env_bin="\$\(command -v env\)"/u);
-  assert.match(sandbox, /"RELEASE_ROOT=\$\{release_root\}"/u);
-  assert.match(sandbox, /"BUILD_STATE=\$\{build_state\}"/u);
-  assert.doesNotMatch(sandbox, /--setenv=/u);
+  assert.match(sandbox, /--setenv="RELEASE_ROOT=\$\{release_root\}"/u);
+  assert.match(sandbox, /--setenv="BUILD_STATE=\$\{build_state\}"/u);
   assert.match(sandbox, /--property=ReadOnlyPaths --value/u);
   assert.match(sandbox, /--property=BindPaths --value/u);
   assert.match(sandbox, /\[\[ -z "\$effective_bind" \]\]/u);
   assert.match(sandbox, /NEXT_START_UNDER_SYSTEMD=PASS/u);
   assert.match(sandbox, /EROFS_RUNTIME_STATE=0/u);
+  assert.match(probe, /if \(!releaseRootInput \|\| !buildStateInput\)/u);
+  assert.doesNotMatch(probe, /releaseRoot === resolve\(""\)/u);
   assert.doesNotMatch(sandbox, /ProtectSystem=(?:false|no|off)/u);
   assert.doesNotMatch(sandbox, /ReadWritePaths=\/var\/lib(?:\s|"|$)/u);
 });

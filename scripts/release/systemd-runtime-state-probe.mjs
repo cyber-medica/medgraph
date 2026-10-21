@@ -2,11 +2,13 @@ import { readFile, rm, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { join, resolve } from "node:path";
 
-const releaseRoot = resolve(process.env.RELEASE_ROOT ?? "");
-const buildState = resolve(process.env.BUILD_STATE ?? "");
-if (releaseRoot === resolve("") || buildState === resolve("")) {
+const releaseRootInput = process.env.RELEASE_ROOT?.trim();
+const buildStateInput = process.env.BUILD_STATE?.trim();
+if (!releaseRootInput || !buildStateInput) {
   throw new Error("RELEASE_ROOT and BUILD_STATE are required.");
 }
+const releaseRoot = resolve(releaseRootInput);
+const buildState = resolve(buildStateInput);
 
 const directProbe = join(buildState, `.systemd-runtime-write-${process.pid}`);
 await writeFile(directProbe, "runtime-state-write\n", { mode: 0o640 });

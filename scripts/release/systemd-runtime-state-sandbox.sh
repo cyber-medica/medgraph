@@ -31,7 +31,6 @@ done
 
 node_bin="$(command -v node)"
 npm_bin="$(command -v npm)"
-env_bin="$(command -v env)"
 build_id="$(tr -d '\r\n' < "${release_root}/.next/BUILD_ID")"
 build_state="${state_root}/${build_id}"
 printf -v fault_secret_key '%s%s' 'sb_' 'secret_fault_injection_only_000000000000'
@@ -72,28 +71,26 @@ common_properties=(
 systemd-run --quiet --wait --pipe --collect \
   --unit="$probe_unit" \
   "${common_properties[@]}" \
-  "$env_bin" \
-  "HOME=/nonexistent" \
-  "NODE_ENV=production" \
-  "NEXT_PHASE=phase-production-server" \
-  "CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT=${state_root}" \
-  "RELEASE_ROOT=${release_root}" \
-  "BUILD_STATE=${build_state}" \
+  --setenv="HOME=/nonexistent" \
+  --setenv="NODE_ENV=production" \
+  --setenv="NEXT_PHASE=phase-production-server" \
+  --setenv="CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT=${state_root}" \
+  --setenv="RELEASE_ROOT=${release_root}" \
+  --setenv="BUILD_STATE=${build_state}" \
   "$node_bin" "$probe_helper"
 
 systemd-run --quiet --collect \
   --unit="$app_unit" \
   "${common_properties[@]}" \
-  "$env_bin" \
-  "PATH=${PATH}" \
-  "HOME=/nonexistent" \
-  "NODE_ENV=production" \
-  "CATALOG_DATA_SOURCE=cloud_published" \
-  "CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk" \
-  "CYBERMEDICA_SUPABASE_URL=https://gjlpkqdhlzbfnzzoxlsk.supabase.co" \
-  "SUPABASE_SECRET_KEY=${fault_secret_key}" \
-  "CYBERMEDICA_CATALOG_FAULT_INJECTION=all" \
-  "CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT=${state_root}" \
+  --setenv="PATH=${PATH}" \
+  --setenv="HOME=/nonexistent" \
+  --setenv="NODE_ENV=production" \
+  --setenv="CATALOG_DATA_SOURCE=cloud_published" \
+  --setenv="CYBERMEDICA_SUPABASE_PROJECT_REF=gjlpkqdhlzbfnzzoxlsk" \
+  --setenv="CYBERMEDICA_SUPABASE_URL=https://gjlpkqdhlzbfnzzoxlsk.supabase.co" \
+  --setenv="SUPABASE_SECRET_KEY=${fault_secret_key}" \
+  --setenv="CYBERMEDICA_CATALOG_FAULT_INJECTION=all" \
+  --setenv="CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT=${state_root}" \
   "$npm_bin" start -- --hostname 127.0.0.1 --port "$port"
 
 ready="NO"
