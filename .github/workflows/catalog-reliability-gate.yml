@@ -491,6 +491,9 @@ jobs:
           test -r "$runtime_helper"
           sudo env "PATH=$PATH" "$node_bin" \
             "$runtime_helper" \
+            contract --root "$release_root"
+          sudo env "PATH=$PATH" "$node_bin" \
+            "$runtime_helper" \
             normalize --root "$release_root"
           sudo chown -R root:root "$release_root"
           sudo -u "$service_user" test -r "$runtime_helper"
