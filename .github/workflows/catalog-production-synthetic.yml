@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+env:
+  CYBERMEDICA_EXPECTED_DELIVERY_MARKER: ru-vps-production
+
 concurrency:
   group: catalog-production-synthetic
   cancel-in-progress: true

@@ -9,6 +9,7 @@ import {
   extractCatalogProductPaths,
   extractSitemapProductPaths,
   extractStylesheetUrls,
+  readExpectedCanonicalDeliveryMarker,
   type CanonicalRouteFingerprint,
 } from "../../lib/canonical-routing-gate.ts";
 
@@ -17,6 +18,7 @@ assert.equal(origin.protocol, "https:");
 assert.ok([CANONICAL_HOST, "www.cyber-medica.ru"].includes(origin.hostname));
 
 const expectedRelease = process.env.EXPECTED_RELEASE_SHA?.trim();
+const expectedDeliveryMarker = readExpectedCanonicalDeliveryMarker(process.env);
 const expectedCount = Number(process.env.EXPECTED_PUBLISHED_PRODUCT_COUNT ?? "0");
 const routeResponseBudgetMs = 30_000;
 const nonce = `routing-gate-${Date.now()}`;
@@ -37,10 +39,14 @@ async function read(path: string, expectedStatus = 200) {
   });
   assert.equal(response.status, expectedStatus, `${path} returned ${response.status}`);
   assert.equal(new URL(response.url).hostname, CANONICAL_HOST, `${path} escaped the canonical host`);
-  const fingerprint = assertCanonicalProductionDelivery(response.headers, path);
+  const fingerprint = assertCanonicalProductionDelivery(
+    response.headers,
+    path,
+    expectedDeliveryMarker,
+    expectedRelease,
+  );
   if (canonicalFingerprint) assertSameCanonicalFingerprint(canonicalFingerprint, fingerprint, path);
   else canonicalFingerprint = fingerprint;
-  if (expectedRelease) assert.equal(fingerprint.release, expectedRelease, "canonical release SHA is not ready");
   const text = await response.text();
   assert.ok(Date.now() - started < routeResponseBudgetMs, `${path} exceeded the response budget`);
   return { response, text };
@@ -139,6 +145,7 @@ assert.equal(new URL(anonymousReview.headers.get("location") ?? "", origin).path
 
 console.info(JSON.stringify({
   deployment: canonicalFingerprint?.deployment,
+  deliveryMarker: expectedDeliveryMarker,
   origin: canonicalFingerprint?.origin,
   productUrls: sitemapPaths.size,
   release: canonicalFingerprint?.release,

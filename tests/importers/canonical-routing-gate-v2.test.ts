@@ -4,7 +4,8 @@ import { readFile } from "node:fs/promises";
 
 import nextConfig from "../../next.config.ts";
 import {
-  EXPECTED_PRODUCTION_FRONT_DOOR,
+  CANDIDATE_FRONT_DOOR,
+  PRODUCTION_FRONT_DOOR,
   assertCanonicalProductionDelivery,
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
@@ -13,6 +14,7 @@ import {
   extractSitemapProductPaths,
   extractStylesheetUrls,
   readCanonicalRouteFingerprint,
+  readExpectedCanonicalDeliveryMarker,
   safeRoutingHeaderValue,
 } from "../../lib/canonical-routing-gate.ts";
 
@@ -36,25 +38,103 @@ test("canonical routing fingerprints fail closed on a split deployment", () => {
   assert.throws(() => assertSameCanonicalFingerprint(expected, { ...expected, deployment: "dpl_legacy" }, "/request"));
 });
 
-test("canonical production delivery requires the Nginx front door and Vercel upstream", () => {
-  const headers = new Headers({
+function deliveryHeaders(
+  marker: string | undefined,
+  release = "abc123".padEnd(40, "0"),
+) {
+  return new Headers({
     server: "nginx/1.24.0 (Ubuntu)",
-    "x-cybermedica-front-door": EXPECTED_PRODUCTION_FRONT_DOOR,
+    ...(marker ? { "x-cybermedica-front-door": marker } : {}),
     "x-cybermedica-deployment": "dpl_current",
     "x-cybermedica-origin": "medgraph",
-    "x-cybermedica-release": "abc123",
+    "x-cybermedica-release": release,
     "x-vercel-id": "fra1::upstream",
   });
-  assert.doesNotThrow(() => assertCanonicalProductionDelivery(headers, "/catalog"));
+}
+
+test("candidate and Production delivery markers are explicit and mutually exclusive", () => {
+  const candidate = deliveryHeaders(CANDIDATE_FRONT_DOOR);
+  const production = deliveryHeaders(PRODUCTION_FRONT_DOOR);
+  production.delete("x-vercel-id");
+
+  assert.doesNotThrow(() => assertCanonicalProductionDelivery(
+    candidate,
+    "/catalog",
+    CANDIDATE_FRONT_DOOR,
+  ));
+  assert.throws(() => assertCanonicalProductionDelivery(
+    production,
+    "/catalog",
+    CANDIDATE_FRONT_DOOR,
+  ));
+  assert.doesNotThrow(() => assertCanonicalProductionDelivery(
+    production,
+    "/catalog",
+    PRODUCTION_FRONT_DOOR,
+  ));
+  assert.throws(() => assertCanonicalProductionDelivery(
+    candidate,
+    "/catalog",
+    PRODUCTION_FRONT_DOOR,
+  ));
+});
+
+test("canonical delivery fails closed on missing, unknown and incomplete fingerprints", () => {
+  const headers = deliveryHeaders(CANDIDATE_FRONT_DOOR);
+  assert.throws(() => assertCanonicalProductionDelivery(headers, "/catalog", undefined));
+  assert.throws(() => assertCanonicalProductionDelivery(headers, "/catalog", "unknown"));
   assert.throws(() => assertCanonicalProductionDelivery(new Headers({
     ...Object.fromEntries(headers),
     server: "Vercel",
     "x-cybermedica-front-door": "",
-  }), "/catalog"));
+  }), "/catalog", CANDIDATE_FRONT_DOOR));
   assert.throws(() => assertCanonicalProductionDelivery(new Headers({
     ...Object.fromEntries(headers),
     "x-vercel-id": "",
-  }), "/catalog"));
+  }), "/catalog", CANDIDATE_FRONT_DOOR));
+});
+
+test("delivery marker and release SHA contracts fail independently", () => {
+  const release = "e7d0e53d51d9388f511199ae74b50a5d4701839c";
+  const production = deliveryHeaders(PRODUCTION_FRONT_DOOR, release);
+  production.delete("x-vercel-id");
+  assert.doesNotThrow(() => assertCanonicalProductionDelivery(
+    production,
+    "/catalog",
+    PRODUCTION_FRONT_DOOR,
+    release,
+  ));
+  assert.throws(() => assertCanonicalProductionDelivery(
+    production,
+    "/catalog",
+    PRODUCTION_FRONT_DOOR,
+    "0".repeat(40),
+  ));
+  assert.throws(() => assertCanonicalProductionDelivery(
+    production,
+    "/catalog",
+    CANDIDATE_FRONT_DOOR,
+    release,
+  ));
+});
+
+test("delivery marker configuration is required and restricted", () => {
+  assert.equal(
+    readExpectedCanonicalDeliveryMarker({
+      CYBERMEDICA_EXPECTED_DELIVERY_MARKER: CANDIDATE_FRONT_DOOR,
+    }),
+    CANDIDATE_FRONT_DOOR,
+  );
+  assert.equal(
+    readExpectedCanonicalDeliveryMarker({
+      CYBERMEDICA_EXPECTED_DELIVERY_MARKER: PRODUCTION_FRONT_DOOR,
+    }),
+    PRODUCTION_FRONT_DOOR,
+  );
+  assert.throws(() => readExpectedCanonicalDeliveryMarker({}));
+  assert.throws(() => readExpectedCanonicalDeliveryMarker({
+    CYBERMEDICA_EXPECTED_DELIVERY_MARKER: "unknown",
+  }));
 });
 
 test("catalog and sitemap extract unique canonical Product paths", () => {
