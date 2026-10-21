@@ -84,6 +84,10 @@ test("CI runs the real Linux systemd namespace gate", async () => {
   assert.match(sandbox, /ProtectSystem=strict/u);
   assert.match(sandbox, /ReadOnlyPaths=\/opt\/cybermedica-web/u);
   assert.match(sandbox, /ReadWritePaths=\$\{state_root\}/u);
+  assert.match(sandbox, /env_bin="\$\(command -v env\)"/u);
+  assert.match(sandbox, /"RELEASE_ROOT=\$\{release_root\}"/u);
+  assert.match(sandbox, /"BUILD_STATE=\$\{build_state\}"/u);
+  assert.doesNotMatch(sandbox, /--setenv=/u);
   assert.match(sandbox, /--property=ReadOnlyPaths --value/u);
   assert.match(sandbox, /--property=BindPaths --value/u);
   assert.match(sandbox, /\[\[ -z "\$effective_bind" \]\]/u);
