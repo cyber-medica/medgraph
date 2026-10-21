@@ -27,6 +27,11 @@ modes.
 - The build-scoped runtime-state directory is owned by
   `cybermedica-web:cybermedica-web`, mode `0750`; files created by the cache
   handler are `0640`. World-writable and group-writable state is forbidden.
+- The web unit keeps `ProtectSystem=strict`. Its canonical drop-in is
+  `infra/systemd/cybermedica-web.service.d/20-next-runtime-state.conf`, which
+  first resets inherited `ReadWritePaths` and then permits only
+  `/var/lib/cybermedica-web/next-runtime`. `/opt/cybermedica-web` remains
+  explicitly read-only. Release-specific `.next` writable paths are forbidden.
 
 The normalization is deliberately limited to a prepared runtime staging tree.
 It must never be pointed at `/etc`, a live release, or the source checkout.
@@ -80,6 +85,30 @@ node scripts/release/runtime-artifact-permissions.mjs prepare-state \
   --user cybermedica-web \
   --group cybermedica-web
 ```
+
+Before a cutover, install the canonical drop-in beside the existing
+`cybermedica-web.service`, then validate the effective policy before any
+restart. Do not copy live release hashes into the unit:
+
+```sh
+install -D -o root -g root -m 0644 \
+  infra/systemd/cybermedica-web.service.d/20-next-runtime-state.conf \
+  /etc/systemd/system/cybermedica-web.service.d/20-next-runtime-state.conf
+
+node scripts/release/systemd-runtime-state-policy.mjs audit \
+  /etc/systemd/system/cybermedica-web.service.d/20-next-runtime-state.conf
+
+systemctl daemon-reload
+systemctl show cybermedica-web.service \
+  -p ProtectSystem -p ReadWritePaths -p ReadOnlyPaths -p User -p Group
+```
+
+The required effective result is `ProtectSystem=strict`, exactly one writable
+root (`/var/lib/cybermedica-web/next-runtime`), no release-specific `.next`
+paths, `User=Group=cybermedica-web`, and `/opt/cybermedica-web` read-only.
+`daemon-reload` and restart are Production changes and therefore belong only
+to an explicitly approved cutover; repository validation does not perform
+them on Production.
 
 `next.config.ts` uses the stable Next.js `cacheHandler` contract for ISR,
 route/fetch cache and, with `images.customCacheHandler`, optimized images. The
