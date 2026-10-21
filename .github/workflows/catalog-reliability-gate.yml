@@ -22,6 +22,7 @@ jobs:
       - run: npx --no-install playwright-core install --with-deps webkit
       - run: npm run qa:catalog-reliability-gate
       - run: npm run qa:runtime-artifact-permissions
+      - run: npm run qa:systemd-runtime-state
       - name: Build with exact release provenance
         env:
           TARGET_SHA: ${{ github.sha }}
@@ -190,7 +191,7 @@ jobs:
           set -euo pipefail
 
           service_user="cybermedica-web"
-          release_root="/opt/cybermedica-ci-release"
+          release_root="/opt/cybermedica-web/releases/ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           runtime_helper="${release_root}/scripts/release/runtime-artifact-permissions.mjs"
           state_root="/var/lib/cybermedica-web/next-runtime"
           inventory_before="${RUNNER_TEMP}/cybermedica-runtime-inventory.json"
@@ -530,6 +531,33 @@ jobs:
           echo "SERVICE_USER_CAN_TRAVERSE_RELEASE=YES"
           echo "SERVICE_USER_CAN_WRITE_RUNTIME_STATE=YES"
           echo "SERVICE_USER_CANNOT_WRITE_IMMUTABLE_RELEASE=YES"
+
+          sudo env "PATH=$PATH" bash \
+            "$release_root/scripts/release/systemd-runtime-state-sandbox.sh" \
+            --release-root "$release_root" \
+            --state-root "$state_root" \
+            --user "$service_user" \
+            --group "$service_user" \
+            --port 3012
+          echo "SYSTEMD_SANDBOX_GATE=PASS"
+
+          # The systemd gate intentionally exercises all external cache kinds.
+          # Reset the build-scoped state before the longer semantic gate below.
+          sudo rm -rf "$state_root"
+          sudo env "PATH=$PATH" "$node_bin" \
+            "$runtime_helper" \
+            prepare-state \
+            --root "$release_root" \
+            --state-root "$state_root" \
+            --user "$service_user" \
+            --group "$service_user"
+          sudo env "PATH=$PATH" "$node_bin" \
+            "$runtime_helper" \
+            service-audit \
+            --root "$release_root" \
+            --state-root "$state_root" \
+            --user "$service_user" \
+            --group "$service_user"
 
           build_id="$(tr -d '\r\n' < "$release_root/.next/BUILD_ID")"
           build_state="${state_root}/${build_id}"
