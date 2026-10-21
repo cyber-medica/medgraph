@@ -20,6 +20,14 @@ modes.
 - Symlinks: relative and contained inside the runtime tree.
 - `.env*`, private keys, GitHub tokens, `sb_secret_*` values and legacy
   `service_role` JWT values: forbidden.
+- Removed person-linked runtime identities are rejected by value, including if
+  they are copied into an otherwise allowed deployment or acceptance file.
+- The production archive uses a positive content contract. It contains the
+  built `.next` tree, runtime dependencies, public assets, the LKG snapshot,
+  runtime libraries, release/cutover tooling, selected post-deploy QA scripts,
+  and the canonical systemd runtime-state drop-in. Repository-only source such
+  as `supabase/migrations`, tests, docs, CI tooling, reports, and local database
+  integration scripts is not deployable content.
 - Archive ownership is normalized to numeric `0:0`; runtime access relies on
   explicit modes, not owner identity.
 - The release tree is immutable at runtime. Next.js server cache and optimized
@@ -44,8 +52,11 @@ It must never be pointed at `/etc`, a live release, or the source checkout.
    prebuild gate verifies both values against `git rev-parse HEAD`; the
    postbuild gate verifies the baked `X-CyberMedica-Release` value in
    `.next/routes-manifest.json`.
-2. Copy only the accepted runtime allowlist into a new staging directory.
-3. Run the package command below. It removes build-only `.next/cache` and
+2. Copy the build output into a new staging directory. Run `contract` below to
+   reduce it to the enforced production allowlist. The command refuses to
+   operate on a Git checkout.
+3. Run the package command below. It reapplies the same content contract,
+   removes build-only `.next/cache` and
    `.next/diagnostics`, rejects secret residue, normalizes modes, audits the
    complete tree, creates the archive with GNU tar, extracts it, and verifies
    every inventory hash and mode before writing the detached manifest sidecar.
@@ -61,6 +72,9 @@ export TARGET_SHA="$(git rev-parse HEAD)"
 export CYBERMEDICA_RELEASE_SHA="$TARGET_SHA"
 npm run build -- --webpack
 
+node scripts/release/runtime-artifact-permissions.mjs contract \
+  --root "$RUNTIME_STAGING_ROOT"
+
 node scripts/release/runtime-artifact-permissions.mjs package \
   --root "$RUNTIME_STAGING_ROOT" \
   --archive "$ARCHIVE_PATH" \
@@ -75,6 +89,13 @@ node scripts/release/runtime-artifact-permissions.mjs service-audit \
   --state-root /var/lib/cybermedica-web/next-runtime \
   --user cybermedica-web
 ```
+
+`next.config.ts` output-file tracing exclusions are defense in depth, not the
+archive boundary. They control Next.js trace generation only. The previous
+pipeline copied the repository into staging with `rsync` and then archived the
+entire staging root, which reintroduced migrations and other source history.
+The packager-owned allowlist is the authoritative boundary and is tested
+against the extracted tarball.
 
 Run this root-only preparation command before the service-user audit:
 

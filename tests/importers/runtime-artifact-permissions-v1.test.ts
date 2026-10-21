@@ -9,6 +9,8 @@ import { promisify } from "node:util";
 import test from "node:test";
 
 import {
+  applyProductionArtifactContract,
+  auditProductionArtifactContract,
   auditRuntimePermissions,
   auditRuntimeState,
   createRuntimeInventory,
@@ -32,6 +34,12 @@ async function fixture() {
     "node_modules/.bin",
     "data",
     "lib/runtime",
+    "infra/systemd/cybermedica-web.service.d",
+    "scripts/qa",
+    "scripts/release",
+    "supabase/migrations",
+    "tests/importers",
+    "docs/reports",
   ];
   for (const path of directories) await mkdir(join(root, path), { recursive: true, mode: 0o700 });
   const files = new Map([
@@ -47,16 +55,97 @@ async function fixture() {
     ["package-lock.json", "{}\n"],
     ["next.config.ts", "export default {};\n"],
     ["lib/runtime/next-runtime-cache-handler.cjs", "module.exports = class FixtureCacheHandler {};\n"],
+    ["infra/systemd/cybermedica-web.service.d/20-next-runtime-state.conf", "[Service]\nProtectSystem=strict\nReadWritePaths=\nReadWritePaths=/var/lib/cybermedica-web/next-runtime\n"],
+    ["scripts/release/cutover-readiness.sh", "#!/bin/sh\nexit 0\n"],
+    ["scripts/release/runtime-artifact-permissions.mjs", "export {};\n"],
+    ["scripts/release/systemd-runtime-state-policy.mjs", "export {};\n"],
+    ["scripts/release/systemd-runtime-state-probe.mjs", "export {};\n"],
+    ["scripts/release/systemd-runtime-state-sandbox.sh", "#!/bin/sh\nexit 0\n"],
+    ["scripts/qa/canonical-routing-gate.ts", "export const fixture = true;\n"],
+    ["scripts/qa/product-publication-local-integration.ts", "throw new Error('CI only');\n"],
+    ["supabase/migrations/202608030001_catalog_admin_characteristics_patch_v1.sql", "-- source-only migration\n"],
+    ["supabase/migrations/202608110001_production_launch_release_v1.sql", "-- source-only migration\n"],
+    ["tests/importers/source-only.test.ts", "export {};\n"],
+    ["docs/reports/source-only.md", "# Source only\n"],
     ["node_modules/next/dist/bin/next", "#!/usr/bin/env node\n"],
     ["data/published-catalog-last-known-good.json", "{\"capturedAt\":\"2026-01-01T00:00:00.000Z\",\"projectionVersion\":1,\"projectionChecksum\":\"fixture\",\"projection\":{\"products\":[]}}\n"],
   ]);
   for (const [path, content] of files) {
-    await writeFile(join(root, path), content, { mode: path.endsWith("/next") ? 0o700 : 0o600 });
-    await chmod(join(root, path), path.endsWith("/next") ? 0o700 : 0o600);
+    const executable = path.endsWith("/next") || path.endsWith(".sh");
+    await writeFile(join(root, path), content, { mode: executable ? 0o700 : 0o600 });
+    await chmod(join(root, path), executable ? 0o700 : 0o600);
   }
   await symlink("../next/dist/bin/next", join(root, "node_modules/.bin/next"));
   return root;
 }
+
+test("production artifact contract removes repository source trees and preserves deploy requirements", async (t) => {
+  const root = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  const result = await applyProductionArtifactContract(root);
+  assert.equal(result.pass, true);
+  assert.equal((await auditProductionArtifactContract(root)).pass, true);
+  await assert.rejects(() => lstat(join(root, "supabase/migrations")), /ENOENT/u);
+  await assert.rejects(() => lstat(join(root, "tests")), /ENOENT/u);
+  await assert.rejects(() => lstat(join(root, "docs")), /ENOENT/u);
+  await assert.rejects(
+    () => lstat(join(root, "scripts/qa/product-publication-local-integration.ts")),
+    /ENOENT/u,
+  );
+  assert.equal((await readFile(join(root, ".next/BUILD_ID"), "utf8")).trim(), "build-id");
+  assert.match(
+    await readFile(join(root, ".next/routes-manifest.json"), "utf8"),
+    new RegExp(fixtureReleaseSha, "u"),
+  );
+  assert.match(
+    await readFile(join(root, "scripts/release/cutover-readiness.sh"), "utf8"),
+    /exit 0/u,
+  );
+  assert.match(
+    await readFile(join(root, "scripts/qa/canonical-routing-gate.ts"), "utf8"),
+    /fixture/u,
+  );
+  assert.match(
+    await readFile(join(root, "lib/runtime/next-runtime-cache-handler.cjs"), "utf8"),
+    /FixtureCacheHandler/u,
+  );
+  assert.match(
+    await readFile(
+      join(root, "infra/systemd/cybermedica-web.service.d/20-next-runtime-state.conf"),
+      "utf8",
+    ),
+    /\/var\/lib\/cybermedica-web\/next-runtime/u,
+  );
+});
+
+test("artifact privacy gate still rejects a removed runtime identity in an allowed deployable file", async (t) => {
+  const root = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const historicalMigration = await readFile(
+    "supabase/migrations/202608110001_production_launch_release_v1.sql",
+    "utf8",
+  );
+  await writeFile(join(root, "scripts/qa/canonical-routing-gate.ts"), historicalMigration, { mode: 0o600 });
+  await applyProductionArtifactContract(root);
+  await assert.rejects(() => normalizeRuntimePermissions(root), /forbidden sensitive material/u);
+});
+
+test("historical identity-bearing migrations remain byte-for-byte unchanged", async () => {
+  const expected = new Map([
+    [
+      "supabase/migrations/202608030001_catalog_admin_characteristics_patch_v1.sql",
+      "e59e6c45b17f07612ee0029d61dcea9501f84b370d65f34e169fbebce3397479",
+    ],
+    [
+      "supabase/migrations/202608110001_production_launch_release_v1.sql",
+      "6143e71c390dff3b8f9c33fa2ffed74300433810cc5a52e67e0d20f0312534e5",
+    ],
+  ]);
+  for (const [path, hash] of expected) {
+    assert.equal(createHash("sha256").update(await readFile(path)).digest("hex"), hash);
+  }
+});
 
 async function freezeFixture(root: string) {
   async function freeze(path: string) {
@@ -194,6 +283,17 @@ test("immutable packager preserves one release root and removes build-only Next 
   assert.equal(result.permissionAudit.pass, true);
   assert.match(listing, new RegExp(`^${rootName}/`, "mu"));
   assert.doesNotMatch(listing, /node_modules\/next\/dist\/docs/u);
+  assert.doesNotMatch(listing, /supabase\/migrations/u);
+  assert.doesNotMatch(listing, /202608030001_catalog_admin_characteristics_patch_v1\.sql/u);
+  assert.doesNotMatch(listing, /202608110001_production_launch_release_v1\.sql/u);
+  assert.doesNotMatch(listing, /tests\/importers/u);
+  assert.doesNotMatch(listing, /docs\/reports/u);
+  assert.doesNotMatch(listing, /product-publication-local-integration\.ts/u);
+  assert.match(listing, /scripts\/release\/cutover-readiness\.sh/u);
+  assert.match(listing, /scripts\/qa\/canonical-routing-gate\.ts/u);
+  assert.match(listing, /lib\/runtime\/next-runtime-cache-handler\.cjs/u);
+  assert.match(listing, /20-next-runtime-state\.conf/u);
+  assert.equal(result.artifactContract.pass, true);
   assert.equal((await lstat(archive)).mode & 0o777, 0o444);
   assert.equal((await lstat(manifest)).mode & 0o777, 0o444);
 });
@@ -397,6 +497,7 @@ test("CI blocks release regressions with the real cybermedica-web principal", as
   assert.match(workflow, /service_user="cybermedica-web"/u);
   assert.match(workflow, /sudo useradd[\s\S]*"\$service_user"/u);
   assert.match(workflow, /--exclude='\.env\*'/u);
+  assert.match(workflow, /contract --root "\$release_root"/u);
   assert.match(workflow, /service-audit[\s\S]*--user "\$service_user"/u);
   assert.match(workflow, /sudo -u "\$service_user" env/u);
   assert.match(workflow, /CYBERMEDICA_NEXT_RUNTIME_STATE_ROOT="\$state_root"/u);

@@ -51,14 +51,64 @@ const privateKeyPattern = /-----BEGIN (?:[A-Z0-9 ]+ )?PRIVATE KEY-----/u;
 const secretKeyPattern = /sb_secret_[A-Za-z0-9_-]{16,}/u;
 const githubTokenPattern = /(?:github_pat_|gh[oprsu]_)[A-Za-z0-9_]{16,}/u;
 const jwtPattern = /eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/gu;
+const emailPattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/giu;
+const uuidPattern = /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/giu;
+const identitySymbolPattern = /\b[A-Z][A-Z0-9_]{8,}\b/gu;
+const removedRuntimeIdentityHashes = new Map([
+  ["df676f6364888f91b6bd84aa90dfbceef3503cae5a3ae0fc6a373449b98891a1", "person_linked_email"],
+  ["6e22fa8ff53dc7d6fa39ec8e1c170231a0cc656b907e7c133904c9db10b1ecc1", "runtime_identity_uuid"],
+  ["c550def6cc4ede3fa7e26698ee2fa586f0fd7f901ac7a8cc510a757618d2cedb", "runtime_identity_symbol"],
+  ["cb4b48bdaa14791fc37ec927fea461021d9f453cae95d157aaa01742f551f872", "runtime_identity_symbol"],
+  ["aabd450e3824d8a81b7768c4ab0b33fb9378cbd06f3e9190a8b3d45e280ccfb2", "runtime_identity_symbol"],
+]);
 const buildOnlyPaths = Object.freeze([
   ".next/cache",
   ".next/diagnostics",
   "node_modules/next/dist/docs",
 ]);
 
+export const PRODUCTION_ARTIFACT_SUBTREES = Object.freeze([
+  ".next",
+  "lib",
+  "node_modules",
+  "public",
+  "scripts/release",
+]);
+
+export const PRODUCTION_ARTIFACT_FILES = Object.freeze([
+  "data/published-catalog-last-known-good.json",
+  "infra/systemd/cybermedica-web.service.d/20-next-runtime-state.conf",
+  "next.config.ts",
+  "package-lock.json",
+  "package.json",
+  "scripts/qa/canonical-routing-gate.ts",
+  "scripts/qa/canonical-routing-mobile-synthetic.ts",
+  "scripts/qa/catalog-production-synthetic.ts",
+  "scripts/qa/ios-webkit-smoke.ts",
+  "scripts/qa/next-image-integration-policy.ts",
+  "scripts/qa/product-structured-data-gsc.ts",
+  "scripts/qa/production-availability.ts",
+  "scripts/qa/query-indexing-hygiene.ts",
+  "scripts/qa/supabase-health.ts",
+]);
+
+export const PRODUCTION_ARTIFACT_REQUIRED_PATHS = Object.freeze([
+  ...REQUIRED_RUNTIME_PATHS,
+  { path: "scripts/release/cutover-readiness.sh", type: "file" },
+  { path: "scripts/release/runtime-artifact-permissions.mjs", type: "file" },
+  { path: "scripts/release/systemd-runtime-state-policy.mjs", type: "file" },
+  { path: "scripts/release/systemd-runtime-state-probe.mjs", type: "file" },
+  { path: "scripts/release/systemd-runtime-state-sandbox.sh", type: "file" },
+  { path: "scripts/qa/canonical-routing-gate.ts", type: "file" },
+  { path: "infra/systemd/cybermedica-web.service.d/20-next-runtime-state.conf", type: "file" },
+]);
+
 function portablePath(path) {
   return path.split(sep).join("/");
+}
+
+function sha256Text(value) {
+  return createHash("sha256").update(value.toLowerCase()).digest("hex");
 }
 
 function modeOf(stats) {
@@ -200,6 +250,88 @@ async function validateSymlink(root, entry) {
   return { valid: isInside(root, target), link };
 }
 
+function artifactPathAllowed(path, type) {
+  const portable = portablePath(path);
+  if (buildOnlyPaths.some((root) => portable === root || portable.startsWith(`${root}/`))) {
+    return false;
+  }
+  if (PRODUCTION_ARTIFACT_FILES.includes(portable)) return true;
+  if (PRODUCTION_ARTIFACT_SUBTREES.some((root) => portable === root || portable.startsWith(`${root}/`))) {
+    return true;
+  }
+  if (type !== "directory") return false;
+  return [...PRODUCTION_ARTIFACT_FILES, ...PRODUCTION_ARTIFACT_SUBTREES]
+    .some((allowed) => allowed.startsWith(`${portable}/`));
+}
+
+async function productionArtifactRequiredPathFailures(root) {
+  const failures = [];
+  for (const requirement of PRODUCTION_ARTIFACT_REQUIRED_PATHS) {
+    try {
+      const details = await stat(join(root, requirement.path));
+      const validType = requirement.type === "directory" ? details.isDirectory() : details.isFile();
+      if (!validType) failures.push({ path: requirement.path, reason: `expected_${requirement.type}` });
+    } catch (error) {
+      failures.push({
+        path: requirement.path,
+        reason: error && typeof error === "object" && "code" in error ? String(error.code) : "unavailable",
+      });
+    }
+  }
+  return failures;
+}
+
+export async function auditProductionArtifactContract(root) {
+  const { entries } = await walk(root);
+  const disallowedPaths = entries
+    .filter((entry) => entry.path !== "." && !artifactPathAllowed(entry.path, entry.type))
+    .map((entry) => portablePath(entry.path));
+  const requiredPathFailures = await productionArtifactRequiredPathFailures(root);
+  return {
+    pass: disallowedPaths.length === 0 && requiredPathFailures.length === 0,
+    disallowedPaths,
+    requiredPathFailures,
+    includedSubtrees: [...PRODUCTION_ARTIFACT_SUBTREES],
+    includedFiles: [...PRODUCTION_ARTIFACT_FILES],
+  };
+}
+
+export async function applyProductionArtifactContract(root) {
+  const absoluteRoot = resolve(root);
+  try {
+    await lstat(join(absoluteRoot, ".git"));
+    throw new Error("Production artifact contract refuses to prune a Git checkout.");
+  } catch (error) {
+    if (!(error && typeof error === "object" && "code" in error && error.code === "ENOENT")) throw error;
+  }
+
+  const { entries } = await walk(absoluteRoot);
+  const disallowed = entries
+    .filter((entry) => entry.path !== "." && !artifactPathAllowed(entry.path, entry.type))
+    .sort((left, right) => {
+      const depth = left.path.split(sep).length - right.path.split(sep).length;
+      return depth || left.path.localeCompare(right.path);
+    });
+  const removable = [];
+  for (const entry of disallowed) {
+    if (removable.some((parent) => isInside(parent.absolutePath, entry.absolutePath))) continue;
+    removable.push(entry);
+  }
+  const removedPaths = [];
+  for (const entry of removable) {
+    try {
+      await rm(entry.absolutePath, { recursive: true, force: true });
+      removedPaths.push(portablePath(entry.path));
+    } catch (error) {
+      if (!(error && typeof error === "object" && "code" in error && error.code === "ENOENT")) throw error;
+    }
+  }
+
+  const audit = await auditProductionArtifactContract(absoluteRoot);
+  if (!audit.pass) throw new Error(`Production artifact contract failed: ${JSON.stringify(audit)}`);
+  return { ...audit, removedPaths: [...new Set(removedPaths)].sort() };
+}
+
 async function findSensitiveMaterial(entries) {
   const findings = [];
   for (const entry of entries) {
@@ -216,6 +348,18 @@ async function findSensitiveMaterial(entries) {
     if (privateKeyPattern.test(text)) findings.push({ path, reason: "private_key_material" });
     if (secretKeyPattern.test(text)) findings.push({ path, reason: "supabase_secret_key_value" });
     if (githubTokenPattern.test(text)) findings.push({ path, reason: "github_token_value" });
+    for (const candidate of text.match(emailPattern) ?? []) {
+      const reason = removedRuntimeIdentityHashes.get(sha256Text(candidate));
+      if (reason) findings.push({ path, reason });
+    }
+    for (const candidate of text.match(uuidPattern) ?? []) {
+      const reason = removedRuntimeIdentityHashes.get(sha256Text(candidate));
+      if (reason) findings.push({ path, reason });
+    }
+    for (const candidate of text.match(identitySymbolPattern) ?? []) {
+      const reason = removedRuntimeIdentityHashes.get(sha256Text(candidate));
+      if (reason) findings.push({ path, reason });
+    }
     for (const candidate of text.match(jwtPattern) ?? []) {
       try {
         const payload = JSON.parse(Buffer.from(candidate.split(".")[1], "base64url").toString("utf8"));
@@ -522,6 +666,7 @@ async function packageArtifact(named) {
 
   await verifyBuiltReleaseHeader(root, targetSha);
 
+  const artifactContract = await applyProductionArtifactContract(root);
   for (const path of buildOnlyPaths) await rm(join(root, path), { recursive: true, force: true });
   await normalizeRuntimePermissions(root);
   const permissionAudit = await auditRuntimePermissions(root);
@@ -586,6 +731,7 @@ async function packageArtifact(named) {
       },
     },
     permissionAudit,
+    artifactContract,
     inventory,
     archive: {
       rootDirectory: basename(root),
@@ -626,6 +772,7 @@ async function packageArtifact(named) {
     fileCount: inventory.length,
     payloadBytes: inventory.reduce((total, entry) => total + entry.size, 0),
     permissionAudit,
+    artifactContract,
   };
 }
 
@@ -635,6 +782,10 @@ async function main() {
   if (command === "normalize") {
     const root = requireArgument(named, "root");
     console.log(JSON.stringify(await normalizeRuntimePermissions(root)));
+    return;
+  }
+  if (command === "contract") {
+    console.log(JSON.stringify(await applyProductionArtifactContract(requireArgument(named, "root"))));
     return;
   }
   if (command === "audit" || command === "principal-audit") {
@@ -681,7 +832,7 @@ async function main() {
     console.log(JSON.stringify(await packageArtifact(named)));
     return;
   }
-  throw new Error("Usage: runtime-artifact-permissions.mjs <normalize|audit|principal-audit|prepare-state|service-audit|package> --root <path> [...]");
+  throw new Error("Usage: runtime-artifact-permissions.mjs <contract|normalize|audit|principal-audit|prepare-state|service-audit|package> --root <path> [...]");
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
