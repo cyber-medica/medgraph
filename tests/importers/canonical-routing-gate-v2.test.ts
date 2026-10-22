@@ -7,6 +7,8 @@ import {
   CANDIDATE_FRONT_DOOR,
   PRODUCTION_FRONT_DOOR,
   assertCanonicalProductionDelivery,
+  assertCanonicalRfqMethodNotAllowed,
+  assertCanonicalRfqServiceDelivery,
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
   assertStylesheetResponse,
@@ -49,6 +51,26 @@ function deliveryHeaders(
     "x-cybermedica-origin": "medgraph",
     "x-cybermedica-release": release,
     "x-vercel-id": "fra1::upstream",
+  });
+}
+
+function rfqResponse(
+  body = JSON.stringify({ ok: false, error: "Method not allowed" }),
+  headers: Record<string, string> = {},
+  status = 405,
+) {
+  return new Response(body, {
+    status,
+    headers: {
+      allow: "POST",
+      "cache-control": "private, no-store",
+      "content-type": "application/json; charset=utf-8",
+      server: "nginx/1.24.0 (Ubuntu)",
+      "x-content-type-options": "nosniff",
+      "x-cybermedica-front-door": PRODUCTION_FRONT_DOOR,
+      "x-cybermedica-origin": "medgraph",
+      ...headers,
+    },
   });
 }
 
@@ -135,6 +157,85 @@ test("delivery marker configuration is required and restricted", () => {
   assert.throws(() => readExpectedCanonicalDeliveryMarker({
     CYBERMEDICA_EXPECTED_DELIVERY_MARKER: "unknown",
   }));
+});
+
+test("RFQ GET 405 contract accepts semantic JSON and independent service provenance", async () => {
+  const response = rfqResponse('{"error":"Method not allowed","ok":false}');
+  response.headers.delete("x-cybermedica-release");
+  response.headers.delete("x-cybermedica-deployment");
+  const body = await response.text();
+  assert.doesNotThrow(() => assertCanonicalRfqServiceDelivery(response.headers));
+  assert.doesNotThrow(() => assertCanonicalRfqMethodNotAllowed(response, body));
+});
+
+test("RFQ GET 405 contract rejects empty, HTML and arbitrary JSON bodies", async () => {
+  for (const body of [
+    "",
+    "<!doctype html><html><body>Method not allowed</body></html>",
+    JSON.stringify({ ok: false, error: "Wrong error" }),
+  ]) {
+    const response = rfqResponse(body);
+    assert.throws(() => assertCanonicalRfqMethodNotAllowed(response, body));
+  }
+});
+
+test("RFQ GET 405 contract fails closed on method and response header drift", () => {
+  const cases: Array<[string, Record<string, string>]> = [
+    ["missing Allow", { allow: "" }],
+    ["missing no-store", { "cache-control": "private" }],
+    ["wrong MIME", { "content-type": "text/html; charset=utf-8" }],
+    ["missing charset", { "content-type": "application/json" }],
+    ["missing nosniff", { "x-content-type-options": "" }],
+  ];
+  for (const [, headers] of cases) {
+    const response = rfqResponse(undefined, headers);
+    assert.throws(() => assertCanonicalRfqMethodNotAllowed(response, JSON.stringify({
+      ok: false,
+      error: "Method not allowed",
+    })));
+  }
+});
+
+test("RFQ GET contract rejects non-405 status codes", () => {
+  for (const status of [200, 404, 500]) {
+    const response = rfqResponse(undefined, {}, status);
+    assert.throws(() => assertCanonicalRfqMethodNotAllowed(response, JSON.stringify({
+      ok: false,
+      error: "Method not allowed",
+    })));
+  }
+});
+
+test("RFQ service provenance rejects missing or incorrect public delivery headers", () => {
+  const cases: Array<[string, Record<string, string>]> = [
+    ["missing front door", { "x-cybermedica-front-door": "" }],
+    ["candidate front door", { "x-cybermedica-front-door": CANDIDATE_FRONT_DOOR }],
+    ["missing origin", { "x-cybermedica-origin": "" }],
+    ["wrong origin", { "x-cybermedica-origin": "legacy" }],
+    ["non-nginx server", { server: "Vercel" }],
+  ];
+  for (const [, headers] of cases) {
+    const response = rfqResponse(undefined, headers);
+    assert.throws(() => assertCanonicalRfqServiceDelivery(response.headers));
+  }
+});
+
+test("web delivery still requires release provenance and exact expected SHA", () => {
+  const release = "cb3d792a29a26062cbdfa9eba239fb5e9527430f";
+  const missingRelease = deliveryHeaders(PRODUCTION_FRONT_DOOR, release);
+  missingRelease.delete("x-cybermedica-release");
+  assert.throws(() => assertCanonicalProductionDelivery(
+    missingRelease,
+    "/catalog",
+    PRODUCTION_FRONT_DOOR,
+    release,
+  ));
+  assert.throws(() => assertCanonicalProductionDelivery(
+    deliveryHeaders(PRODUCTION_FRONT_DOOR, "0".repeat(40)),
+    "/catalog",
+    PRODUCTION_FRONT_DOOR,
+    release,
+  ));
 });
 
 test("catalog and sitemap extract unique canonical Product paths", () => {

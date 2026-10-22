@@ -1,6 +1,12 @@
 # Add this exact-match block before the existing generic Vercel proxy location.
 # It is a rollout artifact only: this PR does not apply it to Production.
 location = /api/request {
+    # This route is delivered by the independent local RFQ intake service,
+    # not by the atomically switched Next.js release. Keep its provenance
+    # explicit on every status, including the intentional GET 405 response.
+    add_header X-CyberMedica-Front-Door "ru-vps-production" always;
+    add_header X-CyberMedica-Origin "medgraph" always;
+
     # The browser body is passed through unchanged to a loopback-only service.
     # Nginx keeps the body in memory; the service enforces the exact 100,000-byte
     # JSON error boundary. The small margin lets that response stay compatible.

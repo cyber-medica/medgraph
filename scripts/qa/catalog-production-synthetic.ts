@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 
-import { extractSitemapProductPaths } from "../../lib/canonical-routing-gate.ts";
+import {
+  assertCanonicalRfqMethodNotAllowed,
+  extractSitemapProductPaths,
+} from "../../lib/canonical-routing-gate.ts";
 
 const owner = "cybermedica-ci";
 const origin = new URL(process.env.CATALOG_SYNTHETIC_ORIGIN ?? "https://cyber-medica.ru");
@@ -43,7 +46,7 @@ if (expectedProductCount > 0) {
 const detail = await read(new URL(productUrls[0]).pathname);
 assert.ok(detail.text.trim().length > 500, "stable Product Detail returned near-empty HTML");
 const api = await read("/api/request", 405);
-assert.equal(api.text, "", "GET /api/request must not return a body");
+assertCanonicalRfqMethodNotAllowed(api.response, api.text);
 
 const healthValue = JSON.parse(health.text) as {
   status?: unknown;

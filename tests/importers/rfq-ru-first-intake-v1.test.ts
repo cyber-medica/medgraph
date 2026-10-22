@@ -484,6 +484,9 @@ test("target Nginx contract bypasses the Vercel RFQ route without deleting rollb
   assert.match(nginx, /location = \/api\/request/u);
   assert.match(nginx, /proxy_pass http:\/\/127\.0\.0\.1:8787/u);
   assert.match(nginx, /access_log off/u);
+  assert.match(nginx, /add_header X-CyberMedica-Front-Door "ru-vps-production" always;/u);
+  assert.match(nginx, /add_header X-CyberMedica-Origin "medgraph" always;/u);
+  assert.doesNotMatch(nginx, /add_header X-CyberMedica-(?:Release|Deployment)/u);
   assert.doesNotMatch(nginx, /proxy_pass https:\/\/medgraph-three\.vercel\.app;[\s\S]*location = \/api\/request/u);
   assert.match(localServer, /handleRfqIntake/u);
   assert.match(vercelRoute, /export async function POST/u);
