@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
-import { chmod, lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
+import { chmod, lstat, mkdir, mkdtemp, readFile, readdir, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { promisify } from "node:util";
@@ -14,8 +14,12 @@ import {
   auditRuntimePermissions,
   auditRuntimeState,
   createRuntimeInventory,
+  MAX_EMAIL_DOMAIN_LENGTH,
+  MAX_EMAIL_LOCAL_LENGTH,
+  MAX_SCANNED_FILE_SIZE_BYTES,
   normalizeRuntimePermissions,
   prepareRuntimeState,
+  scanEmailCandidates,
   verifyRuntimeInventory,
 } from "../../scripts/release/runtime-artifact-permissions.mjs";
 
@@ -23,6 +27,23 @@ const execFileAsync = promisify(execFile);
 const require = createRequire(import.meta.url);
 const RuntimeCacheHandler = require("../../lib/runtime/next-runtime-cache-handler.cjs");
 const fixtureReleaseSha = "a".repeat(40);
+const removedPersonLinkedEmailHash = "df676f6364888f91b6bd84aa90dfbceef3503cae5a3ae0fc6a373449b98891a1";
+
+function normalizedHash(value: string) {
+  return createHash("sha256").update(value.toLowerCase()).digest("hex");
+}
+
+async function historicalRemovedEmail() {
+  const historicalMigration = await readFile(
+    "supabase/migrations/202608110001_production_launch_release_v1.sql",
+    "utf8",
+  );
+  const candidates: string[] = [];
+  scanEmailCandidates(historicalMigration, (candidate) => candidates.push(candidate));
+  const identity = candidates.find((candidate) => normalizedHash(candidate) === removedPersonLinkedEmailHash);
+  assert.ok(identity, "historical fixture must still contain the removed person-linked identity");
+  return identity;
+}
 
 async function fixture() {
   const root = await mkdtemp(join(tmpdir(), "cybermedica-runtime-permissions-"));
@@ -129,6 +150,133 @@ test("artifact privacy gate still rejects a removed runtime identity in an allow
   await writeFile(join(root, "scripts/qa/canonical-routing-gate.ts"), historicalMigration, { mode: 0o600 });
   await applyProductionArtifactContract(root);
   await assert.rejects(() => normalizeRuntimePermissions(root), /forbidden sensitive material/u);
+});
+
+async function assertPersonLinkedIdentityRejected(content: string) {
+  const root = await fixture();
+  try {
+    await writeFile(join(root, "scripts/qa/canonical-routing-gate.ts"), content, { mode: 0o600 });
+    await applyProductionArtifactContract(root);
+    await assert.rejects(
+      () => normalizeRuntimePermissions(root),
+      /person_linked_email/u,
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+}
+
+test("bounded email scanner preserves removed identity detection across artifact positions", async (t) => {
+  const identity = await historicalRemovedEmail();
+  const mixedCaseIdentity = [...identity]
+    .map((character, index) => index % 2 === 0 ? character.toUpperCase() : character.toLowerCase())
+    .join("");
+  const variants = new Map([
+    ["beginning", `${identity};${"x".repeat(256)}`],
+    ["middle", `${"x;".repeat(128)}${identity}${";x".repeat(128)}`],
+    ["end", `${"x;".repeat(256)}${identity}`],
+    ["punctuation", `const owner = (\"${identity}\");`],
+    ["mixed-case", `const owner = '${mixedCaseIdentity}';`],
+  ]);
+
+  for (const [name, content] of variants) {
+    await t.test(name, async () => assertPersonLinkedIdentityRejected(content));
+  }
+});
+
+test("bounded email scanner completes linearly on a 6.3 MB minified artifact", { timeout: 30_000 }, async (t) => {
+  const content = "a".repeat(6_300_000);
+  const stats = scanEmailCandidates(content);
+  assert.equal(stats.bytesExamined, 6_300_000);
+  assert.equal(stats.atSignsExamined, 0);
+  assert.equal(stats.candidateWindowsExamined, 0);
+  assert.equal(stats.candidatesFound, 0);
+
+  const root = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await writeFile(join(root, "scripts/qa/canonical-routing-gate.ts"), content, { mode: 0o600 });
+  await applyProductionArtifactContract(root);
+  await normalizeRuntimePermissions(root);
+});
+
+test("bounded email scanner limits adversarial allowed-character windows around at signs", { timeout: 30_000 }, () => {
+  const content = `${"a".repeat(3_949_000)}@!x@${"b".repeat(3_949_000)}`;
+  const stats = scanEmailCandidates(content);
+  assert.equal(stats.bytesExamined, 7_898_004);
+  assert.equal(stats.atSignsExamined, 2);
+  assert.equal(stats.candidateWindowsExamined, stats.atSignsExamined);
+  assert.equal(stats.candidatesFound, 0);
+  assert.ok(
+    stats.candidateCodeUnitsExamined
+      <= stats.atSignsExamined * (MAX_EMAIL_LOCAL_LENGTH + MAX_EMAIL_DOMAIN_LENGTH + 2),
+  );
+});
+
+test("bounded email scanner remains linear with many at signs", { timeout: 30_000 }, () => {
+  const content = "a@".repeat(1_000_000);
+  const stats = scanEmailCandidates(content);
+  assert.equal(stats.bytesExamined, 2_000_000);
+  assert.equal(stats.atSignsExamined, 1_000_000);
+  assert.equal(stats.candidateWindowsExamined, stats.atSignsExamined);
+  assert.equal(stats.candidatesFound, 0);
+  assert.ok(
+    stats.candidateCodeUnitsExamined
+      <= stats.atSignsExamined * (MAX_EMAIL_LOCAL_LENGTH + MAX_EMAIL_DOMAIN_LENGTH + 2),
+  );
+});
+
+test("privacy gate rejects a removed identity near the end of a large minified artifact", { timeout: 30_000 }, async () => {
+  const identity = await historicalRemovedEmail();
+  const content = `${"a;".repeat(3_149_000)}\"${identity}\"`;
+  const candidates: string[] = [];
+  const stats = scanEmailCandidates(content, (candidate) => candidates.push(candidate));
+  assert.equal(stats.bytesExamined, Buffer.byteLength(content, "utf8"));
+  assert.equal(stats.atSignsExamined, 1);
+  assert.equal(stats.candidateWindowsExamined, 1);
+  assert.ok(candidates.some((candidate) => normalizedHash(candidate) === removedPersonLinkedEmailHash));
+  await assertPersonLinkedIdentityRejected(content);
+});
+
+test("privacy scanner keeps the 8 MiB artifact file boundary", () => {
+  assert.equal(MAX_SCANNED_FILE_SIZE_BYTES, 8 * 1024 * 1024);
+});
+
+test("bounded email scanner completes on the real napi wasm runtime artifact", { timeout: 30_000 }, async (t) => {
+  const path = join(process.cwd(), "node_modules/@napi-rs/wasm-runtime/dist/fs.js");
+  const details = await stat(path);
+  assert.equal(details.size, 6_239_581);
+  assert.ok(details.size < MAX_SCANNED_FILE_SIZE_BYTES);
+  const content = await readFile(path, "utf8");
+  const startedAt = process.hrtime.bigint();
+  const stats = scanEmailCandidates(content);
+  const durationMs = Number(process.hrtime.bigint() - startedAt) / 1_000_000;
+  assert.equal(stats.bytesExamined, details.size);
+  assert.equal(stats.candidateWindowsExamined, stats.atSignsExamined);
+  assert.ok(
+    stats.candidateCodeUnitsExamined
+      <= stats.atSignsExamined * (MAX_EMAIL_LOCAL_LENGTH + MAX_EMAIL_DOMAIN_LENGTH + 2),
+  );
+  assert.ok(durationMs < 30_000, `real artifact scan exceeded deadlock guard: ${durationMs}ms`);
+
+  const root = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const artifactPath = join(root, "node_modules/@napi-rs/wasm-runtime/dist/fs.js");
+  await mkdir(join(root, "node_modules/@napi-rs/wasm-runtime/dist"), { recursive: true, mode: 0o700 });
+  await writeFile(artifactPath, content, { mode: 0o600 });
+  await applyProductionArtifactContract(root);
+  const privacyGateStartedAt = process.hrtime.bigint();
+  await normalizeRuntimePermissions(root);
+  const privacyGateDurationMs = Number(process.hrtime.bigint() - privacyGateStartedAt) / 1_000_000;
+  assert.ok(
+    privacyGateDurationMs < 30_000,
+    `real artifact privacy gate exceeded deadlock guard: ${privacyGateDurationMs}ms`,
+  );
+  t.diagnostic(JSON.stringify({
+    realFileSize: details.size,
+    durationMs,
+    privacyGateDurationMs,
+    ...stats,
+  }));
 });
 
 test("historical identity-bearing migrations remain byte-for-byte unchanged", async () => {
