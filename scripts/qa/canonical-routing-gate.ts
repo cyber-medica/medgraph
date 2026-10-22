@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   CANONICAL_HOST,
   assertCanonicalProductionDelivery,
+  assertCanonicalRfqMethodNotAllowed,
   assertNoLegacyPageShell,
   assertSameCanonicalFingerprint,
   assertStylesheetResponse,
@@ -50,6 +51,24 @@ async function read(path: string, expectedStatus = 200) {
   const text = await response.text();
   assert.ok(Date.now() - started < routeResponseBudgetMs, `${path} exceeded the response budget`);
   return { response, text };
+}
+
+async function readRfqMethodContract() {
+  const url = new URL("/api/request", origin);
+  url.searchParams.set("routing_gate", nonce);
+  const started = Date.now();
+  const response = await fetch(url, {
+    cache: "no-store",
+    redirect: "follow",
+    signal: AbortSignal.timeout(routeResponseBudgetMs),
+    headers: {
+      "Cache-Control": "no-cache",
+      "User-Agent": "CyberMedica-Canonical-Routing-Gate/2.0",
+    },
+  });
+  const text = await response.text();
+  assertCanonicalRfqMethodNotAllowed(response, text);
+  assert.ok(Date.now() - started < routeResponseBudgetMs, "/api/request exceeded the response budget");
 }
 
 const wwwResponse = await fetch(`https://www.${CANONICAL_HOST}/?routing_gate=${nonce}`, {
@@ -134,7 +153,7 @@ const detail = await read(stableDetailPath);
 assert.ok(detail.text.trim().length > 500, "Product Detail returned near-empty HTML");
 assertNoLegacyPageShell(detail.text, stableDetailPath);
 
-await read("/api/request", 405);
+await readRfqMethodContract();
 const anonymousReview = await fetch(new URL("/internal/review", origin), {
   cache: "no-store",
   redirect: "manual",

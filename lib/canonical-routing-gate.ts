@@ -23,6 +23,11 @@ export type CanonicalDeliveryMarker =
   | typeof CANDIDATE_FRONT_DOOR
   | typeof PRODUCTION_FRONT_DOOR;
 
+const RFQ_METHOD_NOT_ALLOWED_BODY = {
+  ok: false,
+  error: "Method not allowed",
+};
+
 export function readExpectedCanonicalDeliveryMarker(
   environment: Readonly<Record<string, string | undefined>>,
 ): CanonicalDeliveryMarker {
@@ -102,6 +107,63 @@ export function assertCanonicalProductionDelivery(
     assert.equal(fingerprint.release, expectedRelease, "canonical release SHA is not ready");
   }
   return fingerprint;
+}
+
+export function assertCanonicalRfqServiceDelivery(headers: Headers) {
+  assert.equal(
+    headers.get("x-cybermedica-front-door"),
+    PRODUCTION_FRONT_DOOR,
+    "/api/request is missing the Production RFQ front-door marker",
+  );
+  assert.equal(
+    headers.get("x-cybermedica-origin"),
+    CANONICAL_ORIGIN_FAMILY,
+    "/api/request is missing the canonical RFQ origin family",
+  );
+  assert.match(
+    headers.get("server") ?? "",
+    /^nginx(?:\/|$)/iu,
+    "/api/request is missing the Nginx RFQ delivery fingerprint",
+  );
+}
+
+export function assertCanonicalRfqMethodNotAllowed(response: Response, bodyText: string) {
+  assert.equal(response.status, 405, `GET /api/request returned ${response.status}`);
+  assertCanonicalRfqServiceDelivery(response.headers);
+  assert.equal(
+    response.headers.get("allow")?.trim().toUpperCase(),
+    "POST",
+    "GET /api/request must advertise POST as the only allowed method",
+  );
+
+  const contentType = response.headers.get("content-type") ?? "";
+  const [mediaType, ...parameters] = contentType
+    .split(";")
+    .map((part) => part.trim().toLowerCase());
+  assert.equal(mediaType, "application/json", "GET /api/request must return JSON");
+  const charset = parameters
+    .map((parameter) => parameter.split("=", 2).map((part) => part.trim()))
+    .find(([key]) => key === "charset")?.[1]
+    ?.replace(/^"|"$/gu, "");
+  assert.equal(charset, "utf-8", "GET /api/request JSON must declare UTF-8");
+
+  const cacheDirectives = (response.headers.get("cache-control") ?? "")
+    .split(",")
+    .map((directive) => directive.trim().toLowerCase().split("=", 1)[0]);
+  assert.ok(cacheDirectives.includes("no-store"), "GET /api/request must be no-store");
+  assert.equal(
+    response.headers.get("x-content-type-options")?.trim().toLowerCase(),
+    "nosniff",
+    "GET /api/request must disable MIME sniffing",
+  );
+
+  let body: unknown;
+  try {
+    body = JSON.parse(bodyText);
+  } catch {
+    assert.fail("GET /api/request must return a JSON error body");
+  }
+  assert.deepEqual(body, RFQ_METHOD_NOT_ALLOWED_BODY, "GET /api/request returned an unexpected error body");
 }
 
 export function assertSameCanonicalFingerprint(
