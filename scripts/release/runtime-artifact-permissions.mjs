@@ -51,7 +51,7 @@ const privateKeyPattern = /-----BEGIN (?:[A-Z0-9 ]+ )?PRIVATE KEY-----/u;
 const secretKeyPattern = /sb_secret_[A-Za-z0-9_-]{16,}/u;
 const githubTokenPattern = /(?:github_pat_|gh[oprsu]_)[A-Za-z0-9_]{16,}/u;
 const jwtPattern = /eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/gu;
-const emailPattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/giu;
+const boundedEmailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/iu;
 const uuidPattern = /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/giu;
 const identitySymbolPattern = /\b[A-Z][A-Z0-9_]{8,}\b/gu;
 const removedRuntimeIdentityHashes = new Map([
@@ -66,6 +66,91 @@ const buildOnlyPaths = Object.freeze([
   ".next/diagnostics",
   "node_modules/next/dist/docs",
 ]);
+
+export const MAX_SCANNED_FILE_SIZE_BYTES = 8 * 1024 * 1024;
+export const MAX_EMAIL_LOCAL_LENGTH = 64;
+export const MAX_EMAIL_DOMAIN_LENGTH = 253;
+export const MAX_EMAIL_LENGTH = 254;
+
+function isAsciiAlphaNumeric(code) {
+  return (code >= 48 && code <= 57)
+    || (code >= 65 && code <= 90)
+    || (code >= 97 && code <= 122);
+}
+
+function isEmailLocalCodeUnit(code) {
+  return isAsciiAlphaNumeric(code)
+    || code === 37
+    || code === 43
+    || code === 45
+    || code === 46
+    || code === 95;
+}
+
+function isEmailDomainCodeUnit(code) {
+  return isAsciiAlphaNumeric(code) || code === 45 || code === 46;
+}
+
+/**
+ * Visits email-shaped candidates without applying a global regular expression
+ * to an unbounded artifact file. Each @ sign causes at most a fixed amount of
+ * adjacent inspection based on practical email length limits.
+ * @param {string} text
+ * @param {(candidate: string) => void} [visitCandidate]
+ */
+export function scanEmailCandidates(text, visitCandidate = () => {}) {
+  if (typeof text !== "string") throw new TypeError("Email scanner input must be a string.");
+  if (typeof visitCandidate !== "function") throw new TypeError("Email scanner visitor must be a function.");
+
+  const stats = {
+    bytesExamined: Buffer.byteLength(text, "utf8"),
+    atSignsExamined: 0,
+    candidateWindowsExamined: 0,
+    candidateCodeUnitsExamined: 0,
+    candidatesFound: 0,
+  };
+
+  let searchFrom = 0;
+  while (searchFrom < text.length) {
+    const at = text.indexOf("@", searchFrom);
+    if (at === -1) break;
+    searchFrom = at + 1;
+    stats.atSignsExamined += 1;
+    stats.candidateWindowsExamined += 1;
+
+    let localStart = at;
+    let localLength = 0;
+    while (localStart > 0 && localLength < MAX_EMAIL_LOCAL_LENGTH) {
+      const code = text.charCodeAt(localStart - 1);
+      stats.candidateCodeUnitsExamined += 1;
+      if (!isEmailLocalCodeUnit(code)) break;
+      localStart -= 1;
+      localLength += 1;
+    }
+    const localRunContinues = localStart > 0 && isEmailLocalCodeUnit(text.charCodeAt(localStart - 1));
+    if (localLength === 0 || localRunContinues) continue;
+
+    let domainEnd = at + 1;
+    let domainLength = 0;
+    while (domainEnd < text.length && domainLength < MAX_EMAIL_DOMAIN_LENGTH) {
+      const code = text.charCodeAt(domainEnd);
+      stats.candidateCodeUnitsExamined += 1;
+      if (!isEmailDomainCodeUnit(code)) break;
+      domainEnd += 1;
+      domainLength += 1;
+    }
+    const domainRunContinues = domainEnd < text.length && isEmailDomainCodeUnit(text.charCodeAt(domainEnd));
+    if (domainLength === 0 || domainRunContinues) continue;
+
+    const window = text.slice(localStart, domainEnd);
+    const match = boundedEmailPattern.exec(window);
+    if (!match || match[0].length > MAX_EMAIL_LENGTH) continue;
+    stats.candidatesFound += 1;
+    visitCandidate(match[0]);
+  }
+
+  return stats;
+}
 
 export const PRODUCTION_ARTIFACT_SUBTREES = Object.freeze([
   ".next",
@@ -342,16 +427,16 @@ async function findSensitiveMaterial(entries) {
       continue;
     }
     if (entry.type !== "file") continue;
-    if (entry.details.size > 8 * 1024 * 1024) continue;
+    if (entry.details.size > MAX_SCANNED_FILE_SIZE_BYTES) continue;
     const content = await readFile(entry.absolutePath);
     const text = content.toString("utf8");
     if (privateKeyPattern.test(text)) findings.push({ path, reason: "private_key_material" });
     if (secretKeyPattern.test(text)) findings.push({ path, reason: "supabase_secret_key_value" });
     if (githubTokenPattern.test(text)) findings.push({ path, reason: "github_token_value" });
-    for (const candidate of text.match(emailPattern) ?? []) {
+    scanEmailCandidates(text, (candidate) => {
       const reason = removedRuntimeIdentityHashes.get(sha256Text(candidate));
       if (reason) findings.push({ path, reason });
-    }
+    });
     for (const candidate of text.match(uuidPattern) ?? []) {
       const reason = removedRuntimeIdentityHashes.get(sha256Text(candidate));
       if (reason) findings.push({ path, reason });
